@@ -16,16 +16,14 @@ public class Manager {
     @GeneratedValue
     private Integer id;//因为管理人员不会太多，故用int自增即可
 
-    @NotNull(message = "名称不可为空")
+    @NotNull(message = "用户名不能为为空")
     private String name;
 
-    @NotNull(message = "密码不可为空")
+    @NotNull(message = "密码不能为为空")
     private String password;
 
-    @NotNull(message = "手机号必填")
     private String phoneNum;
 
-    @NotNull(message = "选择所管理的线路")
     private String line;
 
     private Integer age;

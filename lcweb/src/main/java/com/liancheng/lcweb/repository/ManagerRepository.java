@@ -8,4 +8,6 @@ import java.util.List;
 public interface ManagerRepository extends JpaRepository<Manager,Integer> {
 
     public List<Manager> findByPhoneNum(String phoneNUm);
+
+    public Manager findByNameAndPassword(String name, String password);
 }
