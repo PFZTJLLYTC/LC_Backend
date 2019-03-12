@@ -1,19 +1,42 @@
-<!DOCTYPE html>
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="UTF-8" />
-    <title>登陆页面</title>
-</head>
-<body>
-<h1>欢迎来到登陆页面</h1>
-<form class="form" action="login" method="post">
-    用户名：<input type="text" name="name" placeholder="用户名" /><br />
-    密&nbsp;&nbsp;  码：<input type="password" name="password" placeholder="密码" /><br /><br /><br />
-    <button type="submit" >登陆</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <button ><a href="toRegist"  th:target="_blank">注册</a></button>
-    <div th:unless="${#strings.isEmpty(message)}" th:text="${message} "></div>
-</form>
-</body>
+	<head>
+		<meta charset="utf-8" />
+		<title>连城管理系统</title>
+        <link rel="icon" type="image/png" th:href="@{/img/LC.png}"/>
+		<link rel="stylesheet" type="text/css" th:href="@{/login.css}"/>
+
+	</head>
+	<body>
+	<form class="form" action="login" method="post">
+		<div class="bg">
+			<div class="wel">连城管理系统</div>
+	        <div class="user">
+	       	    <div id="yonghu" style="">用户名</div>
+	       	    <input  id="username" type="text" name="name"   />
+	        </div>
+	        <div class="password" >
+	        	<div id="yonghu" >密&nbsp;&nbsp;&nbsp;码</div>
+	       	    <input id="password" type="password" name="password" />
+	        </div>
+	        <div class="rem" >
+	       	  <input type="checkbox" name="" id="" value="" />
+	        	 <div id="reb">
+	        	 	记住密码
+	        	 </div>
+	        </div>
+	        <div class="fg" >
+	       	    <div style="font-size: 11px;margin-top: 11px;">
+	       	    	<a style="font-size: 11px;" href="#">忘记密码？</a>
+	       	    </div>
+	        </div>
+			<input class="btn" type="submit" name="登录" value="登录" />
+			<div class="signup">
+				<div style="font-size: 11px;margin-top: 11px;">
+	       	    	<a style="font-size: 11px;" href="#">没有账号，注册？</a>
+	       	    </div>
+			</div>
+		</div>
+	</form>>
+	</body>
 </html>
-
-
