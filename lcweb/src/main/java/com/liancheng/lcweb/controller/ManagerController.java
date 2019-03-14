@@ -34,7 +34,7 @@ public class ManagerController {
         if(manager!=null){
             manager.setPassword(null);
             session.setAttribute("manager",manager);
-            return "index1";
+            return "index";
         }
         else{
             //attributes.addAttribute("message","用户名或密码错误");//?未出现

@@ -1,5 +1,5 @@
-<!doctype html>
-<html class="no-js">
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
@@ -9,18 +9,18 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <meta content="webkit" name="renderer">
     <meta content="no-siteapp" http-equiv="Cache-Control"/>
-    <link href="../img/LC.png" rel="icon" type="image/png">
-    <link href="../img/app-icon72x72@2x.png" rel="apple-touch-icon-precomposed">
+    <link th:href="@{/img/LC.png}" rel="icon" type="image/png">
+    <link th:href="@{/img/app-icon72x72@2x.png}" rel="apple-touch-icon-precomposed">
     <meta content="Amaze UI" name="apple-mobile-web-app-title"/>
-    <link href="../css/amazeui.min.css" rel="stylesheet"/>
-    <link href="../css/admin.css" rel="stylesheet">
-    <script src="../js/jquery.min.js"></script>
-    <script src="../js/app.js"></script>
+    <link th:href="@{/css/amazeui.min.css}" rel="stylesheet"/>
+    <link th:href="@{/css/admin.css}" rel="stylesheet">
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/app.js}"></script>
 </head>
 
 <body>
 <header class="am-topbar admin-header">
-    <div class="am-topbar-brand"><img src="../img/page.png"></div>
+    <div class="am-topbar-brand"><img th:src="@{/img/page.png}"></div>
 
     <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
         <ul class="am-nav am-nav-pills am-topbar-nav admin-header-list">
@@ -76,7 +76,7 @@
     <div class="nav-navicon admin-main admin-sidebar">
 
 
-        <div class="sideMenu am-icon-dashboard" style="color:#aeb2b7; margin: 10px 0 0 0;"> 欢迎系统管理员：德玛西亚</div>
+        <div class="sideMenu am-icon-dashboard" style="color:#aeb2b7; margin: 10px 0 0 0;"> 欢迎系统管理员：<span th:text="${session.manager.name}"></span></div>
         <div class="sideMenu">
             <h3 class="am-icon-flag"><em></em> <a href="#">订单管理</a></h3>
             <ul>

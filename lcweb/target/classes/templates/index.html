@@ -1,5 +1,5 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" >
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
@@ -14,13 +14,13 @@
     <meta content="Amaze UI" name="apple-mobile-web-app-title"/>
     <link th:href="@{/css/amazeui.min.css}" rel="stylesheet"/>
     <link th:href="@{/css/admin.css}" rel="stylesheet">
-    <script src="/static/js/jquery.min.js"></script>
-    <script src="../static/js/app.js"></script>
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/app.js}"></script>
 </head>
 
 <body>
 <header class="am-topbar admin-header">
-    <div class="am-topbar-brand"><img src="../static/img/page.png"></div>
+    <div class="am-topbar-brand"><img th:src="@{/img/page.png}"></div>
 
     <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
         <ul class="am-nav am-nav-pills am-topbar-nav admin-header-list">
@@ -78,7 +78,7 @@
     <div class="nav-navicon admin-main admin-sidebar">
 
 
-        <div class="sideMenu am-icon-dashboard" style="color:#aeb2b7; margin: 10px 0 0 0;"> 欢迎系统管理员：德玛西亚</div>
+        <div class="sideMenu am-icon-dashboard" style="color:#aeb2b7; margin: 10px 0 0 0;"> 欢迎系统管理员：<span th:text="${session.manager.name}"></span></div>
         <div class="sideMenu">
             <h3 class="am-icon-flag"><em></em> <a href="#">订单管理</a></h3>
             <ul>
