@@ -13,7 +13,7 @@ html,body{
     width:100%;
 }
 body{
-    background:url(./img/1.jpg) no-repeat;
+    background:url(../img/1.jpg) no-repeat;
     background-size: 100%;
 }
 .bg{
