@@ -36,7 +36,7 @@ public class DriverController {
 
 
     //展现all
-    @GetMapping(value = "/drivers")
+    @GetMapping(value = "/driver")
     @Transactional
     public Result driverList(){
         logger.info("driverList");
