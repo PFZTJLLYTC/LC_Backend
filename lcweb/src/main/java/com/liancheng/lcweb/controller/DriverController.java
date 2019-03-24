@@ -44,15 +44,15 @@ public class DriverController {
     }
 
     //查询by num
-    @GetMapping(value = "/driver/{num}")
+    @GetMapping(value = "/driver/fbd/{dnum}")
     @Transactional
-    public Result FindOneByDum(@PathVariable("num") String num){
+    public Result FindOneByDum(@PathVariable("dnum") String dnum){
         logger.info("find driver by phone number");
-        return ResultUtil.success(driverRepository.findByDnum(num));
+        return ResultUtil.success(driverRepository.findByDnum(dnum));
     }
 
     //查询by name
-    @GetMapping(value = "/driver/{name}")
+    @GetMapping(value = "/driver/fbn/{name}")
     @Transactional
     public Result FindOneByName(@PathVariable("name") String name){
         logger.info("find driver by name");
@@ -60,7 +60,7 @@ public class DriverController {
     }
 
     //查询by carNum
-    @GetMapping(value = "/driver/{carNum}")
+    @GetMapping(value = "/driver/fbcN/{carNum}")
     @Transactional
     public Result FindOneByCarNum(@PathVariable("carNum") String carNum){
         logger.info("find driver by carNum");
@@ -68,7 +68,7 @@ public class DriverController {
     }
 
     //查询by status
-    @GetMapping(value = "/driver/{status}")
+    @GetMapping(value = "/driver/fbs/{status}")
     @Transactional
     public Result FindOneByStatus(@PathVariable("status") Integer status){
         logger.info("find driver by carNum");
@@ -97,14 +97,13 @@ public class DriverController {
         driver.setAge(driver.getAge());
         driver.setCarNum(driver.getCarNum());
         driver.setStatus(0);
-        driver.setPassword("123456");
+        driver.setPassword("123456");//初始化密码123456
         driver.setName(driver.getName());
         //如何让一个管理员只能看见自己的呢？
         driver.setLine(driver.getLine());
 
         logger.info("add a new driver");
         return ResultUtil.success(driverRepository.save(driver));
-
     }
 
 

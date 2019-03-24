@@ -1,6 +1,4 @@
 package com.liancheng.lcweb.controller;
-
-
 import com.liancheng.lcweb.domain.Manager;
 import com.liancheng.lcweb.repository.ManagerRepository;
 import com.liancheng.lcweb.service.ManagerService;

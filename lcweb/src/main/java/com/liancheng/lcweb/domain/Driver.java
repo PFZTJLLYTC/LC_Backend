@@ -16,7 +16,7 @@ public class Driver {
     初始密码为123456
     * */
     @Id
-    private String dnum;
+    private String dnum;//dnum就是phonenum？
 
     private String name;
 

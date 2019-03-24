@@ -44,7 +44,7 @@ public class UserController {
     }
 
     //查询by unum
-    @GetMapping(value = "/user/{unum}")
+    @GetMapping(value = "/user/fbu/{unum}")
     @Transactional
     public Result FindOneByUnum(@PathVariable("unum") String unum){
         logger.info("find user by unum");
@@ -52,7 +52,7 @@ public class UserController {
     }
 
     //查询by mobile
-    @GetMapping(value = "/user/{mobile}")
+    @GetMapping(value = "/user/fbm/{mobile}")
     @Transactional
     public Result FindOneByMobile(@PathVariable("mobile") String mobile){
         logger.info("find user by mobile");
@@ -60,7 +60,7 @@ public class UserController {
     }
 
     //查询by username
-    @GetMapping(value = "/user/{username}")
+    @GetMapping(value = "/user/fbn/{username}")
     @Transactional
     public Result FindOneByUserName(@PathVariable("username") String username){
         logger.info("find user by username");
@@ -68,7 +68,7 @@ public class UserController {
     }
 
     //查询by email
-    @GetMapping(value = "/user/{email}")
+    @GetMapping(value = "/user/fbe/{email}")
     @Transactional
     public Result FindOneByStatus(@PathVariable("email") String email){
         logger.info("find user by email");
