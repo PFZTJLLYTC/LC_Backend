@@ -1,6 +1,8 @@
 package com.liancheng.lcweb.domain;
 
 
+import lombok.Data;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -8,6 +10,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@Data
 @Table(name = "manager")
 public class Manager {
 

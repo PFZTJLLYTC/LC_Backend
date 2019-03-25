@@ -1,6 +1,6 @@
 package com.liancheng.lcweb.controller;
 
-import com.liancheng.lcweb.domain.Result;
+import com.liancheng.lcweb.VO.Result;
 import com.liancheng.lcweb.domain.User;
 import com.liancheng.lcweb.repository.ManagerRepository;
 import com.liancheng.lcweb.repository.UserRepository;
@@ -112,12 +112,12 @@ public class UserController {
     //也可以提出来改成单独修改一项
     @PutMapping(value = "/user/update/{unum}")
     public Result userUpdate(@PathVariable("unum") String unum,
-                               @RequestParam("username") String username,
-                               @RequestParam("password") String password,
-                               @RequestParam("mobile") String mobile,
-                               @RequestParam("email") String email,
-                               @RequestParam("emailVerified") Boolean emailVerified,
-                               @RequestParam("updateAt") Date updateAt){
+                             @RequestParam("username") String username,
+                             @RequestParam("password") String password,
+                             @RequestParam("mobile") String mobile,
+                             @RequestParam("email") String email,
+                             @RequestParam("emailVerified") Boolean emailVerified,
+                             @RequestParam("updateAt") Date updateAt){
         User user = new User();
         user.setUnum(unum);
         user.setUsername(username);

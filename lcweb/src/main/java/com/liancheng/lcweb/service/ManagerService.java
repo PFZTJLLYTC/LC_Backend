@@ -1,26 +1,18 @@
 package com.liancheng.lcweb.service;
 
 import com.liancheng.lcweb.domain.Manager;
-import com.liancheng.lcweb.repository.DriverRepository;
-import com.liancheng.lcweb.repository.ManagerRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-@Service
-public class ManagerService {
-    @Autowired
-    private ManagerRepository managerRepository;
+import java.util.List;
 
-    @Autowired
-    private DriverRepository driverRepository;
 
-    public Manager getManager(String name, String password){
-        return managerRepository.findByNameAndPassword(name,password);
+public interface ManagerService {
 
-    }
+    List<Manager> findAll();
 
-    public Manager insertManager(Manager manager){
-        return managerRepository.save(manager);
-    }
+    Manager findOne(Integer id);
+
+    Manager getManager(String name, String password);
+
+    Manager insertManager(Manager manager);
 
 }

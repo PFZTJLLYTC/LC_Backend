@@ -2,7 +2,7 @@ package com.liancheng.lcweb.controller;
 
 
 import com.liancheng.lcweb.domain.Driver;
-import com.liancheng.lcweb.domain.Result;
+import com.liancheng.lcweb.VO.Result;
 import com.liancheng.lcweb.repository.DriverRepository;
 import com.liancheng.lcweb.repository.ManagerRepository;
 import com.liancheng.lcweb.service.DriverService;

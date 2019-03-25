@@ -1,8 +1,7 @@
 package com.liancheng.lcweb.handle;
 
 
-import com.liancheng.lcweb.domain.Manager;
-import com.liancheng.lcweb.domain.Result;
+import com.liancheng.lcweb.VO.Result;
 import com.liancheng.lcweb.exception.ManagerException;
 import com.liancheng.lcweb.utils.ResultUtil;
 import org.slf4j.Logger;

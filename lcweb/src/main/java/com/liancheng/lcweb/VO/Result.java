@@ -1,4 +1,4 @@
-package com.liancheng.lcweb.domain;
+package com.liancheng.lcweb.VO;
 
 public class Result<T> {
 

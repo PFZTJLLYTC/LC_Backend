@@ -1,12 +1,16 @@
 package com.liancheng.lcweb.service;
 
-import com.liancheng.lcweb.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.liancheng.lcweb.domain.User;
 
-@Service
-public class UserService {
+import java.util.List;
 
-    @Autowired
-    private UserRepository userRepository;
+public interface UserService {
+
+    List<User> findAll();
+
+    List<User> findAllByLine(String line);
+
+    User save(User user);
+
+    //待补充，现在只理框架
 }

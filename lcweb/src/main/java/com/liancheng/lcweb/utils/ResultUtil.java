@@ -1,7 +1,6 @@
 package com.liancheng.lcweb.utils;
 
-import com.liancheng.lcweb.domain.Result;
-import com.liancheng.lcweb.exception.ManagerException;
+import com.liancheng.lcweb.VO.Result;
 
 
 public class ResultUtil {
