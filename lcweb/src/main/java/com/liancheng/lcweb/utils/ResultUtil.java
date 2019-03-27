@@ -10,7 +10,7 @@ public class ResultUtil {
         Result result = new Result();
         result.setCode(0);
         result.setMsg("success");
-        result.setData(object);
+        result.setData(object);//data应该是json数据块
         return result;
     }
 

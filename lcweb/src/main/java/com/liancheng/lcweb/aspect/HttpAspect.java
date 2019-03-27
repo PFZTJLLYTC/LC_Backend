@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 public class HttpAspect {
 
     //日志记录
-    private final static Logger logger = LoggerFactory.getLogger(HttpAspect.class);
+    private final static Logger log = LoggerFactory.getLogger(HttpAspect.class);
 
     @Pointcut("execution(public * com.liancheng.lcweb.controller.*.*(..))")
     public void log(){ }
@@ -25,33 +25,33 @@ public class HttpAspect {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
         //message
-        logger.info("--------doBefore--------");
+        log.info("--------doBefore--------");
 
         //url
-        logger.info("url={}",request.getRequestURL());
+        log.info("url={}",request.getRequestURL());
 
         //method
-        logger.info("method={}",request.getMethod());
+        log.info("method={}",request.getMethod());
 
         //ip
-        logger.info("id={}",request.getRemoteAddr());
+        log.info("id={}",request.getRemoteAddr());
 
         //类方法　传入对象joinpoint
-        logger.info("class_method={}",joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
+        log.info("class_method={}",joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
 
         //参数
-        logger.info("args={}",joinPoint.getArgs());
+        log.info("args={}",joinPoint.getArgs());
 
     }
 
     @After("log()")
     public void doAfter() {
-        logger.info("--------doAfter--------");
+        log.info("--------doAfter--------");
     }
 
     @AfterReturning(returning = "object",pointcut = "log()")
     public void doAfterReturning(Object object){
-        logger.info("response={}",object);
+        log.info("response={}",object);
     }
 
 }
