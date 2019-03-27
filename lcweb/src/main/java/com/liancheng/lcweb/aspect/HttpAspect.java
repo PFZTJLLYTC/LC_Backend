@@ -24,6 +24,9 @@ public class HttpAspect {
     public void dobefore(JoinPoint joinPoint){
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
+        //message
+        logger.info("--------doBefore--------");
+
         //url
         logger.info("url={}",request.getRequestURL());
 

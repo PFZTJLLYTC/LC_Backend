@@ -2,35 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="19ae6df3-5189-4680-8939-67684dbf745c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/liancheng/lcweb/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/liancheng/lcweb/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/liancheng/lcweb/domain/Driver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/liancheng/lcweb/domain/Driver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/liancheng/lcweb/domain/Manager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/liancheng/lcweb/domain/Manager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/liancheng/lcweb/domain/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/liancheng/lcweb/domain/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/liancheng/lcweb/repository/DriverRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/liancheng/lcweb/repository/DriverRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/liancheng/lcweb/repository/ManagerRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/liancheng/lcweb/repository/ManagerRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/liancheng/lcweb/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/liancheng/lcweb/repository/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/liancheng/lcweb/service/impl/ManagerServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/liancheng/lcweb/service/impl/ManagerServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/liancheng/lcweb/LcwebApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/liancheng/lcweb/LcwebApplication.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/liancheng/lcweb/aspect/HttpAspect.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/liancheng/lcweb/aspect/HttpAspect.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/liancheng/lcweb/controller/DriverController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/liancheng/lcweb/controller/DriverController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/liancheng/lcweb/controller/ManagerController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/liancheng/lcweb/controller/ManagerController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/liancheng/lcweb/controller/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/liancheng/lcweb/controller/UserController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/liancheng/lcweb/domain/Driver.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/liancheng/lcweb/domain/Driver.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/liancheng/lcweb/domain/Manager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/liancheng/lcweb/domain/Manager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/liancheng/lcweb/domain/Result.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/liancheng/lcweb/domain/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/liancheng/lcweb/domain/User.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/liancheng/lcweb/enums/ResultEnums.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/liancheng/lcweb/enums/ResultEnums.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/liancheng/lcweb/exception/ManagerException.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/liancheng/lcweb/exception/ManagerException.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/liancheng/lcweb/handle/ExceptionHandle.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/liancheng/lcweb/handle/ExceptionHandle.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/liancheng/lcweb/repository/DriverRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/liancheng/lcweb/repository/DriverRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/liancheng/lcweb/repository/ManagerRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/liancheng/lcweb/repository/ManagerRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/liancheng/lcweb/repository/UserRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/liancheng/lcweb/repository/UserRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/liancheng/lcweb/service/DriverService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/liancheng/lcweb/service/DriverService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/liancheng/lcweb/service/ManagerService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/liancheng/lcweb/service/ManagerService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/liancheng/lcweb/service/UserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/liancheng/lcweb/service/UserService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/liancheng/lcweb/utils/ResultUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/liancheng/lcweb/utils/ResultUtil.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/liancheng/lcweb/aspect/HttpAspect.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/liancheng/lcweb/aspect/HttpAspect.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -100,18 +72,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/liancheng/lcweb/domain/User.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="334">
-              <caret line="44" column="28" lean-forward="true" selection-start-line="44" selection-start-column="28" selection-end-line="44" selection-end-column="28" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/liancheng/lcweb/controller/DriverController.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -193,11 +153,23 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/liancheng/lcweb/controller/UserController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2728">
+            <state relative-caret-position="428">
               <caret line="124" column="46" selection-start-line="124" selection-start-column="46" selection-end-line="124" selection-end-column="46" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/liancheng/lcweb/aspect/HttpAspect.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="78">
+              <caret line="27" column="45" selection-start-line="27" selection-start-column="45" selection-end-line="27" selection-end-column="45" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -249,7 +221,6 @@
         <option value="$PROJECT_DIR$/src/main/java/com/liancheng/lcweb/handle/ExceptionHandle.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/liancheng/lcweb/enums/ResultEnums.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/liancheng/lcweb/exception/ManagerException.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/liancheng/lcweb/aspect/HttpAspect.java" />
         <option value="$PROJECT_DIR$/src/main/resources/static/login.html" />
         <option value="$PROJECT_DIR$/src/main/resources/static/css/js/img/login.css" />
         <option value="$PROJECT_DIR$/src/main/resources/static/img/login.css" />
@@ -291,6 +262,7 @@
         <option value="$PROJECT_DIR$/src/main/java/com/liancheng/lcweb/domain/User.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/liancheng/lcweb/controller/UserController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/liancheng/lcweb/service/impl/ManagerServiceImpl.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/liancheng/lcweb/aspect/HttpAspect.java" />
       </list>
     </option>
   </component>
@@ -367,80 +339,16 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="lcweb" type="462c0819:PsiDirectoryNode" />
+              <item name="aspect" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="lcweb" type="b2602c69:ProjectViewProjectNode" />
+              <item name="lcweb" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="lcweb" type="462c0819:PsiDirectoryNode" />
               <item name="controller" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="lcweb" type="b2602c69:ProjectViewProjectNode" />
-              <item name="lcweb" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="lcweb" type="462c0819:PsiDirectoryNode" />
-              <item name="domain" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="lcweb" type="b2602c69:ProjectViewProjectNode" />
-              <item name="lcweb" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="lcweb" type="462c0819:PsiDirectoryNode" />
-              <item name="enums" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="lcweb" type="b2602c69:ProjectViewProjectNode" />
-              <item name="lcweb" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="lcweb" type="462c0819:PsiDirectoryNode" />
-              <item name="exception" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="lcweb" type="b2602c69:ProjectViewProjectNode" />
-              <item name="lcweb" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="lcweb" type="462c0819:PsiDirectoryNode" />
-              <item name="handle" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="lcweb" type="b2602c69:ProjectViewProjectNode" />
-              <item name="lcweb" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="lcweb" type="462c0819:PsiDirectoryNode" />
-              <item name="repository" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="lcweb" type="b2602c69:ProjectViewProjectNode" />
-              <item name="lcweb" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="lcweb" type="462c0819:PsiDirectoryNode" />
-              <item name="service" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="lcweb" type="b2602c69:ProjectViewProjectNode" />
-              <item name="lcweb" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="lcweb" type="462c0819:PsiDirectoryNode" />
-              <item name="service" type="462c0819:PsiDirectoryNode" />
-              <item name="impl" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="lcweb" type="b2602c69:ProjectViewProjectNode" />
-              <item name="lcweb" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="lcweb" type="462c0819:PsiDirectoryNode" />
-              <item name="utils" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="lcweb" type="b2602c69:ProjectViewProjectNode" />
@@ -586,7 +494,7 @@
       <workItem from="1553425981545" duration="120000" />
       <workItem from="1553481880346" duration="95000" />
       <workItem from="1553530498056" duration="1332000" />
-      <workItem from="1553616642807" duration="4358000" />
+      <workItem from="1553616642807" duration="4599000" />
     </task>
     <task id="LOCAL-00001" summary="add user">
       <created>1552570614070</created>
@@ -604,7 +512,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="65816000" />
+    <option name="totallyTimeSpent" value="66057000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -629,7 +537,7 @@
       <window_info id="Web" order="7" sideWeight="0.50089765" side_tool="true" weight="0.18526466" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32777777" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.10963856" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.29036143" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -815,13 +723,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="577">
           <caret line="243" column="24" selection-start-line="243" selection-start-column="24" selection-end-line="243" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/liancheng/lcweb/aspect/HttpAspect.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="440">
-          <caret line="28" selection-start-line="28" selection-end-line="28" />
         </state>
       </provider>
     </entry>
@@ -1065,8 +966,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/liancheng/lcweb/controller/UserController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2728">
+        <state relative-caret-position="428">
           <caret line="124" column="46" selection-start-line="124" selection-start-column="46" selection-end-line="124" selection-end-column="46" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/liancheng/lcweb/aspect/HttpAspect.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="78">
+          <caret line="27" column="45" selection-start-line="27" selection-start-column="45" selection-end-line="27" selection-end-column="45" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
