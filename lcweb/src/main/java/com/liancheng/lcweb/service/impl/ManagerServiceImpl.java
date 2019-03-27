@@ -26,7 +26,7 @@ public class ManagerServiceImpl implements ManagerService {
 
     @Override
     public Manager getManager(String name, String password) {
-        return null;
+        return managerRepository.findByNameAndPassword(name,password);
     }
 
     @Override

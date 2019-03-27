@@ -2,22 +2,25 @@ package com.liancheng.lcweb.domain;
 
 
 import lombok.Data;
+import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 @Entity
 @Data
-@Table(name = "manager")
+@DynamicUpdate
+@EntityListeners(AuditingEntityListener.class)
 public class Manager {
 
-    //初步的管理员demo
+    //初步的管理员demo,考虑线路id即为管理人id
     @Id
     @GeneratedValue
-    private Integer id;//因为管理人员不会太多，故用int自增即可
+    private Integer lineId;//因为管理人员不会太多，故用int自增即可
 
     @NotNull(message = "用户名不能为为空")
     private String name;
@@ -25,69 +28,17 @@ public class Manager {
     @NotNull(message = "密码不能为为空")
     private String password;
 
-    private String phoneNum;
-
+    //对应lineId的名字
     private String line;
+
+    private String phoneNum;
 
     private Integer age;
 
-    public Integer getId() {
-        return id;
-    }
+    @CreatedDate
+    private Date createTime;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    @LastModifiedDate
+    private Date updateTime;
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getPhoneNum() {
-        return phoneNum;
-    }
-
-    public void setPhoneNum(String phoneNum) {
-        this.phoneNum = phoneNum;
-    }
-
-    public String getLine() {
-        return line;
-    }
-
-    public void setLine(String line) {
-        this.line = line;
-    }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
-    }
-
-    @Override
-    public String toString() {
-        return "Manager{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", password='" + password + '\'' +
-                ", phoneNum='" + phoneNum + '\'' +
-                ", line='" + line + '\'' +
-                ", age=" + age +
-                '}';
-    }
 }

@@ -7,12 +7,12 @@ import java.util.List;
 
 public interface DriverRepository extends JpaRepository<Driver,String> {
 
-    public List<Driver> findByDnum(String dnum);
+    Driver findByDnum(String dnum);
 
-    public List<Driver> findByCarNum(String carNum);
+    Driver findByCarNum(String carNum);
 
-    public List<Driver> findByName(String name);
+    List<Driver> findByName(String name);
 
-    public List<Driver> findByStatus(Integer status);
+    List<Driver> findByStatus(Integer status);
 
 }

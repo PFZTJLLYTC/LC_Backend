@@ -95,11 +95,9 @@ public class UserController {
         user.setUnum(user.getUnum());
         user.setUsername(user.getUsername());
         user.setPassword(user.getPassword());
-        user.setMobile(user.getMoblie());
+        user.setMobile(user.getMobile());
         user.setEmail(user.getEmail());
         user.setEmailVerifiled(user.getEmailVerifiled());
-        user.setCreatedAt(user.getCreatedAt());
-        user.setUpdateAt(user.getUpdateAt());
 
         logger.info("add a new user");
         return ResultUtil.success(userRepository.save(user));
@@ -125,7 +123,6 @@ public class UserController {
         user.setMobile(mobile);
         user.setEmail(email);
         user.setEmailVerifiled(emailVerified);
-        user.setUpdateAt(updateAt);
         logger.info("update one user's info");
         return ResultUtil.success(userRepository.save(user));
     }

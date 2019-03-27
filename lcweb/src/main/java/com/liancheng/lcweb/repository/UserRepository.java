@@ -7,11 +7,11 @@ import java.util.List;
 
 
 public interface UserRepository extends JpaRepository<User,String> {
-    public List<User> findByUnum(String unum);
+    User findByUnum(String unum);
 
-    public List<User> findByMobile(String mobile);
+    User findByMobile(String mobile);
 
-    public List<User> findByUsername(String username);
+    List<User> findByUsername(String username);
 
-    public List<User> findByEmail(String email);
+    User findByEmail(String email);
 }

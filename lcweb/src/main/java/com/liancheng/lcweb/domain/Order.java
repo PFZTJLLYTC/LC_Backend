@@ -10,43 +10,43 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.Id;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
 @Data
 @DynamicUpdate
 @EntityListeners(AuditingEntityListener.class)
-public class Driver {
+public class Order {
 
-    //初步内容
-    /* 0表示在休息（一般刚刚创建的司机状态为0，需要司机手动改变状态，1表示在路上，2表示可载客）
-    初始密码为123456
-    * */
     @Id
-    private String dnum;//dnum就是phonenum？
+    private String OrderId;
 
-    private String name;
+    private String unum;
 
-    private String password;
+    private String userPhone;
 
-    @NotNull(message = "车牌号")
-    private String carNum;
+    private String userAddress;
 
-    //线路id
-    private String lineId;
+    private BigDecimal userCount;
 
+    private String dnum;
+
+    private String driverName;
+
+    //只显示了line的名字
     private String line;
 
-    @Min(value = 18,message = "should above 18 years old!")
-    private Integer age;
+    private String carNum;
 
-    private Integer status;
+    private Integer orderStatus;
+
+    private Integer payStatus;
 
     @CreatedDate
     private Date createTime;
 
     @LastModifiedDate
     private Date updateTime;
+
 }
