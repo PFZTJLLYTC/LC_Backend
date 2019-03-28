@@ -2,6 +2,7 @@ package com.liancheng.lcweb.controller;
 
 import com.liancheng.lcweb.VO.Result;
 import com.liancheng.lcweb.domain.User;
+import com.liancheng.lcweb.enums.ResultEnums;
 import com.liancheng.lcweb.repository.ManagerRepository;
 import com.liancheng.lcweb.repository.UserRepository;
 import com.liancheng.lcweb.service.ManagerService;
@@ -15,7 +16,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @RestController
 public class UserController {
@@ -125,6 +128,16 @@ public class UserController {
         user.setEmailVerifiled(emailVerified);
         logger.info("update one user's info");
         return ResultUtil.success(userRepository.save(user));
+    }
+
+    @PostMapping(value = "/user/login")
+    public Result userLogin(@RequestBody User user){
+        User result=new User();
+        result=userService.userLogin(user);
+        if(result!=null)
+            return ResultUtil.success(userService.userLogin(user));
+        else
+            return ResultUtil.error();
     }
 
 }

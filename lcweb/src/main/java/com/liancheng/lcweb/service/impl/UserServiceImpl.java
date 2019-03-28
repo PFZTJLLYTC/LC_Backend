@@ -18,6 +18,11 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Override
+    public User userLogin(User user){
+        return getUser(user.getMobile(),user.getPassword());
+    }
+
+    @Override
     public User getUser(String mobile, String password) {
         return userRepository.findByMobileAndPassword(mobile,password);
     }
