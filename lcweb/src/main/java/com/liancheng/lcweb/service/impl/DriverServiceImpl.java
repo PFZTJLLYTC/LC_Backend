@@ -16,10 +16,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Service
-@Slf4j//如果使用此句其实可以不用定义log，但是无所谓多几行代码显得高端
 public class DriverServiceImpl implements DriverService {
-
-    private final static Logger log = LoggerFactory.getLogger(DriverServiceImpl.class);
 
     @Autowired
     private DriverRepository driverRepository;
@@ -31,7 +28,6 @@ public class DriverServiceImpl implements DriverService {
         }
         Driver result = new Driver();
         BeanUtils.copyProperties(driver,result);
-        log.info("add a new driver successfully !");
         return driverRepository.save(result);
     }
 

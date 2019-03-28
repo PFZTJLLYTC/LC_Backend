@@ -1,16 +1,24 @@
 package com.liancheng.lcweb.service;
 
 import com.liancheng.lcweb.domain.User;
+import org.springframework.validation.BindingResult;
 
+import javax.validation.Valid;
 import java.util.List;
 
 public interface UserService {
 
     List<User> findAll();
 
-    List<User> findAllByLine(String line);
+    User findOne(String unum);
 
-    User save(User user);
+    User getUser(String mobile, String password);
 
-    //待补充，现在只理框架
+    User addUser(@Valid User user, BindingResult bindingResult);
+
+    User findByMobile(String mobile);
+
+    User findbyEmail(String email);
+
+    User findByUserName(String userName);
 }

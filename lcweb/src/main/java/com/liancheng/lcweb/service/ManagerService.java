@@ -1,7 +1,9 @@
 package com.liancheng.lcweb.service;
 
 import com.liancheng.lcweb.domain.Manager;
+import org.springframework.validation.BindingResult;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -13,6 +15,6 @@ public interface ManagerService {
 
     Manager getManager(String name, String password);
 
-    Manager insertManager(Manager manager);
+    Manager addManager(@Valid Manager manager, BindingResult bindingResult);
 
 }
