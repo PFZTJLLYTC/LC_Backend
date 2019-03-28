@@ -3,7 +3,6 @@ package com.liancheng.lcweb.handle;
 
 import com.liancheng.lcweb.VO.Result;
 import com.liancheng.lcweb.exception.ManagerException;
-import com.liancheng.lcweb.utils.ResultUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;

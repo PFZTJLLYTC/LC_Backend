@@ -1,5 +1,6 @@
 package com.liancheng.lcweb.VO;
 
+
 public class Result<T> {
 
     private Integer code;

@@ -33,6 +33,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User userLogin(User user){
+        return getUser(user.getMobile(),user.getPassword());
+    }
+
+    @Override
     public User findByMobile(String mobile) {
         return userRepository.findByMobile(mobile);
     }
