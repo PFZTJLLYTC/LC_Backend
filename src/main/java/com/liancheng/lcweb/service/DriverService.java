@@ -11,7 +11,7 @@ import java.util.List;
 public interface DriverService {
 
     //注册
-    Driver addDriver(@Valid Driver driver, BindingResult bindingResult);
+    Driver addDriver(Driver driver);
 
     //通过dnum查找,即id，亦即phonenum
     Driver findOne(String dnum);

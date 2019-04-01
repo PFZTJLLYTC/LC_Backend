@@ -24,10 +24,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User addUser(@Valid User user, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()){
-            return null;
-        }
+    public User addUser(User user) {
         User result = new User();
         BeanUtils.copyProperties(user,result);
         return userRepository.save(result);

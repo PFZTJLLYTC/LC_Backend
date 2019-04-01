@@ -24,10 +24,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override//创建的时候自动为新订单
-    public Order createOrder(@Valid Order order, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()){
-            return null;
-        }
+    public Order createOrder(Order order) {
         Order result = new Order();
         BeanUtils.copyProperties(order,result);
         result.setOrderStatus(OrderStatusEnums.WAIT.getCode());

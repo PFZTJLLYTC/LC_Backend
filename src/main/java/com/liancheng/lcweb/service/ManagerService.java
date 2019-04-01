@@ -15,6 +15,6 @@ public interface ManagerService {
 
     Manager getManager(String name, String password);
 
-    Manager addManager(@Valid Manager manager, BindingResult bindingResult);
+    Manager addManager(Manager manager);
 
 }

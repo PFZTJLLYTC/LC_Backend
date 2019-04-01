@@ -14,7 +14,7 @@ public interface UserService {
 
     User getUser(String mobile, String password);
 
-    User addUser(@Valid User user, BindingResult bindingResult);
+    User addUser(User user);
 
     User findByMobile(String mobile);
 

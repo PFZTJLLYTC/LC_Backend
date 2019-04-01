@@ -1,6 +1,8 @@
 package com.liancheng.lcweb.domain;
 
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.liancheng.lcweb.utils.serializer.Date2LongSerializer;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedDate;
@@ -44,9 +46,11 @@ public class Order {
     private Integer payStatus;
 
     @CreatedDate
+    //@JsonSerialize(using = Date2LongSerializer.class)
     private Date createTime;
 
     @LastModifiedDate
+    //@JsonSerialize(using = Date2LongSerializer.class)
     private Date updateTime;
 
 }

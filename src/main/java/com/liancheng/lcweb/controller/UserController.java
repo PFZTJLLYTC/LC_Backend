@@ -9,6 +9,7 @@ import com.liancheng.lcweb.service.ManagerService;
 import com.liancheng.lcweb.service.UserService;
 import com.liancheng.lcweb.utils.KeyUtil;
 import com.liancheng.lcweb.utils.ResultUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,65 +20,56 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.Properties;
 
 @RestController
+@Slf4j
 public class UserController {
-
-    private final static Logger logger = LoggerFactory.getLogger(UserController.class);
-    @Autowired
-    private ManagerRepository managerRepository;
-
-    @Autowired
-    private ManagerService managerService;
-
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private UserRepository userRepository;
 
 
     //展现all
     @GetMapping(value = "/user")
     @Transactional
     public Result userList(){
-        logger.info("userList");
-        return ResultUtil.success(userRepository.findAll());
+        log.info("userList");
+        return ResultUtil.success(userService.findAll());
     }
 
     //查询by unum
     @GetMapping(value = "/user/fbu/{unum}")
     @Transactional
     public Result FindOneByUnum(@PathVariable("unum") String unum){
-        logger.info("find user by unum");
-        return ResultUtil.success(userRepository.findByUnum(unum));
+        log.info("find user by unum");
+        return ResultUtil.success(userService.findOne(unum));
     }
 
     //查询by mobile
     @GetMapping(value = "/user/fbm/{mobile}")
     @Transactional
     public Result FindOneByMobile(@PathVariable("mobile") String mobile){
-        logger.info("find user by mobile");
-        return ResultUtil.success(userRepository.findByMobile(mobile));
+        log.info("find user by mobile");
+        return ResultUtil.success(userService.findByMobile(mobile));
     }
 
     //查询by username
     @GetMapping(value = "/user/fbn/{username}")
     @Transactional
     public Result FindOneByUserName(@PathVariable("username") String username){
-        logger.info("find user by username");
-        return ResultUtil.success(userRepository.findByUsername(username));
+        log.info("find user by username");
+        return ResultUtil.success(userService.findByUserName(username));
     }
 
     //查询by email
     @GetMapping(value = "/user/fbe/{email}")
     @Transactional
     public Result FindOneByStatus(@PathVariable("email") String email){
-        logger.info("find user by email");
-        return ResultUtil.success(userRepository.findByEmail(email));
+        log.info("find user by email");
+        return ResultUtil.success(userService.findbyEmail(email));
     }
 
 
@@ -85,7 +77,7 @@ public class UserController {
     @DeleteMapping(value = "/user/delete/{unum}")
     @Transactional
     public Result userDelete(@PathVariable("unum") String unum){
-        logger.info("delete a particular user");
+        log.info("delete a particular user");
         userRepository.deleteById(unum);
         return ResultUtil.success();
     }
@@ -100,8 +92,8 @@ public class UserController {
         user.setMobile(user.getMobile());
 //        user.setEmail(user.getEmail());
 //        user.setEmailVerifiled(user.getEmailVerifiled());
-        logger.info("add a new user");
-        return ResultUtil.success(userRepository.save(user));
+        log.info("add a new user");
+        return ResultUtil.success(userService.addUser(user));
 
     }
 
@@ -124,7 +116,7 @@ public class UserController {
         user.setMobile(mobile);
         user.setEmail(email);
         user.setEmailVerifiled(emailVerified);
-        logger.info("update one user's info");
+        log.info("update one user's info");
         return ResultUtil.success(userRepository.save(user));
     }
 

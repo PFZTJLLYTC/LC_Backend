@@ -22,10 +22,7 @@ public class DriverServiceImpl implements DriverService {
     private DriverRepository driverRepository;
 
     @Override
-    public Driver addDriver(@Valid Driver driver, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()){
-            return null;
-        }
+    public Driver addDriver(Driver driver) {
         Driver result = new Driver();
         BeanUtils.copyProperties(driver,result);
         return driverRepository.save(result);

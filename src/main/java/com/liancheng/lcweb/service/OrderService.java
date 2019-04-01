@@ -10,7 +10,7 @@ public interface OrderService {
 
     List<Order> findAll();
 
-    Order createOrder(@Valid Order order, BindingResult bindingResult);
+    Order createOrder(Order order);
 
     List<Order> findByUnum(String unum);
 
