@@ -7,6 +7,7 @@ import com.liancheng.lcweb.repository.ManagerRepository;
 import com.liancheng.lcweb.repository.UserRepository;
 import com.liancheng.lcweb.service.ManagerService;
 import com.liancheng.lcweb.service.UserService;
+import com.liancheng.lcweb.utils.KeyUtil;
 import com.liancheng.lcweb.utils.ResultUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +20,7 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
 @RestController
 public class UserController {
@@ -90,18 +92,16 @@ public class UserController {
 
 
     //增加信息
-    @PostMapping(value = "/user/add")//加表单验证
-    public Result userAdd(@Valid User user, BindingResult bindingResult){
-        if (bindingResult.hasErrors()){
-            return null;
-        }
-        user.setUnum(user.getUnum());
-        user.setUsername(user.getUsername());
+    @PostMapping(value = "/user")//加表单验证
+    public Result userAdd(@RequestBody User user){
+        user.setUnum(KeyUtil.genUniquekey());
+//        user.setUsername(user.getUsername());
         user.setPassword(user.getPassword());
         user.setMobile(user.getMobile());
-        user.setEmail(user.getEmail());
-        user.setEmailVerifiled(user.getEmailVerifiled());
-
+//        user.setEmail(user.getEmail());
+//        user.setEmailVerifiled(user.getEmailVerifiled());
+        Properties properties =new Properties();
+        properties.load();
         logger.info("add a new user");
         return ResultUtil.success(userRepository.save(user));
 
@@ -131,12 +131,11 @@ public class UserController {
     }
 
     @PostMapping(value = "/user/login")
-    public Result userLogin(@RequestBody User user){
+    public Result userLogin(@RequestParam User user){
         User result = userService.userLogin(user);
         if(result!=null)
-            return ResultUtil.success(userService.userLogin(user));
+            return ResultUtil.success(result);
         else
             return ResultUtil.error();
     }
-
 }

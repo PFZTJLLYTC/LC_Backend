@@ -9,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -23,12 +24,12 @@ public class User {
     @Id
     private String unum;
 
-    @NotNull(message = "用户名不能为为空")
     private String username;
 
     @NotNull(message = "密码不能为为空")
     private String password;
 
+    @NotNull(message = "手机号不能为为空")
     private String mobile;
 
     //private String address; 当前位置，根据定位得到？
@@ -39,7 +40,7 @@ public class User {
     private Boolean emailVerifiled;
 
     @CreatedDate
-    private Date createdTime;
+    private Date creatTime;
 
     @LastModifiedDate
     private Date updateTime;
