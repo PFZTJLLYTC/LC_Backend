@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/lc?serverTimezone=Asia/Shanghai
+    username: root
+    password: 744673725
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+#加热部署便利开发
+  devtools:
+    restart:
+      enabled: true #设置开启热部署
+  freemarker:
+    cache: false #页面不加载缓存，修改即时生效
+
+server:
+    port: 8080
