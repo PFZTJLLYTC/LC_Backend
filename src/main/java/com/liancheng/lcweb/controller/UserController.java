@@ -10,18 +10,15 @@ import com.liancheng.lcweb.service.UserService;
 import com.liancheng.lcweb.utils.KeyUtil;
 import com.liancheng.lcweb.utils.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
-import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.Date;
 
 @RestController
+@RequestMapping("/user")
 @Slf4j
 public class UserController {
 
@@ -32,59 +29,9 @@ public class UserController {
     private UserRepository userRepository;
 
 
-    //展现all
-    @GetMapping(value = "/user")
-    @Transactional
-    public Result userList(){
-        log.info("userList");
-        return ResultUtil.success(userService.findAll());
-    }
 
-    //查询by unum
-    @GetMapping(value = "/user/fbu/{unum}")
-    @Transactional
-    public Result FindOneByUnum(@PathVariable("unum") String unum){
-        log.info("find user by unum");
-        return ResultUtil.success(userService.findOne(unum));
-    }
-
-    //查询by mobile
-    @GetMapping(value = "/user/fbm/{mobile}")
-    @Transactional
-    public Result FindOneByMobile(@PathVariable("mobile") String mobile){
-        log.info("find user by mobile");
-        return ResultUtil.success(userService.findByMobile(mobile));
-    }
-
-    //查询by username
-    @GetMapping(value = "/user/fbn/{username}")
-    @Transactional
-    public Result FindOneByUserName(@PathVariable("username") String username){
-        log.info("find user by username");
-        return ResultUtil.success(userService.findByUserName(username));
-    }
-
-    //查询by email
-    @GetMapping(value = "/user/fbe/{email}")
-    @Transactional
-    public Result FindOneByStatus(@PathVariable("email") String email){
-        log.info("find user by email");
-        return ResultUtil.success(userService.findbyEmail(email));
-    }
-
-
-    //删除用户信息
-    @DeleteMapping(value = "/user/delete/{unum}")
-    @Transactional
-    public Result userDelete(@PathVariable("unum") String unum){
-        log.info("delete a particular user");
-        userRepository.deleteById(unum);
-        return ResultUtil.success();
-    }
-
-
-    //增加信息
-    @PostMapping(value = "/user")//加表单验证
+    //增加信息、注册
+    @PostMapping(value = "/signUp")//加表单验证的话新加dto层
     public Result userAdd(@RequestBody User user){
         user.setUnum(KeyUtil.genUniquekey());
 //        user.setUsername(user.getUsername());
@@ -92,16 +39,15 @@ public class UserController {
         user.setMobile(user.getMobile());
 //        user.setEmail(user.getEmail());
 //        user.setEmailVerifiled(user.getEmailVerifiled());
-        log.info("add a new user");
+        log.info("add a new user，userMobile={}",user.getMobile());
         return ResultUtil.success(userService.addUser(user));
-
     }
 
 
 
     //根据unum更新user信息
-    //也可以提出来改成单独修改一项
-    @PutMapping(value = "/user/update/{unum}")
+    //也可以提出来改成单独修改一项,应该会拆开比较好
+    @PutMapping(value = "/update/{unum}")
     public Result userUpdate(@PathVariable("unum") String unum,
                              @RequestParam("username") String username,
                              @RequestParam("password") String password,
@@ -109,19 +55,21 @@ public class UserController {
                              @RequestParam("email") String email,
                              @RequestParam("emailVerified") Boolean emailVerified,
                              @RequestParam("updateAt") Date updateAt){
-        User user = new User();
+        //todo 需要改
+        User user = userService.findOne(unum);
         user.setUnum(unum);
         user.setUsername(username);
         user.setPassword(password);
         user.setMobile(mobile);
         user.setEmail(email);
         user.setEmailVerifiled(emailVerified);
-        log.info("update one user's info");
+        log.info("update one user's info，user={}",username);
         return ResultUtil.success(userRepository.save(user));
     }
 
-    @PostMapping(value = "/user/login")
-    public Result userLogin(@RequestParam User user){
+    @PostMapping(value = "/login")
+    @Transactional
+    public Result userLogin(@RequestBody User user){
         User result = userService.userLogin(user);
         if(result!=null)
             return ResultUtil.success(result);

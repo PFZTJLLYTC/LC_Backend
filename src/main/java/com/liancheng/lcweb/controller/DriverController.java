@@ -3,11 +3,13 @@ package com.liancheng.lcweb.controller;
 
 import com.liancheng.lcweb.domain.Driver;
 import com.liancheng.lcweb.VO.Result;
+import com.liancheng.lcweb.domain.User;
 import com.liancheng.lcweb.repository.DriverRepository;
 import com.liancheng.lcweb.repository.ManagerRepository;
 import com.liancheng.lcweb.service.DriverService;
 import com.liancheng.lcweb.service.ManagerService;
 import com.liancheng.lcweb.utils.ResultUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,14 +21,11 @@ import javax.validation.Valid;
 
 //实现返回格式的拼接！
 @RestController
+@RequestMapping("/driver")
+@Slf4j
 public class DriverController {
 
-    private final static Logger logger = LoggerFactory.getLogger(DriverController.class);
-    @Autowired
-    private ManagerRepository managerRepository;
-
-    @Autowired
-    private ManagerService managerService;
+    //private final static Logger logger = LoggerFactory.getLogger(DriverController.class);
 
     @Autowired
     private DriverRepository driverRepository;
@@ -34,60 +33,24 @@ public class DriverController {
     @Autowired
     private DriverService driverService;
 
-
-
-    //展现all
-    @GetMapping(value = "/driver")
+    //登陆
+    @PostMapping(value = "/login")
     @Transactional
-    public Result driverList(){
-        logger.info("driverList");
-        return ResultUtil.success(driverRepository.findAll());
-    }
+    public Result userLogin(@RequestBody Driver driver){
+        Driver result = driverService.getByMobileAndPassword(driver.getDnum(),driver.getPassword());
+        if(result!=null){
+            log.info("司机登陆成功，dnum={}",result.getDnum());
+            return ResultUtil.success(result);
+        }
+        else{
+            log.error("无此司机信息，dnum={}",driver.getDnum());
+            return ResultUtil.error();
+        }
 
-    //查询by num
-    @GetMapping(value = "/driver/fbd/{dnum}")
-    @Transactional
-    public Result FindOneByDum(@PathVariable("dnum") String dnum){
-        logger.info("find driver by phone number");
-        return ResultUtil.success(driverRepository.findByDnum(dnum));
-    }
-
-    //查询by name
-    @GetMapping(value = "/driver/fbn/{name}")
-    @Transactional
-    public Result FindOneByName(@PathVariable("name") String name){
-        logger.info("find driver by name");
-        return ResultUtil.success(driverRepository.findByName(name));
-    }
-
-    //查询by carNum
-    @GetMapping(value = "/driver/fbcN/{carNum}")
-    @Transactional
-    public Result FindOneByCarNum(@PathVariable("carNum") String carNum){
-        logger.info("find driver by carNum");
-        return ResultUtil.success(driverRepository.findByCarNum(carNum));
-    }
-
-    //查询by status
-    @GetMapping(value = "/driver/fbs/{status}")
-    @Transactional
-    public Result FindOneByStatus(@PathVariable("status") Integer status){
-        logger.info("find driver by carNum");
-        return ResultUtil.success(driverRepository.findByStatus(status));
     }
 
 
-    //删除司机信息
-    @DeleteMapping(value = "/delete/{dnum}")
-    @Transactional
-    public Result driverDelete(@PathVariable("dnum") String dnum){
-        logger.info("delete a particular driver");
-        driverRepository.deleteById(dnum);
-        return ResultUtil.success();
-    }
-
-
-    //增加信息
+    //注册
     @PostMapping(value = "/drivers/add")//加表单验证
     public Result driverAdd(@Valid Driver driver, BindingResult bindingResult){
         if (bindingResult.hasErrors()){
@@ -103,7 +66,7 @@ public class DriverController {
         //如何让一个管理员只能看见自己的呢？
         driver.setLine(driver.getLine());
 
-        logger.info("add a new driver");
+        log.info("add a new driver");
         return ResultUtil.success(driverRepository.save(driver));
     }
 
@@ -129,7 +92,7 @@ public class DriverController {
         driver.setLine(line);
         driver.setAge(age);
         driver.setStatus(status);
-        logger.info("update one driver's info");
+        log.info("update one driver's info");
         return ResultUtil.success(driverRepository.save(driver));
     }
 

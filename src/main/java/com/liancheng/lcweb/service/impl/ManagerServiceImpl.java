@@ -36,7 +36,6 @@ public class ManagerServiceImpl implements ManagerService {
 
     @Override
     public Manager addManager(Manager manager) {
-
         Manager result = new Manager();
         BeanUtils.copyProperties(manager,result);
         return managerRepository.save(result);

@@ -1,14 +1,14 @@
 package com.liancheng.lcweb.service.impl;
 
+import com.liancheng.lcweb.VO.Result;
 import com.liancheng.lcweb.domain.User;
 import com.liancheng.lcweb.repository.UserRepository;
 import com.liancheng.lcweb.service.UserService;
+import com.liancheng.lcweb.utils.ResultUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Service
@@ -58,5 +58,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findOne(String unum) {
         return userRepository.findByUnum(unum);
+    }
+
+    @Override
+    public Result deleteOne(String unum) {
+        if (findOne(unum)!=null){
+            userRepository.deleteById(unum);
+            return ResultUtil.success();
+        }
+        else {
+            return ResultUtil.error();
+        }
+
     }
 }

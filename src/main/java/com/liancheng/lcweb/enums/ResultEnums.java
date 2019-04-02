@@ -7,7 +7,7 @@ import lombok.Getter;
 public enum ResultEnums {
     UNKNOWN_ERROR(-1,"unknown error"),
     AGE_TOOYOUNG(-2,"should above 18 years old at least"),
-    NOT_FOUND(-3,"Not Found");
+    NOT_FOUND(-3,"Not Found"),;
 
 
 

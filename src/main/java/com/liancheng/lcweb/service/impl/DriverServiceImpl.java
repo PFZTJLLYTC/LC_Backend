@@ -1,9 +1,11 @@
 package com.liancheng.lcweb.service.impl;
 
+import com.liancheng.lcweb.VO.Result;
 import com.liancheng.lcweb.domain.Driver;
 import com.liancheng.lcweb.enums.DriverStatusEnums;
 import com.liancheng.lcweb.repository.DriverRepository;
 import com.liancheng.lcweb.service.DriverService;
+import com.liancheng.lcweb.utils.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +28,21 @@ public class DriverServiceImpl implements DriverService {
         Driver result = new Driver();
         BeanUtils.copyProperties(driver,result);
         return driverRepository.save(result);
+    }
+
+    @Override
+    public Driver getByMobileAndPassword(String mobile, String password) {
+        return driverRepository.findByDnumAndPassword(mobile,password);
+    }
+
+    @Override
+    public List<Driver> findAll() {
+        return driverRepository.findAll();
+    }
+
+    @Override
+    public List<Driver> findbyLineId(String lineId) {
+        return driverRepository.findByLineId(lineId);
     }
 
     @Override
@@ -56,5 +73,31 @@ public class DriverServiceImpl implements DriverService {
     @Override//2
     public List<Driver> findAvailableDrivers() {
         return driverRepository.findByStatus(DriverStatusEnums.AVAILABLE.getCode());
+    }
+
+    @Override
+    public List<Driver> certainLIneOnroad(String lineId) {
+        return driverRepository.findByStatusAndLineId(DriverStatusEnums.ONROAD.getCode(),lineId);
+    }
+
+    @Override
+    public List<Driver> certainLIneAtrest(String lineId) {
+        return driverRepository.findByStatusAndLineId(DriverStatusEnums.ATREST.getCode(),lineId);
+    }
+
+    @Override
+    public List<Driver> certainLIneAvailable(String lineId) {
+        return driverRepository.findByStatusAndLineId(DriverStatusEnums.AVAILABLE.getCode(),lineId);
+    }
+
+    @Override
+    public Result deleteOne(String dnum) {
+        if (findOne(dnum)!=null){
+            driverRepository.deleteById(dnum);
+            return ResultUtil.success();
+        }
+        else {
+            return ResultUtil.error();
+        }
     }
 }

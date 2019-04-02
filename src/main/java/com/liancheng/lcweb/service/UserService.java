@@ -1,9 +1,8 @@
 package com.liancheng.lcweb.service;
 
+import com.liancheng.lcweb.VO.Result;
 import com.liancheng.lcweb.domain.User;
-import org.springframework.validation.BindingResult;
 
-import javax.validation.Valid;
 import java.util.List;
 
 public interface UserService {
@@ -23,4 +22,6 @@ public interface UserService {
     User findByUserName(String userName);
 
     User userLogin(User user);
+
+    Result deleteOne(String unum);
 }
