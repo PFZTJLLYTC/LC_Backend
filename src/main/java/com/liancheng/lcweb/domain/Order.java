@@ -12,6 +12,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -24,6 +25,7 @@ public class Order {
     @Id
     private String OrderId;
 
+    @NotNull
     private String unum;
 
     private String userPhone;

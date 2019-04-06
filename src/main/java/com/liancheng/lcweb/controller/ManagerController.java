@@ -2,13 +2,16 @@ package com.liancheng.lcweb.controller;
 import com.liancheng.lcweb.VO.Result;
 import com.liancheng.lcweb.domain.Driver;
 import com.liancheng.lcweb.domain.Manager;
+import com.liancheng.lcweb.domain.Order;
+import com.liancheng.lcweb.enums.ResultEnums;
+import com.liancheng.lcweb.exception.LcException;
 import com.liancheng.lcweb.repository.ManagerRepository;
 import com.liancheng.lcweb.service.DriverService;
 import com.liancheng.lcweb.service.ManagerService;
+import com.liancheng.lcweb.service.OrderService;
 import com.liancheng.lcweb.service.UserService;
 import com.liancheng.lcweb.utils.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.validator.internal.util.logging.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +36,9 @@ public class ManagerController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private OrderService orderService;
 
 
     //login
@@ -66,7 +72,7 @@ public class ManagerController {
 
     @GetMapping(value = "/driver")
     @Transactional
-    public Result allDriver(@RequestParam("lineId") String lineId){
+    public Result allDriver(@RequestParam("lineId")Integer lineId){
         //todo not safe
         log.info("查询线路所有司机信息,lineId={}",lineId);
         return ResultUtil.success(driverService.findbyLineId(lineId));
@@ -74,7 +80,7 @@ public class ManagerController {
 
     @GetMapping(value = "/driver/onRoad")
     @Transactional
-    public Result onRoadDrivers(@RequestParam("lineId")String lineId){
+    public Result onRoadDrivers(@RequestParam("lineId")Integer lineId){
         log.info("查出此线路在路上状态的司机,lineId={}",lineId);
         //todo not safe
         return ResultUtil.success(driverService.certainLIneOnroad(lineId));
@@ -82,7 +88,7 @@ public class ManagerController {
 
     @GetMapping(value = "/driver/Atrest")
     @Transactional
-    public Result atRestDrivers(@RequestParam("lineId")String lineId){
+    public Result atRestDrivers(@RequestParam("lineId")Integer lineId){
         log.info("查出此线路所有休息状态的司机,lineId={}",lineId);
         //todo not safe
         return ResultUtil.success(driverService.certainLIneAtrest(lineId));
@@ -90,7 +96,7 @@ public class ManagerController {
 
     @GetMapping(value = "/driver/Available")
     @Transactional
-    public Result availableDrivers(@RequestParam("lineId")String lineId){
+    public Result availableDrivers(@RequestParam("lineId")Integer lineId){
         log.info("查出此线路所有可用司机,lineId={}",lineId);
         //todo not safe
         return ResultUtil.success(driverService.certainLIneAvailable(lineId));
@@ -101,6 +107,26 @@ public class ManagerController {
 
     //删除信息
 
+
+
+    /*订单相关*/
+
+    //确认订单
+    @PutMapping("/order/confirm")
+    @Transactional
+    public Result confirmOrder(@RequestParam("orderId") String orderId){
+
+        Order order = orderService.findOne(orderId);
+        if (order == null){
+            log.error("无此订单");
+            throw new LcException(ResultEnums.ORDER_NOT_FOUND);
+        }
+        return ResultUtil.success(orderService.confirmOne(order));
+    }
+
+
+
+    //查看订单
 
 
 

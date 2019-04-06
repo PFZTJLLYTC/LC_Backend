@@ -35,7 +35,7 @@ public class Driver {
     private String carNum;
 
     //线路id
-    private String lineId;
+    private Integer lineId;
 
     private String line;
 

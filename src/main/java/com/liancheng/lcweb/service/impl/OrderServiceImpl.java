@@ -24,11 +24,31 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override//创建的时候自动为新订单
-    public Order createOrder(Order order) {
+    public Order createOne(Order order) {
         Order result = new Order();
         BeanUtils.copyProperties(order,result);
         result.setOrderStatus(OrderStatusEnums.WAIT.getCode());
         return orderRepository.save(result);
+    }
+
+    @Override
+    public Order confirmOne(Order order) {
+        return null;
+    }
+
+    @Override
+    public Order finishOne(Order order) {
+        return null;
+    }
+
+    @Override
+    public Order cancelOne(Order order) {
+        return null;
+    }
+
+    @Override
+    public Order findOne(String OrderId) {
+        return null;
     }
 
     @Override

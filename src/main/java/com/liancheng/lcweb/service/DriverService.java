@@ -19,7 +19,7 @@ public interface DriverService {
     //通过dnum查找,即id，亦即phonenum
     Driver findOne(String dnum);
 
-    List<Driver> findbyLineId(String lineId);
+    List<Driver> findbyLineId(Integer lineId);
 
     Driver getByMobileAndPassword(String mobile,String password);
 
@@ -33,11 +33,11 @@ public interface DriverService {
 
     List<Driver> findAvailableDrivers();
 
-    List<Driver> certainLIneOnroad(String lineId);
+    List<Driver> certainLIneOnroad(Integer lineId);
 
-    List<Driver> certainLIneAtrest(String lineId);
+    List<Driver> certainLIneAtrest(Integer lineId);
 
-    List<Driver> certainLIneAvailable(String lineId);
+    List<Driver> certainLIneAvailable(Integer lineId);
 
     Result deleteOne(String dnum);
 

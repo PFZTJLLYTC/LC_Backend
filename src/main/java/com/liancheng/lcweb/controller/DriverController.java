@@ -52,7 +52,7 @@ public class DriverController {
 
     //注册
     @PostMapping(value = "/drivers/add")//加表单验证
-    public Result driverAdd(@Valid Driver driver, BindingResult bindingResult){
+    public Result driverAdd(@RequestBody@Valid Driver driver, BindingResult bindingResult){
         if (bindingResult.hasErrors()){
             return null;
         }
@@ -73,7 +73,7 @@ public class DriverController {
 
 
     //根据id更新driver信息
-    //也可以提出来改成单独修改一项
+    //也可以提出来改成单独修改一项,eg:修改状态
     @PutMapping(value = "/driver/update/{id}")
     public Result driverUpdate(@PathVariable("id") String id,
                                @RequestParam("name") String name,
@@ -95,6 +95,17 @@ public class DriverController {
         log.info("update one driver's info");
         return ResultUtil.success(driverRepository.save(driver));
     }
+
+
+
+
+
+
+    /*订单相关*/
+
+    //查看订单
+
+    //订单通知
 
 
 

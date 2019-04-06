@@ -1,15 +1,18 @@
 package com.liancheng.lcweb.controller;
 
 import com.liancheng.lcweb.VO.Result;
+import com.liancheng.lcweb.domain.Manager;
 import com.liancheng.lcweb.service.DriverService;
 import com.liancheng.lcweb.service.ManagerService;
 import com.liancheng.lcweb.service.UserService;
 import com.liancheng.lcweb.utils.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 @Slf4j
 @RequestMapping("/root")
@@ -72,9 +75,9 @@ public class RootController {
     }
 
     //查询by carNum
-    @GetMapping(value = "/driver/fbcN/{carNum}")
+    @GetMapping(value = "/driver/fbcN")
     @Transactional
-    public Result FindOneByCarNum(@PathVariable("carNum") String carNum){
+    public Result FindOneByCarNum(@RequestParam("carNum") String carNum){
         log.info("find driver by carNum,carNum={}",carNum);
         return ResultUtil.success(driverService.findByCarNum(carNum));
     }
@@ -157,9 +160,24 @@ public class RootController {
     }
 
     //增加线路负责人
+    @PostMapping("/manager/add")
+    @Transactional
+    public Result addManager(@RequestBody@Valid Manager manager, BindingResult bindingResult){
+        if (bindingResult.hasErrors()){
+            log.error("添加线路及其负责人错误");
+            return ResultUtil.error();
+        }
+        return ResultUtil.success(managerService.addManager(manager));
+    }
+
 
 
     //删除对应线路负责人（慎重，会同时删除所有司机信息）
+    @DeleteMapping("/manager/delete")
+    @Transactional
+    public Result deleteManager(@RequestParam("lineId") Integer lineId){
+        return managerService.deleteOne(lineId);
+    }
 
 
     //修改线路负责人信息

@@ -3,12 +3,12 @@ package com.liancheng.lcweb.exception;
 import com.liancheng.lcweb.enums.ResultEnums;
 
 //只有继承RuntimeException 才会事务回滚，不然直接继承Exception是没有回滚的
-public class ManagerException extends RuntimeException {
+public class LcException extends RuntimeException {
 
     //返回的码值
     private Integer code;
 
-    public ManagerException(ResultEnums resultEnums){
+    public LcException(ResultEnums resultEnums){
         super(resultEnums.getMsg());
         this.code=resultEnums.getCode();
     }

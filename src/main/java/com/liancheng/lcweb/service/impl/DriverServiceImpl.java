@@ -3,6 +3,8 @@ package com.liancheng.lcweb.service.impl;
 import com.liancheng.lcweb.VO.Result;
 import com.liancheng.lcweb.domain.Driver;
 import com.liancheng.lcweb.enums.DriverStatusEnums;
+import com.liancheng.lcweb.enums.ResultEnums;
+import com.liancheng.lcweb.exception.LcException;
 import com.liancheng.lcweb.repository.DriverRepository;
 import com.liancheng.lcweb.service.DriverService;
 import com.liancheng.lcweb.utils.ResultUtil;
@@ -18,6 +20,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Service
+@Slf4j
 public class DriverServiceImpl implements DriverService {
 
     @Autowired
@@ -41,7 +44,7 @@ public class DriverServiceImpl implements DriverService {
     }
 
     @Override
-    public List<Driver> findbyLineId(String lineId) {
+    public List<Driver> findbyLineId(Integer lineId) {
         return driverRepository.findByLineId(lineId);
     }
 
@@ -76,17 +79,17 @@ public class DriverServiceImpl implements DriverService {
     }
 
     @Override
-    public List<Driver> certainLIneOnroad(String lineId) {
+    public List<Driver> certainLIneOnroad(Integer lineId) {
         return driverRepository.findByStatusAndLineId(DriverStatusEnums.ONROAD.getCode(),lineId);
     }
 
     @Override
-    public List<Driver> certainLIneAtrest(String lineId) {
+    public List<Driver> certainLIneAtrest(Integer lineId) {
         return driverRepository.findByStatusAndLineId(DriverStatusEnums.ATREST.getCode(),lineId);
     }
 
     @Override
-    public List<Driver> certainLIneAvailable(String lineId) {
+    public List<Driver> certainLIneAvailable(Integer lineId) {
         return driverRepository.findByStatusAndLineId(DriverStatusEnums.AVAILABLE.getCode(),lineId);
     }
 
@@ -97,7 +100,8 @@ public class DriverServiceImpl implements DriverService {
             return ResultUtil.success();
         }
         else {
-            return ResultUtil.error();
+            log.error("删除司机失败,dnum={}",dnum);
+            throw new LcException(ResultEnums.NO_SUCH_DRIVER);
         }
     }
 }

@@ -10,7 +10,15 @@ public interface OrderService {
 
     List<Order> findAll();
 
-    Order createOrder(Order order);
+    Order createOne(Order order);
+
+    Order confirmOne(Order order);
+
+    Order finishOne(Order order);
+
+    Order cancelOne(Order order);
+
+    Order findOne(String OrderId);
 
     List<Order> findByUnum(String unum);
 

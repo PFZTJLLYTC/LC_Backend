@@ -2,7 +2,7 @@ package com.liancheng.lcweb.handle;
 
 
 import com.liancheng.lcweb.VO.Result;
-import com.liancheng.lcweb.exception.ManagerException;
+import com.liancheng.lcweb.exception.LcException;
 import com.liancheng.lcweb.utils.ResultUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,9 +20,9 @@ public class ExceptionHandle {
     @ExceptionHandler(value = Exception.class)
     @ResponseBody //json 格式？
     public Result handle(Exception e){
-        if (e instanceof ManagerException){
-            ManagerException managerException = (ManagerException) e;
-            return ResultUtil.error(managerException.getCode(),managerException.getMessage());
+        if (e instanceof LcException){
+            LcException lcException = (LcException) e;
+            return ResultUtil.error(lcException.getCode(), lcException.getMessage());
         }
         else{
             logger.error("[系统异常]",e);

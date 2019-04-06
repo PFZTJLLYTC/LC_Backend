@@ -14,9 +14,9 @@ public interface DriverRepository extends JpaRepository<Driver,String> {
 
     List<Driver> findByStatus(Integer status);
 
-    List<Driver> findByLineId(String lineId);
+    List<Driver> findByLineId(Integer lineId);
 
-    List<Driver> findByStatusAndLineId(Integer status,String lineId);
+    List<Driver> findByStatusAndLineId(Integer status,Integer lineId);
 
     Driver findByDnumAndPassword(String dnum, String password);
 
