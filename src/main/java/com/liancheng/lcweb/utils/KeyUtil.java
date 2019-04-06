@@ -20,7 +20,7 @@ public class KeyUtil {
      * @param str 加密后的报文
      * @return
      */
-    public static String getSHA256StrJava(String str){
+    public static synchronized String getSHA256StrJava(String str){
         MessageDigest messageDigest;
         String encodeStr = "";
         str =str+System.currentTimeMillis();
