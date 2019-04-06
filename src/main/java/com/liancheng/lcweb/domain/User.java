@@ -40,7 +40,7 @@ public class User {
     private Boolean emailVerifiled;
 
     @CreatedDate
-    private Date creatTime;
+    private Date createTime;
 
     @LastModifiedDate
     private Date updateTime;
