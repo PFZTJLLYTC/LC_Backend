@@ -1,7 +1,6 @@
 package com.liancheng.lcweb.repository;
 
 import com.liancheng.lcweb.domain.AccessToken;
-import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
