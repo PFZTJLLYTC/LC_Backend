@@ -26,7 +26,7 @@ public class Order {
     private String OrderId;
 
     @NotNull
-    private String unum;
+    private String userId;
 
     private String userPhone;
 

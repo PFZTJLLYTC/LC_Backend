@@ -22,7 +22,7 @@ import java.util.Date;
 public class User {
 
     @Id
-    private String unum;
+    private String Id;
 
     private String username;
 

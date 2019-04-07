@@ -56,14 +56,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findOne(String unum) {
-        return userRepository.findByUnum(unum);
+    public User findOne(String id) {
+        return userRepository.findById(id).get();
     }
 
     @Override
-    public Result deleteOne(String unum) {
-        if (findOne(unum)!=null){
-            userRepository.deleteById(unum);
+    public Result deleteOne(String id) {
+        if (findOne(id)!=null){
+            userRepository.deleteById(id);
             return ResultUtil.success();
         }
         else {

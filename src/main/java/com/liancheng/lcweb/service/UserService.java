@@ -9,7 +9,7 @@ public interface UserService {
 
     List<User> findAll();
 
-    User findOne(String unum);
+    User findOne(String id);
 
     User getUser(String mobile, String password);
 
@@ -23,5 +23,5 @@ public interface UserService {
 
     User userLogin(User user);
 
-    Result deleteOne(String unum);
+    Result deleteOne(String id);
 }

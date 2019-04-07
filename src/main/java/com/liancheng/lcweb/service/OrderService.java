@@ -20,7 +20,7 @@ public interface OrderService {
 
     Order findOne(String OrderId);
 
-    List<Order> findByUnum(String unum);
+    List<Order> findByUserId(String userId);
 
     List<Order> findByDnum(String dnum);
 
@@ -29,4 +29,10 @@ public interface OrderService {
     List<Order> findAllProcessing();
 
     List<Order> findAllDone();
+
+    List<Order> findUserWaitOrder(String userId);
+
+    List<Order> findUserProcessinOrder(String userId);
+
+    List<Order> findUserDoneOrder(String userId);
 }

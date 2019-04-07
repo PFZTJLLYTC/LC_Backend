@@ -4,10 +4,11 @@ import com.liancheng.lcweb.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 
 public interface UserRepository extends JpaRepository<User,String> {
-    User findByUnum(String unum);
+    Optional<User> findById(String id);
 
     User findByMobile(String mobile);
 

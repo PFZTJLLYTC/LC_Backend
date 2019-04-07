@@ -31,6 +31,28 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.save(result);
     }
 
+    /**
+     * 用户查询操作
+     * @param userId
+     * @return Order
+     */
+    @Override
+    public List<Order> findUserWaitOrder(String userId){
+        return orderRepository.findByOrderStatusAndUserId(OrderStatusEnums.WAIT.getCode(),userId);
+    }
+
+    @Override
+    public List<Order> findUserProcessinOrder(String userId){
+        return orderRepository.findByOrderStatusAndUserId(OrderStatusEnums.PROCESSIN.getCode(),userId);
+    }
+
+    @Override
+    public List<Order> findUserDoneOrder(String userId){
+        return orderRepository.findByOrderStatusAndUserId(OrderStatusEnums.DONE.getCode(),userId);
+    }
+
+    /***********************************************/
+
     @Override
     public Order confirmOne(Order order) {
         return null;
@@ -52,8 +74,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> findByUnum(String unum) {
-        return orderRepository.findByUnum(unum);
+    public List<Order> findByUserId(String userId) {
+        return orderRepository.findByUserId(userId);
     }
 
     @Override

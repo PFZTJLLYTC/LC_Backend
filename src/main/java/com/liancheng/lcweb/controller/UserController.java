@@ -25,6 +25,7 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @RestController
 @Slf4j
@@ -46,7 +47,7 @@ public class UserController {
     //增加信息、注册
     @PostMapping(value = "/signUp")//加表单验证的话新加dto层
     public Result userAdd(@RequestBody User user){
-        user.setUnum(KeyUtil.genUniquekey());
+        user.setId(KeyUtil.genUniquekey());
 //        user.setUsername(user.getUsername());
         user.setPassword(user.getPassword());
         user.setMobile(user.getMobile());
@@ -58,10 +59,10 @@ public class UserController {
 
 
 
-    //根据unum更新user信息
+    //根据Id更新user信息
     //也可以提出来改成单独修改一项,应该会拆开比较好
-    @PutMapping(value = "/update/{unum}")
-    public Result userUpdate(@PathVariable("unum") String unum,
+    @PutMapping(value = "/update/{Id}")
+    public Result userUpdate(@PathVariable("Id") String id,
                              @RequestParam("username") String username,
                              @RequestParam("password") String password,
                              @RequestParam("mobile") String mobile,
@@ -69,8 +70,8 @@ public class UserController {
                              @RequestParam("emailVerified") Boolean emailVerified,
                              @RequestParam("updateAt") Date updateAt){
         //todo 需要改
-        User user = userService.findOne(unum);
-        user.setUnum(unum);
+        User user = userService.findOne(id);
+        user.setId(id);
         user.setUsername(username);
         user.setPassword(password);
         user.setMobile(mobile);
@@ -84,7 +85,7 @@ public class UserController {
     public Result userLogin(@RequestBody User user){
         User result = userService.userLogin(user);
         if(result!=null)
-            return ResultUtil.success(accessTokenService.createAccessToken(result.getUnum()));
+            return ResultUtil.success(accessTokenService.createAccessToken(result.getId()));
         else
             return ResultUtil.error();
     }
@@ -106,11 +107,54 @@ public class UserController {
     }
 
     //查看未处理订单
+    @GetMapping("/order/wait")
+    public Result findWaitOrder(@RequestParam String userId){
+            List<Order> orderList = orderService.findUserWaitOrder(userId);
+            if(orderList==null){
+                log.info("No wait order");
+                return ResultUtil.error();
+            }
+            else if(orderList.size()==1){
+                log.info("find a wait order, order={}",orderList.get(0));//正常情况只有一个未处理订单
+                return ResultUtil.success(orderList.get(0));
+            }
+            else {
+                log.error("wait order more than one");
+                return ResultUtil.error();
+            }
+    }
 
     //取消订单，只有当订单未被confirm才可以
 
     //查看进行中订单
-
+    @GetMapping("/order/processin")
+    public Result findProcessinOrder(@RequestParam String userId){
+        List<Order> orderList =orderService.findUserProcessinOrder(userId);
+        if(orderList==null){
+            log.info("No processin order");
+            return ResultUtil.error();
+        }
+        else if(orderList.size()==1){
+            log.info("find a processin order, order={}",orderList.get(0));//正常情况只有一个进行中订单
+            return ResultUtil.success(orderList.get(0));
+        }
+        else {
+            log.error("processin order more than one");
+            return ResultUtil.error();
+        }
+    }
 
     //查看已完成订单
+    @GetMapping("/order/done")
+    public Result findDoneOrder(@RequestParam String userId){
+        List<Order> orderList=orderService.findUserDoneOrder(userId);
+        if(orderList==null){
+            log.info("No done order");
+            return ResultUtil.error();
+        }
+        else{
+            log.info("find done orderList={}",orderList);
+            return ResultUtil.success(orderList);
+        }
+    }
 }
