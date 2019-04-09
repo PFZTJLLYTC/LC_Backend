@@ -1,6 +1,6 @@
 package com.liancheng.lcweb.service.impl;
 
-import com.liancheng.lcweb.VO.Result;
+import com.liancheng.lcweb.VO.ResultVO;
 import com.liancheng.lcweb.domain.Driver;
 import com.liancheng.lcweb.domain.Manager;
 import com.liancheng.lcweb.enums.ResultEnums;
@@ -8,7 +8,7 @@ import com.liancheng.lcweb.exception.LcException;
 import com.liancheng.lcweb.repository.ManagerRepository;
 import com.liancheng.lcweb.service.DriverService;
 import com.liancheng.lcweb.service.ManagerService;
-import com.liancheng.lcweb.utils.ResultUtil;
+import com.liancheng.lcweb.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,8 +38,13 @@ public class ManagerServiceImpl implements ManagerService {
     /*登陆用*/
     @Override
     public Manager getManager(String name, String password) {
+        if (managerRepository.findByNameAndPassword(name,password)==null){
+            log.error("登陆错误");
+            throw new LcException(ResultEnums.NO_SUCH_USER);
+        }
         return managerRepository.findByNameAndPassword(name,password);
     }
+
 
     @Override
     public Manager addManager(Manager manager) {
@@ -49,7 +54,7 @@ public class ManagerServiceImpl implements ManagerService {
     }
 
     @Override
-    public Result deleteOne(Integer lineId) {
+    public ResultVO deleteOne(Integer lineId) {
         if (findOne(lineId)!=null){
             log.error("删除管理员失败,无此管理员");
             throw new LcException(ResultEnums.NO_SUCH_MANAGER);
@@ -59,7 +64,7 @@ public class ManagerServiceImpl implements ManagerService {
             driverService.deleteOne(driver.getDnum());
         }
         managerRepository.deleteById(lineId);
-        return ResultUtil.success();
+        return ResultVOUtil.success();
     }
 
 }

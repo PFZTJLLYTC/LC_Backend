@@ -2,16 +2,11 @@ package com.liancheng.lcweb.controller;
 
 
 import com.liancheng.lcweb.domain.Driver;
-import com.liancheng.lcweb.VO.Result;
-import com.liancheng.lcweb.domain.User;
+import com.liancheng.lcweb.VO.ResultVO;
 import com.liancheng.lcweb.repository.DriverRepository;
-import com.liancheng.lcweb.repository.ManagerRepository;
 import com.liancheng.lcweb.service.DriverService;
-import com.liancheng.lcweb.service.ManagerService;
-import com.liancheng.lcweb.utils.ResultUtil;
+import com.liancheng.lcweb.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -36,15 +31,15 @@ public class DriverController {
     //登陆
     @PostMapping(value = "/login")
     @Transactional
-    public Result userLogin(@RequestBody Driver driver){
+    public ResultVO userLogin(@RequestBody Driver driver){
         Driver result = driverService.getByMobileAndPassword(driver.getDnum(),driver.getPassword());
         if(result!=null){
             log.info("司机登陆成功，dnum={}",result.getDnum());
-            return ResultUtil.success(result);
+            return ResultVOUtil.success(result);
         }
         else{
             log.error("无此司机信息，dnum={}",driver.getDnum());
-            return ResultUtil.error();
+            return ResultVOUtil.error();
         }
 
     }
@@ -52,7 +47,7 @@ public class DriverController {
 
     //注册
     @PostMapping(value = "/drivers/add")//加表单验证
-    public Result driverAdd(@RequestBody@Valid Driver driver, BindingResult bindingResult){
+    public ResultVO driverAdd(@RequestBody@Valid Driver driver, BindingResult bindingResult){
         if (bindingResult.hasErrors()){
             return null;
         }
@@ -67,7 +62,7 @@ public class DriverController {
         driver.setLine(driver.getLine());
 
         log.info("add a new driver");
-        return ResultUtil.success(driverRepository.save(driver));
+        return ResultVOUtil.success(driverRepository.save(driver));
     }
 
 
@@ -75,14 +70,14 @@ public class DriverController {
     //根据id更新driver信息
     //也可以提出来改成单独修改一项,eg:修改状态
     @PutMapping(value = "/driver/update/{id}")
-    public Result driverUpdate(@PathVariable("id") String id,
-                               @RequestParam("name") String name,
-                               @RequestParam("password") String password,
-                               @RequestParam("carNum") String carNum,
-                               @RequestParam("line") String line,
-                               @RequestParam("dNum") String dNum,
-                               @RequestParam("age") Integer age,
-                               @RequestParam("status") Integer status){
+    public ResultVO driverUpdate(@PathVariable("id") String id,
+                                 @RequestParam("name") String name,
+                                 @RequestParam("password") String password,
+                                 @RequestParam("carNum") String carNum,
+                                 @RequestParam("line") String line,
+                                 @RequestParam("dNum") String dNum,
+                                 @RequestParam("age") Integer age,
+                                 @RequestParam("status") Integer status){
         Driver driver = new Driver();
         driver.setDnum(dNum);
 
@@ -93,7 +88,7 @@ public class DriverController {
         driver.setAge(age);
         driver.setStatus(status);
         log.info("update one driver's info");
-        return ResultUtil.success(driverRepository.save(driver));
+        return ResultVOUtil.success(driverRepository.save(driver));
     }
 
 

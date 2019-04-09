@@ -12,7 +12,8 @@ public enum ResultEnums {
     NO_SUCH_MANAGER(-5,"无此线路负责人"),
     NO_SUCH_DRIVER(-6,"无此司机"),
     ORDER_NOT_FOUND(11,"查无此订单"),
-    ORDER_INFO_ERROR(12,"订单信息错误"),;
+    ORDER_INFO_ERROR(12,"订单信息错误"),
+    USER_TOKEN_EXPIRE(13,"用户token过期或不存在"),;
 
 
 

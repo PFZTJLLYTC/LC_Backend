@@ -1,22 +1,18 @@
 package com.liancheng.lcweb.service.impl;
 
-import com.liancheng.lcweb.VO.Result;
+import com.liancheng.lcweb.VO.ResultVO;
 import com.liancheng.lcweb.domain.Driver;
 import com.liancheng.lcweb.enums.DriverStatusEnums;
 import com.liancheng.lcweb.enums.ResultEnums;
 import com.liancheng.lcweb.exception.LcException;
 import com.liancheng.lcweb.repository.DriverRepository;
 import com.liancheng.lcweb.service.DriverService;
-import com.liancheng.lcweb.utils.ResultUtil;
+import com.liancheng.lcweb.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Service
@@ -94,10 +90,10 @@ public class DriverServiceImpl implements DriverService {
     }
 
     @Override
-    public Result deleteOne(String dnum) {
+    public ResultVO deleteOne(String dnum) {
         if (findOne(dnum)!=null){
             driverRepository.deleteById(dnum);
-            return ResultUtil.success();
+            return ResultVOUtil.success();
         }
         else {
             log.error("删除司机失败,dnum={}",dnum);

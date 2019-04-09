@@ -3,7 +3,12 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/lc?serverTimezone=Asia/Shanghai
     username: root
-    password: 744673725
+    password:
+  redis:
+    host: 192.168.31.243
+    port: 6379
+    password:
+
   jpa:
     hibernate:
       ddl-auto: update

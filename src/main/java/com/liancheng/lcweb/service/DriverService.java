@@ -1,12 +1,9 @@
 package com.liancheng.lcweb.service;
 
 
-import com.liancheng.lcweb.VO.Result;
+import com.liancheng.lcweb.VO.ResultVO;
 import com.liancheng.lcweb.domain.Driver;
-import com.liancheng.lcweb.domain.User;
-import org.springframework.validation.BindingResult;
 
-import javax.validation.Valid;
 import java.util.List;
 
 public interface DriverService {
@@ -39,7 +36,7 @@ public interface DriverService {
 
     List<Driver> certainLIneAvailable(Integer lineId);
 
-    Result deleteOne(String dnum);
+    ResultVO deleteOne(String dnum);
 
 
 

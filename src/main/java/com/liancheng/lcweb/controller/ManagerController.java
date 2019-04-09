@@ -1,6 +1,7 @@
 package com.liancheng.lcweb.controller;
-import com.liancheng.lcweb.VO.Result;
-import com.liancheng.lcweb.domain.Driver;
+import com.liancheng.lcweb.VO.ResultVO;
+import com.liancheng.lcweb.constant.CookieConstant;
+import com.liancheng.lcweb.constant.RedisConstant;
 import com.liancheng.lcweb.domain.Manager;
 import com.liancheng.lcweb.domain.Order;
 import com.liancheng.lcweb.enums.ResultEnums;
@@ -10,14 +11,20 @@ import com.liancheng.lcweb.service.DriverService;
 import com.liancheng.lcweb.service.ManagerService;
 import com.liancheng.lcweb.service.OrderService;
 import com.liancheng.lcweb.service.UserService;
-import com.liancheng.lcweb.utils.ResultUtil;
+import com.liancheng.lcweb.utils.CookieUtil;
+import com.liancheng.lcweb.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import javax.transaction.Transactional;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/manager")
@@ -40,30 +47,48 @@ public class ManagerController {
     @Autowired
     private OrderService orderService;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
+
 
     //login
-    @PostMapping(value = "/login")
-    public Result login(@RequestParam("name") String name,
+    @GetMapping(value = "/login")
+    public ResultVO login(@RequestParam("name") String name,
                           @RequestParam("password") String password,
-                          HttpSession session){ //RedirectAttributes attributes
+                          HttpServletResponse response){
         Manager manager = managerService.getManager(name,password);
-        if (manager!=null){
-            log.info("线路管理员登陆成功，lineId={}",name);
-            return ResultUtil.success(manager);
+
+        //2.存userId信息
+        String managerId = manager.getLineId().toString();
+
+        //3.设置token到redis
+        String token = UUID.randomUUID().toString();
+        Integer expire = RedisConstant.EXPIRE;//其实也相当于cookieconstant.expire
+        //加个前缀显得高端
+        redisTemplate.opsForValue().set(String.format(RedisConstant.TOKEN_PREFIX,token),managerId,expire, TimeUnit.SECONDS);
+
+        //4. 设置token到cookie
+        CookieUtil.set(response, CookieConstant.TOKEN,token, expire);
+
+        return ResultVOUtil.success();
+    }
+
+    //logout
+    @GetMapping("/logout")
+    public ResultVO logout(HttpServletRequest request,
+                           HttpServletResponse response){
+
+        //1.查名字为token的cookie
+        Cookie cookie = CookieUtil.get(request,CookieConstant.TOKEN);
+        if (cookie!=null){
+            //删除redis
+            redisTemplate.opsForValue().getOperations().delete(String.format(RedisConstant.TOKEN_PREFIX,cookie.getValue()));
+
+            //删除cookie
+            CookieUtil.set(response,CookieConstant.TOKEN,null, 0);
         }
-        else {
-            log.error("无匹配管理员,lineId={}",name);
-            return ResultUtil.error();
-        }
-        /*if(manager!=null){
-            manager.setPassword(null);
-            session.setAttribute("manager",manager);
-            return "index";
-        }
-        else{
-            //attributes.addAttribute("message","用户名或密码错误");//?未出现
-            return "login";
-        }*/
+
+        return ResultVOUtil.success();
     }
 
     /*司机相关*/
@@ -72,34 +97,34 @@ public class ManagerController {
 
     @GetMapping(value = "/driver")
     @Transactional
-    public Result allDriver(@RequestParam("lineId")Integer lineId){
+    public ResultVO allDriver(@RequestParam("lineId")Integer lineId){
         //todo not safe
         log.info("查询线路所有司机信息,lineId={}",lineId);
-        return ResultUtil.success(driverService.findbyLineId(lineId));
+        return ResultVOUtil.success(driverService.findbyLineId(lineId));
     }
 
     @GetMapping(value = "/driver/onRoad")
     @Transactional
-    public Result onRoadDrivers(@RequestParam("lineId")Integer lineId){
+    public ResultVO onRoadDrivers(@RequestParam("lineId")Integer lineId){
         log.info("查出此线路在路上状态的司机,lineId={}",lineId);
         //todo not safe
-        return ResultUtil.success(driverService.certainLIneOnroad(lineId));
+        return ResultVOUtil.success(driverService.certainLIneOnroad(lineId));
     }
 
     @GetMapping(value = "/driver/Atrest")
     @Transactional
-    public Result atRestDrivers(@RequestParam("lineId")Integer lineId){
+    public ResultVO atRestDrivers(@RequestParam("lineId")Integer lineId){
         log.info("查出此线路所有休息状态的司机,lineId={}",lineId);
         //todo not safe
-        return ResultUtil.success(driverService.certainLIneAtrest(lineId));
+        return ResultVOUtil.success(driverService.certainLIneAtrest(lineId));
     }
 
     @GetMapping(value = "/driver/Available")
     @Transactional
-    public Result availableDrivers(@RequestParam("lineId")Integer lineId){
+    public ResultVO availableDrivers(@RequestParam("lineId")Integer lineId){
         log.info("查出此线路所有可用司机,lineId={}",lineId);
         //todo not safe
-        return ResultUtil.success(driverService.certainLIneAvailable(lineId));
+        return ResultVOUtil.success(driverService.certainLIneAvailable(lineId));
     }
     //增加司机（批量）
 
@@ -114,14 +139,14 @@ public class ManagerController {
     //确认订单
     @PutMapping("/order/confirm")
     @Transactional
-    public Result confirmOrder(@RequestParam("orderId") String orderId){
+    public ResultVO confirmOrder(@RequestParam("orderId") String orderId){
 
         Order order = orderService.findOne(orderId);
         if (order == null){
             log.error("无此订单");
             throw new LcException(ResultEnums.ORDER_NOT_FOUND);
         }
-        return ResultUtil.success(orderService.confirmOne(order));
+        return ResultVOUtil.success(orderService.confirmOne(order));
     }
 
 
