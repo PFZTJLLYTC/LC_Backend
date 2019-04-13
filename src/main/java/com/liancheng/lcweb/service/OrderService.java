@@ -1,16 +1,16 @@
 package com.liancheng.lcweb.service;
 
 import com.liancheng.lcweb.domain.Order;
-import org.springframework.validation.BindingResult;
+import com.liancheng.lcweb.dto.UserDoneOrderDTO;
+import com.liancheng.lcweb.form.UserOrderForm;
 
-import javax.validation.Valid;
 import java.util.List;
 
 public interface OrderService {
 
     List<Order> findAll();
 
-    Order createOne(Order order);
+    Order createOne(String userId,UserOrderForm order);
 
     Order confirmOne(Order order);
 
@@ -30,9 +30,11 @@ public interface OrderService {
 
     List<Order> findAllDone();
 
+    List<Order> findUserWaitOrProcessinOrder(String userId);
+
     List<Order> findUserWaitOrder(String userId);
 
     List<Order> findUserProcessinOrder(String userId);
 
-    List<Order> findUserDoneOrder(String userId);
+    List<UserDoneOrderDTO> findUserDoneOrder(String userId);
 }

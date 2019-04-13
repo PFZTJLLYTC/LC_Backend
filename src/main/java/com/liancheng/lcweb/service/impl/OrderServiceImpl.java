@@ -1,15 +1,16 @@
 package com.liancheng.lcweb.service.impl;
 
 import com.liancheng.lcweb.domain.Order;
+import com.liancheng.lcweb.dto.UserDoneOrderDTO;
 import com.liancheng.lcweb.enums.OrderStatusEnums;
+import com.liancheng.lcweb.form.UserOrderForm;
 import com.liancheng.lcweb.repository.OrderRepository;
 import com.liancheng.lcweb.service.OrderService;
+import com.liancheng.lcweb.utils.KeyUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Service
@@ -24,18 +25,29 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override//创建的时候自动为新订单
-    public Order createOne(Order order) {
+    public Order createOne(String userId,UserOrderForm userOrderForm) {
         Order result = new Order();
-        BeanUtils.copyProperties(order,result);
-        result.setOrderStatus(OrderStatusEnums.WAIT.getCode());
+        BeanUtils.copyProperties(userOrderForm,result);
+        result.setUserId(userId);
+        result.setOrderId(KeyUtil.genUniquekey());
+        //result.setOrderStatus(OrderStatusEnums.WAIT.getCode());
         return orderRepository.save(result);
     }
+
 
     /**
      * 用户查询操作
      * @param userId
      * @return Order
      */
+    @Override
+    public List<Order> findUserWaitOrProcessinOrder(String userId) {
+        return orderRepository.findByOrderStatusAndUserId(
+                OrderStatusEnums.WAIT.getCode(),
+                OrderStatusEnums.PROCESSIN.getCode(),
+                userId);
+    }
+
     @Override
     public List<Order> findUserWaitOrder(String userId){
         return orderRepository.findByOrderStatusAndUserId(OrderStatusEnums.WAIT.getCode(),userId);
@@ -47,8 +59,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> findUserDoneOrder(String userId){
-        return orderRepository.findByOrderStatusAndUserId(OrderStatusEnums.DONE.getCode(),userId);
+    public List<UserDoneOrderDTO> findUserDoneOrder(String userId){
+        return orderRepository.findUserDoneOrderByUserId(userId);
     }
 
     /***********************************************/

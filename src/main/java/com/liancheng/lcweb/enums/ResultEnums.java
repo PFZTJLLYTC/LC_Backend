@@ -11,10 +11,17 @@ public enum ResultEnums {
     NO_SUCH_USER(-4,"无此用户"),
     NO_SUCH_MANAGER(-5,"无此线路负责人"),
     NO_SUCH_DRIVER(-6,"无此司机"),
+    NO_WAIT_ORDER(-7,"无待处理订单"),//-7,-8,-9用户查询
+    NO_PROCESSIN_ORDER(-8,"无进行中订单"),
+    NO_DONE_ORDER(-9,"无已完成订单"),
+    NO_WAIT_OR_PROCESSIN_ORDER(-10,"无待处理和进行中订单"),
     ORDER_NOT_FOUND(11,"查无此订单"),
     ORDER_INFO_ERROR(12,"订单信息错误"),
-    USER_TOKEN_EXPIRE(13,"用户token过期或不存在"),;
-
+    USER_TOKEN_EXPIRE(13,"用户token过期或不存在"),
+    USER_LOGIN_FORM_ERROR(14,"用户登入信息不合法"),
+    WAIT_ORDER_MORE_THAN_ONE(15,"待处理订单过多"),//系统异常
+    PROCESSIN_ORDER_MORE_THAN_ONE(16,"进行中订单过多"),//系统异常
+    WAIT_OR_PROCESSIN_ORDER_MORE_THAN_ONE(17,"待处理或进行中订单过多");//系统异常
 
 
     private String msg;

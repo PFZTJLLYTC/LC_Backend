@@ -2,6 +2,7 @@ package com.liancheng.lcweb.service;
 
 import com.liancheng.lcweb.VO.ResultVO;
 import com.liancheng.lcweb.domain.User;
+import com.liancheng.lcweb.form.UserLoginForm;
 
 import java.util.List;
 
@@ -21,7 +22,7 @@ public interface UserService {
 
     User findByUserName(String userName);
 
-    User userLogin(User user);
+    User userLogin(UserLoginForm user);
 
     ResultVO deleteOne(String id);
 }

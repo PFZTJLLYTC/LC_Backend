@@ -4,11 +4,11 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/lc?serverTimezone=Asia/Shanghai
     username: root
     password:
-  redis:
-    host: 192.168.31.243
-    port: 6379
-    password:
 
+#  redis:
+#    host: 118.24.96.45
+#    port: 6379
+#    password:
   jpa:
     hibernate:
       ddl-auto: update
@@ -22,4 +22,4 @@ spring:
     cache: false #页面不加载缓存，修改即时生效
 
 server:
-    port: 8080
+            port: 8080

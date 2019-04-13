@@ -2,6 +2,7 @@ package com.liancheng.lcweb.service.impl;
 
 import com.liancheng.lcweb.VO.ResultVO;
 import com.liancheng.lcweb.domain.User;
+import com.liancheng.lcweb.form.UserLoginForm;
 import com.liancheng.lcweb.repository.UserRepository;
 import com.liancheng.lcweb.service.UserService;
 import com.liancheng.lcweb.utils.ResultVOUtil;
@@ -31,7 +32,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User userLogin(User user){
+    public User userLogin(UserLoginForm user){
         return getUser(user.getMobile(),user.getPassword());
     }
 
