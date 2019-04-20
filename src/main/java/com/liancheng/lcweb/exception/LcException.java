@@ -1,8 +1,10 @@
 package com.liancheng.lcweb.exception;
 
 import com.liancheng.lcweb.enums.ResultEnums;
+import lombok.Getter;
 
-//只有继承RuntimeException 才会事务回滚，不然直接继承Exception是没有回滚的
+
+@Getter
 public class LcException extends RuntimeException {
 
     //返回的码值
@@ -13,11 +15,9 @@ public class LcException extends RuntimeException {
         this.code=resultEnums.getCode();
     }
 
-    public Integer getCode() {
-        return code;
-    }
-
-    public void setCode(Integer code) {
+    public LcException(Integer code, String msg) {
+        super(msg);
         this.code = code;
     }
+
 }

@@ -22,6 +22,7 @@ import java.util.Date;
 public class User {
 
     @Id
+    //相当于两个chaoma啦，不管=过mobile可以换这点倒是没错了
     private String Id;
 
     private String username;
@@ -38,6 +39,8 @@ public class User {
     private String email;
 
     private Boolean emailVerifiled;
+
+    private Integer takeTimes = 0;
 
     @CreatedDate
     private Date createTime;

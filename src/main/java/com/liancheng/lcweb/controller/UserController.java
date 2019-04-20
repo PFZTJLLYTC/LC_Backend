@@ -6,6 +6,7 @@ import com.liancheng.lcweb.domain.User;
 import com.liancheng.lcweb.dto.UserDoneOrderDTO;
 import com.liancheng.lcweb.enums.ResultEnums;
 import com.liancheng.lcweb.exception.LcException;
+import com.liancheng.lcweb.form.UserInfoForm;
 import com.liancheng.lcweb.form.UserLoginForm;
 import com.liancheng.lcweb.form.UserOrderForm;
 import com.liancheng.lcweb.repository.UserRepository;
@@ -21,18 +22,16 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
-import java.util.Date;
 import java.util.List;
 
 @RestController
 @Slf4j
+@RequestMapping("/user")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     private OrderService orderService;
@@ -42,43 +41,40 @@ public class UserController {
 
 
     //增加信息、注册
-    @PostMapping(value = "/user")//加表单验证的话新加dto层
-    public ResultVO userAdd(@RequestBody User user){
-        user.setId(KeyUtil.genUniquekey());
-//        user.setUsername(user.getUsername());
-        user.setPassword(user.getPassword());
-        user.setMobile(user.getMobile());
-//        user.setEmail(user.getEmail());
-//        user.setEmailVerifiled(user.getEmailVerifiled());
-        log.info("add a new user，userMobile={}",user.getMobile());
-        return ResultVOUtil.success(userService.addUser(user));
+    @PostMapping(value = "/register")
+    public ResultVO userAdd(@RequestBody @Valid UserInfoForm userRegisterForm,BindingResult bindingResult){
+
+        if (bindingResult.hasErrors()){
+            log.error("注册表单错误");
+            throw new LcException(ResultEnums.USER_CHANGE_FORM_ERROR.getCode(),
+                    bindingResult.getFieldError().getDefaultMessage());
+        }
+
+        userService.addUser(userRegisterForm);
+        log.info("add a new user，userMobile={}",userRegisterForm.getMobile());
+
+        //跳转到登陆界面
+        return ResultVOUtil.success();
     }
 
 
 
     //根据Id更新user信息
     //也可以提出来改成单独修改一项,应该会拆开比较好
-    @PutMapping(value = "/update/{Id}")
-    public ResultVO userUpdate(@PathVariable("Id") String id,
-                               @RequestParam("username") String username,
-                               @RequestParam("password") String password,
-                               @RequestParam("mobile") String mobile,
-                               @RequestParam("email") String email,
-                               @RequestParam("emailVerified") Boolean emailVerified,
-                               @RequestParam("updateAt") Date updateAt){
-        //todo 需要改
-        User user = userService.findOne(id);
-        user.setId(id);
-        user.setUsername(username);
-        user.setPassword(password);
-        user.setMobile(mobile);
-        user.setEmail(email);
-        user.setEmailVerifiled(emailVerified);
-        log.info("update one user's info，user={}",username);
-        return ResultVOUtil.success(userRepository.save(user));
+    @PutMapping(value = "/updateInfo")
+    public ResultVO userUpdate(@RequestParam("userId") String userId, @RequestBody @Valid UserInfoForm userChangeInfoForm, BindingResult bindingResult){
+
+        if (bindingResult.hasErrors()){
+            log.error("用户信息填表错误");
+            throw new LcException(ResultEnums.USER_CHANGE_FORM_ERROR.getCode(),
+                    bindingResult.getFieldError().getDefaultMessage());
+        }
+        userService.changeInfo(userId,userChangeInfoForm);
+
+        return ResultVOUtil.success();
     }
 
-    @PostMapping(value = "/user/login")
+    @PostMapping(value = "/login")
     public ResultVO userLogin(@RequestBody@Valid UserLoginForm user,BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             log.error("登入信息不合法");
@@ -95,7 +91,7 @@ public class UserController {
     /*订单相关*/
 
     //创建订单
-    @PostMapping("/orders")
+    @PostMapping("/orders/create")
     @Transactional
     public ResultVO createOrder(@RequestParam String userId,
                                 @Valid @RequestBody UserOrderForm userOrderForm,
@@ -104,7 +100,8 @@ public class UserController {
             log.error("订单填写信息不合法");
             throw new LcException(ResultEnums.ORDER_INFO_ERROR);
         }
-        //todo 交给相应manager操作,应该被同步通知
+        //todo 交给相应manager操作,应该被异步通知，目前为节约时间选择数据库变化作为消息媒介
+        //考虑消息队列
 
         return ResultVOUtil.success(orderService.createOne(userId,userOrderForm));
     }

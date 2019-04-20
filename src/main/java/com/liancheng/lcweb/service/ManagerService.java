@@ -2,6 +2,7 @@ package com.liancheng.lcweb.service;
 
 import com.liancheng.lcweb.VO.ResultVO;
 import com.liancheng.lcweb.domain.Manager;
+import com.liancheng.lcweb.dto.DriverDTO;
 
 import java.util.List;
 
@@ -18,6 +19,7 @@ public interface ManagerService {
 
     ResultVO deleteOne(Integer lineId);
 
+    List<DriverDTO> getDriversByStatus(Integer lineId,Integer status);
 
 
 }

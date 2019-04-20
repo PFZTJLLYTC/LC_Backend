@@ -2,8 +2,10 @@ package com.liancheng.lcweb.controller;
 import com.liancheng.lcweb.VO.ResultVO;
 import com.liancheng.lcweb.constant.CookieConstant;
 import com.liancheng.lcweb.constant.RedisConstant;
+import com.liancheng.lcweb.domain.Driver;
 import com.liancheng.lcweb.domain.Manager;
 import com.liancheng.lcweb.domain.Order;
+import com.liancheng.lcweb.dto.DriverDTO;
 import com.liancheng.lcweb.enums.ResultEnums;
 import com.liancheng.lcweb.exception.LcException;
 import com.liancheng.lcweb.repository.ManagerRepository;
@@ -16,6 +18,8 @@ import com.liancheng.lcweb.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
@@ -23,10 +27,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-@RestController
+@Controller//之后都改为ModelAndView
 @RequestMapping("/manager")
 @Slf4j
 public class ManagerController {
@@ -55,7 +60,15 @@ public class ManagerController {
     @GetMapping(value = "/login")
     public ResultVO login(@RequestParam("name") String name,
                           @RequestParam("password") String password,
+                          HttpServletRequest request,
                           HttpServletResponse response){
+
+        Cookie cookie = CookieUtil.get(request,CookieConstant.TOKEN);
+        if (cookie != null && !StringUtils.isEmpty(redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX, cookie.getValue())))) {
+
+            return ResultVOUtil.success();
+        }
+
         Manager manager = managerService.getManager(name,password);
 
         //2.存userId信息
@@ -96,36 +109,31 @@ public class ManagerController {
     //查询司机
 
     @GetMapping(value = "/driver")
-    @Transactional
-    public ResultVO allDriver(@RequestParam("lineId")Integer lineId){
-        //todo not safe
-        log.info("查询线路所有司机信息,lineId={}",lineId);
+    public ResultVO allDriver(HttpServletRequest request){
+
+        Cookie cookie = CookieUtil.get(request,CookieConstant.TOKEN);
+
+        log.info("获取lineId来查司机信息");
+        Integer lineId = Integer.parseInt(redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX,cookie.getValue()))+"");
+
+        log.info("lineId={}",lineId);
         return ResultVOUtil.success(driverService.findbyLineId(lineId));
     }
 
-    @GetMapping(value = "/driver/onRoad")
-    @Transactional
-    public ResultVO onRoadDrivers(@RequestParam("lineId")Integer lineId){
-        log.info("查出此线路在路上状态的司机,lineId={}",lineId);
-        //todo not safe
-        return ResultVOUtil.success(driverService.certainLIneOnroad(lineId));
+    //查询不同状态司机
+    @GetMapping("/driver/findByStatus")
+    public ResultVO getDriversByStatus(@RequestParam("status") Integer status,HttpServletRequest request){
+        Cookie cookie = CookieUtil.get(request,CookieConstant.TOKEN);
+
+        log.info("获取lineId来查不同状态司机信息");
+        Integer lineId = Integer.parseInt(redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX,cookie.getValue()))+"");
+        log.info("lineId={}",lineId);
+
+        return ResultVOUtil.success(managerService.getDriversByStatus(lineId,status));
+
     }
 
-    @GetMapping(value = "/driver/Atrest")
-    @Transactional
-    public ResultVO atRestDrivers(@RequestParam("lineId")Integer lineId){
-        log.info("查出此线路所有休息状态的司机,lineId={}",lineId);
-        //todo not safe
-        return ResultVOUtil.success(driverService.certainLIneAtrest(lineId));
-    }
 
-    @GetMapping(value = "/driver/Available")
-    @Transactional
-    public ResultVO availableDrivers(@RequestParam("lineId")Integer lineId){
-        log.info("查出此线路所有可用司机,lineId={}",lineId);
-        //todo not safe
-        return ResultVOUtil.success(driverService.certainLIneAvailable(lineId));
-    }
     //增加司机（批量）
 
     //修改司机

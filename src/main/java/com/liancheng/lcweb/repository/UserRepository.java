@@ -12,7 +12,8 @@ public interface UserRepository extends JpaRepository<User,String> {
 
     User findByMobile(String mobile);
 
-    User findByUsername(String username);
+    //同名功能？？？
+    List<User> findByUsername(String username);
 
     User findByEmail(String email);
 

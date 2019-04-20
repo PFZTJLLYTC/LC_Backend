@@ -3,13 +3,14 @@ package com.liancheng.lcweb.service;
 
 import com.liancheng.lcweb.VO.ResultVO;
 import com.liancheng.lcweb.domain.Driver;
+import com.liancheng.lcweb.form.DriverInfoForm;
 
 import java.util.List;
 
 public interface DriverService {
 
     //注册
-    Driver addDriver(Driver driver);
+    void addDriver(DriverInfoForm driverInfoForm);
 
     List<Driver> findAll();
 

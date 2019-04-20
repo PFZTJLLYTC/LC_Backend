@@ -5,6 +5,7 @@ import com.liancheng.lcweb.domain.Driver;
 import com.liancheng.lcweb.enums.DriverStatusEnums;
 import com.liancheng.lcweb.enums.ResultEnums;
 import com.liancheng.lcweb.exception.LcException;
+import com.liancheng.lcweb.form.DriverInfoForm;
 import com.liancheng.lcweb.repository.DriverRepository;
 import com.liancheng.lcweb.service.DriverService;
 import com.liancheng.lcweb.utils.ResultVOUtil;
@@ -23,10 +24,19 @@ public class DriverServiceImpl implements DriverService {
     private DriverRepository driverRepository;
 
     @Override
-    public Driver addDriver(Driver driver) {
-        Driver result = new Driver();
-        BeanUtils.copyProperties(driver,result);
-        return driverRepository.save(result);
+    public void addDriver(DriverInfoForm driverInfoForm) {
+        if (findOne(driverInfoForm.getDnum())!=null){
+            log.error("手机号已经被注册");
+            throw new LcException(ResultEnums.USER_MOBILE_ALREADY_EXISTS);
+        }
+        Driver driver = new Driver();
+        BeanUtils.copyProperties(driverInfoForm,driver);
+        driver.setStatus(DriverStatusEnums.ATREST.getCode());
+        //表示没有得到验证
+        driver.setVerified(0);
+        driver.setWorkTimes(0);
+        //todo line的名字-考虑新建一个表？
+        driverRepository.save(driver);
     }
 
     @Override

@@ -1,18 +1,24 @@
 package com.liancheng.lcweb.service.impl;
 
 import com.liancheng.lcweb.VO.ResultVO;
+import com.liancheng.lcweb.converter.Driver2DriverDTOConverter;
 import com.liancheng.lcweb.domain.Driver;
 import com.liancheng.lcweb.domain.Manager;
+import com.liancheng.lcweb.dto.DriverDTO;
+import com.liancheng.lcweb.enums.DriverStatusEnums;
 import com.liancheng.lcweb.enums.ResultEnums;
 import com.liancheng.lcweb.exception.LcException;
 import com.liancheng.lcweb.repository.ManagerRepository;
 import com.liancheng.lcweb.service.DriverService;
 import com.liancheng.lcweb.service.ManagerService;
 import com.liancheng.lcweb.utils.ResultVOUtil;
+import javassist.expr.NewArray;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -67,4 +73,25 @@ public class ManagerServiceImpl implements ManagerService {
         return ResultVOUtil.success();
     }
 
+    @Override
+    public List<DriverDTO> getDriversByStatus(Integer lineId, Integer status) {
+
+        if (status<0||status>2){
+            log.error("根本没有这个状态");
+            throw new LcException(ResultEnums.DRIVER_STATUS_ERROR);
+        }
+        List<Driver>  driverList= new ArrayList<>();
+        if (status.equals(DriverStatusEnums.ATREST.getCode())){
+            driverList = driverService.certainLIneAtrest(lineId);
+        }
+        else if (status.equals(DriverStatusEnums.AVAILABLE.getCode())){
+            driverList = driverService.certainLIneAvailable(lineId);
+        }
+        else {
+            driverList = driverService.certainLIneOnroad(lineId);
+        }
+        List<DriverDTO> driverDTOList =Driver2DriverDTOConverter.convert(driverList);
+
+        return driverDTOList;
+    }
 }
