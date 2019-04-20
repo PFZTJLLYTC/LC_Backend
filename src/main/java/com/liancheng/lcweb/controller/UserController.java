@@ -1,8 +1,10 @@
 package com.liancheng.lcweb.controller;
 
 import com.liancheng.lcweb.VO.ResultVO;
+import com.liancheng.lcweb.converter.User2UserDTOConverter;
 import com.liancheng.lcweb.domain.Order;
 import com.liancheng.lcweb.domain.User;
+import com.liancheng.lcweb.dto.UserDTO;
 import com.liancheng.lcweb.dto.UserDoneOrderDTO;
 import com.liancheng.lcweb.enums.ResultEnums;
 import com.liancheng.lcweb.exception.LcException;
@@ -85,6 +87,15 @@ public class UserController {
             return ResultVOUtil.success(accessTokenService.createAccessToken(result.getId()));
         else
             return ResultVOUtil.error(ResultEnums.NO_SUCH_USER);
+    }
+
+    //返回司机信息,应该由前端储存起来
+    @GetMapping("/info")
+    public ResultVO userInfo(@RequestParam("userId") String userId){
+
+        UserDTO userDTO = User2UserDTOConverter.convert(userService.findOne(userId));
+
+        return ResultVOUtil.success(userDTO);
     }
 
 

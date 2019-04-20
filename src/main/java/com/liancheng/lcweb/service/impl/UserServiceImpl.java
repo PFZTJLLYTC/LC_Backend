@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -74,18 +75,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findOne(String id) {
-        return userRepository.findById(id).get();
+
+        Optional<User> user = userRepository.findById(id);
+        if (!user.isPresent()){
+            throw new LcException(ResultEnums.NO_SUCH_USER);
+        }
+        return user.get();
+
     }
 
     @Override
-    public ResultVO deleteOne(String id) {
-        if (findOne(id)!=null){
-            userRepository.deleteById(id);
-            return ResultVOUtil.success();
-        }
-        else {
-            return ResultVOUtil.error();
-        }
+    public void deleteOne(String id) {
+
+        User user = findOne(id);
+        userRepository.delete(user);
+
 
     }
 

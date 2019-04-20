@@ -25,7 +25,7 @@ public interface UserService {
 
     User userLogin(UserLoginForm user);
 
-    ResultVO deleteOne(String id);
+    void deleteOne(String id);
 
     void changeInfo(String userId, UserInfoForm userChangeInfoForm);
 

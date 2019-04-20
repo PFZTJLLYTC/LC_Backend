@@ -21,6 +21,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -28,6 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -58,18 +60,24 @@ public class ManagerController {
 
     //login
     @GetMapping(value = "/login")
-    public ResultVO login(@RequestParam("name") String name,
-                          @RequestParam("password") String password,
-                          HttpServletRequest request,
-                          HttpServletResponse response){
-
+    public ModelAndView login(@RequestParam("lineId") Integer lineId,
+                              @RequestParam("password") String password,
+                              HttpServletRequest request,
+                              HttpServletResponse response,
+                              Map<String,Object> map){
         Cookie cookie = CookieUtil.get(request,CookieConstant.TOKEN);
         if (cookie != null && !StringUtils.isEmpty(redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX, cookie.getValue())))) {
 
-            return ResultVOUtil.success();
+            map.put("name",lineId);
+            return new ModelAndView("/manager/index",map);
         }
 
-        Manager manager = managerService.getManager(name,password);
+        Manager manager = managerService.getManager(lineId,password);
+        if(manager ==null){
+            map.put("msg","用户名或密码错误");
+            map.put("url","http://127.0.0.1:8080/lc/login.html");
+            return new  ModelAndView("common/error",map);
+        }
 
         //2.存userId信息
         String managerId = manager.getLineId().toString();
@@ -83,7 +91,9 @@ public class ManagerController {
         //4. 设置token到cookie
         CookieUtil.set(response, CookieConstant.TOKEN,token, expire);
 
-        return ResultVOUtil.success();
+        map.put("name",manager.getName());
+
+        return new ModelAndView("manager/index",map);
     }
 
     //logout
@@ -156,7 +166,6 @@ public class ManagerController {
         }
         return ResultVOUtil.success(orderService.confirmOne(order));
     }
-
 
 
     //查看订单

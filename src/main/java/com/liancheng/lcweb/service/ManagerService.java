@@ -13,7 +13,7 @@ public interface ManagerService {
 
     Manager findOne(Integer id);
 
-    Manager getManager(String name, String password);
+    Manager getManager(Integer lineId, String password);
 
     Manager addManager(Manager manager);
 

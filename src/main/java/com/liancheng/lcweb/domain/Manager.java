@@ -35,6 +35,8 @@ public class Manager {
 
     private Integer age;
 
+    private Integer peopleAmount;
+
     @CreatedDate
     private Date createTime;
 

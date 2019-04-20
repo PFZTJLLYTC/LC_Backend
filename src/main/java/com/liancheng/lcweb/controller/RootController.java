@@ -144,7 +144,8 @@ public class RootController {
     @Transactional
     public ResultVO userDelete(@PathVariable("unum") String unum){
         log.info("delete a particular user,userMobile={}",userService.findOne(unum).getMobile());
-        return userService.deleteOne(unum);
+        userService.deleteOne(unum);
+        return ResultVOUtil.success();
     }
 
 

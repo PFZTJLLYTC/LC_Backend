@@ -51,8 +51,6 @@ public class Order {
     //只显示了line的名字
     private String line;
 
-
-
     private Integer orderStatus =0;
 
     private Integer payStatus = 0;

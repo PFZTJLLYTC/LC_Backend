@@ -43,12 +43,12 @@ public class ManagerServiceImpl implements ManagerService {
 
     /*登陆用*/
     @Override
-    public Manager getManager(String name, String password) {
-        if (managerRepository.findByNameAndPassword(name,password)==null){
-            log.error("登陆错误");
-            throw new LcException(ResultEnums.NO_SUCH_USER);
+    public Manager getManager(Integer lineId, String password) {
+        if (managerRepository.findByLineIdAndPassword(lineId,password)==null){
+            log.error("没有此线路负责人");
+            return null;
         }
-        return managerRepository.findByNameAndPassword(name,password);
+        return managerRepository.findByLineIdAndPassword(lineId,password);
     }
 
 

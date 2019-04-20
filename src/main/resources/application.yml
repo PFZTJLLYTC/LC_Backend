@@ -5,10 +5,10 @@ spring:
     username: root
     password: pf19990122
 
-#  redis:
-#    host: 118.24.96.45
-#    port: 6379
-#    password:
+  redis:
+    host: 118.24.96.45
+    port: 6379
+    password:
   jpa:
     hibernate:
       ddl-auto: update
@@ -22,4 +22,6 @@ spring:
 #    cache: false #页面不加载缓存，修改即时生效
 
 server:
-            port: 8080
+  port: 8080
+  servlet:
+    context-path: /lc

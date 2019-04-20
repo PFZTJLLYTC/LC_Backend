@@ -9,5 +9,5 @@ public interface ManagerRepository extends JpaRepository<Manager,Integer> {
 
     Manager findByPhoneNum(String phoneNUm);
 
-    Manager findByNameAndPassword(String name, String password);
+    Manager findByLineIdAndPassword(Integer lineId, String password);
 }
