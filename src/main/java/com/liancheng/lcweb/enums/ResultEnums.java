@@ -5,6 +5,7 @@ import lombok.Getter;
 
 @Getter
 public enum ResultEnums {
+    SUCCESS(0,"操作成功"),
     UNKNOWN_ERROR(-1,"unknown error"),
     AGE_TOOYOUNG(-2,"should above 18 years old at least"),
     NOT_FOUND(-3,"Not Found"),

@@ -80,7 +80,7 @@
         <div class="sideMenu">
             <h3 class="am-icon-flag"><em></em> <a href="#">订单管理</a></h3>
             <ul>
-                <li><a href="">所有订单列表</a></li>
+                <li><a href="/lc/manager/order/orders">所有订单列表</a></li>
                 <li><a href="">待处理订单</a></li>
                 <li><a href="">进行中订单</a></li>
                 <li><a href="">已完成订单</a></li>

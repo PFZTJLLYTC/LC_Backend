@@ -15,6 +15,9 @@ public interface OrderRepository extends JpaRepository<Order,String> {
 
     List<Order> findByLine(String line);
 
+    @Query(value = "select * from user_order as o where o.line = (select line from manager  where line_id = ?1 ) ",nativeQuery = true)
+    List<Order> findByLineId(Integer lineId);
+
     List<Order> findByOrderStatus(Integer orderStatus);
 
     List<Order> findByOrderStatusAndUserId(Integer orderStatus,String userId);

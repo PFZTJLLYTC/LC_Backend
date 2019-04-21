@@ -170,6 +170,7 @@ public class ManagerController {
 
     //增加司机（批量）
 
+
     //修改司机
 
     //删除信息
@@ -178,21 +179,54 @@ public class ManagerController {
 
     /*订单相关*/
 
+
+    //查看所有订单
+    @GetMapping("/order/orders")
+    public ModelAndView allOrders(HttpServletRequest request,Map<String,Object> map){
+        Cookie cookie = CookieUtil.get(request,CookieConstant.TOKEN);
+
+        log.info("获取lineId来查当前线路所有订单信息");
+        Integer lineId = Integer.parseInt(redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX,cookie.getValue()))+"");
+        log.info("lineId={}",lineId);
+
+        List<Order> orders = managerService.getAllOrders(lineId);
+        map.put("orderList",orders);
+        map.put("name",lineId);
+        return new ModelAndView("manager/alldeals",map);
+    }
+
+
     //确认订单
     @PutMapping("/order/confirm")
     @Transactional
-    public ResultVO confirmOrder(@RequestParam("orderId") String orderId){
+    public ModelAndView confirmOrder(@RequestParam("orderId") String orderId,
+                                     HttpServletRequest request,
+                                     Map<String,Object> map){
+
+        Cookie cookie = CookieUtil.get(request,CookieConstant.TOKEN);
+
+        log.info("获取lineId来确认订单信息");
+        Integer lineId = Integer.parseInt(redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX,cookie.getValue()))+"");
+        log.info("lineId={}",lineId);
 
         Order order = orderService.findOne(orderId);
         if (order == null){
             log.error("无此订单");
-            throw new LcException(ResultEnums.ORDER_NOT_FOUND);
+            map.put("msg",ResultEnums.ORDER_NOT_FOUND.getMsg());
+            map.put("url","/lc/manager/orders");
+
+            return new ModelAndView("manager/alldeals",map);
+//            throw new LcException(ResultEnums.ORDER_NOT_FOUND);
+
         }
-        return ResultVOUtil.success(orderService.confirmOne(order));
+        orderService.confirmOne(order);
+        map.put("msg",ResultEnums.SUCCESS.getMsg());
+        map.put("url","/lc/manager/alldeals");
+        return new ModelAndView("common/success",map);
+
     }
 
 
-    //查看订单
 
 
 

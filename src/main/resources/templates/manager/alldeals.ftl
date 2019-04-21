@@ -9,18 +9,18 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <meta content="webkit" name="renderer">
     <meta content="no-siteapp" http-equiv="Cache-Control"/>
-    <link href="../img/LC.png" rel="icon" type="image/png">
-    <link href="../img/app-icon72x72@2x.png" rel="apple-touch-icon-precomposed">
+    <link href="../../img/LC.png" rel="icon" type="image/png">
+    <link href="../../img/app-icon72x72@2x.png" rel="apple-touch-icon-precomposed">
     <meta content="Amaze UI" name="apple-mobile-web-app-title"/>
-    <link href="../css/amazeui.min.css" rel="stylesheet"/>
-    <link href="../css/admin.css" rel="stylesheet">
-    <script src="../js/jquery.min.js"></script>
-    <script src="../js/app.js"></script>
+    <link href="../../css/amazeui.min.css" rel="stylesheet"/>
+    <link href="../../css/admin.css" rel="stylesheet">
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/app.js"></script>
 </head>
 
 <body>
 <header class="am-topbar admin-header">
-    <div class="am-topbar-brand"><img src="../img/page.png"></div>
+    <div class="am-topbar-brand"><img src="../../img/page.png"></div>
 
     <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
         <ul class="am-nav am-nav-pills am-topbar-nav admin-header-list">
@@ -32,7 +32,7 @@
 
 
                     <li class="am-dropdown-header">所有消息都在这里</li>
-                    <li><a href="todealwith.html">未处理订单 <span class="am-badge am-badge-danger am-round">6</span></a>
+                    <li><a href="">未处理订单 <span class="am-badge am-badge-danger am-round">6</span></a>
                     </li>
                     <li><a href="#">未处理司机申请</a></li>
                     <li><a href="#">系统升级</a></li>
@@ -76,19 +76,19 @@
     <div class="nav-navicon admin-main admin-sidebar">
 
 
-        <div class="sideMenu am-icon-dashboard" style="color:#aeb2b7; margin: 10px 0 0 0;"> 欢迎系统管理员：${manager.name}</div>
+        <div class="sideMenu am-icon-dashboard" style="color:#aeb2b7; margin: 10px 0 0 0;"> 欢迎系统管理员：<strong>${name}</strong></div>
         <div class="sideMenu">
             <h3 class="am-icon-flag"><em></em> <a href="#">订单管理</a></h3>
             <ul>
-                <li><a href="alldeals.html">所有订单列表</a></li>
-                <li><a href="todealwith.html">待处理订单</a></li>
-                <li><a href="doingdeals.html">进行中订单</a></li>
-                <li><a href="completed.html">已完成订单</a></li>
+                <li><a href="">所有订单列表</a></li>
+                <li><a href="">待处理订单</a></li>
+                <li><a href="">进行中订单</a></li>
+                <li><a href="">已完成订单</a></li>
             </ul>
             <h3 class="am-icon-users"><em></em> <a href="#"> 司机管理</a></h3>
             <ul>
-                <li><a href="drivers.html">司机列表</a></li>
-                <li><a href="driverswaitingforjudge.html">审核中司机</a></li>
+                <li><a href="">司机列表</a></li>
+                <li><a href="">审核中司机</a></li>
             </ul>
             <h3 class="am-icon-volume-up"><em></em> <a href="#">信息通知</a></h3>
             <ul>
@@ -200,11 +200,11 @@
                     <tr class="am-success">
                         <th class="table-check"><input type="checkbox"/></th>
                         <th class="table-title">订单id</th>
-                        <th class="table-title">用户id</th>
+                        <th class="table-type">乘客数量</th>
                         <th class="table-type">用户电话</th>
                         <th class="table-type">用户地址</th>
-                        <th class="table-type">乘客数量</th>
                         <th class="table-type">司机名</th>
+                        <th class="table-type">司机电话</th>
                         <th class="table-type">车牌号</th>
                         <th class="table-author am-hide-sm-only">订单状态</th>
                         <th class="table-date am-hide-sm-only">创建日期</th>
@@ -212,21 +212,23 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <#list orders as order>
+                    <#if orderList??>
+                    <#list orderList as order>
                         <tr>
                             <td><input type="checkbox"/></td>
-                            <td>${order.order_id}</td>
-                            <td>${order.user_id}</td>
-                            <td>${order.user_phone}</td>
-                            <td>${order.user_address}</td>
-                            <td>${order.user_count}</td>
-                            <td>${order.driver_name}</td>
-                            <td>${order.car_num}</td>
-                            <td class="am-hide-sm-only">${order.order_status}</td>
-                            <td class="am-hide-sm-only">${order.create_time}</td>
-                            <td class="am-hide-sm-only">${order.update_time}</td>
+                            <td>${order.orderId}</td>
+                            <td>${order.userCount}</td>
+                            <td>${order.userPhone}</td>
+                            <td>${order.DetailAddress}</td>
+                            <td>${order.driverName}</td>
+                            <td>${order.dnum}</td>
+                            <td>${order.carNum}</td>
+                            <td class="am-hide-sm-only">${order.orderStatus}</td>
+                            <td class="am-hide-sm-only">${order.createTime}</td>
+                            <td class="am-hide-sm-only">${order.updateTime}</td>
                         </tr>
                     </#list>
+                    </#if>
                     </tbody>
                 </table>
 
@@ -267,13 +269,13 @@
 <!--[if lt IE 9]>
 <script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
 <script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
-<script src="../js/polyfill/rem.min.js"></script>
-<script src="../js/polyfill/respond.min.js"></script>
-<script src="../js/amazeui.legacy.js"></script>
+<script src="../../js/polyfill/rem.min.js"></script>
+<script src="../../js/polyfill/respond.min.js"></script>
+<script src="../../js/amazeui.legacy.js"></script>
 <![endif]-->
 
 <!--[if (gte IE 9)|!(IE)]><!-->
-<script src="../js/amazeui.min.js"></script>
+<script src="../../js/amazeui.min.js"></script>
 <!--<![endif]-->
 
 

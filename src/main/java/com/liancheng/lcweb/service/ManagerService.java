@@ -2,6 +2,7 @@ package com.liancheng.lcweb.service;
 
 import com.liancheng.lcweb.VO.ResultVO;
 import com.liancheng.lcweb.domain.Manager;
+import com.liancheng.lcweb.domain.Order;
 import com.liancheng.lcweb.dto.DriverDTO;
 import com.liancheng.lcweb.dto.TotalInfoDTO;
 
@@ -25,6 +26,8 @@ public interface ManagerService {
     TotalInfoDTO getTotal(Integer lineId);
 
     List<DriverDTO> getAllDrivers(Integer lineId);
+
+    List<Order> getAllOrders(Integer lineId);
 
 
 }
