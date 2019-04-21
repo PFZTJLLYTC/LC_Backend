@@ -27,9 +27,6 @@ public class Driver {
     @Id
     private String dnum;//dnum就是phonenum？
 
-    //0表示为通过审核，1表示通过审核
-    private Integer verified = 0;
-
     private String name;
 
     private String password;
@@ -46,6 +43,8 @@ public class Driver {
     private Integer age;
 
     private Integer status;
+
+    private Integer availableSeats;
 
     //改进方向：精确时间
     private Integer workTimes = 0;

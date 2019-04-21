@@ -9,8 +9,8 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <meta content="webkit" name="renderer">
     <meta content="no-siteapp" http-equiv="Cache-Control"/>
-    <link href="../../static/img/LC.png" rel="icon" type="image/png">
-    <link href="../../static/img/app-icon72x72@2x.png" rel="apple-touch-icon-precomposed">
+    <link href="../img/LC.png" rel="icon" type="image/png">
+    <link href="../img/app-icon72x72@2x.png" rel="apple-touch-icon-precomposed">
     <meta content="Amaze UI" name="apple-mobile-web-app-title"/>
     <link href="../css/amazeui.min.css" rel="stylesheet"/>
     <link href="../css/admin.css" rel="stylesheet">
@@ -20,7 +20,7 @@
 
 <body>
 <header class="am-topbar admin-header">
-    <div class="am-topbar-brand"><img src="../../static/img/page.png"></div>
+    <div class="am-topbar-brand"><img src="../img/page.png"></div>
 
     <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
         <ul class="am-nav am-nav-pills am-topbar-nav admin-header-list">
@@ -76,7 +76,7 @@
     <div class="nav-navicon admin-main admin-sidebar">
 
 
-        <div class="sideMenu am-icon-dashboard" style="color:#aeb2b7; margin: 10px 0 0 0;"> 欢迎系统管理员：${manager.name}</div>
+        <div class="sideMenu am-icon-dashboard" style="color:#aeb2b7; margin: 10px 0 0 0;"> 欢迎系统管理员：<strong>${manager}</strong></div>
         <div class="sideMenu">
             <h3 class="am-icon-flag"><em></em> <a href="#">订单管理</a></h3>
             <ul>
@@ -121,7 +121,7 @@
         <div class="daohang">
             <ul>
                 <li>
-                    <button class="am-btn am-btn-default am-radius am-btn-xs" type="button"> 首页
+                    <button class="am-btn am-btn-default am-radius am-btn-xs" type="button" ><a href="index.ftl">首页</a>
                 </li>
                 <li>
                     <button class="am-btn am-btn-default am-radius am-btn-xs" type="button">订单管理<a
@@ -156,17 +156,6 @@
 
             <div class="am-btn-toolbars am-btn-toolbar am-kg am-cf">
                 <ul>
-                    <!--
-                    <li style="margin-right: 0;">
-                        <span class="tubiao am-icon-calendar"></span>
-                        <input class="am-form-field am-input-sm am-input-zm  am-icon-calendar" data-am-datepicker="{theme: 'success',}"
-                               placeholder="开始日期" readonly type="text"/>
-                    </li>
-                    <li style="margin-left: -4px;">
-                        <span class="tubiao am-icon-calendar"></span>
-                        <input class="am-form-field am-input-sm am-input-zm  am-icon-calendar" data-am-datepicker="{theme: 'success',}"
-                               placeholder="开始日期" readonly type="text"/>
-                    </li>-->
 
                     <li style="margin-left: -10px;">
                         <div class="am-btn-group am-btn-group-xs">
@@ -194,9 +183,9 @@
                     <tr class="am-success">
                         <th class="table-check"><input type="checkbox"/></th>
                         <th class="table-title">姓名</th>
-                        <th class="table-type">性别</th>
                         <th class="table-type">年龄</th>
                         <th class="table-type">线路名称</th>
+                        <th class="table-type">可用座位</th>
                         <th class="table-type">车牌号</th>
                         <th class="table-type">联系方式</th>
                         <th class="table-author am-hide-sm-only">状态</th>
@@ -207,10 +196,10 @@
                         <tr>
                             <td><input type="checkbox"/></td>
                             <td>${driver.name}</td>
-                            <td>${driver.sex}</td>
                             <td>${driver.age}</td>
                             <td>${driver.line}</td>
-                            <td>${driver.car_num}</td>
+                            <td>${driver.availableSeats}</td>
+                            <td>${driver.carNum}</td>
                             <td>${driver.dnum}</td>
                             <td>${driver.status}</td>
                         </tr>

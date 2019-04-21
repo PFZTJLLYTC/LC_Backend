@@ -5,6 +5,7 @@ import com.liancheng.lcweb.converter.Driver2DriverDTOConverter;
 import com.liancheng.lcweb.domain.Driver;
 import com.liancheng.lcweb.domain.Manager;
 import com.liancheng.lcweb.dto.DriverDTO;
+import com.liancheng.lcweb.dto.TotalInfoDTO;
 import com.liancheng.lcweb.enums.DriverStatusEnums;
 import com.liancheng.lcweb.enums.ResultEnums;
 import com.liancheng.lcweb.exception.LcException;
@@ -14,12 +15,16 @@ import com.liancheng.lcweb.service.ManagerService;
 import com.liancheng.lcweb.utils.ResultVOUtil;
 import javassist.expr.NewArray;
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.util.LangUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -38,7 +43,11 @@ public class ManagerServiceImpl implements ManagerService {
 
     @Override
     public Manager findOne(Integer id) {
-        return managerRepository.findById(id).get();
+        Optional<Manager> manager = managerRepository.findById(id);
+        if (!manager.isPresent()){
+            return null;
+        }
+        return manager.get();
     }
 
     /*登陆用*/
@@ -93,5 +102,50 @@ public class ManagerServiceImpl implements ManagerService {
         List<DriverDTO> driverDTOList =Driver2DriverDTOConverter.convert(driverList);
 
         return driverDTOList;
+    }
+
+    @Override
+    public TotalInfoDTO getTotal(Integer lineId) {
+        TotalInfoDTO totalInfoDTO = new TotalInfoDTO();
+
+        //得时间
+        Date currentDate =new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String dateString = formatter.format(currentDate);
+        totalInfoDTO.setDate(dateString);
+
+        //找当前活跃司机总数
+        List<DriverDTO> driverList1 = getDriversByStatus(lineId,DriverStatusEnums.ONROAD.getCode());
+        List<DriverDTO> driverList2 = getDriversByStatus(lineId,DriverStatusEnums.AVAILABLE.getCode());
+        Integer liveNum = driverList1.size()+driverList2.size();
+        totalInfoDTO.setLiveDrivers(liveNum);
+
+
+
+        //目前直接假数据填充
+        //todo 找当前总载客人数,通过订单时期入手
+        totalInfoDTO.setTotalUserNum(802);
+
+        //todo 找当天当前订单总数，考虑是否计算get
+        totalInfoDTO.setOrderNum(105);
+
+        totalInfoDTO.setTotalGet(2456);
+
+
+        return totalInfoDTO;
+
+    }
+
+    @Override
+    public List<DriverDTO> getAllDrivers(Integer lineId) {
+        if (findOne(lineId)==null){
+            return null;
+        }
+        List<Driver> driverList = driverService.findbyLineId(lineId);
+
+        List<DriverDTO> driverDTOList = Driver2DriverDTOConverter.convert(driverList);
+
+        return driverDTOList;
+
     }
 }

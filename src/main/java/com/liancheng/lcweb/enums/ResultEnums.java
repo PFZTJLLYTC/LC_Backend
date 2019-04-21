@@ -24,7 +24,8 @@ public enum ResultEnums {
     WAIT_OR_PROCESSIN_ORDER_MORE_THAN_ONE(17,"待处理或进行中订单过多"),//系统异常
     USER_CHANGE_FORM_ERROR(18,"用户信息修改填表错误"),
     USER_MOBILE_ALREADY_EXISTS(19,"号码已经被注册"),
-    DRIVER_STATUS_ERROR(20,"司机状态错误"),;
+    DRIVER_STATUS_ERROR(20,"司机状态错误"),
+    LOG_OUT_SUCCESS(21,"登出成功"),;
 
 
     private String msg;

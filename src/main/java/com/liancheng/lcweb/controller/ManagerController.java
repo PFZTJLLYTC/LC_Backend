@@ -6,6 +6,7 @@ import com.liancheng.lcweb.domain.Driver;
 import com.liancheng.lcweb.domain.Manager;
 import com.liancheng.lcweb.domain.Order;
 import com.liancheng.lcweb.dto.DriverDTO;
+import com.liancheng.lcweb.dto.TotalInfoDTO;
 import com.liancheng.lcweb.enums.ResultEnums;
 import com.liancheng.lcweb.exception.LcException;
 import com.liancheng.lcweb.repository.ManagerRepository;
@@ -59,6 +60,7 @@ public class ManagerController {
 
 
     //login
+    //考虑安全性，跳转一个方法来进index
     @GetMapping(value = "/login")
     public ModelAndView login(@RequestParam("lineId") Integer lineId,
                               @RequestParam("password") String password,
@@ -68,7 +70,9 @@ public class ManagerController {
         Cookie cookie = CookieUtil.get(request,CookieConstant.TOKEN);
         if (cookie != null && !StringUtils.isEmpty(redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX, cookie.getValue())))) {
 
+            TotalInfoDTO totalInfoDTOS = managerService.getTotal(lineId);
             map.put("name",lineId);
+            map.put("total",totalInfoDTOS);
             return new ModelAndView("/manager/index",map);
         }
 
@@ -90,16 +94,18 @@ public class ManagerController {
 
         //4. 设置token到cookie
         CookieUtil.set(response, CookieConstant.TOKEN,token, expire);
+        TotalInfoDTO totalInfoDTOS = managerService.getTotal(lineId);
 
         map.put("name",manager.getName());
-
+        map.put("total",totalInfoDTOS);
         return new ModelAndView("manager/index",map);
     }
 
     //logout
     @GetMapping("/logout")
-    public ResultVO logout(HttpServletRequest request,
-                           HttpServletResponse response){
+    public ModelAndView logout(HttpServletRequest request,
+                           HttpServletResponse response,
+                               Map<String,Object> map){
 
         //1.查名字为token的cookie
         Cookie cookie = CookieUtil.get(request,CookieConstant.TOKEN);
@@ -110,8 +116,10 @@ public class ManagerController {
             //删除cookie
             CookieUtil.set(response,CookieConstant.TOKEN,null, 0);
         }
+        map.put("msg",ResultEnums.LOG_OUT_SUCCESS.getMsg());
+        map.put("url","http://127.0.0.1:8080/lc/login.html");
 
-        return ResultVOUtil.success();
+        return new ModelAndView("common/success",map);
     }
 
     /*司机相关*/
@@ -119,7 +127,7 @@ public class ManagerController {
     //查询司机
 
     @GetMapping(value = "/driver")
-    public ResultVO allDriver(HttpServletRequest request){
+    public ModelAndView allDriver(HttpServletRequest request,Map<String,Object>map){
 
         Cookie cookie = CookieUtil.get(request,CookieConstant.TOKEN);
 
@@ -127,19 +135,35 @@ public class ManagerController {
         Integer lineId = Integer.parseInt(redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX,cookie.getValue()))+"");
 
         log.info("lineId={}",lineId);
-        return ResultVOUtil.success(driverService.findbyLineId(lineId));
+
+        List<DriverDTO> driverDTOList= managerService.getAllDrivers(lineId);
+        if (driverDTOList == null){
+            map.put("msg",ResultEnums.NO_SUCH_USER.getMsg());
+            map.put("url","manager/index");
+            return new ModelAndView("common/error",map);
+        }
+
+        Manager manager = managerService.findOne(lineId);
+        map.put("drivers",driverDTOList);
+        map.put("manager",manager.getName());
+
+        return new ModelAndView("manager/drivers",map);
     }
 
     //查询不同状态司机
     @GetMapping("/driver/findByStatus")
-    public ResultVO getDriversByStatus(@RequestParam("status") Integer status,HttpServletRequest request){
+    public ModelAndView getDriversByStatus(@RequestParam("status") Integer status,HttpServletRequest request,Map<String,Object> map){
         Cookie cookie = CookieUtil.get(request,CookieConstant.TOKEN);
 
         log.info("获取lineId来查不同状态司机信息");
         Integer lineId = Integer.parseInt(redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX,cookie.getValue()))+"");
         log.info("lineId={}",lineId);
+        List<DriverDTO> driverDTOList = managerService.getDriversByStatus(lineId,status);
 
-        return ResultVOUtil.success(managerService.getDriversByStatus(lineId,status));
+        //todo 暂时不分页，只把全部搞出来
+        map.put("drivers",driverDTOList);
+
+        return new ModelAndView("manager/drivers",map);
 
     }
 

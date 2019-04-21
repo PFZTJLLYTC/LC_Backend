@@ -9,18 +9,18 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <meta content="webkit" name="renderer">
     <meta content="no-siteapp" http-equiv="Cache-Control">
-    <link href="http://127.0.0.1:8080/lc/img/LC.png" rel="icon" type="image/png">
-    <link href="http://127.0.0.1:8080/lc/img/app-icon72x72@2x.png" rel="apple-touch-icon-precomposed">
+    <link href="../img/LC.png" rel="icon" type="image/png">
+    <link href="../img/app-icon72x72@2x.png" rel="apple-touch-icon-precomposed">
     <meta content="Amaze UI" name="apple-mobile-web-app-title"/>
-    <link href="../../static/css/amazeui.min.css" rel="stylesheet"/>
-    <link href="../../static/css/admin.css" rel="stylesheet">
-    <script src="../../static/js/jquery.min.js"></script>
-    <script src="../../static/js/app.js"></script>
+    <link href="../css/amazeui.min.css" rel="stylesheet"/>
+    <link href="../css/admin.css" rel="stylesheet">
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/app.js"></script>
 </head>
 
 <body>
 <header class="am-topbar admin-header">
-    <div class="am-topbar-brand"> <img src="http://127.0.0.1:8080/lc/img/page.png" width="213" height="53" alt=""> </div>
+    <div class="am-topbar-brand"> <img src="../img/page.png" width="213" height="53" alt=""> </div>
 
     <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
         <ul class="am-nav am-nav-pills am-topbar-nav admin-header-list">
@@ -87,7 +87,7 @@
             </ul>
             <h3 class="am-icon-users"><em></em> <a href="#"> 司机管理</a></h3>
             <ul>
-                <li><a href="">司机列表</a></li>
+                <li><a href="http://127.0.0.1:8080/lc/manager/driver">司机列表</a></li>
                 <li><a href="">审核中司机</a></li>
             </ul>
             <h3 class="am-icon-volume-up"><em></em> <a href="#">信息通知</a></h3>
@@ -145,22 +145,22 @@
             <div class="admin-index">
                 <dl data-am-scrollspy="{animation: 'slide-right', delay: 100}">
                     <dt class="qs"><i class="am-icon-users"></i></dt>
-                    <dd>15</dd>
-                    <dd class="f12">司机数量</dd>
+                    <dd>${total.liveDrivers}</dd>
+                    <dd class="f12">当前活跃司机数</dd>
                 </dl>
                 <dl data-am-scrollspy="{animation: 'slide-right', delay: 300}">
                     <dt class="cs"><i class="am-icon-area-chart"></i></dt>
-                    <dd>110</dd>
-                    <dd class="f12">今日载客人次</dd>
+                    <dd>${total.totalUserNum}</dd>
+                    <dd class="f12">当前载客人次</dd>
                 </dl>
                 <dl data-am-scrollspy="{animation: 'slide-right', delay: 600}">
                     <dt class="hs"><i class="am-icon-shopping-cart"></i></dt>
-                    <dd>100</dd>
-                    <dd class="f12">订单数量</dd>
+                    <dd>${total.orderNum}</dd>
+                    <dd class="f12">当前订单数量</dd>
                 </dl>
                 <dl data-am-scrollspy="{animation: 'slide-right', delay: 900}">
                     <dt class="ls"><i class="am-icon-cny"></i></dt>
-                    <dd>550</dd>
+                    <dd>${total.totalGet}</dd>
                     <dd class="f12">预计收入</dd>
                 </dl>
             </div>
@@ -177,14 +177,14 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>2019/1/19</td>
-                        <td>15</td>
-                        <td><a href="#">110</a></td>
-                        <td>100</td>
-                        <td> 550</td>
-                    </tr>
 
+                        <tr>
+                            <td>2019/1/19</td>
+                            <td>15</td>
+                            <td><a href="#">110</a></td>
+                            <td>100</td>
+                            <td> 550</td>
+                        </tr>
 
                     </tbody>
                 </table>
@@ -276,7 +276,7 @@
             </div>
 
             <div class="foods">
-                <ul>版权所有@2019 .</dl>
+                <ul>版权所有@2019 .</ul>
 
 
             </div>
@@ -292,13 +292,13 @@
 <!--[if lt IE 9]>
 <script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
 <script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
-<script src="../../static/js/polyfill/rem.min.js"></script>
-<script src="../../static/js/polyfill/respond.min.js"></script>
-<script src="../../static/js/amazeui.legacy.js"></script>
+<script src="../js/polyfill/rem.min.js"></script>
+<script src="../js/polyfill/respond.min.js"></script>
+<script src="../js/amazeui.legacy.js"></script>
 <![endif]-->
 
 <!--[if (gte IE 9)|!(IE)]><!-->
-<script src="../../static/js/amazeui.min.js"></script>
+<script src="../js/amazeui.min.js"></script>
 <!--<![endif]-->
 
 

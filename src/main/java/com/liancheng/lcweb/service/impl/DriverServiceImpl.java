@@ -33,8 +33,10 @@ public class DriverServiceImpl implements DriverService {
         BeanUtils.copyProperties(driverInfoForm,driver);
         driver.setStatus(DriverStatusEnums.ATREST.getCode());
         //表示没有得到验证
-        driver.setVerified(0);
+        driver.setStatus(DriverStatusEnums.TO_BE_VERIFIED.getCode());
         driver.setWorkTimes(0);
+        //默认四座
+        driver.setAvailableSeats(4);
         //todo line的名字-考虑新建一个表？
         driverRepository.save(driver);
     }
