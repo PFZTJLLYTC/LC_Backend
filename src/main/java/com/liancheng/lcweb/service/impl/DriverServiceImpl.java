@@ -5,6 +5,7 @@ import com.liancheng.lcweb.domain.Driver;
 import com.liancheng.lcweb.enums.DriverStatusEnums;
 import com.liancheng.lcweb.enums.ResultEnums;
 import com.liancheng.lcweb.exception.LcException;
+import com.liancheng.lcweb.exception.ManagerException;
 import com.liancheng.lcweb.form.DriverInfoForm;
 import com.liancheng.lcweb.repository.DriverRepository;
 import com.liancheng.lcweb.service.DriverService;
@@ -13,8 +14,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -58,7 +62,14 @@ public class DriverServiceImpl implements DriverService {
 
     @Override
     public Driver findOne(String dnum) {
-        return driverRepository.findById(dnum).get();
+
+        Optional<Driver> driver = driverRepository.findById(dnum);
+
+        if (!driver.isPresent()){
+            //查一般是交给manager，所以就不跑异常，到时候直接返回错误界面
+            throw new ManagerException(ResultEnums.NO_SUCH_USER.getMsg(),"manager/drivers");
+        }
+        return driver.get();
     }
 
     @Override
@@ -102,14 +113,19 @@ public class DriverServiceImpl implements DriverService {
     }
 
     @Override
-    public ResultVO deleteOne(String dnum) {
+    public List<Driver> certainLIneToVerify(Integer lineId) {
+        return driverRepository.findByStatusAndLineId(DriverStatusEnums.TO_BE_VERIFIED.getCode(),lineId);
+    }
+
+    @Override
+    public void deleteOne(String dnum) {
         if (findOne(dnum)!=null){
             driverRepository.deleteById(dnum);
-            return ResultVOUtil.success();
         }
         else {
             log.error("删除司机失败,dnum={}",dnum);
-            throw new LcException(ResultEnums.NO_SUCH_DRIVER);
+            throw new ManagerException(ResultEnums.NO_SUCH_DRIVER.getMsg(),"common/driverDetail");
         }
     }
+
 }

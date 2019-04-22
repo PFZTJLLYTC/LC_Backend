@@ -3,17 +3,22 @@ package com.liancheng.lcweb.service.impl;
 import com.liancheng.lcweb.domain.Order;
 import com.liancheng.lcweb.dto.UserDoneOrderDTO;
 import com.liancheng.lcweb.enums.OrderStatusEnums;
+import com.liancheng.lcweb.enums.ResultEnums;
+import com.liancheng.lcweb.exception.ManagerException;
 import com.liancheng.lcweb.form.UserOrderForm;
 import com.liancheng.lcweb.repository.OrderRepository;
 import com.liancheng.lcweb.service.OrderService;
 import com.liancheng.lcweb.utils.KeyUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
+@Slf4j
 public class OrderServiceImpl implements OrderService {
 
     @Autowired
@@ -82,7 +87,14 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order findOne(String OrderId) {
-        return null;
+        Optional<Order> order = orderRepository.findById(OrderId);
+        if (!order.isPresent()){
+            log.info("无此订单");
+            return null;
+            //不能在这里抛异常！！都要用这个函数
+//            throw new ManagerException(ResultEnums.ORDER_NOT_FOUND.getMsg(),"manager/alldeals");
+        }
+        return order.get();
     }
 
     @Override

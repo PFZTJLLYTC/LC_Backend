@@ -10,6 +10,8 @@ import com.liancheng.lcweb.dto.TotalInfoDTO;
 import com.liancheng.lcweb.enums.DriverStatusEnums;
 import com.liancheng.lcweb.enums.ResultEnums;
 import com.liancheng.lcweb.exception.LcException;
+import com.liancheng.lcweb.exception.ManagerException;
+import com.liancheng.lcweb.repository.DriverRepository;
 import com.liancheng.lcweb.repository.ManagerRepository;
 import com.liancheng.lcweb.repository.OrderRepository;
 import com.liancheng.lcweb.service.DriverService;
@@ -91,9 +93,9 @@ public class ManagerServiceImpl implements ManagerService {
     @Override
     public List<DriverDTO> getDriversByStatus(Integer lineId, Integer status) {
 
-        if (status<0||status>2){
+        if (status<-1||status>2){
             log.error("根本没有这个状态");
-            throw new LcException(ResultEnums.DRIVER_STATUS_ERROR);
+            throw new ManagerException(ResultEnums.DRIVER_STATUS_ERROR.getMsg(),"manager/drivers");
         }
         List<Driver>  driverList= new ArrayList<>();
         if (status.equals(DriverStatusEnums.ATREST.getCode())){
@@ -102,8 +104,11 @@ public class ManagerServiceImpl implements ManagerService {
         else if (status.equals(DriverStatusEnums.AVAILABLE.getCode())){
             driverList = driverService.certainLIneAvailable(lineId);
         }
-        else {
+        else if (status.equals(DriverStatusEnums.ONROAD.getCode())){
             driverList = driverService.certainLIneOnroad(lineId);
+        }
+        else {
+            driverList = driverService.certainLIneToVerify(lineId);
         }
         List<DriverDTO> driverDTOList =Driver2DriverDTOConverter.convert(driverList);
 

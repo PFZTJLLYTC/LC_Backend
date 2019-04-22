@@ -4,13 +4,15 @@ package com.liancheng.lcweb.handle;
 import com.liancheng.lcweb.VO.ResultVO;
 import com.liancheng.lcweb.enums.ResultEnums;
 import com.liancheng.lcweb.exception.LcException;
-import com.liancheng.lcweb.exception.ManagerAuthorizeException;
+import com.liancheng.lcweb.exception.ManagerException;
 import com.liancheng.lcweb.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.Map;
 
 import static com.liancheng.lcweb.enums.ResultEnums.UNKNOWN_ERROR;
 
@@ -36,11 +38,14 @@ public class ExceptionHandle {
 //        }
     }
 
-    @ExceptionHandler(value = ManagerAuthorizeException.class)
-    public ModelAndView handleAuthorizeExceptionOfManager(ManagerAuthorizeException e){
+    @ExceptionHandler(value = ManagerException.class)
+    public ModelAndView handleAuthorizeExceptionOfManager(ManagerException e, Map<String,Object> map){
 
-        //错误则跳转页面
-        return new ModelAndView("redirect:".concat("www.baidu.com"));
+        map.put("msg",e.getMessage());
+        map.put("url",e.getUrl());
+        return new ModelAndView("common/error",map);
+
+        //return new ModelAndView("redirect:".concat("www.baidu.com"));
     }
 
 }

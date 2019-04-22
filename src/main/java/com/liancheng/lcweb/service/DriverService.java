@@ -37,7 +37,9 @@ public interface DriverService {
 
     List<Driver> certainLIneAvailable(Integer lineId);
 
-    ResultVO deleteOne(String dnum);
+    List<Driver> certainLIneToVerify(Integer lineId);
+
+    void deleteOne(String dnum);
 
 
 

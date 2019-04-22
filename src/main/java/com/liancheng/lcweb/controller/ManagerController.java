@@ -1,21 +1,21 @@
 package com.liancheng.lcweb.controller;
-import com.liancheng.lcweb.VO.ResultVO;
 import com.liancheng.lcweb.constant.CookieConstant;
 import com.liancheng.lcweb.constant.RedisConstant;
+import com.liancheng.lcweb.converter.Driver2DriverDTOConverter;
 import com.liancheng.lcweb.domain.Driver;
 import com.liancheng.lcweb.domain.Manager;
 import com.liancheng.lcweb.domain.Order;
 import com.liancheng.lcweb.dto.DriverDTO;
 import com.liancheng.lcweb.dto.TotalInfoDTO;
+import com.liancheng.lcweb.enums.DriverStatusEnums;
 import com.liancheng.lcweb.enums.ResultEnums;
-import com.liancheng.lcweb.exception.LcException;
+import com.liancheng.lcweb.exception.ManagerException;
 import com.liancheng.lcweb.repository.ManagerRepository;
 import com.liancheng.lcweb.service.DriverService;
 import com.liancheng.lcweb.service.ManagerService;
 import com.liancheng.lcweb.service.OrderService;
 import com.liancheng.lcweb.service.UserService;
 import com.liancheng.lcweb.utils.CookieUtil;
-import com.liancheng.lcweb.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -78,9 +78,7 @@ public class ManagerController {
 
         Manager manager = managerService.getManager(lineId,password);
         if(manager ==null){
-            map.put("msg","用户名或密码错误");
-            map.put("url","http://127.0.0.1:8080/lc/login.html");
-            return new  ModelAndView("common/error",map);
+            throw new ManagerException(ResultEnums.NO_SUCH_MANAGER.getMsg(),CookieConstant.EXPIRE_URL);
         }
 
         //2.存userId信息
@@ -126,7 +124,7 @@ public class ManagerController {
 
     //查询司机
 
-    @GetMapping(value = "/driver")
+    @GetMapping(value = "/driver/allDrivers")
     public ModelAndView allDriver(HttpServletRequest request,Map<String,Object>map){
 
         Cookie cookie = CookieUtil.get(request,CookieConstant.TOKEN);
@@ -138,9 +136,9 @@ public class ManagerController {
 
         List<DriverDTO> driverDTOList= managerService.getAllDrivers(lineId);
         if (driverDTOList == null){
-            map.put("msg",ResultEnums.NO_SUCH_USER.getMsg());
-            map.put("url","manager/index");
-            return new ModelAndView("common/error",map);
+
+            throw new ManagerException("请添加司机","manager/index");
+
         }
 
         Manager manager = managerService.findOne(lineId);
@@ -153,8 +151,8 @@ public class ManagerController {
     //查询不同状态司机
     @GetMapping("/driver/findByStatus")
     public ModelAndView getDriversByStatus(@RequestParam("status") Integer status,HttpServletRequest request,Map<String,Object> map){
-        Cookie cookie = CookieUtil.get(request,CookieConstant.TOKEN);
 
+        Cookie cookie = CookieUtil.get(request,CookieConstant.TOKEN);
         log.info("获取lineId来查不同状态司机信息");
         Integer lineId = Integer.parseInt(redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX,cookie.getValue()))+"");
         log.info("lineId={}",lineId);
@@ -162,16 +160,50 @@ public class ManagerController {
 
         //todo 暂时不分页，只把全部搞出来
         map.put("drivers",driverDTOList);
-
-        return new ModelAndView("manager/drivers",map);
+        if (status.equals(DriverStatusEnums.ATREST.getCode())){
+            return new ModelAndView("manager/atRestDrivers",map);
+        }
+        else if (status.equals(DriverStatusEnums.AVAILABLE.getCode())){
+            return new ModelAndView("manager/availableDrivers",map);
+        }
+        else if (status.equals(DriverStatusEnums.ONROAD.getCode())){
+            return new ModelAndView("manager/onRoadDrivers",map);
+        }
+        else{
+            return new ModelAndView("manager/toBeVerifiedDrivers",map);
+        }
 
     }
 
 
-    //增加司机（批量）
+    //司机详情
+    @GetMapping("/driver/driverDetail")
+    @Transactional
+    public ModelAndView updateDriverInfo(@RequestParam("dnum")String dnum,
+                                         HttpServletRequest request,
+                                         Map<String,Object> map){
+        Cookie cookie = CookieUtil.get(request,CookieConstant.TOKEN);
+        log.info("获取lineId来查获取司机详情");
+        Integer lineId = Integer.parseInt(redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX,cookie.getValue()))+"");
+        log.info("lineId={}",lineId);
+
+        Driver driver = driverService.findOne(dnum);
+        DriverDTO driverDTO = Driver2DriverDTOConverter.convert(driver);
+        map.put("name",lineId);
+        map.put("driver",driverDTO);
+
+        return new ModelAndView("manager/driverDetail",map);
+
+    }
+
+    //
 
 
-    //修改司机
+    //增加司机
+
+
+
+    //
 
     //删除信息
 
@@ -181,7 +213,7 @@ public class ManagerController {
 
 
     //查看所有订单
-    @GetMapping("/order/orders")
+    @GetMapping("/order/allOrders")
     public ModelAndView allOrders(HttpServletRequest request,Map<String,Object> map){
         Cookie cookie = CookieUtil.get(request,CookieConstant.TOKEN);
 
@@ -211,12 +243,8 @@ public class ManagerController {
 
         Order order = orderService.findOne(orderId);
         if (order == null){
-            log.error("无此订单");
-            map.put("msg",ResultEnums.ORDER_NOT_FOUND.getMsg());
-            map.put("url","/lc/manager/orders");
-
-            return new ModelAndView("manager/alldeals",map);
-//            throw new LcException(ResultEnums.ORDER_NOT_FOUND);
+            throw new ManagerException(ResultEnums.ORDER_NOT_FOUND.getMsg(),"manager/alldeals");
+//          throw new LcException(ResultEnums.ORDER_NOT_FOUND);
 
         }
         orderService.confirmOne(order);
@@ -225,7 +253,6 @@ public class ManagerController {
         return new ModelAndView("common/success",map);
 
     }
-
 
 
 

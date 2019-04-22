@@ -3,7 +3,8 @@ package com.liancheng.lcweb.aspect;
 
 import com.liancheng.lcweb.constant.CookieConstant;
 import com.liancheng.lcweb.constant.RedisConstant;
-import com.liancheng.lcweb.exception.ManagerAuthorizeException;
+import com.liancheng.lcweb.enums.ResultEnums;
+import com.liancheng.lcweb.exception.ManagerException;
 import com.liancheng.lcweb.utils.CookieUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.annotation.Aspect;
@@ -43,14 +44,14 @@ public class ManagerAuthorizeAspect {
         Cookie cookie = CookieUtil.get(request, CookieConstant.TOKEN);
         if (cookie == null){
             log.warn("cookie中查不到此用户信息,无法配合其操作");
-            throw new ManagerAuthorizeException();
+            throw new ManagerException(ResultEnums.USER_TOKEN_EXPIRE.getMsg(),CookieConstant.EXPIRE_URL);
         }
 
         //如有cookie再查是否匹配
         String tokenValue = redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX,cookie.getValue()))+"";
         if (StringUtils.isEmpty(tokenValue)){
             log.warn("redis中无此用户信息，无法配合其操作");
-            throw new ManagerAuthorizeException();
+            throw new ManagerException(ResultEnums.USER_TOKEN_EXPIRE.getMsg(),CookieConstant.EXPIRE_URL);
         }
 
     }
