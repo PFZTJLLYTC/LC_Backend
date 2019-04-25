@@ -84,12 +84,12 @@ public class RootController {
 
 
     //删除司机信息
-    @DeleteMapping(value = "/driver/delete/{dnum}")
-    @Transactional
-    public ResultVO driverDelete(@PathVariable("dnum") String dnum){
-        log.info("delete a particular driver,dnum={}",dnum);
-        return driverService.deleteOne(dnum);
-    }
+//    @DeleteMapping(value = "/driver/delete/{dnum}")
+//    @Transactional
+//    public ResultVO driverDelete(@PathVariable("dnum") String dnum){
+//        log.info("delete a particular driver,dnum={}",dnum);
+//        return driverService.deleteOne(dnum);
+//    }
     //改司机
 
 
