@@ -10,6 +10,7 @@ import com.liancheng.lcweb.dto.TotalInfoDTO;
 import com.liancheng.lcweb.enums.DriverStatusEnums;
 import com.liancheng.lcweb.enums.ResultEnums;
 import com.liancheng.lcweb.exception.ManagerException;
+import com.liancheng.lcweb.form.DriverInfoForm;
 import com.liancheng.lcweb.repository.ManagerRepository;
 import com.liancheng.lcweb.service.DriverService;
 import com.liancheng.lcweb.service.ManagerService;
@@ -21,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -29,6 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -115,7 +118,7 @@ public class ManagerController {
             CookieUtil.set(response,CookieConstant.TOKEN,null, 0);
         }
         map.put("msg",ResultEnums.LOG_OUT_SUCCESS.getMsg());
-        map.put("url","http://127.0.0.1:8080/lc/login.html");
+        map.put("url","http://118.24.96.45:8080/login.html");
 
         return new ModelAndView("common/success",map);
     }
@@ -198,8 +201,33 @@ public class ManagerController {
 
     //
 
+    //增加司机,这里是指通过manager直接添加，后门王者？
+    @PostMapping("/driver/DriverAdd")
+    @Transactional
+    public ModelAndView addOneDriver(@RequestBody @Valid DriverInfoForm driverInfoForm,
+                                     BindingResult bindingResult,
+                                     HttpServletRequest request,
+                                     Map<String,Object> map){
+        Cookie cookie = CookieUtil.get(request,CookieConstant.TOKEN);
+        log.info("获取lineId来添加司机");
+        Integer lineId = Integer.parseInt(redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX,cookie.getValue()))+"");
+        log.info("lineId={}",lineId);
 
-    //增加司机
+        if (bindingResult.hasErrors()){
+            //todo 后面统一搞个manager返回的枚举
+            log.info("增加司机时填表有误");
+            throw new ManagerException(bindingResult.getFieldError().getDefaultMessage(),"http://118.24.96.45:8080/manager/allDrivers");
+
+        }
+        managerService.AddOneDriver(driverInfoForm,lineId);
+        map.put("msg","添加司机"+driverInfoForm.getName()+ResultEnums.SUCCESS.getMsg());
+        map.put("url","http://118.24.96.45:8080/manager/driver/allDrivers");
+
+        return new ModelAndView("common/success",map);
+
+
+    }
+
 
 
 

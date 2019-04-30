@@ -11,6 +11,7 @@ import com.liancheng.lcweb.enums.DriverStatusEnums;
 import com.liancheng.lcweb.enums.ResultEnums;
 import com.liancheng.lcweb.exception.LcException;
 import com.liancheng.lcweb.exception.ManagerException;
+import com.liancheng.lcweb.form.DriverInfoForm;
 import com.liancheng.lcweb.repository.DriverRepository;
 import com.liancheng.lcweb.repository.ManagerRepository;
 import com.liancheng.lcweb.repository.OrderRepository;
@@ -70,6 +71,21 @@ public class ManagerServiceImpl implements ManagerService {
 
 
     @Override
+    public ResultVO deleteOne(Integer lineId) {
+        if (findOne(lineId)!=null){
+            log.error("删除管理员失败,无此管理员");
+            throw new LcException(ResultEnums.NO_SUCH_MANAGER);
+        }
+        //所属司机全部删除，但是原有订单不删除。
+        //todo 做成级联删除啊！！！
+        for (Driver driver : driverService.findbyLineId(lineId)){
+            driverService.deleteOne(driver.getDnum());
+        }
+        managerRepository.deleteById(lineId);
+        return ResultVOUtil.success();
+    }
+
+    @Override
     public Manager addManager(Manager manager) {
         Manager result = new Manager();
         BeanUtils.copyProperties(manager,result);
@@ -77,18 +93,11 @@ public class ManagerServiceImpl implements ManagerService {
     }
 
     @Override
-    public ResultVO deleteOne(Integer lineId) {
-        if (findOne(lineId)!=null){
-            log.error("删除管理员失败,无此管理员");
-            throw new LcException(ResultEnums.NO_SUCH_MANAGER);
-        }
-        //所属司机全部删除，但是原有订单不删除。
-        for (Driver driver : driverService.findbyLineId(lineId)){
-            driverService.deleteOne(driver.getDnum());
-        }
-        managerRepository.deleteById(lineId);
-        return ResultVOUtil.success();
+    public void AddOneDriver(DriverInfoForm driverInfoForm,Integer lineId) {
+
     }
+
+
 
     @Override
     public List<DriverDTO> getDriversByStatus(Integer lineId, Integer status) {

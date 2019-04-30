@@ -5,6 +5,7 @@ import com.liancheng.lcweb.domain.Manager;
 import com.liancheng.lcweb.domain.Order;
 import com.liancheng.lcweb.dto.DriverDTO;
 import com.liancheng.lcweb.dto.TotalInfoDTO;
+import com.liancheng.lcweb.form.DriverInfoForm;
 
 import java.util.List;
 
@@ -28,6 +29,8 @@ public interface ManagerService {
     List<DriverDTO> getAllDrivers(Integer lineId);
 
     List<Order> getAllOrders(Integer lineId);
+
+    void AddOneDriver(DriverInfoForm driverInfoForm,Integer lineId);
 
 
 }

@@ -21,6 +21,7 @@ public class DriverInfoForm {
     private String carNum;
 
     //线路id
+    //于是在manager添加的时候就需要验证一下是不是同一线路的了！
     @NotEmpty(message = "注册线路必填")
     private String line;
 

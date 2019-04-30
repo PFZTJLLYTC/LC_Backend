@@ -5,10 +5,11 @@ spring:
     username: root
     password: pfztjllytc@LC2018
 
-#  redis:
-#    host: 118.24.96.45
-#    port: 6379
-#    password:
+#没问题啊，这个可以用的
+  redis:
+    host: 118.24.96.45
+    port: 6379
+    password:
   jpa:
     hibernate:
       ddl-auto: update
