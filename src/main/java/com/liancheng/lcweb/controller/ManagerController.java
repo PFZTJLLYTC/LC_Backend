@@ -215,11 +215,12 @@ public class ManagerController {
 
         if (bindingResult.hasErrors()){
             //todo 后面统一搞个manager返回的枚举
-            log.info("增加司机时填表有误");
+            log.error("增加司机时填表有误");
             throw new ManagerException(bindingResult.getFieldError().getDefaultMessage(),"http://118.24.96.45:8080/manager/allDrivers");
 
         }
         managerService.AddOneDriver(driverInfoForm,lineId);
+        log.info("线路{},添加司机{}成功",lineId,driverInfoForm.getName());
         map.put("msg","添加司机"+driverInfoForm.getName()+ResultEnums.SUCCESS.getMsg());
         map.put("url","http://118.24.96.45:8080/manager/driver/allDrivers");
 
@@ -227,8 +228,6 @@ public class ManagerController {
 
 
     }
-
-
 
 
     //
@@ -271,13 +270,13 @@ public class ManagerController {
 
         Order order = orderService.findOne(orderId);
         if (order == null){
-            throw new ManagerException(ResultEnums.ORDER_NOT_FOUND.getMsg(),"manager/alldeals");
+            throw new ManagerException(ResultEnums.ORDER_NOT_FOUND.getMsg(),"http://118.24.96.45:8080/manager/order/allOrders");
 //          throw new LcException(ResultEnums.ORDER_NOT_FOUND);
 
         }
         orderService.confirmOne(order);
         map.put("msg",ResultEnums.SUCCESS.getMsg());
-        map.put("url","/lc/manager/alldeals");
+        map.put("url","http://118.24.96.45:8080/manager/order/allOrders");
         return new ModelAndView("common/success",map);
 
     }

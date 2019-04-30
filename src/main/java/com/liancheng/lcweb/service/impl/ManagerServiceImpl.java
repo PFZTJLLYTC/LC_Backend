@@ -18,9 +18,7 @@ import com.liancheng.lcweb.repository.OrderRepository;
 import com.liancheng.lcweb.service.DriverService;
 import com.liancheng.lcweb.service.ManagerService;
 import com.liancheng.lcweb.utils.ResultVOUtil;
-import javassist.expr.NewArray;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.util.LangUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,6 +39,9 @@ public class ManagerServiceImpl implements ManagerService {
 
     @Autowired
     private DriverService driverService;
+
+    @Autowired
+    private DriverRepository driverRepository;
 
     @Autowired
     private OrderRepository orderRepository;
@@ -94,7 +95,19 @@ public class ManagerServiceImpl implements ManagerService {
 
     @Override
     public void AddOneDriver(DriverInfoForm driverInfoForm,Integer lineId) {
+        Driver driver = new Driver();
 
+        if (!driverInfoForm.getLine().equals(findOne(lineId).getLine())){
+            log.error("不能添加非本线路司机");
+            throw new ManagerException("只能添加本线路的司机","http://118.24.96.45:8080/manager/driver/allDrivers");
+        }
+        BeanUtils.copyProperties(driverInfoForm,driver);
+
+        driver.setLineId(lineId);
+        //刚刚注册都置为休息状态
+        driver.setStatus(DriverStatusEnums.ATREST.getCode());
+        driver.setWorkTimes(0);
+        driverRepository.save(driver);
     }
 
 

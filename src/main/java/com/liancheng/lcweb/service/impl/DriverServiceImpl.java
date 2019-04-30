@@ -35,7 +35,6 @@ public class DriverServiceImpl implements DriverService {
         }
         Driver driver = new Driver();
         BeanUtils.copyProperties(driverInfoForm,driver);
-        driver.setStatus(DriverStatusEnums.ATREST.getCode());
         //表示没有得到验证
         driver.setStatus(DriverStatusEnums.TO_BE_VERIFIED.getCode());
         driver.setWorkTimes(0);
