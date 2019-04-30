@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.util.Date;
 
 //实现返回格式的拼接！
 @RestController
@@ -53,7 +54,7 @@ public class DriverController {
         }
         driver.setDnum(driver.getDnum());
 
-        driver.setAge(driver.getAge());
+        driver.setBirthday(driver.getBirthday());
         driver.setCarNum(driver.getCarNum());
         driver.setStatus(0);
         driver.setPassword("123456");//初始化密码123456
@@ -76,7 +77,7 @@ public class DriverController {
                                  @RequestParam("carNum") String carNum,
                                  @RequestParam("line") String line,
                                  @RequestParam("dNum") String dNum,
-                                 @RequestParam("age") Integer age,
+                                 @RequestParam("birthday") Date birthday,
                                  @RequestParam("status") Integer status){
         Driver driver = new Driver();
         driver.setDnum(dNum);
@@ -85,7 +86,7 @@ public class DriverController {
         driver.setPassword(password);
         driver.setCarNum(carNum);
         driver.setLine(line);
-        driver.setAge(age);
+        driver.setBirthday(birthday);
         driver.setStatus(status);
         log.info("update one driver's info");
         return ResultVOUtil.success(driverRepository.save(driver));

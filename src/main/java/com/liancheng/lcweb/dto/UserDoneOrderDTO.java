@@ -1,14 +1,17 @@
 package com.liancheng.lcweb.dto;
 
-public interface UserDoneOrderDTO {
+import lombok.Data;
 
-    String getCarNum();
+@Data
+public class UserDoneOrderDTO {
 
-    String getSource();
+    private String carNum;
 
-    String getDestination();
+    private String sourse;
 
-    String getUserCount();
+    private String destination;
 
-    String getDate();
+    private String userCount;
+
+    private String date;
 }

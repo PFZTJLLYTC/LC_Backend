@@ -39,8 +39,8 @@ public class Driver {
 
     private String line;
 
-    @Min(value = 18,message = "should above 18 years old!")
-    private Integer age;
+    //计算年龄
+    private Date birthday;
 
     private Integer status;
 
