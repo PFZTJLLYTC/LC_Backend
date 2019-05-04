@@ -41,7 +41,7 @@ public class OrderServiceImpl implements OrderService {
         BeanUtils.copyProperties(userOrderForm,result);
         result.setUserId(userId);
         result.setOrderId(KeyUtil.genUniquekey());
-        //result.setOrderStatus(OrderStatusEnums.WAIT.getCode());
+
         return orderRepository.save(result);
     }
 

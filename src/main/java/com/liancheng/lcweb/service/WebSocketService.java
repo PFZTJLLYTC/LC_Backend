@@ -26,8 +26,9 @@ public class WebSocketService {
     private String uid="";
 
     @OnOpen
-    public void onOpen(Session session){
+    public void onOpen(Session session,@PathParam("uid") String uid){
         this.session = session;
+        this.uid=uid;
         webSocketSet.add(this);
         addOnlineCount();
         log.info("【websocket消息】有新的连接,总数：{},在线人数{}",webSocketSet.size(),getOnlineCount());

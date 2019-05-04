@@ -15,6 +15,7 @@ import com.liancheng.lcweb.repository.UserRepository;
 import com.liancheng.lcweb.service.AccessTokenService;
 import com.liancheng.lcweb.service.OrderService;
 import com.liancheng.lcweb.service.UserService;
+import com.liancheng.lcweb.service.WebSocketService;
 import com.liancheng.lcweb.utils.KeyUtil;
 import com.liancheng.lcweb.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -39,6 +41,9 @@ public class UserController {
 
     @Autowired
     private AccessTokenService accessTokenService;
+
+    @Autowired
+    private WebSocketService webSocketService;
 
 
     //增加信息、注册
@@ -114,7 +119,13 @@ public class UserController {
             return ResultVOUtil.success(ResultEnums.ORDER_INFO_ERROR);
         }
         //todo 交给相应manager操作,应该被异步通知，目前为节约时间选择数据库变化作为消息媒介
-        //考虑消息队列
+        //暂时使用websocket进行manager端提醒实现,这里是传给manager，因此暂时没有写id
+        try {
+            WebSocketService.sendInfo("新的订单消息","");
+        } catch (IOException e) {
+            log.error(e.getMessage());
+            e.printStackTrace();
+        }
 
         return ResultVOUtil.success(orderService.createOne(userId,userOrderForm));
     }
