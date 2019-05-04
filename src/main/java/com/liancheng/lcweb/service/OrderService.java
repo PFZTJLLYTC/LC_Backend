@@ -1,5 +1,6 @@
 package com.liancheng.lcweb.service;
 
+import com.liancheng.lcweb.domain.Driver;
 import com.liancheng.lcweb.domain.Order;
 import com.liancheng.lcweb.dto.UserDoneOrderDTO;
 import com.liancheng.lcweb.form.UserOrderForm;
@@ -12,7 +13,7 @@ public interface OrderService {
 
     Order createOne(String userId,UserOrderForm order);
 
-    Order confirmOne(Order order);
+    Order confirmOne(Order order, Driver driver);
 
     Order finishOne(Order order);
 

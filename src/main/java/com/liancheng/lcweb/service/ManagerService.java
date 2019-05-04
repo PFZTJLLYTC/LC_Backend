@@ -32,5 +32,9 @@ public interface ManagerService {
 
     void AddOneDriver(DriverInfoForm driverInfoForm,Integer lineId);
 
+    void DeleteOneDriver(String dnum, Integer lineId);
+
+    void confirmOneOrder(Order order,String dnum);
+
 
 }

@@ -199,8 +199,6 @@ public class ManagerController {
 
     }
 
-    //
-
     //增加司机,这里是指通过manager直接添加，后门王者？
     @PostMapping("/driver/DriverAdd")
     @Transactional
@@ -216,23 +214,38 @@ public class ManagerController {
         if (bindingResult.hasErrors()){
             //todo 后面统一搞个manager返回的枚举
             log.error("增加司机时填表有误");
-            throw new ManagerException(bindingResult.getFieldError().getDefaultMessage(),"http://118.24.96.45:8080/manager/allDrivers");
+            throw new ManagerException(bindingResult.getFieldError().getDefaultMessage(),"/manager/allDrivers");
 
         }
         managerService.AddOneDriver(driverInfoForm,lineId);
         log.info("线路{},添加司机{}成功",lineId,driverInfoForm.getName());
         map.put("msg","添加司机"+driverInfoForm.getName()+ResultEnums.SUCCESS.getMsg());
-        map.put("url","http://118.24.96.45:8080/manager/driver/allDrivers");
+        map.put("url","/manager/driver/allDrivers");
 
         return new ModelAndView("common/success",map);
 
 
     }
 
+    //删除司机信息(根据司机dnum删)
+    @DeleteMapping("/driver/DriverDelete")
+    @Transactional
+    public ModelAndView deleteOneDriver(@RequestParam("dnum") String dnum,
+                                        HttpServletRequest request,
+                                        Map<String,Object> map){
+        Cookie cookie = CookieUtil.get(request,CookieConstant.TOKEN);
+        log.info("获取lineId来删除司机");
+        Integer lineId = Integer.parseInt(redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX,cookie.getValue()))+"");
+        log.info("lineId={}",lineId);
 
-    //
+        managerService.DeleteOneDriver(dnum,lineId);
+        log.info("删除司机成功,line={},dnum={}",lineId,dnum);
+        map.put("msg","删除司机" + dnum + ResultEnums.SUCCESS.getMsg());
+        map.put("url","/manager/driver/allDrivers");
 
-    //删除信息
+        return new ModelAndView("common/success",map);
+
+    }
 
 
 
@@ -259,6 +272,7 @@ public class ManagerController {
     @PutMapping("/order/confirm")
     @Transactional
     public ModelAndView confirmOrder(@RequestParam("orderId") String orderId,
+                                     @RequestParam("dnum") String dnum,
                                      HttpServletRequest request,
                                      Map<String,Object> map){
 
@@ -270,18 +284,17 @@ public class ManagerController {
 
         Order order = orderService.findOne(orderId);
         if (order == null){
-            throw new ManagerException(ResultEnums.ORDER_NOT_FOUND.getMsg(),"http://118.24.96.45:8080/manager/order/allOrders");
-//          throw new LcException(ResultEnums.ORDER_NOT_FOUND);
+            throw new ManagerException(ResultEnums.ORDER_NOT_FOUND.getMsg(),"/manager/order/allOrders");
 
         }
-        orderService.confirmOne(order);
+        //加一个选择司机的按钮,然后传dnum，弹出确定窗口，确定后调用confirmOrder这个方法.
+        managerService.confirmOneOrder(order,dnum);
+
         map.put("msg",ResultEnums.SUCCESS.getMsg());
-        map.put("url","http://118.24.96.45:8080/manager/order/allOrders");
+        map.put("url","/manager/order/allOrders");
         return new ModelAndView("common/success",map);
 
     }
-
-
 
 
 }

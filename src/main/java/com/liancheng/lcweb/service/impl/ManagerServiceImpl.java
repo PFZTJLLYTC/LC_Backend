@@ -6,6 +6,7 @@ import com.liancheng.lcweb.domain.Driver;
 import com.liancheng.lcweb.domain.Manager;
 import com.liancheng.lcweb.domain.Order;
 import com.liancheng.lcweb.dto.DriverDTO;
+import com.liancheng.lcweb.dto.OrderDriDTO;
 import com.liancheng.lcweb.dto.TotalInfoDTO;
 import com.liancheng.lcweb.enums.DriverStatusEnums;
 import com.liancheng.lcweb.enums.ResultEnums;
@@ -17,12 +18,14 @@ import com.liancheng.lcweb.repository.ManagerRepository;
 import com.liancheng.lcweb.repository.OrderRepository;
 import com.liancheng.lcweb.service.DriverService;
 import com.liancheng.lcweb.service.ManagerService;
+import com.liancheng.lcweb.service.OrderService;
 import com.liancheng.lcweb.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.servlet.ModelAndViewDefiningException;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -39,6 +42,9 @@ public class ManagerServiceImpl implements ManagerService {
 
     @Autowired
     private DriverService driverService;
+
+    @Autowired
+    private OrderService orderService;
 
     @Autowired
     private DriverRepository driverRepository;
@@ -187,6 +193,44 @@ public class ManagerServiceImpl implements ManagerService {
         List<Order> orders = orderRepository.findByLineId(lineId);
         if (CollectionUtils.isEmpty(orders))return null;
         return orders;
+
+    }
+
+    @Override
+    public void DeleteOneDriver(String dnum, Integer lineId) {
+        Driver driver = driverService.findOne(dnum);
+        if (!driverService.findbyLineId(lineId).contains(driver)){
+            log.error("不可删非本线路司机，line={},dnum={}",lineId,dnum);
+            //需要后台警告一下md，直接显示没有这个司机比较好
+            throw new ManagerException(ResultEnums.NO_SUCH_DRIVER.getMsg(),"/manager/driver/allDrivers");
+        }
+        //前面进行了判断，因此对driverservice简化
+        driverService.deleteOne(dnum);
+    }
+
+    @Override
+    public void confirmOneOrder(Order order,String dnum) {
+
+        //找司机
+        Driver driver = driverService.findOne(dnum);
+
+        //验证司机是否符合条件
+        if (driver.getStatus().equals(DriverStatusEnums.AVAILABLE.getCode())&&
+            driver.getAvailableSeats()>=order.getUserCount()){
+            Order result =  orderService.confirmOne(order,driver);
+        }
+        else if(!driver.getStatus().equals(DriverStatusEnums.AVAILABLE.getCode())){
+            log.error("分配订单时司机状态错误");
+            throw new ManagerException(ResultEnums.DRIVER_STATUS_ERROR.getMsg(),"/manager/todealwith");
+        }
+        else {
+            log.error("分配时司机可用座位数目不足");
+            throw new ManagerException(ResultEnums.SEATS_NOT_ENOUGH.getMsg(),"/manager/todealwith");
+        }
+
+        //todo 分别通知对应司机和乘客由订单状态的改变(result)
+        //通过对应的方法
+
 
     }
 }

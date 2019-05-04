@@ -1,11 +1,13 @@
 package com.liancheng.lcweb.service.impl;
 
+import com.liancheng.lcweb.domain.Driver;
 import com.liancheng.lcweb.domain.Order;
 import com.liancheng.lcweb.dto.UserDoneOrderDTO;
 import com.liancheng.lcweb.enums.OrderStatusEnums;
 import com.liancheng.lcweb.enums.ResultEnums;
 import com.liancheng.lcweb.exception.ManagerException;
 import com.liancheng.lcweb.form.UserOrderForm;
+import com.liancheng.lcweb.repository.DriverRepository;
 import com.liancheng.lcweb.repository.OrderRepository;
 import com.liancheng.lcweb.service.OrderService;
 import com.liancheng.lcweb.utils.KeyUtil;
@@ -23,6 +25,10 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private OrderRepository orderRepository;
+
+    @Autowired
+    private DriverRepository driverRepository;
+
 
     @Override
     public List<Order> findAll() {
@@ -71,8 +77,21 @@ public class OrderServiceImpl implements OrderService {
     /***********************************************/
 
     @Override
-    public Order confirmOne(Order order) {
-        return null;
+    public Order confirmOne(Order order, Driver driver) {
+        //订单加上司机信息
+        order.setCarNum(driver.getCarNum());
+        order.setDnum(driver.getDnum());
+        order.setDriverName(driver.getName());
+
+        //改变司机信息并保存
+        Integer original = driver.getAvailableSeats();
+        driver.setAvailableSeats(original-order.getUserCount());
+        driverRepository.save(driver);
+
+        //改变订单状态
+        order.setOrderStatus(OrderStatusEnums.PROCESSIN.getCode());
+
+        return orderRepository.save(order);
     }
 
     @Override

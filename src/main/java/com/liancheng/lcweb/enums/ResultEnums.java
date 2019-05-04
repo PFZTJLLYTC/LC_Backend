@@ -28,7 +28,8 @@ public enum ResultEnums {
     DRIVER_STATUS_ERROR(20,"司机状态错误"),
     LOG_OUT_SUCCESS(21,"登出成功"),
     DRIVER_REGISTER_FORM_ERROR(22,"司机注册表单信息错误"),
-    DRIVER_LOGIN_FORM_ERROR(23,"司机登入表单信息错误"),;
+    DRIVER_LOGIN_FORM_ERROR(23,"司机登入表单信息错误"),
+    SEATS_NOT_ENOUGH(24,"该司机可用座位数目不足"),;
 
 
     private String msg;

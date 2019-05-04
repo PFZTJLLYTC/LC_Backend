@@ -69,7 +69,7 @@ public class DriverServiceImpl implements DriverService {
 
         if (!driver.isPresent()){
             //查一般是交给manager，所以就不跑异常，到时候直接返回错误界面
-            throw new ManagerException(ResultEnums.NO_SUCH_USER.getMsg(),"manager/drivers");
+            throw new ManagerException(ResultEnums.NO_SUCH_USER.getMsg(),"/manager/driver/allDrivers");
         }
         return driver.get();
     }
@@ -121,13 +121,15 @@ public class DriverServiceImpl implements DriverService {
 
     @Override
     public void deleteOne(String dnum) {
-        if (findOne(dnum)!=null){
-            driverRepository.deleteById(dnum);
-        }
-        else {
-            log.error("删除司机失败,dnum={}",dnum);
-            throw new ManagerException(ResultEnums.NO_SUCH_DRIVER.getMsg(),"common/driverDetail");
-        }
+//        if (findOne(dnum)!=null){
+//            driverRepository.deleteById(dnum);
+//        }
+//        else {
+//            log.error("删除司机失败,dnum={}",dnum);
+//            throw new ManagerException(ResultEnums.NO_SUCH_DRIVER.getMsg(),"/manager/driver/allDrivers");
+//        }
+//    }
+        driverRepository.deleteById(dnum);
     }
 
 }
