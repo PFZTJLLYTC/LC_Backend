@@ -1,9 +1,12 @@
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://118.24.96.45:3306/lc?serverTimezone=Asia/Shanghai
+#    url: jdbc:mysql://118.24.96.45:3306/lc?serverTimezone=Asia/Shanghai
+#    username: root
+#    password: pfztjllytc@LC2018
+    url: jdbc:mysql://127.0.0.1:3306/lc?serverTimezone=Asia/Shanghai
     username: root
-    password: pfztjllytc@LC2018
+    password: 744673725
 
 #没问题啊，这个可以用的
   redis:

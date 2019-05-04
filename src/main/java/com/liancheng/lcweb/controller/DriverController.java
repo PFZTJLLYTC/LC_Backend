@@ -3,6 +3,10 @@ package com.liancheng.lcweb.controller;
 
 import com.liancheng.lcweb.domain.Driver;
 import com.liancheng.lcweb.VO.ResultVO;
+import com.liancheng.lcweb.enums.ResultEnums;
+import com.liancheng.lcweb.exception.LcException;
+import com.liancheng.lcweb.form.DriverInfoForm;
+import com.liancheng.lcweb.form.DriverLoginForm;
 import com.liancheng.lcweb.repository.DriverRepository;
 import com.liancheng.lcweb.service.DriverService;
 import com.liancheng.lcweb.utils.ResultVOUtil;
@@ -29,42 +33,46 @@ public class DriverController {
     @Autowired
     private DriverService driverService;
 
+    //注册
+    @PostMapping(value = "/register")//加表单验证
+    public ResultVO driverAdd(@RequestBody@Valid DriverInfoForm driverInfoForm,
+                              BindingResult bindingResult){
+        if (bindingResult.hasErrors()){
+            log.error("注册信息错误");
+            return ResultVOUtil.error(ResultEnums.DRIVER_REGISTER_FORM_ERROR.getCode(),
+                    bindingResult.getFieldError().getDefaultMessage());
+        }
+
+        driverService.addDriver(driverInfoForm);
+
+        log.info("add a new driver，driver={}",driverInfoForm);
+        //跳转到登陆界面
+        return ResultVOUtil.success();
+
+    }
+
     //登陆
     @PostMapping(value = "/login")
     @Transactional
-    public ResultVO userLogin(@RequestBody Driver driver){
-        Driver result = driverService.getByMobileAndPassword(driver.getDnum(),driver.getPassword());
+    public ResultVO driverLogin(@RequestBody@Valid DriverLoginForm driverLoginForm,
+                                BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            log.error("司机登入信息错误");
+            return ResultVOUtil.error(ResultEnums.DRIVER_LOGIN_FORM_ERROR.getCode(),
+                    bindingResult.getFieldError().getDefaultMessage());
+        }
+        Driver result = driverService.getByMobileAndPassword(driverLoginForm.getDnum(),
+                driverLoginForm.getPassword());
         if(result!=null){
             log.info("司机登陆成功，dnum={}",result.getDnum());
             return ResultVOUtil.success(result);
         }
         else{
-            log.error("无此司机信息，dnum={}",driver.getDnum());
+            log.error("无此司机信息，dnum={}",driverLoginForm.getDnum());
             return ResultVOUtil.error();
         }
-
     }
 
-
-    //注册
-    @PostMapping(value = "/drivers/add")//加表单验证
-    public ResultVO driverAdd(@RequestBody@Valid Driver driver, BindingResult bindingResult){
-        if (bindingResult.hasErrors()){
-            return null;
-        }
-        driver.setDnum(driver.getDnum());
-
-        driver.setBirthday(driver.getBirthday());
-        driver.setCarNum(driver.getCarNum());
-        driver.setStatus(0);
-        driver.setPassword("123456");//初始化密码123456
-        driver.setName(driver.getName());
-        //如何让一个管理员只能看见自己的呢？
-        driver.setLine(driver.getLine());
-
-        log.info("add a new driver");
-        return ResultVOUtil.success(driverRepository.save(driver));
-    }
 
 
 

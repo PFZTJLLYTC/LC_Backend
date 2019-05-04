@@ -34,7 +34,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-
     @Autowired
     private OrderService orderService;
 
@@ -44,21 +43,36 @@ public class UserController {
 
     //增加信息、注册
     @PostMapping(value = "/register")
-    public ResultVO userAdd(@RequestBody @Valid UserInfoForm userRegisterForm,BindingResult bindingResult){
+    public ResultVO userAdd(@RequestBody @Valid UserInfoForm userInfoForm,BindingResult bindingResult){
 
         if (bindingResult.hasErrors()){
             log.error("注册表单错误");
-            throw new LcException(ResultEnums.USER_CHANGE_FORM_ERROR.getCode(),
+//            throw new LcException(ResultEnums.USER_CHANGE_FORM_ERROR.getCode(),
+//                    bindingResult.getFieldError().getDefaultMessage());
+            return ResultVOUtil.error(ResultEnums.USER_CHANGE_FORM_ERROR.getCode(),
                     bindingResult.getFieldError().getDefaultMessage());
         }
 
-        userService.addUser(userRegisterForm);
-        log.info("add a new user，userMobile={}",userRegisterForm.getMobile());
+        userService.addUser(userInfoForm);
 
+        log.info("add a new user，user={}",userInfoForm);
         //跳转到登陆界面
         return ResultVOUtil.success();
     }
 
+    @PostMapping(value = "/login")
+    public ResultVO userLogin(@RequestBody@Valid UserLoginForm user,BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            log.error("用户登入信息不合法");
+            return ResultVOUtil.error(ResultEnums.USER_LOGIN_FORM_ERROR.getCode(),
+                    bindingResult.getFieldError().getDefaultMessage());
+        }
+        User result = userService.userLogin(user);
+        if(result!=null)
+            return ResultVOUtil.success(accessTokenService.createAccessToken(result.getId()));
+        else
+            return ResultVOUtil.error(ResultEnums.NO_SUCH_USER);
+    }
 
 
     //根据Id更新user信息
@@ -76,18 +90,6 @@ public class UserController {
         return ResultVOUtil.success();
     }
 
-    @PostMapping(value = "/login")
-    public ResultVO userLogin(@RequestBody@Valid UserLoginForm user,BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
-            log.error("登入信息不合法");
-            throw new LcException(ResultEnums.USER_LOGIN_FORM_ERROR);
-        }
-        User result = userService.userLogin(user);
-        if(result!=null)
-            return ResultVOUtil.success(accessTokenService.createAccessToken(result.getId()));
-        else
-            return ResultVOUtil.error(ResultEnums.NO_SUCH_USER);
-    }
 
     //返回司机信息,应该由前端储存起来
     @GetMapping("/info")
@@ -109,7 +111,7 @@ public class UserController {
                                 BindingResult bindingResult){
         if (bindingResult.hasErrors()){
             log.error("订单填写信息不合法");
-            throw new LcException(ResultEnums.ORDER_INFO_ERROR);
+            return ResultVOUtil.success(ResultEnums.ORDER_INFO_ERROR);
         }
         //todo 交给相应manager操作,应该被异步通知，目前为节约时间选择数据库变化作为消息媒介
         //考虑消息队列
