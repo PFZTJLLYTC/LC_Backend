@@ -13,7 +13,8 @@ public interface OrderRepository extends JpaRepository<Order,String> {
 
     List<Order> findByDnum(String dnum);
 
-    List<Order> findByLine(String line);
+    //用all来筛选好像还更快一些
+//    List<Order> findByLineIdAndOrderStatus(Integer lineId,Integer orderStatus);
 
     @Query(value = "select * from user_order as o where o.line = (select line from manager  where line_id = ?1 ) ",nativeQuery = true)
     List<Order> findByLineId(Integer lineId);

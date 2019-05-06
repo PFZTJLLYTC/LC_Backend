@@ -28,6 +28,8 @@ public interface ManagerService {
 
     List<DriverDTO> getAllDrivers(Integer lineId);
 
+    List<Order> getOrdersByStatus(Integer lineId,Integer status);
+
     List<Order> getAllOrders(Integer lineId);
 
     void AddOneDriver(DriverInfoForm driverInfoForm,Integer lineId);

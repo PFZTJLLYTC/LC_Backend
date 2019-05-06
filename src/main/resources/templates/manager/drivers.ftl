@@ -32,7 +32,7 @@
 
 
                     <li class="am-dropdown-header">所有消息都在这里</li>
-                    <li><a href="">未处理订单 <span class="am-badge am-badge-danger am-round">6</span></a>
+                    <li><a href="/manager/order?status=0">未处理订单 <span class="am-badge am-badge-danger am-round">6</span></a>
                     </li>
                     <li><a href="#">未处理司机申请</a></li>
                     <li><a href="#">系统升级</a></li>

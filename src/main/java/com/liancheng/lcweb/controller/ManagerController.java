@@ -8,6 +8,7 @@ import com.liancheng.lcweb.domain.Order;
 import com.liancheng.lcweb.dto.DriverDTO;
 import com.liancheng.lcweb.dto.TotalInfoDTO;
 import com.liancheng.lcweb.enums.DriverStatusEnums;
+import com.liancheng.lcweb.enums.OrderStatusEnums;
 import com.liancheng.lcweb.enums.ResultEnums;
 import com.liancheng.lcweb.exception.ManagerException;
 import com.liancheng.lcweb.form.DriverInfoForm;
@@ -164,6 +165,7 @@ public class ManagerController {
 
         //todo 暂时不分页，只把全部搞出来
         map.put("drivers",driverDTOList);
+        map.put("name",lineId);
         if (status.equals(DriverStatusEnums.ATREST.getCode())){
             return new ModelAndView("manager/atRestDrivers",map);
         }
@@ -291,11 +293,29 @@ public class ManagerController {
 
     //查看不同状态订单
     @GetMapping("/order/findBysStatus")
-    public ModelAndView getOrdersByStatus(@RequestParam("status") String status,
+    public ModelAndView getOrdersByStatus(@RequestParam("status") Integer status,
                                           HttpServletRequest request,
                                           Map<String,Object> map){
-        //todo
-        return new ModelAndView("manager/",map);
+        Cookie cookie = CookieUtil.get(request,CookieConstant.TOKEN);
+
+        log.info("获取lineId来查查询相应状态的订单,status={}", status);
+        Integer lineId = Integer.parseInt(redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX,cookie.getValue()))+"");
+        log.info("lineId={}",lineId);
+
+        List<Order> orderList = managerService.getOrdersByStatus(lineId,status);
+
+        map.put("orderList",orderList);
+        map.put("name",lineId);
+
+        if (status.equals(OrderStatusEnums.WAIT.getCode())){
+            return new ModelAndView("manager/waitOrders",map);
+        }
+        else if (status.equals(OrderStatusEnums.PROCESSIN.getCode())){
+            return new ModelAndView("manager/processingOrders",map);
+        }
+        else{
+            return new ModelAndView("manager/doneOrders",map);
+        }
     }
 
 

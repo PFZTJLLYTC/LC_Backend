@@ -121,7 +121,7 @@
         <div class="daohang">
             <ul>
                 <li>
-                    <button class="am-btn am-btn-default am-radius am-btn-xs" type="button"> 首页
+                    <button class="am-btn am-btn-default am-radius am-btn-xs" type="button"> <a href="/manager/login?lineId=${name}&password= ">首页</a>
                 </li>
                 <li>
                     <button class="am-btn am-btn-default am-radius am-btn-xs" type="button">订单管理<a

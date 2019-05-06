@@ -233,6 +233,44 @@ public class ManagerServiceImpl implements ManagerService {
         //todo 分别通知对应司机和乘客由订单状态的改变(result)
         //通过对应的方法
 
+    }
+
+    @Override
+    public List<Order> getOrdersByStatus(Integer lineId, Integer status) {
+
+        List<Order> allOrders = getAllOrders(lineId);
+        if (allOrders==null)return null;
+        List<Order> result = new ArrayList<>();
+        switch (status){
+            //未处理
+            case 0:
+                for (Order order : allOrders){
+                    if (order.getOrderStatus().equals(0)){
+                        result.add(order);
+                    }
+                }
+                break;
+            //进行中
+            case 1:
+                for (Order order : allOrders){
+                    if (order.getOrderStatus().equals(1)){
+                        result.add(order);
+                    }
+                }
+                break;
+            //已完成
+            case 2:
+                for (Order order : allOrders){
+                    if (order.getOrderStatus().equals(2)){
+                        result.add(order);
+                    }
+                }
+                break;
+            default:
+                throw new ManagerException(ResultEnums.ORDER_STATUS_ERROR.getMsg(),"/manager/order/allOrders");
+
+        }
+        return result;
 
     }
 
