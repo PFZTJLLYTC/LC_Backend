@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import static com.liancheng.lcweb.enums.ResultEnums.UNKNOWN_ERROR;
 
@@ -39,8 +42,9 @@ public class ExceptionHandle {
     }
 
     @ExceptionHandler(value = ManagerException.class)
-    public ModelAndView handleAuthorizeExceptionOfManager(ManagerException e, Map<String,Object> map){
+    public ModelAndView handleAuthorizeExceptionOfManager(ManagerException e){
 
+        Map<String,Object> map = new HashMap<>();
         map.put("msg",e.getMessage());
         map.put("url",e.getUrl());
         return new ModelAndView("common/error",map);

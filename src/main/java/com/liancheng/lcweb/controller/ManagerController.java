@@ -80,8 +80,9 @@ public class ManagerController {
         }
 
         Manager manager = managerService.getManager(lineId,password);
-        if(manager ==null){
+        if(manager == null){
             throw new ManagerException(ResultEnums.NO_SUCH_MANAGER.getMsg(),CookieConstant.EXPIRE_URL);
+
         }
 
         //2.存userId信息
@@ -118,7 +119,7 @@ public class ManagerController {
             CookieUtil.set(response,CookieConstant.TOKEN,null, 0);
         }
         map.put("msg",ResultEnums.LOG_OUT_SUCCESS.getMsg());
-        map.put("url","http://118.24.96.45:8080/login.html");
+        map.put("url","/login.html");
 
         return new ModelAndView("common/success",map);
     }
@@ -199,7 +200,7 @@ public class ManagerController {
 
     }
 
-    //增加司机,这里是指通过manager直接添加，后门王者？
+    //增加司机,这里是指通过manager直接添加，但是仍需要确认
     @PostMapping("/driver/DriverAdd")
     @Transactional
     public ModelAndView addOneDriver(@RequestBody @Valid DriverInfoForm driverInfoForm,
@@ -219,7 +220,7 @@ public class ManagerController {
         }
         managerService.AddOneDriver(driverInfoForm,lineId);
         log.info("线路{},添加司机{}成功",lineId,driverInfoForm.getName());
-        map.put("msg","添加司机"+driverInfoForm.getName()+ResultEnums.SUCCESS.getMsg());
+        map.put("msg","添加注册司机信息"+driverInfoForm.getName()+ResultEnums.SUCCESS.getMsg()+", 请确认相关司机完成操作！");
         map.put("url","/manager/driver/allDrivers");
 
         return new ModelAndView("common/success",map);
@@ -244,8 +245,29 @@ public class ManagerController {
         map.put("url","/manager/driver/allDrivers");
 
         return new ModelAndView("common/success",map);
+    }
+
+    //确认添加司机
+    @PutMapping("/driver/confirmDriver")
+    @Transactional
+    public ModelAndView confirmOneDriver(@RequestParam("dnum")String dnum,
+                                         HttpServletRequest request,
+                                         Map<String,Object> map){
+        Cookie cookie = CookieUtil.get(request,CookieConstant.TOKEN);
+        log.info("获取lineId来同意司机注册");
+        Integer lineId = Integer.parseInt(redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX,cookie.getValue()))+"");
+        log.info("lineId={}",lineId);
+
+        managerService.confirmOneDriver(dnum,lineId);
+        log.info("确认添加司机成功,line={},dnum={}",lineId,dnum);
+
+        map.put("msg","确认司机" + dnum + ResultEnums.SUCCESS.getMsg());
+        map.put("url","/manager/driver/findByStatus?status="+DriverStatusEnums.TO_BE_VERIFIED.getCode());
+
+        return new ModelAndView("common/success",map);
 
     }
+
 
 
 
@@ -266,6 +288,16 @@ public class ManagerController {
         map.put("name",lineId);
         return new ModelAndView("manager/alldeals",map);
     }
+
+    //查看不同状态订单
+    @GetMapping("/order/findBysStatus")
+    public ModelAndView getOrdersByStatus(@RequestParam("status") String status,
+                                          HttpServletRequest request,
+                                          Map<String,Object> map){
+        //todo
+        return new ModelAndView("manager/",map);
+    }
+
 
 
     //确认订单

@@ -10,12 +10,14 @@ import com.liancheng.lcweb.form.UserOrderForm;
 import com.liancheng.lcweb.repository.DriverRepository;
 import com.liancheng.lcweb.repository.OrderRepository;
 import com.liancheng.lcweb.service.OrderService;
+import com.liancheng.lcweb.service.WebSocketService;
 import com.liancheng.lcweb.utils.KeyUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,8 +43,21 @@ public class OrderServiceImpl implements OrderService {
         BeanUtils.copyProperties(userOrderForm,result);
         result.setUserId(userId);
         result.setOrderId(KeyUtil.genUniquekey());
+        result.setOrderStatus(OrderStatusEnums.WAIT.getCode());
 
-        return orderRepository.save(result);
+        //todo lineId此处必须在form里面有呈现
+        orderRepository.save(result);
+
+        //通过lineId发送到指定manager端
+        //websocket进行manager端提醒实现,传给manager
+        try {
+            WebSocketService.sendInfo("新的订单消息",userOrderForm.getLineId());
+        } catch (IOException e) {
+            log.error(e.getMessage());
+            e.printStackTrace();
+        }
+
+        return result;
     }
 
 

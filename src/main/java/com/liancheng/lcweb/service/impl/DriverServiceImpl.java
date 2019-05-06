@@ -35,15 +35,13 @@ public class DriverServiceImpl implements DriverService {
         }
         Driver driver = new Driver();
         BeanUtils.copyProperties(driverInfoForm,driver);
-        //线路名唯一吗？
-        driver.setLineId(1);
-        driver.setStatus(DriverStatusEnums.ATREST.getCode());
         //表示没有得到验证
         driver.setStatus(DriverStatusEnums.TO_BE_VERIFIED.getCode());
         driver.setWorkTimes(0);
-        //默认四座
+        //默认四座,应该在form李表现出来
         driver.setAvailableSeats(4);
         //todo line的名字-考虑新建一个表？
+        //等待被确认
         driverRepository.save(driver);
     }
 

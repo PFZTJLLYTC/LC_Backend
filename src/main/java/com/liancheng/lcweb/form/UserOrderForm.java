@@ -12,6 +12,10 @@ import java.math.BigDecimal;
 @Data
 public class UserOrderForm {
 
+    //lineId必须在这里有呈现!
+    @NotNull(message = "线路选择！")
+    private Integer lineId;
+
     @NotBlank(message = "出发地不能为空")
     private String source;
 

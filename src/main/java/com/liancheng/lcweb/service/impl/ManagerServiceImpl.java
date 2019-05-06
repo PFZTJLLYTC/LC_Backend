@@ -9,6 +9,7 @@ import com.liancheng.lcweb.dto.DriverDTO;
 import com.liancheng.lcweb.dto.OrderDriDTO;
 import com.liancheng.lcweb.dto.TotalInfoDTO;
 import com.liancheng.lcweb.enums.DriverStatusEnums;
+import com.liancheng.lcweb.enums.OrderStatusEnums;
 import com.liancheng.lcweb.enums.ResultEnums;
 import com.liancheng.lcweb.exception.LcException;
 import com.liancheng.lcweb.exception.ManagerException;
@@ -69,11 +70,12 @@ public class ManagerServiceImpl implements ManagerService {
     /*登陆用*/
     @Override
     public Manager getManager(Integer lineId, String password) {
-        if (managerRepository.findByLineIdAndPassword(lineId,password)==null){
+        Manager manager = managerRepository.findByLineIdAndPassword(lineId,password);
+        if (manager==null){
             log.error("没有此线路负责人");
             return null;
         }
-        return managerRepository.findByLineIdAndPassword(lineId,password);
+        return manager;
     }
 
 
@@ -221,16 +223,32 @@ public class ManagerServiceImpl implements ManagerService {
         }
         else if(!driver.getStatus().equals(DriverStatusEnums.AVAILABLE.getCode())){
             log.error("分配订单时司机状态错误");
-            throw new ManagerException(ResultEnums.DRIVER_STATUS_ERROR.getMsg(),"/manager/todealwith");
+            throw new ManagerException(ResultEnums.DRIVER_STATUS_ERROR.getMsg(),"/manager/order/findByStatus?status="+ OrderStatusEnums.WAIT.getCode());
         }
         else {
             log.error("分配时司机可用座位数目不足");
-            throw new ManagerException(ResultEnums.SEATS_NOT_ENOUGH.getMsg(),"/manager/todealwith");
+            throw new ManagerException(ResultEnums.SEATS_NOT_ENOUGH.getMsg(),"/manager/order/findByStatus?status="+ OrderStatusEnums.WAIT.getCode());
         }
 
         //todo 分别通知对应司机和乘客由订单状态的改变(result)
         //通过对应的方法
 
 
+    }
+
+    @Override
+    public void confirmOneDriver(String dnum, Integer lineId) {
+
+        Driver driver = driverService.findOne(dnum);
+        if (!driver.getLineId().equals(lineId)){
+            log.error("线路{}，想确定其他路的司机注册信息,dum={}，建议安排它一手！",lineId,dnum);
+            throw new ManagerException(ResultEnums.NO_SUCH_DRIVER.getMsg(),"/manager/driver/findBysStatus?status="+DriverStatusEnums.TO_BE_VERIFIED.getCode());
+
+        }
+        //将状态设置为休息中，代表成功确定
+        driver.setStatus(DriverStatusEnums.ATREST.getCode());
+
+        //保存更改,正式生效(是否对driver进行通知？)
+        driverRepository.save(driver);
     }
 }

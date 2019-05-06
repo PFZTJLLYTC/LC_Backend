@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 @Component
-@ServerEndpoint("/webSocket/{uid}")
+@ServerEndpoint("/webSocket/{id}")
 @Slf4j
 public class WebSocketService {
     //与某个客户端的连接会话，需要通过它来给客户端发送数据
@@ -22,13 +22,13 @@ public class WebSocketService {
     //concurrent包的线程安全Set，用来存放每个客户端对应的MyWebSocket对象。
     private static CopyOnWriteArraySet<WebSocketService> webSocketSet = new CopyOnWriteArraySet<>();
 
-    //看看要不要此id
-    private String uid="";
+    //和lineId对应，于是将其从string变为integer
+    private Integer id= -1 ;
 
     @OnOpen
-    public void onOpen(Session session,@PathParam("uid") String uid){
+    public void onOpen(Session session,@PathParam("id") Integer id){
         this.session = session;
-        this.uid=uid;
+        this.id=id;
         webSocketSet.add(this);
         addOnlineCount();
         log.info("【websocket消息】有新的连接,总数：{},在线人数{}",webSocketSet.size(),getOnlineCount());
@@ -66,15 +66,15 @@ public class WebSocketService {
     }
 
     //群发自定义消息，手机部分推送部分考量,manager则全收
-    public static void sendInfo(String message,@PathParam("uid") String uid) throws IOException {
+    public static void sendInfo(String message,@PathParam("id") Integer id) throws IOException {
 
         for (WebSocketService webSocket : webSocketSet) {
             //只推送给uid，为null则全部推送
-            if(uid==null) {
+            if(id==-1) {
                 log.info("【websocket消息】广播消息,message = {}",message);
                 webSocket.sendMessage(message);
-            }else if(webSocket.uid.equals(uid)){
-                log.info("【websocket消息】自定义推送消息到窗口"+uid+"，推送内容:"+message);
+            }else if(webSocket.id.equals(id)){
+                log.info("【websocket消息】自定义推送消息到窗口"+id+"，推送内容:"+message);
                 webSocket.sendMessage(message);
             }
         }

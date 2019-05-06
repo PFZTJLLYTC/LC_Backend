@@ -90,7 +90,6 @@ public class UserServiceImpl implements UserService {
         User user = findOne(id);
         userRepository.delete(user);
 
-
     }
 
     @Override

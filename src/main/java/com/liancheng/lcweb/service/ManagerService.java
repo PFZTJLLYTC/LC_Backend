@@ -36,5 +36,7 @@ public interface ManagerService {
 
     void confirmOneOrder(Order order,String dnum);
 
+    void confirmOneDriver(String dnum,Integer lineId);
+
 
 }

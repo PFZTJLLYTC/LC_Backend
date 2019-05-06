@@ -118,14 +118,6 @@ public class UserController {
             log.error("订单填写信息不合法");
             return ResultVOUtil.success(ResultEnums.ORDER_INFO_ERROR);
         }
-        //todo 交给相应manager操作,应该被异步通知，目前为节约时间选择数据库变化作为消息媒介
-        //暂时使用websocket进行manager端提醒实现,这里是传给manager，因此暂时没有写id
-        try {
-            WebSocketService.sendInfo("新的订单消息","");
-        } catch (IOException e) {
-            log.error(e.getMessage());
-            e.printStackTrace();
-        }
 
         return ResultVOUtil.success(orderService.createOne(userId,userOrderForm));
     }

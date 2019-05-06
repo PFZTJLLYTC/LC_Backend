@@ -32,7 +32,7 @@
 
 
                     <li class="am-dropdown-header">所有消息都在这里</li>
-                    <li><a href="">未处理订单 <span class="am-badge am-badge-danger am-round">6</span></a>
+                    <li><a href="/manager/waitingForConfirmDeals">未处理订单 <span class="am-badge am-badge-danger am-round">6</span></a>
                     </li>
                     <li><a href="#">未处理司机申请</a></li>
                     <li><a href="#">系统升级</a></li>
@@ -80,15 +80,15 @@
         <div class="sideMenu">
             <h3 class="am-icon-flag"><em></em> <a href="#">订单管理</a></h3>
             <ul>
-                <li><a href="/lc/manager/order/orders">所有订单列表</a></li>
+                <li><a href="/manager/order/allOrders">所有订单列表</a></li>
                 <li><a href="">待处理订单</a></li>
                 <li><a href="">进行中订单</a></li>
                 <li><a href="">已完成订单</a></li>
             </ul>
             <h3 class="am-icon-users"><em></em> <a href="#"> 司机管理</a></h3>
             <ul>
-                <li><a href="http://127.0.0.1:8080/lc/manager/driver">司机列表</a></li>
-                <li><a href="">审核中司机</a></li>
+                <li><a href="/manager/driver/allDrivers">司机列表</a></li>
+                <li><a href="/manager/driver/findByStatus/-1">审核中司机</a></li>
             </ul>
             <h3 class="am-icon-volume-up"><em></em> <a href="#">信息通知</a></h3>
             <ul>
@@ -301,6 +301,42 @@
 <script src="../js/amazeui.min.js"></script>
 <!--<![endif]-->
 
+
+<#--播放音乐-->
+<audio id="notice" loop="loop">
+<#--    待添加-->
+    <source src = "/mp3/song.mp3" type="audio/mpeg" />
+</audio>
+
+<script>
+    var websocket = null;
+    if('WebSocket' in window){
+        // 第一个试试看
+        websocket = new WebSocket("ws://127.0.0.1:8080/webSocket/"+${name});
+    }else {
+        alert("该浏览器不支持websocket");
+    }
+    websocket.onopen = function (event) {
+        console.log('建立连接');
+    }
+    websocket.onclose = function (event) {
+        console.log('连接关闭');
+    }
+    websocket.onmessage = function (event) {
+        console.log('收到消息：'+ event.data);
+        //弹窗提醒，播放音乐
+        //jquery弹窗，懒得写了
+        //play
+        document.getElementById('notice').play();
+
+        // document.getElementById('notice').pause();点击某属性后暂停
+    }
+    websocket.onerror = function (event) {
+        alert('websocket通信发生错误！');
+    }
+    window.onbeforeunload = function (ev) { websocket.close(); }
+
+</script>
 
 </body>
 </html>
