@@ -76,19 +76,19 @@
     <div class="nav-navicon admin-main admin-sidebar">
 
 
-        <div class="sideMenu am-icon-dashboard" style="color:#aeb2b7; margin: 10px 0 0 0;"> 欢迎系统管理员：${manager.name}</div>
+        <div class="sideMenu am-icon-dashboard" style="color:#aeb2b7; margin: 10px 0 0 0;"> 欢迎系统管理员：${name}</div>
         <div class="sideMenu">
             <h3 class="am-icon-flag"><em></em> <a href="#">订单管理</a></h3>
             <ul>
-                <li><a href="alldeals.html">所有订单列表</a></li>
-                <li><a href="todealwith.html">待处理订单</a></li>
-                <li><a href="doingdeals.html">进行中订单</a></li>
-                <li><a href="completed.html">已完成订单</a></li>
+                <li><a href="">所有订单列表</a></li>
+                <li><a href="">待处理订单</a></li>
+                <li><a href="">进行中订单</a></li>
+                <li><a href="">已完成订单</a></li>
             </ul>
             <h3 class="am-icon-users"><em></em> <a href="#"> 司机管理</a></h3>
             <ul>
-                <li><a href="drivers.html">司机列表</a></li>
-                <li><a href="driverswaitingforjudge.html">审核中司机</a></li>
+                <li><a href="">司机列表</a></li>
+                <li><a href="">审核中司机</a></li>
             </ul>
             <h3 class="am-icon-volume-up"><em></em> <a href="#">信息通知</a></h3>
             <ul>

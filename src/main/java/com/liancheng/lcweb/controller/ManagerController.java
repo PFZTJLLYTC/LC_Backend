@@ -146,11 +146,10 @@ public class ManagerController {
 
         }
 
-        Manager manager = managerService.findOne(lineId);
         map.put("drivers",driverDTOList);
-        map.put("manager",manager.getName());
+        map.put("name",lineId);
 
-        return new ModelAndView("manager/drivers",map);
+        return new ModelAndView("manager/allDrivers",map);
     }
 
     //查询不同状态司机
@@ -288,7 +287,7 @@ public class ManagerController {
         List<Order> orders = managerService.getAllOrders(lineId);
         map.put("orderList",orders);
         map.put("name",lineId);
-        return new ModelAndView("manager/alldeals",map);
+        return new ModelAndView("manager/allOrders",map);
     }
 
     //查看不同状态订单
@@ -317,7 +316,6 @@ public class ManagerController {
             return new ModelAndView("manager/doneOrders",map);
         }
     }
-
 
 
     //确认订单
