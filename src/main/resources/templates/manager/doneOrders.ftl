@@ -9,18 +9,18 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <meta content="webkit" name="renderer">
     <meta content="no-siteapp" http-equiv="Cache-Control"/>
-    <link href="../img/LC.png" rel="icon" type="image/png">
-    <link href="../img/app-icon72x72@2x.png" rel="apple-touch-icon-precomposed">
+    <link href="../../img/LC.png" rel="icon" type="image/png">
+    <link href="../../img/app-icon72x72@2x.png" rel="apple-touch-icon-precomposed">
     <meta content="Amaze UI" name="apple-mobile-web-app-title"/>
-    <link href="../css/amazeui.min.css" rel="stylesheet"/>
-    <link href="../css/admin.css" rel="stylesheet">
-    <script src="../js/jquery.min.js"></script>
-    <script src="../js/app.js"></script>
+    <link href="../../css/amazeui.min.css" rel="stylesheet"/>
+    <link href="../../css/admin.css" rel="stylesheet">
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/app.js"></script>
 </head>
 
 <body>
 <header class="am-topbar admin-header">
-    <div class="am-topbar-brand"><img src="../img/page.png"></div>
+    <div class="am-topbar-brand"><img src="../../img/page.png"></div>
 
     <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
         <ul class="am-nav am-nav-pills am-topbar-nav admin-header-list">
@@ -32,7 +32,7 @@
 
 
                     <li class="am-dropdown-header">所有消息都在这里</li>
-                    <li><a href="todealwith.html">未处理订单 <span class="am-badge am-badge-danger am-round">6</span></a>
+                    <li><a href="">未处理订单 <span class="am-badge am-badge-danger am-round">6</span></a>
                     </li>
                     <li><a href="#">未处理司机申请</a></li>
                     <li><a href="#">系统升级</a></li>
@@ -141,7 +141,7 @@
 
             <div class="listbiaoti am-cf">
                 <ul class="am-icon-flag on">订单管理</ul>
-                <dl class="am-icon-home" style="float: right;"> 当前位置： <a href="index.html">首页</a>>已完成订单</dl>
+                <dl class="am-icon-home" style="float: right;"> 当前位置： <a href="">首页</a>>已完成订单</dl>
             </div>
 
             <div class="am-btn-toolbars am-btn-toolbar am-kg am-cf">
@@ -205,7 +205,8 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <#list orders as order>
+                    <#if orderList??>
+                    <#list orderList as order>
                         <tr>
                             <td><input type="checkbox"/></td>
                             <td>${order.order_id}</td>
@@ -220,6 +221,7 @@
                             <td class="am-hide-sm-only">${order.update_time}</td>
                         </tr>
                     </#list>
+                    </#if>
                     </tbody>
                 </table>
 
@@ -256,13 +258,13 @@
 <!--[if lt IE 9]>
 <script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
 <script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
-<script src="../js/polyfill/rem.min.js"></script>
-<script src="../js/polyfill/respond.min.js"></script>
-<script src="../js/amazeui.legacy.js"></script>
+<script src="../../js/polyfill/rem.min.js"></script>
+<script src="../../js/polyfill/respond.min.js"></script>
+<script src="../../js/amazeui.legacy.js"></script>
 <![endif]-->
 
 <!--[if (gte IE 9)|!(IE)]><!-->
-<script src="../js/amazeui.min.js"></script>
+<script src="../../js/amazeui.min.js"></script>
 <!--<![endif]-->
 
 

@@ -9,18 +9,18 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <meta content="webkit" name="renderer">
     <meta content="no-siteapp" http-equiv="Cache-Control">
-    <link href="../img/LC.png" rel="icon" type="image/png">
-    <link href="../img/app-icon72x72@2x.png" rel="apple-touch-icon-precomposed">
+    <link href="../../img/LC.png" rel="icon" type="image/png">
+    <link href="../../img/app-icon72x72@2x.png" rel="apple-touch-icon-precomposed">
     <meta content="Amaze UI" name="apple-mobile-web-app-title"/>
-    <link href="../css/amazeui.min.css" rel="stylesheet"/>
-    <link href="../css/admin.css" rel="stylesheet">
-    <script src="../js/jquery.min.js"></script>
-    <script src="../js/app.js"></script>
+    <link href="../../css/amazeui.min.css" rel="stylesheet"/>
+    <link href="../../css/admin.css" rel="stylesheet">
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/app.js"></script>
 </head>
 
 <body>
 <header class="am-topbar admin-header">
-    <div class="am-topbar-brand"> <img src="../img/page.png" width="213" height="53" alt=""> </div>
+    <div class="am-topbar-brand"> <img src="../../img/page.png" width="213" height="53" alt=""> </div>
 
     <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
         <ul class="am-nav am-nav-pills am-topbar-nav admin-header-list">
@@ -32,7 +32,7 @@
 
 
                     <li class="am-dropdown-header">所有消息都在这里</li>
-                    <li><a href="/manager/order?status=0">未处理订单 <span class="am-badge am-badge-danger am-round">6</span></a>
+                    <li><a href="/manager/order/findByStatus?status=0">未处理订单 <span class="am-badge am-badge-danger am-round">6</span></a>
                     </li>
                     <li><a href="/manager/driver/findByStatus?status=-1">待审核司机申请</a></li>
                     <li><a href="#">系统升级</a></li>
@@ -81,9 +81,9 @@
             <h3 class="am-icon-flag"><em></em> <a href="#">订单管理</a></h3>
             <ul>
                 <li><a href="/manager/order/allOrders">所有订单列表</a></li>
-                <li><a href="/manager/order?status=0">待处理订单</a></li>
-                <li><a href="/manager/order?status=1">进行中订单</a></li>
-                <li><a href="/manager/order?status=2">已完成订单</a></li>
+                <li><a href="/manager/order/findByStatus?status=0">待处理订单</a></li>
+                <li><a href="/manager/order/findByStatus?status=1">进行中订单</a></li>
+                <li><a href="/manager/order/findByStatus?status=2">已完成订单</a></li>
             </ul>
             <h3 class="am-icon-users"><em></em> <a href="#"> 司机管理</a></h3>
             <ul>
@@ -292,13 +292,13 @@
 <!--[if lt IE 9]>
 <script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
 <script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
-<script src="../js/polyfill/rem.min.js"></script>
-<script src="../js/polyfill/respond.min.js"></script>
-<script src="../js/amazeui.legacy.js"></script>
+<script src="../../js/polyfill/rem.min.js"></script>
+<script src="../../js/polyfill/respond.min.js"></script>
+<script src="../../js/amazeui.legacy.js"></script>
 <![endif]-->
 
 <!--[if (gte IE 9)|!(IE)]><!-->
-<script src="../js/amazeui.min.js"></script>
+<script src="../../js/amazeui.min.js"></script>
 <!--<![endif]-->
 
 

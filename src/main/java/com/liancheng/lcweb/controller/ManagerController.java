@@ -119,10 +119,11 @@ public class ManagerController {
             //删除cookie
             CookieUtil.set(response,CookieConstant.TOKEN,null, 0);
         }
-        map.put("msg",ResultEnums.LOG_OUT_SUCCESS.getMsg());
-        map.put("url","/login.html");
-
-        return new ModelAndView("common/success",map);
+//        map.put("msg",ResultEnums.LOG_OUT_SUCCESS.getMsg());
+//        map.put("url","/login.html");
+//
+//        return new ModelAndView("common/success",map);
+        return new ModelAndView("redirect:".concat("/login.html"));
     }
 
     /*司机相关*/
@@ -291,7 +292,7 @@ public class ManagerController {
     }
 
     //查看不同状态订单
-    @GetMapping("/order/findBysStatus")
+    @GetMapping("/order/findByStatus")
     public ModelAndView getOrdersByStatus(@RequestParam("status") Integer status,
                                           HttpServletRequest request,
                                           Map<String,Object> map){
