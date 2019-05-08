@@ -165,17 +165,26 @@ public class ManagerController {
 
     //查询不同状态司机
     @GetMapping("/driver/findByStatus")
-    public ModelAndView getDriversByStatus(@RequestParam("status") Integer status,HttpServletRequest request,Map<String,Object> map){
+    public ModelAndView getDriversByStatus(@RequestParam("status") Integer status,
+                                           @RequestParam(value = "page",defaultValue = "1") Integer page ,
+                                           @RequestParam(value = "size",defaultValue = "10") Integer size,
+                                           HttpServletRequest request,Map<String,Object> map){
 
         Cookie cookie = CookieUtil.get(request,CookieConstant.TOKEN);
         log.info("获取lineId来查不同状态司机信息");
         Integer lineId = Integer.parseInt(redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX,cookie.getValue()))+"");
         log.info("lineId={}",lineId);
-        List<DriverDTO> driverDTOList = managerService.getDriversByStatus(lineId,status);
 
-        //todo 暂时不分页，只把全部搞出来
-        map.put("drivers",driverDTOList);
+        PageRequest pageRequest = new PageRequest(page-1,size);
+
+        Page<DriverDTO> driverDTOPage = managerService.getDriversByStatus(lineId,status,pageRequest);
+
+
+        map.put("drivers",driverDTOPage);
         map.put("name",lineId);
+        map.put("currentPage",page);
+        map.put("size",size);
+
         if (status.equals(DriverStatusEnums.ATREST.getCode())){
             return new ModelAndView("manager/atRestDrivers",map);
         }

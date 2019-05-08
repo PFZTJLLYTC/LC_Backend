@@ -26,6 +26,9 @@ public interface ManagerService {
 
     List<DriverDTO> getDriversByStatus(Integer lineId,Integer status);
 
+    //先只是多种实现，之后考虑删一个
+    Page<DriverDTO> getDriversByStatus(Integer lineId,Integer status,Pageable pageable);
+
     TotalInfoDTO getTotal(Integer lineId);
 
     Page<DriverDTO> getAllDrivers(Integer lineId, Pageable pageable);

@@ -124,6 +124,32 @@ public class ManagerServiceImpl implements ManagerService {
 
 
     @Override
+    public Page<DriverDTO> getDriversByStatus(Integer lineId, Integer status,Pageable pageable) {
+
+        if (status<-1||status>2){
+            log.error("根本没有这个状态");
+            throw new ManagerException(ResultEnums.DRIVER_STATUS_ERROR.getMsg(),"manager/drivers");
+        }
+        Page<Driver>  driverPage;
+        if (status.equals(DriverStatusEnums.ATREST.getCode())){
+            driverPage = driverService.certainLIneAtrest(lineId,pageable);
+        }
+        else if (status.equals(DriverStatusEnums.AVAILABLE.getCode())){
+            driverPage = driverService.certainLIneAvailable(lineId,pageable);
+        }
+        else if (status.equals(DriverStatusEnums.ONROAD.getCode())){
+            driverPage = driverService.certainLIneOnroad(lineId,pageable);
+        }
+        else {
+            driverPage = driverService.certainLIneToVerify(lineId,pageable);
+        }
+        List<DriverDTO> driverDTOList =Driver2DriverDTOConverter.convert(driverPage.getContent());
+
+        Page<DriverDTO> driverDTOPage = new PageImpl<>(driverDTOList,pageable,driverPage.getTotalElements());
+        return driverDTOPage;
+    }
+
+    @Override
     public List<DriverDTO> getDriversByStatus(Integer lineId, Integer status) {
 
         if (status<-1||status>2){
@@ -147,6 +173,7 @@ public class ManagerServiceImpl implements ManagerService {
 
         return driverDTOList;
     }
+
 
     @Override
     public TotalInfoDTO getTotal(Integer lineId) {
@@ -278,6 +305,8 @@ public class ManagerServiceImpl implements ManagerService {
         return result;
 
     }
+
+
 
     @Override
     public void confirmOneDriver(String dnum, Integer lineId) {

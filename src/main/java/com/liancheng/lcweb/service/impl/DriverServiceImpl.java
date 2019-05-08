@@ -125,6 +125,28 @@ public class DriverServiceImpl implements DriverService {
     }
 
     @Override
+    public Page<Driver> certainLIneAvailable(Integer lineId, Pageable pageable) {
+        return driverRepository.findByStatusAndLineId(DriverStatusEnums.AVAILABLE.getCode(),lineId,pageable);
+
+    }
+
+    @Override
+    public Page<Driver> certainLIneToVerify(Integer lineId, Pageable pageable) {
+        return driverRepository.findByStatusAndLineId(DriverStatusEnums.TO_BE_VERIFIED.getCode(),lineId,pageable);
+    }
+
+    @Override
+    public Page<Driver> certainLIneOnroad(Integer lineId, Pageable pageable) {
+        return driverRepository.findByStatusAndLineId(DriverStatusEnums.ONROAD.getCode(),lineId,pageable);
+
+    }
+
+    @Override
+    public Page<Driver> certainLIneAtrest(Integer lineId, Pageable pageable) {
+        return driverRepository.findByStatusAndLineId(DriverStatusEnums.ATREST.getCode(),lineId,pageable);
+    }
+
+    @Override
     public void deleteOne(String dnum) {
 //        if (findOne(dnum)!=null){
 //            driverRepository.deleteById(dnum);

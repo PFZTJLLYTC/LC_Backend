@@ -35,6 +35,8 @@ public interface DriverService {
 
     List<Driver> findAvailableDrivers();
 
+    //暂时不删除，可能之后有方法需要使用
+
     List<Driver> certainLIneOnroad(Integer lineId);
 
     List<Driver> certainLIneAtrest(Integer lineId);
@@ -42,6 +44,14 @@ public interface DriverService {
     List<Driver> certainLIneAvailable(Integer lineId);
 
     List<Driver> certainLIneToVerify(Integer lineId);
+
+    Page<Driver> certainLIneOnroad(Integer lineId,Pageable pageable);
+
+    Page<Driver> certainLIneAtrest(Integer lineId,Pageable pageable);
+
+    Page<Driver> certainLIneAvailable(Integer lineId,Pageable pageable);
+
+    Page<Driver> certainLIneToVerify(Integer lineId,Pageable pageable);
 
     void deleteOne(String dnum);
 

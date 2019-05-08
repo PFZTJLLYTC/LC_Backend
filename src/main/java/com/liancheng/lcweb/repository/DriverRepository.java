@@ -23,6 +23,8 @@ public interface DriverRepository extends JpaRepository<Driver,String> {
 
     List<Driver> findByStatusAndLineId(Integer status,Integer lineId);
 
+    Page<Driver> findByStatusAndLineId(Integer status,Integer lineId,Pageable pageable);
+
     Driver findByDnumAndPassword(String dnum, String password);
 
 }
