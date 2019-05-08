@@ -13,6 +13,8 @@ import com.liancheng.lcweb.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -53,6 +55,11 @@ public class DriverServiceImpl implements DriverService {
     @Override
     public List<Driver> findAll() {
         return driverRepository.findAll();
+    }
+
+    @Override
+    public Page<Driver> findbyLineId(Integer lineId, Pageable pageable) {
+        return driverRepository.findByLineId(lineId,pageable);
     }
 
     @Override

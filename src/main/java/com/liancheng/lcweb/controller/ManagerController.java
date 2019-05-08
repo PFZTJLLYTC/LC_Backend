@@ -20,6 +20,8 @@ import com.liancheng.lcweb.service.UserService;
 import com.liancheng.lcweb.utils.CookieUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -131,7 +133,10 @@ public class ManagerController {
     //查询司机
 
     @GetMapping(value = "/driver/allDrivers")
-    public ModelAndView allDriver(HttpServletRequest request,Map<String,Object>map){
+    public ModelAndView allDriver(@RequestParam(value = "page",defaultValue = "1") Integer page ,
+                                  @RequestParam(value = "size",defaultValue = "10") Integer size,
+                                  HttpServletRequest request,
+                                  Map<String,Object>map){
 
         Cookie cookie = CookieUtil.get(request,CookieConstant.TOKEN);
 
@@ -140,15 +145,20 @@ public class ManagerController {
 
         log.info("lineId={}",lineId);
 
-        List<DriverDTO> driverDTOList= managerService.getAllDrivers(lineId);
-        if (driverDTOList == null){
+        //原来是从第0页开始的，现在想从第一页开始
+        PageRequest pageRequest = new PageRequest(page-1,size);
+
+        Page<DriverDTO> driverDTOPage= managerService.getAllDrivers(lineId,pageRequest);
+        if (driverDTOPage == null){
 
             throw new ManagerException("请添加司机","manager/index");
 
         }
 
-        map.put("drivers",driverDTOList);
+        map.put("drivers",driverDTOPage);
         map.put("name",lineId);
+        map.put("currentPage",page);
+        map.put("size",size);
 
         return new ModelAndView("manager/allDrivers",map);
     }

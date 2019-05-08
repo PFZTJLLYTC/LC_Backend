@@ -6,6 +6,8 @@ import com.liancheng.lcweb.domain.Order;
 import com.liancheng.lcweb.dto.DriverDTO;
 import com.liancheng.lcweb.dto.TotalInfoDTO;
 import com.liancheng.lcweb.form.DriverInfoForm;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -26,7 +28,7 @@ public interface ManagerService {
 
     TotalInfoDTO getTotal(Integer lineId);
 
-    List<DriverDTO> getAllDrivers(Integer lineId);
+    Page<DriverDTO> getAllDrivers(Integer lineId, Pageable pageable);
 
     List<Order> getOrdersByStatus(Integer lineId,Integer status);
 

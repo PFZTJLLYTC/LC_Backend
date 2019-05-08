@@ -34,7 +34,7 @@
                     <li class="am-dropdown-header">所有消息都在这里</li>
                     <li><a href="/manager/order/findByStatus?status=0">未处理订单 <span class="am-badge am-badge-danger am-round">6</span></a>
                     </li>
-                    <li><a href="#">未处理司机申请</a></li>
+                    <li><a href="/manager/driver/findByStatus?status=-1">未处理司机申请</a></li>
                     <li><a href="#">系统升级</a></li>
                 </ul>
             </li>
@@ -80,10 +80,10 @@
         <div class="sideMenu">
             <h3 class="am-icon-flag"><em></em> <a href="#">订单管理</a></h3>
             <ul>
-                <li><a href="">所有订单列表</a></li>
-                <li><a href="">待处理订单</a></li>
-                <li><a href="">进行中订单</a></li>
-                <li><a href="">已完成订单</a></li>
+                <li><a href="/manager/order/allOrders">所有订单列表</a></li>
+                <li><a href="/manager/order/findByStatus?status=0">待处理订单</a></li>
+                <li><a href="/manager/order/findByStatus?status=1">进行中订单</a></li>
+                <li><a href="/manager/order/findByStatus?status=2">已完成订单</a></li>
             </ul>
             <h3 class="am-icon-users on"><em></em> <a href="#"> 司机管理</a></h3>
             <ul>
@@ -193,7 +193,7 @@
                     </thead>
                     <tbody>
                     <#if drivers??>
-                    <#list drivers as driver>
+                    <#list drivers.content as driver>
                         <tr>
                             <td><input type="checkbox"/></td>
                             <td>${driver.name}</td>
@@ -210,13 +210,25 @@
                 </table>
 
                 <ul class="am-pagination am-fr">
+                    <#if currentPage lte 1>
                     <li class="am-disabled"><a href="#">«</a></li>
-                    <li class="am-active"><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
-                    <li><a href="#">»</a></li>
+                    <#else>
+                    <li class="am-active"><a href="/manager/driver/allDrivers?page=${currentPage-1}&size=${size}">«</a></li>
+                    </#if>
+
+                    <#list 1..drivers.getTotalPages() as index>
+                        <#if currentPage == index>
+                            <li class="am-disabled"><a href="#">${index}</a></li>
+                        <#else>
+                            <li class="am-active"><a href="/manager/driver/allDrivers?page=${index}&size=${size}">${index}</a></li>
+                        </#if>
+                    </#list>
+
+                    <#if currentPage gte drivers.getTotalPages()>
+                    <li class="am-disabled"><a href="#">»</a></li>
+                    <#else>
+                    <li class="am-active"><a href="/manager/driver/allDrivers?page=${currentPage+1}&size=${size}">»</a></li>
+                    </#if>
                 </ul>
             </form>
 

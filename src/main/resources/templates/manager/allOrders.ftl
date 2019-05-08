@@ -32,9 +32,9 @@
 
 
                     <li class="am-dropdown-header">所有消息都在这里</li>
-                    <li><a href="">未处理订单 <span class="am-badge am-badge-danger am-round">6</span></a>
+                    <li><a href="/manager/order/findByStatus?status=0">未处理订单 <span class="am-badge am-badge-danger am-round">6</span></a>
                     </li>
-                    <li><a href="#">未处理司机申请</a></li>
+                    <li><a href="/manager/driver/findByStatus?status=-1">未处理司机申请</a></li>
                     <li><a href="#">系统升级</a></li>
                 </ul>
             </li>
@@ -80,15 +80,15 @@
         <div class="sideMenu">
             <h3 class="am-icon-flag"><em></em> <a href="#">订单管理</a></h3>
             <ul>
-                <li><a href="">所有订单列表</a></li>
-                <li><a href="">待处理订单</a></li>
-                <li><a href="">进行中订单</a></li>
-                <li><a href="">已完成订单</a></li>
+                <li><a href="/manager/order/allOrders">所有订单列表</a></li>
+                <li><a href="/manager/order/findByStatus?status=0">待处理订单</a></li>
+                <li><a href="/manager/order/findByStatus?status=1">进行中订单</a></li>
+                <li><a href="/manager/order/findByStatus?status=2">已完成订单</a></li>
             </ul>
             <h3 class="am-icon-users"><em></em> <a href="#"> 司机管理</a></h3>
             <ul>
-                <li><a href="">司机列表</a></li>
-                <li><a href="">审核中司机</a></li>
+                <li><a href="/manager/driver/allDrivers">司机列表</a></li>
+                <li><a href="/manager/driver/findByStatus?status=-1">审核中司机</a></li>
             </ul>
             <h3 class="am-icon-volume-up"><em></em> <a href="#">信息通知</a></h3>
             <ul>

@@ -24,6 +24,9 @@ import com.liancheng.lcweb.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndViewDefiningException;
@@ -178,15 +181,17 @@ public class ManagerServiceImpl implements ManagerService {
     }
 
     @Override
-    public List<DriverDTO> getAllDrivers(Integer lineId) {
+    public Page<DriverDTO> getAllDrivers(Integer lineId, Pageable pageable) {
         if (findOne(lineId)==null){
             return null;
         }
-        List<Driver> driverList = driverService.findbyLineId(lineId);
+        Page<Driver> driverPage = driverService.findbyLineId(lineId,pageable);
 
-        List<DriverDTO> driverDTOList = Driver2DriverDTOConverter.convert(driverList);
+        List<DriverDTO> driverDTOList = Driver2DriverDTOConverter.convert(driverPage.getContent());
 
-        return driverDTOList;
+        Page<DriverDTO> driverDTOPage = new PageImpl<>(driverDTOList,pageable,driverPage.getTotalElements());
+
+        return driverDTOPage;
 
     }
 

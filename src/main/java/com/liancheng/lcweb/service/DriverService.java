@@ -4,6 +4,8 @@ package com.liancheng.lcweb.service;
 import com.liancheng.lcweb.VO.ResultVO;
 import com.liancheng.lcweb.domain.Driver;
 import com.liancheng.lcweb.form.DriverInfoForm;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -16,6 +18,8 @@ public interface DriverService {
 
     //通过dnum查找,即id，亦即phonenum
     Driver findOne(String dnum);
+
+    Page<Driver> findbyLineId(Integer lineId, Pageable pageable);
 
     List<Driver> findbyLineId(Integer lineId);
 
