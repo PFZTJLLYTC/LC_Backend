@@ -2,6 +2,8 @@ package com.liancheng.lcweb.service.impl;
 
 import com.liancheng.lcweb.domain.Driver;
 import com.liancheng.lcweb.domain.Order;
+import com.liancheng.lcweb.dto.DriverDoneOrderDTO;
+import com.liancheng.lcweb.dto.OrderDriDTO;
 import com.liancheng.lcweb.dto.UserDoneOrderDTO;
 import com.liancheng.lcweb.enums.OrderStatusEnums;
 import com.liancheng.lcweb.enums.ResultEnums;
@@ -90,7 +92,15 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /***********************************************/
+    @Override
+    public List<Order> findDriverProcessinOrder(String dnum){
+        return orderRepository.findByOrderStatusAndDnum(OrderStatusEnums.PROCESSIN.getCode(),
+                dnum);
+    }
 
+    public List<DriverDoneOrderDTO> findDriverDoneOrder(String dnum){
+        return orderRepository.findDriverDoneOrderByDnum(dnum);
+    }
     @Override
     public Order confirmOne(Order order, Driver driver) {
         //订单加上司机信息

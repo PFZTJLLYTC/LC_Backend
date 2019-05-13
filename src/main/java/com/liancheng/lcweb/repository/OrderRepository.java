@@ -1,6 +1,8 @@
 package com.liancheng.lcweb.repository;
 
 import com.liancheng.lcweb.domain.Order;
+import com.liancheng.lcweb.dto.DriverDoneOrderDTO;
+import com.liancheng.lcweb.dto.OrderDriDTO;
 import com.liancheng.lcweb.dto.UserDoneOrderDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -26,9 +28,17 @@ public interface OrderRepository extends JpaRepository<Order,String> {
     @Query(value = "SELECT * FROM user_order WHERE user_id = ?3 AND (order_status = ?1 OR order_status = ?2) ",nativeQuery = true)
     List<Order> findByOrderStatusAndUserId(Integer orderStatusOne,Integer orderStatusTwo,String userId);
 
-    @Query(value = "SELECT o.car_num AS carNum,o.source AS source,o.destination AS destination," +
-             "o.user_count AS userCount,o.date AS date FROM user_order o " +
+    @Query(value = "SELECT o.car_num ,o.source ,o.destination," +
+            "o.user_count,o.date FROM user_order o " +
             "WHERE o.user_id = ?1 AND o.order_status = 2 " +
             "ORDER BY o.create_time DESC ",nativeQuery = true)
     List<UserDoneOrderDTO> findUserDoneOrderByUserId(String userId);
+
+    List<Order> findByOrderStatusAndDnum(Integer orderStatus,String dnum);
+
+    @Query(value = "SELECT o.car_num ,o.source ,o.destination," +
+            "o.user_count,o.date FROM user_order o " +
+            "WHERE o.dnum = ?1 AND o.order_status = 2 " +
+            "ORDER BY o.create_time DESC ",nativeQuery = true)
+    List<DriverDoneOrderDTO> findDriverDoneOrderByDnum(String dnum);
 }
