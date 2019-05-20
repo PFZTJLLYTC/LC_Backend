@@ -2,6 +2,8 @@ package com.liancheng.lcweb.service;
 
 import com.liancheng.lcweb.domain.Driver;
 import com.liancheng.lcweb.domain.Order;
+import com.liancheng.lcweb.dto.DriverDoneOrderDTO;
+import com.liancheng.lcweb.dto.OrderDriDTO;
 import com.liancheng.lcweb.dto.UserDoneOrderDTO;
 import com.liancheng.lcweb.form.UserOrderForm;
 
@@ -38,4 +40,8 @@ public interface OrderService {
     List<Order> findUserProcessinOrder(String userId);
 
     List<UserDoneOrderDTO> findUserDoneOrder(String userId);
+
+    List<Order> findDriverProcessinOrder(String dnum);
+
+    List<DriverDoneOrderDTO> findDriverDoneOrder(String dnum);
 }

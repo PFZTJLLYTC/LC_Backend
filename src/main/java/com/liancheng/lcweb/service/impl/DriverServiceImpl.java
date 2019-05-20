@@ -71,12 +71,12 @@ public class DriverServiceImpl implements DriverService {
     public Driver findOne(String dnum) {
 
         Optional<Driver> driver = driverRepository.findById(dnum);
-
-        if (!driver.isPresent()){
-            //查一般是交给manager，所以就不跑异常，到时候直接返回错误界面
-            throw new ManagerException(ResultEnums.NO_SUCH_USER.getMsg(),"/manager/driver/allDrivers");
-        }
-        return driver.get();
+//todo 应该写在manager的service里，不然新增司机时有逻辑冲突
+//        if (!driver.isPresent()){
+//            //查一般是交给manager，所以就不跑异常，到时候直接返回错误界面
+//            throw new ManagerException(ResultEnums.NO_SUCH_USER.getMsg(),"/manager/driver/allDrivers");
+//        }
+        return driver.orElse(null);
     }
 
     @Override
