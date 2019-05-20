@@ -365,6 +365,6 @@ public class ManagerController {
         return new ModelAndView("common/success",map);
 
     }
-
+    
 
 }

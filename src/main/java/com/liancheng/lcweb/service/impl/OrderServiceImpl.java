@@ -31,6 +31,9 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private DriverRepository driverRepository;
 
+    @Autowired
+    private WebSocketService webSocketService;
+
 
     @Override
     public List<Order> findAll() {
@@ -51,7 +54,7 @@ public class OrderServiceImpl implements OrderService {
         //通过lineId发送到指定manager端
         //websocket进行manager端提醒实现,传给manager
         try {
-            WebSocketService.sendInfo("新的订单消息",userOrderForm.getLineId());
+            webSocketService.sendInfo("新的订单消息",userOrderForm.getLineId());
         } catch (IOException e) {
             log.error(e.getMessage());
             e.printStackTrace();

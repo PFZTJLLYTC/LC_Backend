@@ -22,7 +22,7 @@ public class WebSocketService {
     //concurrent包的线程安全Set，用来存放每个客户端对应的MyWebSocket对象。
     private static CopyOnWriteArraySet<WebSocketService> webSocketSet = new CopyOnWriteArraySet<>();
 
-    //和lineId对应，于是将其从string变为integer
+    //lineId,dnum,userId三合一？
     private Integer id= -1 ;
 
     @OnOpen
@@ -56,7 +56,7 @@ public class WebSocketService {
     }
 
     //以广播的形式发送,服务器主动推送
-    public void sendMessage(String message){
+    private void sendMessage(String message){
 
         try {
             this.session.getBasicRemote().sendText(message);
@@ -66,12 +66,12 @@ public class WebSocketService {
     }
 
     //群发自定义消息，手机部分推送部分考量,manager则全收
-    public static void sendInfo(String message,@PathParam("id") Integer id) throws IOException {
+    public void sendInfo(String message,@PathParam("id") Integer id) throws IOException {
 
         for (WebSocketService webSocket : webSocketSet) {
-            //只推送给uid，为null则全部推送
             if(id==-1) {
                 log.info("【websocket消息】广播消息,message = {}",message);
+                //全推
                 webSocket.sendMessage(message);
             }else if(webSocket.id.equals(id)){
                 log.info("【websocket消息】自定义推送消息到窗口"+id+"，推送内容:"+message);
@@ -81,15 +81,15 @@ public class WebSocketService {
     }
 
 
-    public static synchronized int getOnlineCount() {
+    private static synchronized int getOnlineCount() {
         return onlineCount;
     }
 
-    public static synchronized void addOnlineCount() {
+    private static synchronized void addOnlineCount() {
         WebSocketService.onlineCount++;
     }
 
-    public static synchronized void subOnlineCount() {
+    private static synchronized void subOnlineCount() {
         WebSocketService.onlineCount--;
     }
 
