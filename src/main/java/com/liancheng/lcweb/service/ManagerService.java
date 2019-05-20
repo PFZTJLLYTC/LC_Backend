@@ -37,6 +37,8 @@ public interface ManagerService {
 
     List<Order> getAllOrders(Integer lineId);
 
+    Page<Order> getAllOrders(Integer lineId,Pageable pageable);
+
     void AddOneDriver(DriverInfoForm driverInfoForm,Integer lineId);
 
     void DeleteOneDriver(String dnum, Integer lineId);

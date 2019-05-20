@@ -4,6 +4,8 @@ import com.liancheng.lcweb.domain.Order;
 import com.liancheng.lcweb.dto.DriverDoneOrderDTO;
 import com.liancheng.lcweb.dto.OrderDriDTO;
 import com.liancheng.lcweb.dto.UserDoneOrderDTO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -20,6 +22,12 @@ public interface OrderRepository extends JpaRepository<Order,String> {
 
     @Query(value = "select * from user_order as o where o.line = (select line from manager  where line_id = ?1 ) ",nativeQuery = true)
     List<Order> findByLineId(Integer lineId);
+
+    //todo 虽然我依旧完成了分页，但是我觉得应该改order类目的line！
+    @Query(value = "select * from user_order as o where o.line = (select line from manager  where line_id = ?1 ) \n#pageable\n  ",
+            countQuery = "select count(*) from user_order as o where o.line = (select line from manager  where line_id = ?1 )" ,
+            nativeQuery = true)
+    Page<Order> findByLineId(Integer lieId, Pageable pageable);
 
     List<Order> findByOrderStatus(Integer orderStatus);
 

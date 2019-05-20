@@ -246,7 +246,6 @@ public class ManagerController {
 
         return new ModelAndView("common/success",map);
 
-
     }
 
     //删除司机信息(根据司机dnum删)
@@ -291,28 +290,38 @@ public class ManagerController {
 
 
 
-
     /*订单相关*/
 
 
     //查看所有订单
     @GetMapping("/order/allOrders")
-    public ModelAndView allOrders(HttpServletRequest request,Map<String,Object> map){
+    public ModelAndView allOrders(@RequestParam(value = "page",defaultValue = "1") Integer page,
+                                  @RequestParam(value = "size",defaultValue = "10") Integer size,
+                                  HttpServletRequest request,
+                                  Map<String,Object> map){
         Cookie cookie = CookieUtil.get(request,CookieConstant.TOKEN);
 
         log.info("获取lineId来查当前线路所有订单信息");
         Integer lineId = Integer.parseInt(redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX,cookie.getValue()))+"");
         log.info("lineId={}",lineId);
 
-        List<Order> orders = managerService.getAllOrders(lineId);
-        map.put("orderList",orders);
+        PageRequest pageRequest = new PageRequest(page-1,size);
+
+        Page<Order> orderPage = managerService.getAllOrders(lineId,pageRequest);
+
+        //List<Order> orders = managerService.getAllOrders(lineId);
+        map.put("orders",orderPage);
         map.put("name",lineId);
+        map.put("currentPage",page);
+        map.put("size",size);
         return new ModelAndView("manager/allOrders",map);
     }
 
     //查看不同状态订单
     @GetMapping("/order/findByStatus")
-    public ModelAndView getOrdersByStatus(@RequestParam("status") Integer status,
+    public ModelAndView getOrdersByStatus(@RequestParam(value = "page",defaultValue = "1") Integer page,
+                                          @RequestParam(value = "size",defaultValue = "10") Integer size,
+                                          @RequestParam("status") Integer status,
                                           HttpServletRequest request,
                                           Map<String,Object> map){
         Cookie cookie = CookieUtil.get(request,CookieConstant.TOKEN);
@@ -321,10 +330,17 @@ public class ManagerController {
         Integer lineId = Integer.parseInt(redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX,cookie.getValue()))+"");
         log.info("lineId={}",lineId);
 
+        PageRequest pageRequest = new PageRequest(page,size);
+
+
+
         List<Order> orderList = managerService.getOrdersByStatus(lineId,status);
+
 
         map.put("orderList",orderList);
         map.put("name",lineId);
+        map.put("currentPage",page);
+        map.put("size",size);
 
         if (status.equals(OrderStatusEnums.WAIT.getCode())){
             return new ModelAndView("manager/waitOrders",map);

@@ -20,6 +20,7 @@ import com.liancheng.lcweb.repository.OrderRepository;
 import com.liancheng.lcweb.service.DriverService;
 import com.liancheng.lcweb.service.ManagerService;
 import com.liancheng.lcweb.service.OrderService;
+import com.liancheng.lcweb.service.WebSocketService;
 import com.liancheng.lcweb.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -31,6 +32,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndViewDefiningException;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -55,6 +57,9 @@ public class ManagerServiceImpl implements ManagerService {
 
     @Autowired
     private OrderRepository orderRepository;
+
+    @Autowired
+    private WebSocketService webSocketService;
 
     @Override
     public List<Manager> findAll() {
@@ -230,6 +235,12 @@ public class ManagerServiceImpl implements ManagerService {
 
     }
 
+    //实现分页的全部线路订单
+    @Override
+    public Page<Order> getAllOrders(Integer lineId, Pageable pageable) {
+        return orderRepository.findByLineId(lineId,pageable);
+    }
+
     @Override
     public void DeleteOneDriver(String dnum, Integer lineId) {
         Driver driver = driverService.findOne(dnum);
@@ -263,10 +274,23 @@ public class ManagerServiceImpl implements ManagerService {
         }
 
         //todo 分别通知对应司机和乘客由订单状态的改变(result)
+        try {
+            webSocketService.sendInfo("订单状态改变",dnum);
+
+        } catch (IOException e) {
+            log.warn("向司机发送即时消息失败,dnum={},message={}",dnum,e.getMessage());
+        }
+        try {
+            webSocketService.sendInfo("订单状态改变",order.getUserId());
+        } catch (IOException e) {
+            log.warn("向司机发送即时消息失败,userId={},message={}",order.getUserId(),e.getMessage());
+        }
+
         //通过对应的方法
 
     }
 
+    //todo 这里根据改了order的属性再来改！
     @Override
     public List<Order> getOrdersByStatus(Integer lineId, Integer status) {
 

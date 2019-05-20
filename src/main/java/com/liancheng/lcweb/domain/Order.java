@@ -47,7 +47,6 @@ public class Order {
 
     private String carNum;
 
-
     //只显示了line的名字
     private String line;
 

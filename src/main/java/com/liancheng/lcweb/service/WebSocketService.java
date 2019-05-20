@@ -23,10 +23,10 @@ public class WebSocketService {
     private static CopyOnWriteArraySet<WebSocketService> webSocketSet = new CopyOnWriteArraySet<>();
 
     //lineId,dnum,userId三合一？
-    private Integer id= -1 ;
+    private String id= "" ;
 
     @OnOpen
-    public void onOpen(Session session,@PathParam("id") Integer id){
+    public void onOpen(Session session,@PathParam("id") String id){
         this.session = session;
         this.id=id;
         webSocketSet.add(this);
@@ -66,10 +66,10 @@ public class WebSocketService {
     }
 
     //群发自定义消息，手机部分推送部分考量,manager则全收
-    public void sendInfo(String message,@PathParam("id") Integer id) throws IOException {
+    public void sendInfo(String message,@PathParam("id") String id) throws IOException {
 
         for (WebSocketService webSocket : webSocketSet) {
-            if(id==-1) {
+            if(id.equals("")) {
                 log.info("【websocket消息】广播消息,message = {}",message);
                 //全推
                 webSocket.sendMessage(message);

@@ -212,8 +212,8 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <#if orderList??>
-                    <#list orderList as order>
+                    <#if orders??>
+                    <#list orders as order>
                         <tr>
                             <td><input type="checkbox"/></td>
                             <td>${order.orderId}</td>
@@ -237,15 +237,26 @@
                 </div>
 
                 <ul class="am-pagination am-fr">
-                    <li class="am-disabled"><a href="#">«</a></li>
-                    <li class="am-active"><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
-                    <li><a href="#">»</a></li>
+                    <#if currentPage lte 1>
+                        <li class="am-disabled"><a href="#">«</a></li>
+                        <#else>
+                            <li class="am-active"><a href="/manager/order/allOrders?page=${currentPage-1}&size=${size}">«</a></li>
+                    </#if>
+                    <#list 1..orders.getTotalPages() as index >
+                        <#if currentPage == index >
+                            <li class="am-disabled"><a href="#">${index}</a></li>
+                            <#else>
+                                <li class="am-active"><a href="/manager/order/allOrders?page=${index}&size=${size}">${index}</a></li>
+                        </#if>
+                    </#list>
+                    <#if currentPage gte orders.getTotalPages()>
+                        <li class="am-disabled"><a href="#">»</a></li>
+                        <#else>
+                            <li class="am-active"><a href="/manager/order/allOrders?page=${currentPage+1}&size=${size}">»</a></li>
+                    </#if>
+
                 </ul>
-                <hr/>
+
             </form>
 
 
