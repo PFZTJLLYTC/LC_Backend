@@ -27,6 +27,9 @@ public class Driver {
     @Id
     private String dnum;//dnum就是phonenum？
 
+    //线路id
+    private Integer lineId;
+
     private String name;
 
     private String password;
@@ -34,10 +37,7 @@ public class Driver {
     @NotNull(message = "车牌号")
     private String carNum;
 
-    //线路id
-    private Integer lineId;
-
-    private String line;
+//    private String line;
 
     //计算年龄
     private Date birthday;

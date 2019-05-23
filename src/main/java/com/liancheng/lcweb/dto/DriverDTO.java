@@ -8,8 +8,6 @@ import java.io.Serializable;
 @Data
 public class DriverDTO implements Serializable {
 
-    //todo 再来个详情页面才行啊
-    //不知是否正确
     @JsonIgnore
     private static final long serialVersionUID = 1600536376434322957L;
 
@@ -19,9 +17,9 @@ public class DriverDTO implements Serializable {
 
     private String carNum;
 
-    private String line;
+    private String lineId;
 
-    private Integer age;
+    private Integer age;//算
 
     private Integer status;
 

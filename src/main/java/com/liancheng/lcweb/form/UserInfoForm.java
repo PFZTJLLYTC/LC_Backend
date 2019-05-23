@@ -3,10 +3,9 @@ package com.liancheng.lcweb.form;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import java.util.Date;
 
 @Data
+//注册
 public class UserInfoForm {
 
 //    @RequestParam("username") String username,
@@ -18,8 +17,8 @@ public class UserInfoForm {
     @NotBlank(message = "用户名名必填")
     private String username;
 
-//    @NotEmpty(message = "密码必填")
-//    private String password;
+    @NotBlank(message = "密码必填")
+    private String password;//二次验证
 
     @NotBlank(message = "电话号码必填")
     private String mobile;

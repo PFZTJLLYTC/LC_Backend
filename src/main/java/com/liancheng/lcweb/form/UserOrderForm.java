@@ -12,15 +12,8 @@ import java.math.BigDecimal;
 @Data
 public class UserOrderForm {
 
-    //lineId必须在这里有呈现!
-    @NotNull(message = "线路选择！")
-    private Integer lineId;
-
-    @NotBlank(message = "出发地不能为空")
-    private String source;
-
-    @NotBlank(message = "目的地不能为空" )
-    private String destination;
+    @NotBlank(message = "路线必填")
+    private String lineName;//与line的name查
 
     @NotBlank(message = "联系电话不能为空")
     private String userPhone;

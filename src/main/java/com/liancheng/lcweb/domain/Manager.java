@@ -1,6 +1,7 @@
 package com.liancheng.lcweb.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedDate;
@@ -8,7 +9,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 @Entity
@@ -20,27 +21,21 @@ public class Manager {
     //初步的管理员demo,考虑线路id即为管理人id
     @Id
     @GeneratedValue
-    private Integer lineId;//因为管理人员不会太多，故用int自增即可
+    private String telNum;
 
-    @NotNull(message = "用户名不能为为空")
+    private Integer lineId;//加外键jilian
+
     private String name;
 
-    @NotNull(message = "密码不能为为空")
+    @NotBlank(message = "密码必填")
     private String password;
 
-    //对应lineId的名字
-    private String line;
-
-    private String phoneNum;
-
-    private Integer age;
-
-    private Integer peopleAmount;
-
     @CreatedDate
+    @JsonIgnore
     private Date createTime;
 
     @LastModifiedDate
+    @JsonIgnore
     private Date updateTime;
 
 }

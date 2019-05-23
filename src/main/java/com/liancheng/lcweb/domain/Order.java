@@ -1,5 +1,6 @@
 package com.liancheng.lcweb.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedDate;
@@ -24,14 +25,15 @@ public class Order {
     @Id
     private String OrderId;
 
+    //不加外键和jilian删除
+    private Integer lineId;
+
     @NotNull
     private String userId;
 
-    private String source;
-
-    private String destination;
-
     private String userPhone;
+
+    private String dnum;
 
     private String time;
 
@@ -41,24 +43,21 @@ public class Order {
 
     private String date; //前端传入的下单时间，格式“YY-MM-DD”可以考虑去掉
 
-    private String dnum;
-
     private String driverName;
 
     private String carNum;
-
-    //只显示了line的名字
-    private String line;
 
     private Integer orderStatus =0;
 
     private Integer payStatus = 0;
 
     @CreatedDate
+    @JsonIgnore
     //@JsonSerialize(using = Date2LongSerializer.class)
     private Date createTime;
 
     @LastModifiedDate
+    @JsonIgnore
     //@JsonSerialize(using = Date2LongSerializer.class)
     private Date updateTime;
 

@@ -6,7 +6,6 @@ import com.liancheng.lcweb.domain.Driver;
 import com.liancheng.lcweb.domain.Manager;
 import com.liancheng.lcweb.domain.Order;
 import com.liancheng.lcweb.dto.DriverDTO;
-import com.liancheng.lcweb.dto.OrderDriDTO;
 import com.liancheng.lcweb.dto.TotalInfoDTO;
 import com.liancheng.lcweb.enums.DriverStatusEnums;
 import com.liancheng.lcweb.enums.OrderStatusEnums;
@@ -30,7 +29,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.servlet.ModelAndViewDefiningException;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -94,7 +92,6 @@ public class ManagerServiceImpl implements ManagerService {
             throw new LcException(ResultEnums.NO_SUCH_MANAGER);
         }
         //所属司机全部删除，但是原有订单不删除。
-        //todo 做成级联删除啊！！！
         for (Driver driver : driverService.findbyLineId(lineId)){
             driverService.deleteOne(driver.getDnum());
         }
@@ -283,7 +280,7 @@ public class ManagerServiceImpl implements ManagerService {
         try {
             webSocketService.sendInfo("订单状态改变",order.getUserId());
         } catch (IOException e) {
-            log.warn("向司机发送即时消息失败,userId={},message={}",order.getUserId(),e.getMessage());
+            log.warn("向乘客发送即时消息失败,userId={},message={}",order.getUserId(),e.getMessage());
         }
 
         //通过对应的方法

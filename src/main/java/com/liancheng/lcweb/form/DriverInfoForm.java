@@ -30,10 +30,10 @@ public class DriverInfoForm {
     @Max(value = 8,message = "人数不得多于8")//可以更大吗？
     private Integer availableSeats;
 
-    //线路id
-    //于是在manager添加的时候就需要验证一下是不是同一线路的了！
+    //线路名称
+    //做一个选择
     @NotBlank(message = "注册线路必填")
-    private String line;
+    private String lineName;//A-B
 
     @Past(message = "生日只能为以前的时间")
     @JsonFormat(pattern = "yyyy-MM-dd")
