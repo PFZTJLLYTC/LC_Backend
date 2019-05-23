@@ -90,12 +90,12 @@ public class DriverController {
 
     //根据id更新driver信息
     //也可以提出来改成单独修改一项,eg:修改状态
+    //todo 这里应该传一个body
     @PutMapping(value = "/driver/update/{id}")
     public ResultVO driverUpdate(@PathVariable("id") String id,
                                  @RequestParam("name") String name,
                                  @RequestParam("password") String password,
                                  @RequestParam("carNum") String carNum,
-                                 @RequestParam("line") String line,
                                  @RequestParam("dNum") String dNum,
                                  @RequestParam("birthday") Date birthday,
                                  @RequestParam("status") Integer status){
@@ -105,7 +105,6 @@ public class DriverController {
         driver.setName(name);
         driver.setPassword(password);
         driver.setCarNum(carNum);
-        driver.setLine(line);
         driver.setBirthday(birthday);
         driver.setStatus(status);
         log.info("update one driver's info");

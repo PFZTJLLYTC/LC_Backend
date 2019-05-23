@@ -1,6 +1,5 @@
 package com.liancheng.lcweb.service;
 
-import com.liancheng.lcweb.VO.ResultVO;
 import com.liancheng.lcweb.domain.Manager;
 import com.liancheng.lcweb.domain.Order;
 import com.liancheng.lcweb.dto.DriverDTO;
@@ -16,13 +15,13 @@ public interface ManagerService {
 
     List<Manager> findAll();
 
-    Manager findOne(Integer id);
+    Manager findOne(String telNum);
 
-    Manager getManager(Integer lineId, String password);
+    Manager getManager(String telNum, String password);
 
     Manager addManager(Manager manager);
 
-    ResultVO deleteOne(Integer lineId);
+    void deleteOne(String telNum);
 
     List<DriverDTO> getDriversByStatus(Integer lineId,Integer status);
 
@@ -34,6 +33,8 @@ public interface ManagerService {
     Page<DriverDTO> getAllDrivers(Integer lineId, Pageable pageable);
 
     List<Order> getOrdersByStatus(Integer lineId,Integer status);
+
+    Page<Order> getOrdersByStatus(Integer lineId,Integer status,Pageable pageable);
 
     List<Order> getAllOrders(Integer lineId);
 

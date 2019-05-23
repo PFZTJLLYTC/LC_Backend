@@ -2,12 +2,7 @@ package com.liancheng.lcweb.form;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.Range;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.bind.annotation.PathVariable;
 
-import javax.swing.*;
 import javax.validation.constraints.*;
 import java.util.Date;
 

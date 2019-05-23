@@ -13,10 +13,7 @@ import com.liancheng.lcweb.enums.ResultEnums;
 import com.liancheng.lcweb.exception.ManagerException;
 import com.liancheng.lcweb.form.DriverInfoForm;
 import com.liancheng.lcweb.repository.ManagerRepository;
-import com.liancheng.lcweb.service.DriverService;
-import com.liancheng.lcweb.service.ManagerService;
-import com.liancheng.lcweb.service.OrderService;
-import com.liancheng.lcweb.service.UserService;
+import com.liancheng.lcweb.service.*;
 import com.liancheng.lcweb.utils.CookieUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +32,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -64,31 +60,39 @@ public class ManagerController {
     @Autowired
     private RedisTemplate redisTemplate;
 
+    @Autowired
+    private LineService lineService;
+
 
     //login
-    //考虑安全性，跳转一个方法来进index
+    //考虑安全性，跳转一个方法来进index,改成post！
     @GetMapping(value = "/login")
-    public ModelAndView login(@RequestParam("lineId") Integer lineId,
+    public ModelAndView login(@RequestParam("telNum") String telNum,
                               @RequestParam("password") String password,
                               HttpServletRequest request,
                               HttpServletResponse response,
                               Map<String,Object> map){
         Cookie cookie = CookieUtil.get(request,CookieConstant.TOKEN);
+
+
         if (cookie != null && !StringUtils.isEmpty(redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX, cookie.getValue())))) {
 
+            Integer lineId = managerService.findOne(telNum).getLineId();
             TotalInfoDTO totalInfoDTOS = managerService.getTotal(lineId);
-            map.put("name",lineId);
+            map.put("name",telNum);
             map.put("total",totalInfoDTOS);
             return new ModelAndView("/manager/index",map);
         }
 
-        Manager manager = managerService.getManager(lineId,password);
+        Manager manager = managerService.getManager(telNum,password);
+
         if(manager == null){
             throw new ManagerException(ResultEnums.NO_SUCH_MANAGER.getMsg(),CookieConstant.EXPIRE_URL);
 
         }
+        Integer lineId = manager.getLineId();
 
-        //2.存userId信息
+        //2.存管理员的tel信息or lineId?
         String managerId = manager.getLineId().toString();
 
         //3.设置token到redis
@@ -234,7 +238,6 @@ public class ManagerController {
         log.info("lineId={}",lineId);
 
         if (bindingResult.hasErrors()){
-            //todo 后面统一搞个manager返回的枚举
             log.error("增加司机时填表有误");
             throw new ManagerException(bindingResult.getFieldError().getDefaultMessage(),"/manager/allDrivers");
 
@@ -268,7 +271,7 @@ public class ManagerController {
     }
 
     //确认添加司机
-    @PutMapping("/driver/confirmDriver")
+    @GetMapping("/driver/confirmDriver")
     @Transactional
     public ModelAndView confirmOneDriver(@RequestParam("dnum")String dnum,
                                          HttpServletRequest request,
@@ -330,14 +333,12 @@ public class ManagerController {
         Integer lineId = Integer.parseInt(redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX,cookie.getValue()))+"");
         log.info("lineId={}",lineId);
 
-        PageRequest pageRequest = new PageRequest(page,size);
+        PageRequest pageRequest = new PageRequest(page-1,size);
 
+        //List<Order> orderList = managerService.getOrdersByStatus(lineId,status);
+        Page<Order> orderPage = managerService.getOrdersByStatus(lineId,status,pageRequest);
 
-
-        List<Order> orderList = managerService.getOrdersByStatus(lineId,status);
-
-
-        map.put("orderList",orderList);
+        map.put("orders",orderPage);
         map.put("name",lineId);
         map.put("currentPage",page);
         map.put("size",size);

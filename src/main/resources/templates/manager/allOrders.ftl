@@ -213,7 +213,7 @@
                     </thead>
                     <tbody>
                     <#if orders??>
-                    <#list orders as order>
+                    <#list orders.content as order>
                         <tr>
                             <td><input type="checkbox"/></td>
                             <td>${order.orderId}</td>

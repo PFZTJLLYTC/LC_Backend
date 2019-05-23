@@ -16,7 +16,7 @@ app使用后，web使用前
 
 #### 待解决：
 
-+ lineId 与 line 的对应
++ ~~lineId 与 line 的对应~~
 
 + ~~用户角色token的expire(目前想到2种方式)~~(考虑了生成时间与当前对比)
 
@@ -25,6 +25,8 @@ app使用后，web使用前
 + 24小时定时进行任务总结
 
 + ~~消息的定向推送~~
+
++ manager分配订单时的界面操作与流程
 ```
 order生成时利用websocket传到manager
 

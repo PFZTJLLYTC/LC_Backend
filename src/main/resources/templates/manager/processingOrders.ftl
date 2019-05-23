@@ -195,11 +195,11 @@
                     <tr class="am-success">
                         <th class="table-check"><input type="checkbox"/></th>
                         <th class="table-title">订单id</th>
-                        <th class="table-title">用户id</th>
+                        <th class="table-type">乘客数量</th>
                         <th class="table-type">用户电话</th>
                         <th class="table-type">用户地址</th>
-                        <th class="table-type">乘客数量</th>
                         <th class="table-type">司机名</th>
+                        <th class="table-type">司机电话</th>
                         <th class="table-type">车牌号</th>
                         <th class="table-author am-hide-sm-only">订单状态</th>
                         <th class="table-date am-hide-sm-only">创建日期</th>
@@ -207,33 +207,44 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <#if orderList??>
-                    <#list orderList as order>
-                        <tr>
-                            <td><input type="checkbox"/></td>
-                            <td>${order.order_id}</td>
-                            <td>${order.user_id}</td>
-                            <td>${order.user_phone}</td>
-                            <td>${order.user_address}</td>
-                            <td>${order.user_count}</td>
-                            <td>${order.driver_name}</td>
-                            <td>${order.car_num}</td>
-                            <td class="am-hide-sm-only">${order.order_status}</td>
-                            <td class="am-hide-sm-only">${order.create_time}</td>
-                            <td class="am-hide-sm-only">${order.update_time}</td>
-                        </tr>
-                    </#list>
+                    <#if orders??>
+                        <#list orders.content as order>
+                            <tr>
+                                <td><input type="checkbox"/></td>
+                                <td>${order.orderId}</td>
+                                <td>${order.userCount}</td>
+                                <td>${order.userPhone}</td>
+                                <td>${order.DetailAddress}</td>
+                                <td>${order.driverName}</td>
+                                <td>${order.dnum}</td>
+                                <td>${order.carNum}</td>
+                                <td class="am-hide-sm-only">${order.orderStatus}</td>
+                                <td class="am-hide-sm-only">${order.createTime}</td>
+                                <td class="am-hide-sm-only">${order.updateTime}</td>
+                            </tr>
+                        </#list>
                     </#if>
                     </tbody>
                 </table>
                 <ul class="am-pagination am-fr">
-                    <li class="am-disabled"><a href="#">«</a></li>
-                    <li class="am-active"><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
-                    <li><a href="#">»</a></li>
+                    <#if currentPage lte 1>
+                        <li class="am-disabled"><a href="#">«</a></li>
+                    <#else>
+                        <li class="am-active"><a href="/manager/order/findByStatus?page=${currentPage-1}&size=${size}&status=1">«</a></li>
+                    </#if>
+                    <#list 1..orders.getTotalPages() as index >
+                        <#if currentPage == index >
+                            <li class="am-disabled"><a href="#">${index}</a></li>
+                        <#else>
+                            <li class="am-active"><a href="/manager/order/findByStatus?page=${index}&size=${size}&status=1">${index}</a></li>
+                        </#if>
+                    </#list>
+                    <#if currentPage gte orders.getTotalPages()>
+                        <li class="am-disabled"><a href="#">»</a></li>
+                    <#else>
+                        <li class="am-active"><a href="/manager/order/findByStatus?page=${currentPage+1}&size=${size}&status=1">»</a></li>
+                    </#if>
+
                 </ul>
 
             </form>

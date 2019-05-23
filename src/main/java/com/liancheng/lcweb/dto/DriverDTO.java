@@ -17,10 +17,6 @@ public class DriverDTO implements Serializable {
 
     private String carNum;
 
-    private String lineId;
-
-    private Integer age;//算
-
     private Integer status;
 
     private Integer availableSeats;

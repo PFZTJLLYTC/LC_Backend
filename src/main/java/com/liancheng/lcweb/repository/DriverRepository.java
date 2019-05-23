@@ -1,7 +1,6 @@
 package com.liancheng.lcweb.repository;
 
 import com.liancheng.lcweb.domain.Driver;
-import com.liancheng.lcweb.domain.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

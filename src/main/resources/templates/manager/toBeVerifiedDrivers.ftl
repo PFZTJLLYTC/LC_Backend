@@ -189,28 +189,29 @@
                     <tr class="am-success">
                         <th class="table-check"><input type="checkbox"/></th>
                         <th class="table-title">姓名</th>
-                        <th class="table-type">性别</th>
-                        <th class="table-type">年龄</th>
-                        <th class="table-type">线路名称</th>
+                        <th class="table-type">可用座位</th>
                         <th class="table-type">车牌号</th>
                         <th class="table-type">联系方式</th>
-                        <th class="table-type">当前状态</th>
+                        <th class="table-type">完成单数</th>
+                        <th class="table-type">状态</th>
+                        <th class="table-author am-hide-sm-only">操作</th>
                     </tr>
                     </thead>
                     <tbody>
                     <#if drivers??>
-                    <#list drivers as driver>
-                        <tr>
-                            <td><input type="checkbox"/></td>
-                            <td>${driver.name}</td>
-                            <td>${driver.sex}</td>
-                            <td>${driver.age}</td>
-                            <td>${driver.line}</td>
-                            <td>${driver.car_num}</td>
-                            <td>${driver.dnum}</td>
-                            <td>${driver.status}</td>
-                        </tr>
-                    </#list>
+                        <#list drivers.content as driver>
+                            <tr>
+                                <td><input type="checkbox"/></td>
+                                <td>${driver.name}</td>
+                                <td>${driver.availableSeats}</td>
+                                <td>${driver.carNum}</td>
+                                <td>${driver.dnum}</td>
+                                <td>${driver.workTimes}</td>
+                                <td>${driver.status}</td>
+                                <td><a href="/manager/confirmDriver?dnum=${driver.dnum}">通过注册</td>
+                                <#--    取消则调用删除-->
+                            </tr>
+                        </#list>
                     </#if>
                     </tbody>
                 </table>

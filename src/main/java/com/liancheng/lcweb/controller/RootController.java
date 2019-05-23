@@ -176,8 +176,9 @@ public class RootController {
     //删除对应线路负责人（慎重，会同时删除所有司机信息）
     @DeleteMapping("/manager/delete")
     @Transactional
-    public ResultVO deleteManager(@RequestParam("lineId") Integer lineId){
-        return managerService.deleteOne(lineId);
+    public ResultVO deleteManager(@RequestParam("telNum") String telNum){
+        managerService.deleteOne(telNum);
+        return ResultVOUtil.success();
     }
 
 

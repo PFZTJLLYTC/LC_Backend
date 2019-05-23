@@ -1,6 +1,4 @@
 package com.liancheng.lcweb.service.impl;
-
-import com.liancheng.lcweb.VO.ResultVO;
 import com.liancheng.lcweb.converter.Driver2DriverDTOConverter;
 import com.liancheng.lcweb.domain.Driver;
 import com.liancheng.lcweb.domain.Manager;
@@ -16,11 +14,7 @@ import com.liancheng.lcweb.form.DriverInfoForm;
 import com.liancheng.lcweb.repository.DriverRepository;
 import com.liancheng.lcweb.repository.ManagerRepository;
 import com.liancheng.lcweb.repository.OrderRepository;
-import com.liancheng.lcweb.service.DriverService;
-import com.liancheng.lcweb.service.ManagerService;
-import com.liancheng.lcweb.service.OrderService;
-import com.liancheng.lcweb.service.WebSocketService;
-import com.liancheng.lcweb.utils.ResultVOUtil;
+import com.liancheng.lcweb.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +23,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -59,14 +52,19 @@ public class ManagerServiceImpl implements ManagerService {
     @Autowired
     private WebSocketService webSocketService;
 
+    @Autowired
+    private LineService lineService;
+
     @Override
     public List<Manager> findAll() {
         return managerRepository.findAll();
     }
 
+
     @Override
-    public Manager findOne(Integer id) {
-        Optional<Manager> manager = managerRepository.findById(id);
+    public Manager findOne(String telNum) {
+
+        Optional<Manager> manager = managerRepository.findById(telNum);
         if (!manager.isPresent()){
             return null;
         }
@@ -75,8 +73,8 @@ public class ManagerServiceImpl implements ManagerService {
 
     /*登陆用*/
     @Override
-    public Manager getManager(Integer lineId, String password) {
-        Manager manager = managerRepository.findByLineIdAndPassword(lineId,password);
+    public Manager getManager(String telNum, String password) {
+        Manager manager = managerRepository.findByTelNumAndPassword(telNum,password);
         if (manager==null){
             log.error("没有此线路负责人");
             return null;
@@ -86,17 +84,17 @@ public class ManagerServiceImpl implements ManagerService {
 
 
     @Override
-    public ResultVO deleteOne(Integer lineId) {
-        if (findOne(lineId)!=null){
+    public void deleteOne(String telNum) {
+        if (findOne(telNum)!=null){
             log.error("删除管理员失败,无此管理员");
             throw new LcException(ResultEnums.NO_SUCH_MANAGER);
         }
-        //所属司机全部删除，但是原有订单不删除。
-        for (Driver driver : driverService.findbyLineId(lineId)){
-            driverService.deleteOne(driver.getDnum());
-        }
-        managerRepository.deleteById(lineId);
-        return ResultVOUtil.success();
+//        //所属司机全部删除，但是原有订单不删除。
+//        for (Driver driver : driverService.findbyLineId(lineId)){
+//            driverService.deleteOne(driver.getDnum());
+//        }
+        //级联删除
+        managerRepository.deleteById(telNum);
     }
 
     @Override
@@ -108,11 +106,13 @@ public class ManagerServiceImpl implements ManagerService {
 
     @Override
     public void AddOneDriver(DriverInfoForm driverInfoForm,Integer lineId) {
-        Driver driver = new Driver();
 
-        if (!driverInfoForm.getLine().equals(findOne(lineId).getLine())){
+        Driver driver = new Driver();
+        String lineName = lineService.findOne(lineId).getLineName1();
+
+        if (!driverInfoForm.getLineName().equals(lineName)){
             log.error("不能添加非本线路司机");
-            throw new ManagerException("只能添加本线路的司机","http://118.24.96.45:8080/manager/driver/allDrivers");
+            throw new ManagerException("只能添加本线路的司机","/manager/driver/allDrivers");
         }
         BeanUtils.copyProperties(driverInfoForm,driver);
 
@@ -130,7 +130,7 @@ public class ManagerServiceImpl implements ManagerService {
 
         if (status<-1||status>2){
             log.error("根本没有这个状态");
-            throw new ManagerException(ResultEnums.DRIVER_STATUS_ERROR.getMsg(),"manager/drivers");
+            throw new ManagerException(ResultEnums.DRIVER_STATUS_ERROR.getMsg(),"/manager/drivers");
         }
         Page<Driver>  driverPage;
         if (status.equals(DriverStatusEnums.ATREST.getCode())){
@@ -156,7 +156,7 @@ public class ManagerServiceImpl implements ManagerService {
 
         if (status<-1||status>2){
             log.error("根本没有这个状态");
-            throw new ManagerException(ResultEnums.DRIVER_STATUS_ERROR.getMsg(),"manager/drivers");
+            throw new ManagerException(ResultEnums.DRIVER_STATUS_ERROR.getMsg(),"/manager/drivers");
         }
         List<Driver>  driverList= new ArrayList<>();
         if (status.equals(DriverStatusEnums.ATREST.getCode())){
@@ -211,7 +211,7 @@ public class ManagerServiceImpl implements ManagerService {
 
     @Override
     public Page<DriverDTO> getAllDrivers(Integer lineId, Pageable pageable) {
-        if (findOne(lineId)==null){
+        if (lineService.findOne(lineId)==null){
             return null;
         }
         Page<Driver> driverPage = driverService.findbyLineId(lineId,pageable);
@@ -270,7 +270,6 @@ public class ManagerServiceImpl implements ManagerService {
             throw new ManagerException(ResultEnums.SEATS_NOT_ENOUGH.getMsg(),"/manager/order/findByStatus?status="+ OrderStatusEnums.WAIT.getCode());
         }
 
-        //todo 分别通知对应司机和乘客由订单状态的改变(result)
         try {
             webSocketService.sendInfo("订单状态改变",dnum);
 
@@ -283,11 +282,10 @@ public class ManagerServiceImpl implements ManagerService {
             log.warn("向乘客发送即时消息失败,userId={},message={}",order.getUserId(),e.getMessage());
         }
 
-        //通过对应的方法
 
     }
 
-    //todo 这里根据改了order的属性再来改！
+    //保留，以后说不定有用
     @Override
     public List<Order> getOrdersByStatus(Integer lineId, Integer status) {
 
@@ -327,7 +325,15 @@ public class ManagerServiceImpl implements ManagerService {
 
     }
 
+    @Override
+    public Page<Order> getOrdersByStatus(Integer lineId, Integer status, Pageable pageable) {
 
+        if (status<0||status>2){
+            throw new ManagerException(ResultEnums.ORDER_STATUS_ERROR.getMsg(),"/manager/order/allOrders");
+        }
+        return orderRepository.findByLineIdAndOrderStatus(lineId,status,pageable);
+
+    }
 
     @Override
     public void confirmOneDriver(String dnum, Integer lineId) {
@@ -340,6 +346,8 @@ public class ManagerServiceImpl implements ManagerService {
         }
         //将状态设置为休息中，代表成功确定
         driver.setStatus(DriverStatusEnums.ATREST.getCode());
+
+        driver.setWorkTimes(0);
 
         //保存更改,正式生效(是否对driver进行通知？)
         driverRepository.save(driver);

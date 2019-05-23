@@ -1,7 +1,9 @@
 package com.liancheng.lcweb.service.impl;
 
 import com.liancheng.lcweb.domain.Driver;
+import com.liancheng.lcweb.domain.Manager;
 import com.liancheng.lcweb.domain.Order;
+import com.liancheng.lcweb.domain.User;
 import com.liancheng.lcweb.dto.DriverDoneOrderDTO;
 import com.liancheng.lcweb.dto.OrderDriDTO;
 import com.liancheng.lcweb.dto.UserDoneOrderDTO;
@@ -10,9 +12,10 @@ import com.liancheng.lcweb.enums.ResultEnums;
 import com.liancheng.lcweb.exception.ManagerException;
 import com.liancheng.lcweb.form.UserOrderForm;
 import com.liancheng.lcweb.repository.DriverRepository;
+import com.liancheng.lcweb.repository.ManagerRepository;
 import com.liancheng.lcweb.repository.OrderRepository;
-import com.liancheng.lcweb.service.OrderService;
-import com.liancheng.lcweb.service.WebSocketService;
+import com.liancheng.lcweb.repository.UserRepository;
+import com.liancheng.lcweb.service.*;
 import com.liancheng.lcweb.utils.KeyUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -36,6 +39,20 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private WebSocketService webSocketService;
 
+    @Autowired
+    private ManagerRepository managerRepository;
+
+    @Autowired
+    private LineService lineService;
+
+    @Autowired
+    private DriverService driverService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public List<Order> findAll() {
@@ -50,17 +67,22 @@ public class OrderServiceImpl implements OrderService {
         result.setOrderId(KeyUtil.genUniquekey());
         result.setOrderStatus(OrderStatusEnums.WAIT.getCode());
 
-        //todo lineId此处必须在form里面有呈现
         orderRepository.save(result);
 
-        //通过lineId发送到指定manager端
+        //通过lineId找到管理员们
         //websocket进行manager端提醒实现,传给manager
-        try {
-            webSocketService.sendInfo("新的订单消息",userOrderForm.getLineId());
-        } catch (IOException e) {
-            log.error(e.getMessage());
-            e.printStackTrace();
+        Integer lineId = lineService.findOneByName(userOrderForm.getLineName()).getLineId();
+        List<Manager> managers = managerRepository.findByLineId(lineId);
+        for (Manager manager:managers){
+            try {
+
+                webSocketService.sendInfo("新的订单消息",manager.getTelNum());
+            } catch (IOException e) {
+                log.error(e.getMessage());
+                e.printStackTrace();
+            }
         }
+
 
         return result;
     }
@@ -97,8 +119,7 @@ public class OrderServiceImpl implements OrderService {
     /***********************************************/
     @Override
     public List<Order> findDriverProcessinOrder(String dnum){
-        return orderRepository.findByOrderStatusAndDnum(OrderStatusEnums.PROCESSIN.getCode(),
-                dnum);
+        return orderRepository.findByOrderStatusAndDnum(OrderStatusEnums.PROCESSIN.getCode(), dnum);
     }
 
     public List<DriverDoneOrderDTO> findDriverDoneOrder(String dnum){
@@ -124,7 +145,19 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order finishOne(Order order) {
-        return null;
+        // 订单完成后司机的worktime也需要增加
+        order.setOrderStatus(OrderStatusEnums.DONE.getCode());
+        Driver driver = driverService.findOne(order.getDnum());
+        User user = userService.findOne(order.getUserId());
+        user.setTakeTimes(user.getTakeTimes()+1);
+        driver.setWorkTimes(driver.getWorkTimes()+1);
+        //  座位数加回来
+        driver.setAvailableSeats(driver.getAvailableSeats()+order.getUserCount());
+        orderRepository.save(order);
+        driverRepository.save(driver);
+        userRepository.save(user);
+
+        return order;
     }
 
     @Override

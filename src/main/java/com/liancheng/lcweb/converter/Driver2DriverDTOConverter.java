@@ -12,6 +12,7 @@ public class Driver2DriverDTOConverter {
     public static DriverDTO convert(Driver driver){
 
         DriverDTO driverDTO = new DriverDTO();
+
         BeanUtils.copyProperties(driver,driverDTO);
 
         return driverDTO;
