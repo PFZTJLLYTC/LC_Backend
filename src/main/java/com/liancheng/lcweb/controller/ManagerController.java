@@ -79,7 +79,7 @@ public class ManagerController {
 
             Integer lineId = managerService.findOne(telNum).getLineId();
             TotalInfoDTO totalInfoDTOS = managerService.getTotal(lineId);
-            map.put("name",telNum);
+            map.put("name",lineId);
             map.put("total",totalInfoDTOS);
             return new ModelAndView("/manager/index",map);
         }
