@@ -12,6 +12,7 @@ import com.liancheng.lcweb.enums.OrderStatusEnums;
 import com.liancheng.lcweb.enums.ResultEnums;
 import com.liancheng.lcweb.exception.ManagerException;
 import com.liancheng.lcweb.form.DriverInfoForm;
+import com.liancheng.lcweb.form.addDriverFormForManager;
 import com.liancheng.lcweb.repository.ManagerRepository;
 import com.liancheng.lcweb.service.*;
 import com.liancheng.lcweb.utils.CookieUtil;
@@ -193,7 +194,7 @@ public class ManagerController {
             return new ModelAndView("manager/atRestDrivers",map);
         }
         else if (status.equals(DriverStatusEnums.AVAILABLE.getCode())){
-            return new ModelAndView("manager/availableDrivers",map);
+            return new ModelAndView("manager/availableDriver",map);
         }
         else if (status.equals(DriverStatusEnums.ONROAD.getCode())){
             return new ModelAndView("manager/onRoadDrivers",map);
@@ -225,10 +226,24 @@ public class ManagerController {
 
     }
 
+    @GetMapping("/driver/goToAddDriver")
+    public ModelAndView goToAddDriver(HttpServletRequest request,
+                                      Map<String,Object>map){
+        Cookie cookie = CookieUtil.get(request,CookieConstant.TOKEN);
+        log.info("获取lineId来添加司机");
+        Integer lineId = Integer.parseInt(redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX,cookie.getValue()))+"");
+        log.info("lineId={}",lineId);
+
+        map.put("name",lineId);
+
+        return new ModelAndView("manager/addDriverForm");
+
+    }
+
     //增加司机,这里是指通过manager直接添加，但是仍需要确认
     @PostMapping("/driver/DriverAdd")
     @Transactional
-    public ModelAndView addOneDriver(@RequestBody @Valid DriverInfoForm driverInfoForm,
+    public ModelAndView addOneDriver(@Valid addDriverFormForManager driverInfoForm,
                                      BindingResult bindingResult,
                                      HttpServletRequest request,
                                      Map<String,Object> map){
@@ -245,7 +260,7 @@ public class ManagerController {
         managerService.AddOneDriver(driverInfoForm,lineId);
         log.info("线路{},添加司机{}成功",lineId,driverInfoForm.getName());
         map.put("msg","添加注册司机信息"+driverInfoForm.getName()+ResultEnums.SUCCESS.getMsg()+", 请确认相关司机完成操作！");
-        map.put("url","/manager/driver/allDrivers");
+        map.put("url","/manager/driver/goToAddDriver");
 
         return new ModelAndView("common/success",map);
 
@@ -270,6 +285,7 @@ public class ManagerController {
         return new ModelAndView("common/success",map);
     }
 
+
     //确认添加司机
     @GetMapping("/driver/confirmDriver")
     @Transactional
@@ -290,8 +306,6 @@ public class ManagerController {
         return new ModelAndView("common/success",map);
 
     }
-
-
 
     /*订单相关*/
 

@@ -11,6 +11,7 @@ import com.liancheng.lcweb.enums.ResultEnums;
 import com.liancheng.lcweb.exception.LcException;
 import com.liancheng.lcweb.exception.ManagerException;
 import com.liancheng.lcweb.form.DriverInfoForm;
+import com.liancheng.lcweb.form.addDriverFormForManager;
 import com.liancheng.lcweb.repository.DriverRepository;
 import com.liancheng.lcweb.repository.ManagerRepository;
 import com.liancheng.lcweb.repository.OrderRepository;
@@ -105,15 +106,11 @@ public class ManagerServiceImpl implements ManagerService {
     }
 
     @Override
-    public void AddOneDriver(DriverInfoForm driverInfoForm,Integer lineId) {
+    public void AddOneDriver(addDriverFormForManager driverInfoForm, Integer lineId) {
 
         Driver driver = new Driver();
         String lineName = lineService.findOne(lineId).getLineName1();
-
-        if (!driverInfoForm.getLineName().equals(lineName)){
-            log.error("不能添加非本线路司机");
-            throw new ManagerException("只能添加本线路的司机","/manager/driver/allDrivers");
-        }
+        //因为根本不传line字段，它根本不能添加其他线路的司机
         BeanUtils.copyProperties(driverInfoForm,driver);
 
         driver.setLineId(lineId);

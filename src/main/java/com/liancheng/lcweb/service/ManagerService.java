@@ -4,7 +4,7 @@ import com.liancheng.lcweb.domain.Manager;
 import com.liancheng.lcweb.domain.Order;
 import com.liancheng.lcweb.dto.DriverDTO;
 import com.liancheng.lcweb.dto.TotalInfoDTO;
-import com.liancheng.lcweb.form.DriverInfoForm;
+import com.liancheng.lcweb.form.addDriverFormForManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -40,7 +40,7 @@ public interface ManagerService {
 
     Page<Order> getAllOrders(Integer lineId,Pageable pageable);
 
-    void AddOneDriver(DriverInfoForm driverInfoForm,Integer lineId);
+    void AddOneDriver(addDriverFormForManager driverInfoForm, Integer lineId);
 
     void DeleteOneDriver(String dnum, Integer lineId);
 

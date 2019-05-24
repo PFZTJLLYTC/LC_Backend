@@ -1,0 +1,466 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <title>连城管理系统</title>
+    <meta content="这是一个 index 页面" name="description">
+    <meta content="index" name="keywords">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <meta content="webkit" name="renderer">
+    <meta content="no-siteapp" http-equiv="Cache-Control"/>
+    <link href="../../img/LC.png" rel="icon" type="image/png">
+    <link href="../../img/app-icon72x72@2x.png" rel="apple-touch-icon-precomposed">
+    <meta content="Amaze UI" name="apple-mobile-web-app-title"/>
+    <link href="../../css/amazeui.min.css" rel="stylesheet"/>
+    <link href="../../css/admin.css" rel="stylesheet">
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/app.js"></script>
+</head>
+
+<body>
+<header class="am-topbar admin-header">
+    <div class="am-topbar-brand"><img src="../../img/page.png"></div>
+
+    <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+        <ul class="am-nav am-nav-pills am-topbar-nav admin-header-list">
+
+            <li class="am-dropdown tognzhi" data-am-dropdown>
+                <button class="am-btn am-btn-primary am-dropdown-toggle am-btn-xs am-radius am-icon-bell-o"
+                        data-am-dropdown-toggle> 消息管理<span class="am-badge am-badge-danger am-round">6</span></button>
+                <ul class="am-dropdown-content">
+
+
+                    <li class="am-dropdown-header">所有消息都在这里</li>
+                    <li><a href="/manager/order/findByStatus?status=0">未处理订单 <span class="am-badge am-badge-danger am-round">6</span></a>
+                    </li>
+                    <li><a href="/manager/driver/findByStatus?status=-1">待审核司机申请</a></li>
+                    <li><a href="#">系统升级</a></li>
+                </ul>
+            </li>
+
+            <li class="kuanjie">
+
+                <a href="#">个人中心</a>
+                <a href="#">系统设置</a>
+            </li>
+
+            <li class="soso">
+
+                <p>
+
+                    <select data-am-selected="{btnWidth: 70, btnSize: 'sm', btnStyle: 'default'}">
+                        <option value="b">全部</option>
+                        <option value="o">订单</option>
+                        <option value="o">司机</option>
+
+                    </select>
+
+                </p>
+
+                <p class="ycfg"><input class="am-form-field am-input-sm" placeholder="搜索" type="text"/></p>
+                <p>
+                    <button class="am-btn am-btn-xs am-btn-default am-xiao"><i class="am-icon-search"></i></button>
+                </p>
+            </li>
+
+
+            <li class="am-hide-sm-only" style="float: right;"><a href="javascript:" id="admin-fullscreen"><span
+                            class="am-icon-arrows-alt"></span> <span class="admin-fullText">开启全屏</span></a></li>
+        </ul>
+    </div>
+</header>
+
+<div class="am-cf admin-main">
+
+    <div class="nav-navicon admin-main admin-sidebar">
+
+
+        <div class="sideMenu am-icon-dashboard" style="color:#aeb2b7; margin: 10px 0 0 0;"> 欢迎系统管理员：${name}</div>
+        <div class="sideMenu">
+            <h3 class="am-icon-flag"><em></em> <a href="#">订单管理</a></h3>
+            <ul>
+                <li><a href="/manager/order/allOrders">所有订单列表</a></li>
+                <li><a href="/manager/order/findByStatus?status=0">待处理订单</a></li>
+                <li><a href="/manager/order/findByStatus?status=1">进行中订单</a></li>
+                <li><a href="/manager/order/findByStatus?status=2">已完成订单</a></li>
+            </ul>
+            <h3 class="am-icon-users"><em></em> <a href="#"> 司机管理</a></h3>
+            <ul>
+                <li><a href="/manager/driver/allDrivers">司机列表</a></li>
+                <li><a href="/manager/driver/findByStatus?status=-1">审核中司机</a></li>
+            </ul>
+            <h3 class="am-icon-volume-up"><em></em> <a href="#">信息通知</a></h3>
+            <ul>
+                <li>站内消息 /留言</li>
+            </ul>
+            <h3 class="am-icon-gears"><em></em> <a href="#">系统设置</a></h3>
+            <ul>
+                <li>数据备份</li>
+            </ul>
+        </div>
+        <!-- sideMenu End -->
+
+        <script type="text/javascript">
+            jQuery(".sideMenu").slide({
+                titCell: "h3", //鼠标触发对象
+                targetCell: "ul", //与titCell一一对应，第n个titCell控制第n个targetCell的显示隐藏
+                effect: "slideDown", //targetCell下拉效果
+                delayTime: 300, //效果时间
+                triggerTime: 150, //鼠标延迟触发时间（默认150）
+                defaultPlay: true,//默认是否执行效果（默认true）
+                returnDefault: true //鼠标从.sideMen移走后返回默认状态（默认false）
+            });
+        </script>
+
+
+    </div>
+
+    <div class=" admin-content">
+
+        <div class="daohang">
+            <ul>
+                <li>
+                    <button class="am-btn am-btn-default am-radius am-btn-xs" type="button"> <a href="/manager/login?lineId=${name}&password= ">首页</a>
+                </li>
+                <li>
+                    <button class="am-btn am-btn-default am-radius am-btn-xs" type="button">订单管理<a
+                            class="am-close am-close-spin" data-am-modal-close="" href="javascript: void(0)">×</a>
+                    </button>
+                </li>
+                <li>
+                    <button class="am-btn am-btn-default am-radius am-btn-xs" type="button">司机管理<a
+                            class="am-close am-close-spin" data-am-modal-close="" href="javascript: void(0)">×</a>
+                    </button>
+                </li>
+            </ul>
+
+
+        </div>
+
+    <div class="admin-biaogelist">
+
+        <div class="listbiaoti am-cf">
+            <ul class="am-icon-flag on"> 设置与信息</ul>
+            <dl class="am-icon-home" style="float: right;">当前位置： <a href="/manager/login?lineId=${name}&password= ">首页</a>> <a href="#">设置和信息</a></dl>
+
+
+        </div>
+
+
+        <div class="am-tabs am-margin" data-am-tabs>
+            <ul class="am-tabs-nav am-nav am-nav-tabs">
+                <li class="am-active"><a href="#tab1">站内消息 /留言</a></li>
+                <li><a href="#tab2">短信</a></li>
+                <li><a href="#tab3">邮件</a></li>
+                <li><a href="#tab4">微信</a></li>
+                <li><a href="#tab5">客服</a></li>
+            </ul>
+
+
+            <div class="am-tabs-bd">
+                <div class="am-tab-panel am-fade am-in am-active" id="tab1">
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">所属类别</div>
+                        <div class="am-u-sm-8 am-u-md-10">
+                            <select data-am-selected="{btnSize: 'sm'}">
+                                <option value="option1">选项一...</option>
+                                <option value="option2">选项二.....</option>
+                                <option value="option3">选项三........</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">显示状态</div>
+                        <div class="am-u-sm-8 am-u-md-10">
+                            <div class="am-btn-group" data-am-button>
+                                <label class="am-btn am-btn-default am-btn-xs">
+                                    <input id="option1" name="options" type="radio"> 正常
+                                </label>
+                                <label class="am-btn am-btn-default am-btn-xs">
+                                    <input id="option2" name="options" type="radio"> 待审核
+                                </label>
+                                <label class="am-btn am-btn-default am-btn-xs">
+                                    <input id="option3" name="options" type="radio"> 不显示
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">推荐类型</div>
+                        <div class="am-u-sm-8 am-u-md-10">
+                            <div class="am-btn-group" data-am-button>
+                                <label class="am-btn am-btn-default am-btn-xs">
+                                    <input type="checkbox"> 允许评论
+                                </label>
+                                <label class="am-btn am-btn-default am-btn-xs">
+                                    <input type="checkbox"> 置顶
+                                </label>
+                                <label class="am-btn am-btn-default am-btn-xs">
+                                    <input type="checkbox"> 推荐
+                                </label>
+                                <label class="am-btn am-btn-default am-btn-xs">
+                                    <input type="checkbox"> 热门
+                                </label>
+                                <label class="am-btn am-btn-default am-btn-xs">
+                                    <input type="checkbox"> 轮播图
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                            发布时间
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-10">
+                            <form action="" class="am-form am-form-inline">
+                                <div class="am-form-group am-form-icon">
+                                    <i class="am-icon-calendar"></i>
+                                    <input class="am-form-field am-input-sm" placeholder="时间" type="text">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="am-tab-panel am-fade" id="tab2">
+                    <form class="am-form">
+                        <div class="am-g am-margin-top">
+                            <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                                文章标题
+                            </div>
+                            <div class="am-u-sm-8 am-u-md-4">
+                                <input class="am-input-sm" type="text">
+                            </div>
+                            <div class="am-hide-sm-only am-u-md-6">*必填，不可重复</div>
+                        </div>
+
+                        <div class="am-g am-margin-top">
+                            <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                                文章作者
+                            </div>
+                            <div class="am-u-sm-8 am-u-md-4 am-u-end col-end">
+                                <input class="am-input-sm" type="text">
+                            </div>
+                        </div>
+
+                        <div class="am-g am-margin-top">
+                            <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                                信息来源
+                            </div>
+                            <div class="am-u-sm-8 am-u-md-4">
+                                <input class="am-input-sm" type="text">
+                            </div>
+                            <div class="am-hide-sm-only am-u-md-6">选填</div>
+                        </div>
+
+                        <div class="am-g am-margin-top">
+                            <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                                内容摘要
+                            </div>
+                            <div class="am-u-sm-8 am-u-md-4">
+                                <input class="am-input-sm" type="text">
+                            </div>
+                            <div class="am-u-sm-12 am-u-md-6">不填写则自动截取内容前255字符</div>
+                        </div>
+
+                        <div class="am-g am-margin-top-sm">
+                            <div class="am-u-sm-12 am-u-md-2 am-text-right admin-form-text">
+                                内容描述
+                            </div>
+                            <div class="am-u-sm-12 am-u-md-10">
+                                <textarea placeholder="请使用富文本编辑插件" rows="10"></textarea>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+
+                <div class="am-tab-panel am-fade" id="tab3">
+                    <form class="am-form">
+
+
+                        <div class="xitong">
+
+                            <div class="am-alert am-alert-success" data-am-alert>
+
+                                <p>发件箱设置（站内所有邮件均由此邮箱发送，如会员密码找回邮件等）</p>
+                            </div>
+
+
+                            <div class="am-form-group">
+                                <div class="zuo">发件人：</div>
+                                <div class="you" style="max-width: 300px;">
+                                    <input class="am-input-sm" id="doc-ipt-email-1" placeholder="请输入标题" type="email">
+                                </div>
+                            </div>
+
+                            <div class="am-form-group">
+                                <div class="zuo">邮箱账号：</div>
+                                <div class="you" style="max-width: 300px;">
+                                    <input class="am-input-sm" id="doc-ipt-email-1" placeholder="请输入标题" type="email">
+                                </div>
+                            </div>
+
+
+                            <div class="am-form-group">
+                                <div class="zuo">邮箱密码：</div>
+                                <div class="you" style="max-width: 300px;">
+                                    <input class="am-input-sm" id="doc-ipt-email-1" placeholder="请输入标题" type="email">
+                                </div>
+                            </div>
+
+
+                            <div class="am-form-group">
+                                <div class="zuo">SMTP：</div>
+                                <div class="you" style="max-width: 300px;">
+                                    <input class="am-input-sm" id="doc-ipt-email-1" placeholder="请输入标题" type="email">
+                                </div>
+                            </div>
+
+                            <div class="am-form-group">
+                                <div class="zuo">发送端口：</div>
+                                <div class="you" style="max-width: 300px;">
+                                    <input class="am-input-sm" id="doc-ipt-email-1" placeholder="请输入标题" type="email">
+                                </div>
+                            </div>
+
+
+                            <div class="am-form-group">
+                                <div class="zuo">发送方式：</div>
+                                <div class="you" style="margin-top: 4px;">
+                                    <label class="am-radio-inline">
+                                        <input name="docInlineRadio" type="radio" value=""> SSL服务方式
+                                    </label>
+                                    <label class="am-radio-inline">
+                                        <input name="docInlineRadio" type="radio"> TLS服务方式
+                                    </label>
+
+                                </div>
+                            </div>
+
+
+                            <div class="am-form-group">
+                                <div class="zuo"></div>
+                                <div class="you" style="margin-top: 4px;">
+                                    测试发送状态
+                                    <br/><br/>
+                                    <button class="am-btn am-btn-success  am-radius am-btn-sm" type="button">保存选择
+                                    </button>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+                    </form>
+                </div>
+
+                <div class="am-tab-panel am-fade" id="tab4">
+                    <form class="am-form">
+                        <div class="am-g am-margin-top-sm">
+                            <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                                SEO 标题
+                            </div>
+                            <div class="am-u-sm-8 am-u-md-4 am-u-end">
+                                <input class="am-input-sm" type="text">
+                            </div>
+                        </div>
+
+                        <div class="am-g am-margin-top-sm">
+                            <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                                SEO 关键字
+                            </div>
+                            <div class="am-u-sm-8 am-u-md-4 am-u-end">
+                                <input class="am-input-sm" type="text">
+                            </div>
+                        </div>
+
+                        <div class="am-g am-margin-top-sm">
+                            <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                                SEO 描述
+                            </div>
+                            <div class="am-u-sm-8 am-u-md-4 am-u-end">
+                                <textarea rows="4"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+
+                <div class="am-tab-panel am-fade" id="tab5">
+                    <form class="am-form">
+                        <div class="am-g am-margin-top-sm">
+                            <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                                SEO 标题
+                            </div>
+                            <div class="am-u-sm-8 am-u-md-4 am-u-end">
+                                <input class="am-input-sm" type="text">
+                            </div>
+                        </div>
+
+                        <div class="am-g am-margin-top-sm">
+                            <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                                SEO 关键字
+                            </div>
+                            <div class="am-u-sm-8 am-u-md-4 am-u-end">
+                                <input class="am-input-sm" type="text">
+                            </div>
+                        </div>
+
+                        <div class="am-g am-margin-top-sm">
+                            <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                                SEO 描述
+                            </div>
+                            <div class="am-u-sm-8 am-u-md-4 am-u-end">
+                                <textarea rows="4"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+
+            </div>
+        </div>
+
+        <div class="am-margin">
+            <button class="am-btn am-btn-success am-radius " type="button">提交保存</button>
+            <button class="am-btn am-btn-primary am-radius " type="button">放弃保存</button>
+        </div>
+
+
+        <div class="foods">
+            <ul>
+                版权所有@2015.
+            </ul>
+            <dl>
+                <a class="am-icon-btn am-icon-arrow-up" href="" title="返回头部"></a>
+            </dl>
+        </div>
+
+
+    </div>
+
+
+</div>
+
+<!--[if lt IE 9]>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="../../js/polyfill/rem.min.js"></script>
+<script src="../../js/polyfill/respond.min.js"></script>
+<script src="../../js/amazeui.legacy.js"></script>
+<![endif]-->
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="../../js/amazeui.min.js"></script>
+<!--<![endif]-->
+
+
+</body>
+</html>

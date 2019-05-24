@@ -27,6 +27,10 @@ app使用后，web使用前
 + ~~消息的定向推送~~
 
 + manager分配订单时的界面操作与流程
+
++ manager设置与info界面
+
++ 返回顶部等一些小功能
 ```
 order生成时利用websocket传到manager
 

@@ -143,7 +143,7 @@
 
             <div class="listbiaoti am-cf">
                 <ul class="am-icon-cart-plus on">司机管理</ul>
-                <dl class="am-icon-home" style="float: right;"> 当前位置： <a href="index.html">首页</a>>审核中司机</dl>
+                <dl class="am-icon-home" style="float: right;"> 当前位置： <a href="/manager/login?lineId=${name}&password= ">首页</a>>审核中司机</dl>
                 <dl>
                     <button class="am-btn am-btn-danger am-round am-btn-xs am-icon-plus" type="button"> 通过审核
                     </button>

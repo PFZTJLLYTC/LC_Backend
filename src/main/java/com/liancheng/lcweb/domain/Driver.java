@@ -37,8 +37,6 @@ public class Driver {
     @NotNull(message = "车牌号")
     private String carNum;
 
-//    private String line;
-
     //计算年龄
     private Date birthday;
 

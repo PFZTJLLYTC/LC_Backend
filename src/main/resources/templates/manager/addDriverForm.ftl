@@ -138,98 +138,80 @@
 
         </div>
 
+
         <div class="admin-biaogelist">
 
             <div class="listbiaoti am-cf">
-                <ul class="am-icon-cart-plus on"> 司机管理</ul>
+                <ul class="am-icon-flag on"> 添加司机</ul>
 
-                <dl class="am-icon-home" style="float: right;"> 当前位置： <a href="/manager/login?lineId=${name}&password= ">首页</a>>司机列表</dl>
-
-<#--                <dl>-->
-<#--                    <button class="am-btn am-btn-danger am-round am-btn-xs am-icon-plus" onclick="window.location.href='adddrivers.html' +-->
-<#--         ''" type="button"> 添加司机-->
-<#--                    </button>-->
-<#--                </dl>-->
+                <dl class="am-icon-home" style="float: right;"> 当前位置： <a href="/manager/login?lineId=${name}&password= ">首页 </a>><a href="">司机管理</a>>添加司机</dl>
 
 
             </div>
 
-            <div class="am-btn-toolbars am-btn-toolbar am-kg am-cf">
-                <ul>
-
-                    <li style="margin-left: -10px;">
-                        <div class="am-btn-group am-btn-group-xs">
-                            <select data-am-selected="{btnWidth: 90, btnSize: 'sm', btnStyle: 'default'}">
-                                <option value="b">全部</option>
-                                <option value="o">休息中</option>
-                                <option value="o">待出行</option>
-                                <option value="o">在路上</option>
-                            </select>
+            <div class="fbneirong">
+                <form class="am-form" name="driverInfoForm" action="/driver/DriverAdd" method="post">
+                    <div class="am-form-group am-cf">
+                        <div class="zuo">司机姓名：</div>
+                        <div class="you">
+                            <input class="am-input-sm" id="doc-ipt-email-1" placeholder="请输入姓名" type="email" name="name">
                         </div>
-                    </li>
-                    <li><input class="am-form-field am-input-sm am-input-xm" placeholder="关键词搜索" type="text"/></li>
-                    <li>
-                        <button class="am-btn am-radius am-btn-xs am-btn-success" style="margin-top: -1px;"
-                                type="button">搜索
-                        </button>
-                    </li>
-                </ul>
+                    </div>
+
+                    <div class="am-form-group am-cf">
+                        <div class="zuo">出生日期：</div>
+                        <div class="you">
+                            <input class="am-input-sm" id="doc-ipt-email-1" placeholder="1988-01-01" type="email" name="birthday">
+                        </div>
+                    </div>
+                    <div class="am-form-group am-cf">
+                        <div class="zuo">可载客人数：</div>
+                        <div class="you">
+                            <input class="am-input-sm" id="doc-ipt-email-1" placeholder="请输入可载客人数" type="email" name="availableSeats">
+                        </div>
+                    </div>
+
+                    <div class="am-form-group am-cf">
+                        <div class="zuo">车牌号：</div>
+                        <div class="you">
+                            <input class="am-input-sm" id="doc-ipt-email-1" placeholder="请输入车牌号" type="email" name="carNum">
+                        </div>
+                    </div>
+
+                    <div class="am-form-group am-cf">
+                        <div class="zuo">联系方式：</div>
+                        <div class="you">
+                            <input class="am-input-sm" id="doc-ipt-email-1" placeholder="请输入联系方式" type="email" name="dnum">
+                        </div>
+                    </div>
+                    <div class="am-form-group am-cf">
+                        <div class="zuo">密码：</div>
+                        <div class="you">
+                            <input class="am-input-sm" id="doc-ipt-email-1" placeholder="123456(请设置密码)" type="email" name="password">
+                        </div>
+                    </div>
+
+                    <div class="am-form-group am-cf">
+                        <div class="zuo">性别：</div>
+                        <div class="you">
+                            <input class="am-input-sm" id="doc-ipt-email-1" placeholder="性别(选填)" type="email" name="mof">
+                        </div>
+                    </div>
+<#--                    <div class="am-form-group am-cf">-->
+<#--                        <div class="zuo">其他信息：</div>-->
+<#--                        <div class="you">-->
+<#--                            <textarea class="" id="doc-ta-1" rows="1"></textarea>-->
+<#--                        </div>-->
+<#--                    </div>-->
+
+                    <div class="am-form-group am-cf">
+                        <div class="you" style="margin-left: 11%;">
+                            <button class="am-btn am-btn-success am-radius" type="submit">提交</button>
+
+                        </div>
+                    </div>
+                </form>
             </div>
-
-
-            <form class="am-form am-g">
-                <table class="am-table am-table-bordered am-table-radius am-table-striped" width="100%">
-                    <thead>
-                    <tr class="am-success">
-                        <th class="table-check"><input type="checkbox"/></th>
-                        <th class="table-title">姓名</th>
-                        <th class="table-type">可用座位</th>
-                        <th class="table-type">车牌号</th>
-                        <th class="table-type">联系方式</th>
-                        <th class="table-type">完成单数</th>
-                        <th class="table-author am-hide-sm-only">状态</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <#if drivers??>
-                    <#list drivers.content as driver>
-                        <tr>
-                            <td><input type="checkbox"/></td>
-                            <td>${driver.name}</td>
-                            <td>${driver.availableSeats}</td>
-                            <td>${driver.carNum}</td>
-                            <td>${driver.dnum}</td>
-                            <td>${driver.workTimes}</td>
-                            <td>${driver.status}</td>
-                        </tr>
-                    </#list>
-                    </#if>
-                    </tbody>
-                </table>
-
-                <ul class="am-pagination am-fr">
-                    <#if currentPage lte 1>
-                    <li class="am-disabled"><a href="#">«</a></li>
-                    <#else>
-                    <li class="am-active"><a href="/manager/driver/allDrivers?page=${currentPage-1}&size=${size}">«</a></li>
-                    </#if>
-
-                    <#list 1..drivers.getTotalPages() as index>
-                        <#if currentPage == index>
-                            <li class="am-disabled"><a href="#">${index}</a></li>
-                        <#else>
-                            <li class="am-active"><a href="/manager/driver/allDrivers?page=${index}&size=${size}">${index}</a></li>
-                        </#if>
-                    </#list>
-
-                    <#if currentPage gte drivers.getTotalPages()>
-                    <li class="am-disabled"><a href="#">»</a></li>
-                    <#else>
-                    <li class="am-active"><a href="/manager/driver/allDrivers?page=${currentPage+1}&size=${size}">»</a></li>
-                    </#if>
-                </ul>
-
-            </form>
 
 
             <div class="foods">

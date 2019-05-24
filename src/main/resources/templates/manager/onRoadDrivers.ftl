@@ -34,7 +34,7 @@
                     <li class="am-dropdown-header">所有消息都在这里</li>
                     <li><a href="/manager/order/findByStatus?status=0">未处理订单 <span class="am-badge am-badge-danger am-round">6</span></a>
                     </li>
-                    <li><a href="/manager/driver/findByStatus?status=-1">未处理司机申请</a></li>
+                    <li><a href="/manager/driver/findByStatus?status=-1">待审核司机申请</a></li>
                     <li><a href="#">系统升级</a></li>
                 </ul>
             </li>
@@ -76,7 +76,7 @@
     <div class="nav-navicon admin-main admin-sidebar">
 
 
-        <div class="sideMenu am-icon-dashboard" style="color:#aeb2b7; margin: 10px 0 0 0;"> 欢迎系统管理员：<strong>${name}</strong></div>
+        <div class="sideMenu am-icon-dashboard" style="color:#aeb2b7; margin: 10px 0 0 0;"> 欢迎系统管理员：${name}</div>
         <div class="sideMenu">
             <h3 class="am-icon-flag"><em></em> <a href="#">订单管理</a></h3>
             <ul>
@@ -85,10 +85,10 @@
                 <li><a href="/manager/order/findByStatus?status=1">进行中订单</a></li>
                 <li><a href="/manager/order/findByStatus?status=2">已完成订单</a></li>
             </ul>
-            <h3 class="am-icon-users on"><em></em> <a href="#"> 司机管理</a></h3>
+            <h3 class="am-icon-users"><em></em> <a href="#"> 司机管理</a></h3>
             <ul>
-                <li><a href="">司机列表</a></li>
-                <li><a href="">审核中司机</a></li>
+                <li><a href="/manager/driver/allDrivers">司机列表</a></li>
+                <li><a href="/manager/driver/findByStatus?status=-1">审核中司机</a></li>
             </ul>
             <h3 class="am-icon-volume-up"><em></em> <a href="#">信息通知</a></h3>
             <ul>
@@ -121,7 +121,7 @@
         <div class="daohang">
             <ul>
                 <li>
-                    <button class="am-btn am-btn-default am-radius am-btn-xs" type="button" ><a href="/manager/login?lineId=${name}&password= ">首页</a>
+                    <button class="am-btn am-btn-default am-radius am-btn-xs" type="button"> <a href="/manager/login?lineId=${name}&password= ">首页</a>
                 </li>
                 <li>
                     <button class="am-btn am-btn-default am-radius am-btn-xs" type="button">订单管理<a
@@ -138,32 +138,22 @@
 
         </div>
 
+
         <div class="admin-biaogelist">
 
             <div class="listbiaoti am-cf">
-                <ul class="am-icon-cart-plus on"> 司机管理</ul>
-
-                <dl class="am-icon-home" style="float: right;"> 当前位置： <a href="/manager/login?lineId=${name}&password= ">首页</a>>司机列表</dl>
-
-<#--                <dl>-->
-<#--                    <button class="am-btn am-btn-danger am-round am-btn-xs am-icon-plus" onclick="window.location.href='adddrivers.html' +-->
-<#--         ''" type="button"> 添加司机-->
-<#--                    </button>-->
-<#--                </dl>-->
-
-
+                <ul class="am-icon-cart-plus on">司机管理</ul>
+                <dl class="am-icon-home" style="float: right;"> 当前位置： <a href="index.html">首页</a>>在路上司机</dl>
             </div>
 
             <div class="am-btn-toolbars am-btn-toolbar am-kg am-cf">
                 <ul>
-
                     <li style="margin-left: -10px;">
                         <div class="am-btn-group am-btn-group-xs">
                             <select data-am-selected="{btnWidth: 90, btnSize: 'sm', btnStyle: 'default'}">
                                 <option value="b">全部</option>
-                                <option value="o">休息中</option>
-                                <option value="o">待出行</option>
-                                <option value="o">在路上</option>
+                                <option value="o">待确认</option>
+                                <option value="o">待审核</option>
                             </select>
                         </div>
                     </li>
@@ -187,45 +177,49 @@
                         <th class="table-type">车牌号</th>
                         <th class="table-type">联系方式</th>
                         <th class="table-type">完成单数</th>
-                        <th class="table-author am-hide-sm-only">状态</th>
+                        <th class="table-type">状态</th>
+                        <th class="table-author am-hide-sm-only">操作</th>
                     </tr>
                     </thead>
                     <tbody>
                     <#if drivers??>
-                    <#list drivers.content as driver>
-                        <tr>
-                            <td><input type="checkbox"/></td>
-                            <td>${driver.name}</td>
-                            <td>${driver.availableSeats}</td>
-                            <td>${driver.carNum}</td>
-                            <td>${driver.dnum}</td>
-                            <td>${driver.workTimes}</td>
-                            <td>${driver.status}</td>
-                        </tr>
-                    </#list>
+                        <#list drivers.content as driver>
+                            <tr>
+                                <td><input type="checkbox"/></td>
+                                <td>${driver.name}</td>
+                                <td>${driver.availableSeats}</td>
+                                <td>${driver.carNum}</td>
+                                <td>${driver.dnum}</td>
+                                <td>${driver.workTimes}</td>
+                                <td>${driver.status}</td>
+                                <td><a href="/manager/confirmDriver?dnum=${driver.dnum}">通过注册</td>
+                                <#--    取消则调用删除-->
+                            </tr>
+                        </#list>
                     </#if>
                     </tbody>
                 </table>
 
+
                 <ul class="am-pagination am-fr">
                     <#if currentPage lte 1>
-                    <li class="am-disabled"><a href="#">«</a></li>
+                        <li class="am-disabled"><a href="#">«</a></li>
                     <#else>
-                    <li class="am-active"><a href="/manager/driver/allDrivers?page=${currentPage-1}&size=${size}">«</a></li>
+                        <li class="am-active"><a href="/manager/driver/findByStatus?status=1&page=${currentPage-1}&size=${size}">«</a></li>
                     </#if>
 
                     <#list 1..drivers.getTotalPages() as index>
                         <#if currentPage == index>
                             <li class="am-disabled"><a href="#">${index}</a></li>
                         <#else>
-                            <li class="am-active"><a href="/manager/driver/allDrivers?page=${index}&size=${size}">${index}</a></li>
+                            <li class="am-active"><a href="/manager/driver/findByStatus?status=1&page=${index}&size=${size}">${index}</a></li>
                         </#if>
                     </#list>
 
                     <#if currentPage gte drivers.getTotalPages()>
-                    <li class="am-disabled"><a href="#">»</a></li>
+                        <li class="am-disabled"><a href="#">»</a></li>
                     <#else>
-                    <li class="am-active"><a href="/manager/driver/allDrivers?page=${currentPage+1}&size=${size}">»</a></li>
+                        <li class="am-active"><a href="/manager/driver/findByStatus?status=1&page=${currentPage+1}&size=${size}">»</a></li>
                     </#if>
                 </ul>
 
