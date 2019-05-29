@@ -14,7 +14,7 @@ public class addDriverFormForManager {
     @NotBlank(message = "姓名必填")
     private String name;
 
-    //性别
+    //性别0男1女
     private Integer mof;
 
     @NotBlank(message = "密码必填")

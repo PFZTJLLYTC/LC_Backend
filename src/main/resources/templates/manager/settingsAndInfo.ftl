@@ -442,12 +442,9 @@
                 <a class="am-icon-btn am-icon-arrow-up" href="" title="返回头部"></a>
             </dl>
         </div>
-
-
     </div>
-
-
 </div>
+
 
 <!--[if lt IE 9]>
 <script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
@@ -460,7 +457,6 @@
 <!--[if (gte IE 9)|!(IE)]><!-->
 <script src="../../js/amazeui.min.js"></script>
 <!--<![endif]-->
-
 
 </body>
 </html>

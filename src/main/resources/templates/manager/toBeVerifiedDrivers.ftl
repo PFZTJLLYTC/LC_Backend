@@ -255,9 +255,44 @@
         </div>
 
     </div>
-
-
 </div>
+
+
+<#--播放音乐-->
+<audio id="notice" loop="loop">
+    <#--    待添加-->
+    <source src = "/mp3/song.mp3" type="audio/mpeg" />
+</audio>
+
+<script>
+    var websocket = null;
+    if('WebSocket' in window){
+        // 第一个试试看
+        websocket = new WebSocket("ws://127.0.0.1:8080/webSocket/"+${name});
+    }else {
+        alert("该浏览器不支持websocket");
+    }
+    websocket.onopen = function (event) {
+        console.log('建立连接');
+    }
+    websocket.onclose = function (event) {
+        console.log('连接关闭');
+    }
+    websocket.onmessage = function (event) {
+        console.log('收到消息：'+ event.data);
+        //弹窗提醒，播放音乐
+        //jquery弹窗，懒得写了
+        //play
+        document.getElementById('notice').play();
+
+        // document.getElementById('notice').pause();点击某属性后暂停
+    }
+    websocket.onerror = function (event) {
+        alert('websocket通信发生错误！');
+    }
+    window.onbeforeunload = function (ev) { websocket.close(); }
+
+</script>
 
 <!--[if lt IE 9]>
 <script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
