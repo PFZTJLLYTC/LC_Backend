@@ -87,8 +87,11 @@
             </ul>
             <h3 class="am-icon-users on"><em></em> <a href="#"> 司机管理</a></h3>
             <ul>
-                <li><a href="">司机列表</a></li>
-                <li><a href="">审核中司机</a></li>
+                <li><a href="/manager/driver/allDrivers">司机列表</a></li>
+                <li><a href="/manager/driver/findByStatus?status=-1">审核中司机</a></li>
+                <li><a href="/manager/driver/findByStatus?status=1">在路上司机</a></li>
+                <li><a href="/manager/driver/findByStatus?status=0">休息中司机</a></li>
+                <li><a href="/manager/driver/goToAddDriver">增加司机</a></li>
             </ul>
             <h3 class="am-icon-volume-up"><em></em> <a href="#">信息通知</a></h3>
             <ul>

@@ -11,7 +11,6 @@ import com.liancheng.lcweb.enums.DriverStatusEnums;
 import com.liancheng.lcweb.enums.OrderStatusEnums;
 import com.liancheng.lcweb.enums.ResultEnums;
 import com.liancheng.lcweb.exception.ManagerException;
-import com.liancheng.lcweb.form.DriverInfoForm;
 import com.liancheng.lcweb.form.addDriverFormForManager;
 import com.liancheng.lcweb.repository.ManagerRepository;
 import com.liancheng.lcweb.service.*;
@@ -396,7 +395,23 @@ public class ManagerController {
         return new ModelAndView("common/success",map);
 
     }
-    
+
+
+    /*manager 个人设置相关及信息反馈 */
+    @GetMapping("/goContactAndHelp")
+    public ModelAndView goContactAndHelp(HttpServletRequest request,
+                                     Map<String,Object>map){
+        Cookie cookie = CookieUtil.get(request,CookieConstant.TOKEN);
+
+        log.info("获取lineId来跳转到设置界面");
+        Integer lineId = Integer.parseInt(redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX,cookie.getValue()))+"");
+        log.info("lineId={}",lineId);
+
+        map.put("name",lineId);
+        return new ModelAndView("manager/goContactAndHelp");
+    }
+
+
 
 
 }

@@ -87,16 +87,21 @@
             </ul>
             <h3 class="am-icon-users on"><em></em> <a href="#"> 司机管理</a></h3>
             <ul>
-                <li><a href="">司机列表</a></li>
-                <li><a href="">审核中司机</a></li>
+                <li><a href="/manager/driver/allDrivers">司机列表</a></li>
+                <li><a href="/manager/driver/findByStatus?status=-1">审核中司机</a></li>
+                <li><a href="/manager/driver/findByStatus?status=1">在路上司机</a></li>
+                <li><a href="/manager/driver/findByStatus?status=0">休息中司机</a></li>
+                <li><a href="/manager/driver/goToAddDriver">增加司机</a></li>
             </ul>
-            <h3 class="am-icon-volume-up"><em></em> <a href="#">信息通知</a></h3>
+            <h3 class="am-icon-volume-up"><em></em> <a href="#">使用与帮助</a></h3>
             <ul>
-                <li>站内消息 /留言</li>
+                <li><a href="/manager/goContactAndHelp">信息设置与客服</a></li>
+                <li><a href="/manager/goContactAndHelp">提示设置</a></li>
             </ul>
             <h3 class="am-icon-gears"><em></em> <a href="#">系统设置</a></h3>
             <ul>
-                <li>数据备份</li>
+                <li><a href="/manager/personalInfo">个人信息</a></li>
+                <li><a href="/manager/otherSettings">其他</a></li>
             </ul>
         </div>
         <!-- sideMenu End -->
