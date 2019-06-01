@@ -15,6 +15,8 @@ public interface ManagerService {
 
     List<Manager> findAll();
 
+    List<Manager> findAllByLineId(Integer lineId);
+
     Manager findOne(String telNum);
 
     Manager getManager(String telNum, String password);

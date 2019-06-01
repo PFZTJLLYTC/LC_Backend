@@ -74,6 +74,11 @@ public class ManagerServiceImpl implements ManagerService {
         return manager.get();
     }
 
+    @Override
+    public List<Manager> findAllByLineId(Integer lineId) {
+        return managerRepository.findByLineId(lineId);
+    }
+
     /*登陆用*/
     @Override
     public Manager getManager(String telNum, String password) {

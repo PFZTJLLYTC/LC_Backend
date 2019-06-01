@@ -32,6 +32,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -411,6 +412,8 @@ public class ManagerController {
 
 
     /*manager 个人设置相关及信息反馈 */
+
+    //联系与帮助
     @GetMapping("/goContactAndHelp")
     public ModelAndView goContactAndHelp(HttpServletRequest request,
                                      Map<String,Object>map){
@@ -422,6 +425,40 @@ public class ManagerController {
 
         map.put("name",lineId);
         return new ModelAndView("manager/goContactAndHelp",map);
+    }
+
+    //个人信息
+    @GetMapping("/personalInfo")
+    public ModelAndView personalInfo(HttpServletRequest request,
+                                     Map<String,Object>map){
+        Cookie cookie = CookieUtil.get(request,CookieConstant.TOKEN);
+
+        log.info("获取lineId来跳转到个人信息界面");
+        Integer lineId = Integer.parseInt(redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX,cookie.getValue()))+"");
+        log.info("lineId={}",lineId);
+
+        List<Manager> managers = managerService.findAllByLineId(lineId);
+        map.put("name",lineId);
+        //查看本线路有几个负责人及其信息
+        //暂不区分开来，暂不转DTO做信息保护
+        map.put("managers",managers);
+        return new ModelAndView("manager/personalInfo",map);
+
+    }
+
+    //其他设置
+    @GetMapping("/otherSettings")
+    public ModelAndView otherSettings(HttpServletRequest request,
+                                      Map<String,Object> map){
+        Cookie cookie = CookieUtil.get(request,CookieConstant.TOKEN);
+
+        log.info("获取lineId来跳转到其他设置界面");
+        Integer lineId = Integer.parseInt(redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX,cookie.getValue()))+"");
+        log.info("lineId={}",lineId);
+
+        map.put("name",lineId);
+
+        return new ModelAndView("manager/otherSettings",map);
     }
 
 
