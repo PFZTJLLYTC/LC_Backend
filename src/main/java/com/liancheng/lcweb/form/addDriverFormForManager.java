@@ -15,7 +15,7 @@ public class addDriverFormForManager {
     private String name;
 
     //性别0男1女
-    private Integer mof;
+    private String mof;
 
     @NotBlank(message = "密码必填")
     private String password;
@@ -27,7 +27,8 @@ public class addDriverFormForManager {
     @Max(value = 8,message = "人数不得多于8")//可以更大吗？
     private Integer availableSeats;
 
-    @Past(message = "生日只能为以前的时间")
+//    @Past(message = "生日只能为以前的时间")
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date birthday;
+//    private Date birthday;
+    private String birthday;
 }

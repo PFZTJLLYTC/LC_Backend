@@ -27,15 +27,17 @@
 
             <li class="am-dropdown tognzhi" data-am-dropdown>
                 <button class="am-btn am-btn-primary am-dropdown-toggle am-btn-xs am-radius am-icon-bell-o"
-                        data-am-dropdown-toggle> 消息管理<span class="am-badge am-badge-danger am-round">6</span></button>
+                        data-am-dropdown-toggle> 消息管理
+<#--                    <span class="am-badge am-badge-danger am-round">6</span>-->
+                </button>
                 <ul class="am-dropdown-content">
 
 
                     <li class="am-dropdown-header">所有消息都在这里</li>
-                    <li><a href="/manager/order/findByStatus?status=0">未处理订单 <span class="am-badge am-badge-danger am-round">6</span></a>
-                    </li>
+<#--                    <li><a href="/manager/order/findByStatus?status=0">未处理订单 <span class="am-badge am-badge-danger am-round">6</span></a>-->
+<#--                    </li>-->
+                    <li><a href="/manager/order/findByStatus?status=0">未处理订单 </a></li>
                     <li><a href="/manager/driver/findByStatus?status=-1">待审核司机申请</a></li>
-                    <li><a href="#">系统升级</a></li>
                 </ul>
             </li>
 
@@ -93,13 +95,15 @@
                 <li><a href="/manager/driver/findByStatus?status=0">休息中司机</a></li>
                 <li><a href="/manager/driver/goToAddDriver">增加司机</a></li>
             </ul>
-            <h3 class="am-icon-volume-up"><em></em> <a href="#">信息通知</a></h3>
+            <h3 class="am-icon-volume-up"><em></em> <a href="#">使用与帮助</a></h3>
             <ul>
-                <li>站内消息 /留言</li>
+                <li><a href="/manager/goContactAndHelp">信息设置与客服</a></li>
+                <li><a href="">提示设置</a></li>
             </ul>
             <h3 class="am-icon-gears"><em></em> <a href="#">系统设置</a></h3>
             <ul>
-                <li>数据备份</li>
+                <li><a href="/manager/personalInfo">个人信息</a></li>
+                <li><a href="/manager/otherSettings">其他</a></li>
             </ul>
         </div>
         <!-- sideMenu End -->
@@ -124,18 +128,18 @@
         <div class="daohang">
             <ul>
                 <li>
-                    <button class="am-btn am-btn-default am-radius am-btn-xs" type="button"> <a href="/manager/login?lineId=${name}&password= ">首页</a>
+                    <button class="am-btn am-btn-default am-radius am-btn-xs" type="button"> <a href="/manager/goIndex">首页</a>
                 </li>
-                <li>
-                    <button class="am-btn am-btn-default am-radius am-btn-xs" type="button">订单管理<a
-                            class="am-close am-close-spin" data-am-modal-close="" href="javascript: void(0)">×</a>
-                    </button>
-                </li>
-                <li>
-                    <button class="am-btn am-btn-default am-radius am-btn-xs" type="button">司机管理<a
-                            class="am-close am-close-spin" data-am-modal-close="" href="javascript: void(0)">×</a>
-                    </button>
-                </li>
+<#--                <li>-->
+<#--                    <button class="am-btn am-btn-default am-radius am-btn-xs" type="button">订单管理<a-->
+<#--                            class="am-close am-close-spin" data-am-modal-close="" href="javascript: void(0)">×</a>-->
+<#--                    </button>-->
+<#--                </li>-->
+<#--                <li>-->
+<#--                    <button class="am-btn am-btn-default am-radius am-btn-xs" type="button">司机管理<a-->
+<#--                            class="am-close am-close-spin" data-am-modal-close="" href="javascript: void(0)">×</a>-->
+<#--                    </button>-->
+<#--                </li>-->
             </ul>
 
 
@@ -145,7 +149,7 @@
 
         <div class="listbiaoti am-cf">
             <ul class="am-icon-flag on"> 设置与信息</ul>
-            <dl class="am-icon-home" style="float: right;">当前位置： <a href="/manager/login?lineId=${name}&password= ">首页</a>> <a href="#">设置和信息</a></dl>
+            <dl class="am-icon-home" style="float: right;">当前位置： <a href="/manager/goIndex">首页</a>> <a href="#">设置和信息</a></dl>
 
 
         </div>
@@ -447,7 +451,41 @@
         </div>
     </div>
 </div>
+    <#--播放音乐-->
+    <audio id="notice" loop="loop">
+        <#--    待添加-->
+        <source src = "/mp3/song.mp3" type="audio/mpeg" />
+    </audio>
 
+    <script>
+        var websocket = null;
+        if('WebSocket' in window){
+            // 第一个试试看
+            websocket = new WebSocket("ws://127.0.0.1:8080/webSocket/"+${name});
+        }else {
+            alert("该浏览器不支持websocket");
+        }
+        websocket.onopen = function (event) {
+            console.log('建立连接');
+        }
+        websocket.onclose = function (event) {
+            console.log('连接关闭');
+        }
+        websocket.onmessage = function (event) {
+            console.log('收到消息：'+ event.data);
+            //弹窗提醒，播放音乐
+            //jquery弹窗，懒得写了
+            //play
+            document.getElementById('notice').play();
+
+            // document.getElementById('notice').pause();点击某属性后暂停
+        }
+        websocket.onerror = function (event) {
+            alert('websocket通信发生错误！');
+        }
+        window.onbeforeunload = function (ev) { websocket.close(); }
+
+    </script>
 
 <!--[if lt IE 9]>
 <script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>

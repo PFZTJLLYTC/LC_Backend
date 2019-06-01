@@ -27,15 +27,17 @@
 
             <li class="am-dropdown tognzhi" data-am-dropdown>
                 <button class="am-btn am-btn-primary am-dropdown-toggle am-btn-xs am-radius am-icon-bell-o"
-                        data-am-dropdown-toggle> 消息管理<span class="am-badge am-badge-danger am-round">6</span></button>
+                        data-am-dropdown-toggle> 消息管理
+<#--                    <span class="am-badge am-badge-danger am-round">6</span>-->
+                </button>
                 <ul class="am-dropdown-content">
 
 
                     <li class="am-dropdown-header">所有消息都在这里</li>
-                    <li><a href="/manager/order/findByStatus?status=0">未处理订单 <span class="am-badge am-badge-danger am-round">6</span></a>
-                    </li>
+<#--                    <li><a href="/manager/order/findByStatus?status=0">未处理订单 <span class="am-badge am-badge-danger am-round">6</span></a>-->
+<#--                    </li>-->
+                    <li><a href="/manager/order/findByStatus?status=0">未处理订单 </a></li>
                     <li><a href="/manager/driver/findByStatus?status=-1">未处理司机申请</a></li>
-                    <li><a href="#">系统升级</a></li>
                 </ul>
             </li>
 
@@ -96,7 +98,7 @@
             <h3 class="am-icon-volume-up"><em></em> <a href="#">使用与帮助</a></h3>
             <ul>
                 <li><a href="/manager/goContactAndHelp">信息设置与客服</a></li>
-                <li><a href="/manager/goContactAndHelp">提示设置</a></li>
+                <li><a href="">提示设置</a></li>
             </ul>
             <h3 class="am-icon-gears"><em></em> <a href="#">系统设置</a></h3>
             <ul>
@@ -126,18 +128,18 @@
         <div class="daohang">
             <ul>
                 <li>
-                    <button class="am-btn am-btn-default am-radius am-btn-xs" type="button" ><a href="/manager/login?lineId=${name}&password= ">首页</a>
+                    <button class="am-btn am-btn-default am-radius am-btn-xs" type="button" ><a href="/manager/goIndex">首页</a>
                 </li>
-                <li>
-                    <button class="am-btn am-btn-default am-radius am-btn-xs" type="button">订单管理<a
-                                class="am-close am-close-spin" data-am-modal-close="" href="javascript: void(0)">×</a>
-                    </button>
-                </li>
-                <li>
-                    <button class="am-btn am-btn-default am-radius am-btn-xs" type="button">司机管理<a
-                                class="am-close am-close-spin" data-am-modal-close="" href="javascript: void(0)">×</a>
-                    </button>
-                </li>
+<#--                <li>-->
+<#--                    <button class="am-btn am-btn-default am-radius am-btn-xs" type="button">订单管理<a-->
+<#--                                class="am-close am-close-spin" data-am-modal-close="" href="javascript: void(0)">×</a>-->
+<#--                    </button>-->
+<#--                </li>-->
+<#--                <li>-->
+<#--                    <button class="am-btn am-btn-default am-radius am-btn-xs" type="button">司机管理<a-->
+<#--                                class="am-close am-close-spin" data-am-modal-close="" href="javascript: void(0)">×</a>-->
+<#--                    </button>-->
+<#--                </li>-->
             </ul>
 
 
@@ -149,57 +151,57 @@
             <div class="listbiaoti am-cf">
                 <ul class="am-icon-flag on"> 添加司机</ul>
 
-                <dl class="am-icon-home" style="float: right;"> 当前位置： <a href="/manager/login?lineId=${name}&password= ">首页 </a>><a href="">司机管理</a>>添加司机</dl>
+                <dl class="am-icon-home" style="float: right;"> 当前位置： <a href="/manager/goIndex">首页 </a>><a href="">司机管理</a>>添加司机</dl>
 
 
             </div>
 
             <div class="fbneirong">
-                <form class="am-form" name="driverInfoForm" action="/driver/DriverAdd" method="post">
+                <form class="am-form" name="addDriverFormForManager" action="/manager/driver/DriverAdd" method="post">
                     <div class="am-form-group am-cf">
                         <div class="zuo">司机姓名：</div>
                         <div class="you">
-                            <input class="am-input-sm" id="doc-ipt-email-1" placeholder="请输入姓名" type="email" name="name">
+                            <input class="am-input-sm" id="doc-ipt-email-1" placeholder="请输入姓名" type="search" name="name">
                         </div>
                     </div>
 
                     <div class="am-form-group am-cf">
                         <div class="zuo">出生日期：</div>
                         <div class="you">
-                            <input class="am-input-sm" id="doc-ipt-email-1" placeholder="1988-01-01" type="email" name="birthday">
+                            <input class="am-input-sm" id="doc-ipt-email-1" placeholder="1988-01-01" type="date" name="birthday">
                         </div>
                     </div>
                     <div class="am-form-group am-cf">
                         <div class="zuo">可载客人数：</div>
                         <div class="you">
-                            <input class="am-input-sm" id="doc-ipt-email-1" placeholder="请输入可载客人数" type="email" name="availableSeats">
+                            <input class="am-input-sm" id="doc-ipt-email-1" placeholder="请输入可载客人数" type="number" name="availableSeats">
                         </div>
                     </div>
 
                     <div class="am-form-group am-cf">
                         <div class="zuo">车牌号：</div>
                         <div class="you">
-                            <input class="am-input-sm" id="doc-ipt-email-1" placeholder="请输入车牌号" type="email" name="carNum">
+                            <input class="am-input-sm" id="doc-ipt-email-1" placeholder="请输入车牌号" type="search" name="carNum">
                         </div>
                     </div>
 
                     <div class="am-form-group am-cf">
                         <div class="zuo">联系方式：</div>
                         <div class="you">
-                            <input class="am-input-sm" id="doc-ipt-email-1" placeholder="请输入联系方式" type="email" name="dnum">
+                            <input class="am-input-sm" id="doc-ipt-email-1" placeholder="请输入联系方式" type="tel" name="dnum">
                         </div>
                     </div>
                     <div class="am-form-group am-cf">
                         <div class="zuo">密码：</div>
                         <div class="you">
-                            <input class="am-input-sm" id="doc-ipt-email-1" placeholder="123456(请设置密码)" type="email" name="password">
+                            <input class="am-input-sm" id="doc-ipt-email-1" placeholder="123456(请设置密码)" type="password" name="password">
                         </div>
                     </div>
 
                     <div class="am-form-group am-cf">
                         <div class="zuo">性别：</div>
                         <div class="you">
-                            <input class="am-input-sm" id="doc-ipt-email-1" placeholder="性别(选填)" type="email" name="mof">
+                            <input class="am-input-sm" id="doc-ipt-email-1" placeholder="性别(选填)" type="search" name="mof">
                         </div>
                     </div>
 <#--                    <div class="am-form-group am-cf">-->
@@ -261,6 +263,7 @@
         // 第一个试试看
         websocket = new WebSocket("ws://127.0.0.1:8080/webSocket/"+${name});
     }else {
+        // 让圆点显示未处理数量
         alert("该浏览器不支持websocket");
     }
     websocket.onopen = function (event) {

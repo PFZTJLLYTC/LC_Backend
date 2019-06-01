@@ -1,5 +1,6 @@
 package com.liancheng.lcweb.service.impl;
 import com.liancheng.lcweb.converter.Driver2DriverDTOConverter;
+import com.liancheng.lcweb.converter.String2DateConverter;
 import com.liancheng.lcweb.domain.Driver;
 import com.liancheng.lcweb.domain.Manager;
 import com.liancheng.lcweb.domain.Order;
@@ -25,6 +26,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -109,10 +111,17 @@ public class ManagerServiceImpl implements ManagerService {
     public void AddOneDriver(addDriverFormForManager driverInfoForm, Integer lineId) {
 
         Driver driver = new Driver();
-        String lineName = lineService.findOne(lineId).getLineName1();
+//        String lineName = lineService.findOne(lineId).getLineName1();
         //因为根本不传line字段，它根本不能添加其他线路的司机
         BeanUtils.copyProperties(driverInfoForm,driver);
 
+        try {
+            driver.setBirthday(String2DateConverter.convert(driverInfoForm.getBirthday()));
+        } catch (ParseException e) {
+            //暂时不抛回去，保证用户友好
+            log.error("日期格式转换错误,lineId={}",lineId);
+            log.error(e.getMessage());
+        }
         driver.setLineId(lineId);
         //刚刚注册都置为休息状态
         driver.setStatus(DriverStatusEnums.ATREST.getCode());

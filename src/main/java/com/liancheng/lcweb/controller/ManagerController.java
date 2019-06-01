@@ -105,7 +105,20 @@ public class ManagerController {
         CookieUtil.set(response, CookieConstant.TOKEN,token, expire);
         TotalInfoDTO totalInfoDTOS = managerService.getTotal(lineId);
 
-        map.put("name",manager.getName());
+        map.put("name",lineId);
+        map.put("total",totalInfoDTOS);
+        return new ModelAndView("manager/index",map);
+    }
+
+    //专供页面返回首页使用
+    @GetMapping("/goIndex")
+    public ModelAndView goToIndex(HttpServletRequest request,
+                                  Map<String,Object>map){
+        Cookie cookie = CookieUtil.get(request,CookieConstant.TOKEN);
+        Integer lineId = Integer.parseInt(redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX,cookie.getValue()))+"");
+
+        TotalInfoDTO totalInfoDTOS = managerService.getTotal(lineId);
+        map.put("name",lineId);
         map.put("total",totalInfoDTOS);
         return new ModelAndView("manager/index",map);
     }
@@ -408,9 +421,8 @@ public class ManagerController {
         log.info("lineId={}",lineId);
 
         map.put("name",lineId);
-        return new ModelAndView("manager/goContactAndHelp");
+        return new ModelAndView("manager/goContactAndHelp",map);
     }
-
 
 
 
