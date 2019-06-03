@@ -14,8 +14,10 @@
     <meta content="Amaze UI" name="apple-mobile-web-app-title"/>
     <link href="../../css/amazeui.min.css" rel="stylesheet"/>
     <link href="../../css/admin.css" rel="stylesheet">
+    <link href="../../css/message_box.css" rel="stylesheet">
     <script src="../../js/jquery.min.js"></script>
     <script src="../../js/app.js"></script>
+    <script src="../../js/message_box.js"></script>
 </head>
 
 <body>
@@ -153,7 +155,7 @@
                 <dl class="am-icon-home" style="float: right;"> 当前位置： <a href="/manager/goIndex">首页</a>>待处理订单</dl>
 
                 <dl>
-                    <button class="am-btn am-btn-danger am-round am-btn-xs am-icon-plus" type="button"> 分配司机
+                    <button class="am-btn am-btn-danger am-round am-btn-xs am-icon-plus" type="button" id="mode_id"> 分配司机
                     </button>
                 </dl>
             </div>
@@ -280,6 +282,38 @@
 
 </div>
 
+<#--仅包含content部分，弹出框确认和取消botton见message_box.js-->
+<div id="my_mode" class="my-mode">
+    <table class="my-mode-table" width="100%">
+        <thead>
+        <tr>
+            <th class="table-check"><input type="checkbox"/></th>
+            <th class="table-title">姓名</th>
+            <th class="table-type">可用座位</th>
+            <th class="table-type">车牌号</th>
+            <th class="table-type">联系方式</th>
+            <th class="table-type">完成单数</th>
+            <th class="table-author am-hide-sm-only">状态</th>
+        </tr>
+        </thead>
+        <tbody>
+        <#if drivers??>
+            <#list drivers.content as driver>
+                <tr>
+                    <td><input type="checkbox"/></td>
+                    <td>${driver.name}</td>
+                    <td>${driver.availableSeats}</td>
+                    <td>${driver.carNum}</td>
+                    <td>${driver.dnum}</td>
+                    <td>${driver.workTimes}</td>
+                    <td>${driver.status}</td>
+                    <#--    取消则调用删除-->
+                </tr>
+            </#list>
+        </#if>
+        </tbody>
+    </table>
+</div>
 
 <#--播放音乐-->
 <audio id="notice" loop="loop">
@@ -315,6 +349,14 @@
     }
     window.onbeforeunload = function (ev) { websocket.close(); }
 
+    window.onload = function() {
+        document.getElementById("mode_id").addEventListener("click", function() {
+            message_box.showMode("my_mode", "选择司机", function() {
+                console.log('成功弹出');
+            });
+            /*Message.prototype.showMode = function(modeID, title, confirm, cancel)*/
+        })
+    }
 </script>
 
 <!--[if lt IE 9]>
