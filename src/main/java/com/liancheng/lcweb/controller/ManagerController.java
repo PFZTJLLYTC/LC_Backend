@@ -371,6 +371,9 @@ public class ManagerController {
         map.put("size",size);
 
         if (status.equals(OrderStatusEnums.WAIT.getCode())){
+
+            List<DriverDTO> drivers = managerService.getDriversByStatus(lineId,DriverStatusEnums.AVAILABLE.getCode());
+            map.put("drivers",drivers);
             return new ModelAndView("manager/waitOrders",map);
         }
         else if (status.equals(OrderStatusEnums.PROCESSIN.getCode())){

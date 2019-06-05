@@ -169,7 +169,7 @@ public class ManagerServiceImpl implements ManagerService {
             log.error("根本没有这个状态");
             throw new ManagerException(ResultEnums.DRIVER_STATUS_ERROR.getMsg(),"/manager/drivers");
         }
-        List<Driver>  driverList= new ArrayList<>();
+        List<Driver>  driverList ;
         if (status.equals(DriverStatusEnums.ATREST.getCode())){
             driverList = driverService.certainLIneAtrest(lineId);
         }

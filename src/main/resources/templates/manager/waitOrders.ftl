@@ -95,6 +95,7 @@
                 <li><a href="/manager/driver/findByStatus?status=-1">审核中司机</a></li>
                 <li><a href="/manager/driver/findByStatus?status=1">在路上司机</a></li>
                 <li><a href="/manager/driver/findByStatus?status=0">休息中司机</a></li>
+                <li><a href="/manager/driver/findByStatus?status=2">待出行司机</a></li>
                 <li><a href="/manager/driver/goToAddDriver">增加司机</a></li>
             </ul>
             <h3 class="am-icon-volume-up"><em></em> <a href="#">使用与帮助</a></h3>
@@ -298,7 +299,7 @@
         </thead>
         <tbody>
         <#if drivers??>
-            <#list drivers.content as driver>
+            <#list drivers as driver>
                 <tr>
                     <td><input type="checkbox"/></td>
                     <td>${driver.name}</td>
