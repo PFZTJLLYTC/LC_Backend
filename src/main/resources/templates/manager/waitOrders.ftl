@@ -209,11 +209,11 @@
                     <tr class="am-success">
                         <th class="table-check"><input type="checkbox"/></th>
                         <th class="table-title">订单id</th>
-                        <th class="table-title">用户id</th>
+                        <th class="table-type">乘客数量</th>
                         <th class="table-type">用户电话</th>
                         <th class="table-type">用户地址</th>
-                        <th class="table-type">乘客数量</th>
                         <th class="table-type">司机名</th>
+                        <th class="table-type">司机电话</th>
                         <th class="table-type">车牌号</th>
                         <th class="table-author am-hide-sm-only">订单状态</th>
                         <th class="table-date am-hide-sm-only">创建日期</th>
@@ -222,21 +222,21 @@
                     </thead>
                     <tbody>
                     <#if orders??>
-                    <#list orders.content as order>
-                    <tr>
-                        <td><input type="checkbox"/></td>
-                        <td>${order.order_id}</td>
-                        <td>${order.user_id}</td>
-                        <td>${order.user_phone}</td>
-                        <td>${order.user_address}</td>
-                        <td>${order.user_count}</td>
-                        <td>${order.driver_name}</td>
-                        <td>${order.car_num}</td>
-                        <td class="am-hide-sm-only">${order.order_status}</td>
-                        <td class="am-hide-sm-only">${order.create_time}</td>
-                        <td class="am-hide-sm-only">${order.update_time}</td>
-                    </tr>
-                    </#list>
+                        <#list orders.content as order>
+                            <tr>
+                                <td><input type="checkbox"/></td>
+                                <td>${order.orderId}</td>
+                                <td>${order.userCount}</td>
+                                <td>${order.userPhone}</td>
+                                <td>${order.detailAddress?default("")}</td>
+                                <td>${order.driverName?default("")}</td>
+                                <td>${order.dnum?default("")}</td>
+                                <td>${order.carNum?default("")}</td>
+                                <td class="am-hide-sm-only">${order.orderStatus}</td>
+                                <td class="am-hide-sm-only">${order.createTime}</td>
+                                <td class="am-hide-sm-only">${order.updateTime}</td>
+                            </tr>
+                        </#list>
                     </#if>
                     </tbody>
                 </table>
@@ -351,6 +351,7 @@
 
     window.onload = function() {
         document.getElementById("mode_id").addEventListener("click", function() {
+
             message_box.showMode("my_mode", "选择司机", function() {
                 console.log('成功弹出');
             });

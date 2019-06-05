@@ -4,11 +4,11 @@ spring:
 
     url: jdbc:mysql://127.0.0.1:3306/lc?serverTimezone=Asia/Shanghai
     username: root
-    password:
+    password: pf19990122
 
 #没问题啊，这个可以用的
   redis:
-    host: #192.168.43.21
+    host: 192.168.31.243
     port: 6379
     password:
   jpa:

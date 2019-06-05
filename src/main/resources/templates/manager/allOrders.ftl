@@ -154,10 +154,10 @@
                 <ul class="am-icon-flag on"> 订单管理</ul>
                 <dl class="am-icon-home" style="float: right;"> 当前位置： <a href="/manager/goIndex">首页</a>>所有订单列表</dl>
 
-                <dl>
-                    <button class="am-btn am-btn-danger am-round am-btn-xs am-icon-plus" type="button" id="mode_id"> 分配司机
-                    </button>
-                </dl>
+<#--                <dl>-->
+<#--                    <button class="am-btn am-btn-danger am-round am-btn-xs am-icon-plus" type="button" id="mode_id"> 分配司机-->
+<#--                    </button>-->
+<#--                </dl>-->
             </div>
 
             <div class="am-btn-toolbars am-btn-toolbar am-kg am-cf">
@@ -228,10 +228,10 @@
                             <td>${order.orderId}</td>
                             <td>${order.userCount}</td>
                             <td>${order.userPhone}</td>
-                            <td>${order.DetailAddress}</td>
-                            <td>${order.driverName}</td>
-                            <td>${order.dnum}</td>
-                            <td>${order.carNum}</td>
+                            <td>${order.detailAddress?default("")}</td>
+                            <td>${order.driverName?default("")}</td>
+                            <td>${order.dnum?default("")}</td>
+                            <td>${order.carNum?default("")}</td>
                             <td class="am-hide-sm-only">${order.orderStatus}</td>
                             <td class="am-hide-sm-only">${order.createTime}</td>
                             <td class="am-hide-sm-only">${order.updateTime}</td>
@@ -353,14 +353,14 @@
     }
     window.onbeforeunload = function (ev) { websocket.close(); }
 
-    window.onload = function() {
-        document.getElementById("mode_id").addEventListener("click", function() {
-            message_box.showMode("my_mode", "选择司机", function() {
-                console.log('成功弹出');
-            });
-            /*Message.prototype.showMode = function(modeID, title, confirm, cancel)*/
-        })
-    }
+    // window.onload = function() {
+    //     document.getElementById("mode_id").addEventListener("click", function() {
+    //         message_box.showMode("my_mode", "选择司机", function() {
+    //             console.log('成功弹出');
+    //         });
+    //         /*Message.prototype.showMode = function(modeID, title, confirm, cancel)*/
+    //     })
+    // }
 </script>
 
 <!--[if lt IE 9]>

@@ -205,7 +205,6 @@ public class ManagerServiceImpl implements ManagerService {
         totalInfoDTO.setLiveDrivers(liveNum);
 
 
-
         //目前直接假数据填充
         //todo 找当前总载客人数,通过订单时期入手
         totalInfoDTO.setTotalUserNum(802);

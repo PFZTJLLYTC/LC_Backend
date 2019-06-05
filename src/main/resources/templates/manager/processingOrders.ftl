@@ -221,7 +221,7 @@
                                 <td>${order.orderId}</td>
                                 <td>${order.userCount}</td>
                                 <td>${order.userPhone}</td>
-                                <td>${order.DetailAddress}</td>
+                                <td>${order.detailAddress?default("")}</td>
                                 <td>${order.driverName}</td>
                                 <td>${order.dnum}</td>
                                 <td>${order.carNum}</td>
