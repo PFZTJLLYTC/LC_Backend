@@ -199,7 +199,7 @@
                 <table class="am-table am-table-bordered am-table-radius am-table-striped" width="100%">
                     <thead>
                     <tr class="am-success">
-                        <th class="table-check"><input type="checkbox"/></th>
+<#--                        <th class="table-check"><input type="checkbox"/></th>-->
                         <th class="table-title">订单id</th>
                         <th class="table-type">乘客数量</th>
                         <th class="table-type">用户电话</th>
@@ -216,7 +216,7 @@
                     <#if orders??>
                         <#list orders.content as order>
                             <tr>
-                                <td><input type="checkbox"/></td>
+<#--                                <td><input type="checkbox"/></td>-->
                                 <td>${order.orderId}</td>
                                 <td>${order.userCount}</td>
                                 <td>${order.userPhone}</td>

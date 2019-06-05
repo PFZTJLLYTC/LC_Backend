@@ -267,12 +267,13 @@ public class ManagerController {
 
         if (bindingResult.hasErrors()){
             log.error("增加司机时填表有误");
-            throw new ManagerException(bindingResult.getFieldError().getDefaultMessage(),"/manager/allDrivers");
+            throw new ManagerException(bindingResult.getFieldError().getDefaultMessage(),"/manager/driver/goToAddDriver");
 
         }
         managerService.AddOneDriver(driverInfoForm,lineId);
         log.info("线路{},添加司机{}成功",lineId,driverInfoForm.getName());
-        map.put("msg","添加注册司机信息"+driverInfoForm.getName()+ResultEnums.SUCCESS.getMsg()+", 请确认相关司机完成操作！");
+        //司机已经不需要再确认注册这一步操作！
+        map.put("msg","添加注册司机信息"+driverInfoForm.getName()+ResultEnums.SUCCESS.getMsg()+", 司机已经是休息中状态！");
         map.put("url","/manager/driver/goToAddDriver");
 
         return new ModelAndView("common/success",map);

@@ -195,28 +195,31 @@
                 <table class="am-table am-table-bordered am-table-radius am-table-striped" width="100%">
                     <thead>
                     <tr class="am-success">
-                        <th class="table-check"><input type="checkbox"/></th>
+<#--                        <th class="table-check"><input type="checkbox"/></th>-->
                         <th class="table-title">姓名</th>
                         <th class="table-type">可用座位</th>
                         <th class="table-type">车牌号</th>
                         <th class="table-type">联系方式</th>
                         <th class="table-type">完成单数</th>
                         <th class="table-type">状态</th>
-                        <th class="table-author am-hide-sm-only">操作</th>
+                        <th class="table-author am-hide-sm-only">操作1</th>
+                        <th class="table-author am-hide-sm-only">操作2</th>
                     </tr>
                     </thead>
                     <tbody>
                     <#if drivers??>
                         <#list drivers.content as driver>
                             <tr>
-                                <td><input type="checkbox"/></td>
+<#--                                <td><input type="checkbox"/></td>-->
                                 <td>${driver.name}</td>
                                 <td>${driver.availableSeats}</td>
                                 <td>${driver.carNum}</td>
                                 <td>${driver.dnum}</td>
                                 <td>${driver.workTimes}</td>
                                 <td>${driver.status}</td>
-                                <td><a href="/manager/confirmDriver?dnum=${driver.dnum}">通过注册</td>
+<#--                                颜色可以操作一手-->
+                                <td><button class="am-btn am-round am-btn-xs am-icon-plus" type="button"><a href="/manager/driver/confirmDriver?dnum=${driver.dnum}"> 通过注册</button> </td>
+                                <td><button class="am-btn am-btn-danger am-round am-btn-xs am-icon-plus" type="button"><a href=""> 不通过注册</a></button> </td>
                                 <#--    取消则调用删除-->
                             </tr>
                         </#list>

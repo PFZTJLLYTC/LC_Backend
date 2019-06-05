@@ -155,10 +155,10 @@
                 <ul class="am-icon-flag on"> 订单管理</ul>
                 <dl class="am-icon-home" style="float: right;"> 当前位置： <a href="/manager/goIndex">首页</a>>待处理订单</dl>
 
-                <dl>
-                    <button class="am-btn am-btn-danger am-round am-btn-xs am-icon-plus" type="button" id="mode_id"> 分配司机
-                    </button>
-                </dl>
+<#--                <dl>-->
+<#--                    <button class="am-btn am-btn-danger am-round am-btn-xs am-icon-plus" type="button" id="mode_id"> 分配司机-->
+<#--                    </button>-->
+<#--                </dl>-->
             </div>
 
             <div class="am-btn-toolbars am-btn-toolbar am-kg am-cf">
@@ -208,7 +208,7 @@
                 <table class="am-table am-table-bordered am-table-radius am-table-striped" width="100%">
                     <thead>
                     <tr class="am-success">
-                        <th class="table-check"><input type="checkbox"/></th>
+<#--                        <th class="table-check"><input type="checkbox"/></th>-->
                         <th class="table-title">订单id</th>
                         <th class="table-type">乘客数量</th>
                         <th class="table-type">用户电话</th>
@@ -219,13 +219,15 @@
                         <th class="table-author am-hide-sm-only">订单状态</th>
                         <th class="table-date am-hide-sm-only">创建日期</th>
                         <th class="table-date am-hide-sm-only">修改日期</th>
+                        <th class="table-type">操作1</th>
+                        <th class="table-type">操作2</th>
                     </tr>
                     </thead>
                     <tbody>
                     <#if orders??>
                         <#list orders.content as order>
                             <tr>
-                                <td><input type="checkbox"/></td>
+<#--                                <td><input type="checkbox"/></td>-->
                                 <td>${order.orderId}</td>
                                 <td>${order.userCount}</td>
                                 <td>${order.userPhone}</td>
@@ -236,6 +238,8 @@
                                 <td class="am-hide-sm-only">${order.orderStatus}</td>
                                 <td class="am-hide-sm-only">${order.createTime}</td>
                                 <td class="am-hide-sm-only">${order.updateTime}</td>
+                                <td><button class="am-btn am-btn-primary am-round am-btn-xs am-icon-plus" type="button" id="mode_id"> 分配司机</button> </td>
+                                <td><button class="am-btn am-btn-danger am-round am-btn-xs am-icon-plus" type="button"><a href=""> 取消</a></button> </td>
                             </tr>
                         </#list>
                     </#if>

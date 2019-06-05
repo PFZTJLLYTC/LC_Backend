@@ -128,7 +128,7 @@ public class ManagerServiceImpl implements ManagerService {
             log.error(e.getMessage());
         }
         driver.setLineId(lineId);
-        //刚刚注册都置为休息状态
+        //不要再确认一次，极高权限！
         driver.setStatus(DriverStatusEnums.ATREST.getCode());
         driver.setWorkTimes(0);
         driverRepository.save(driver);

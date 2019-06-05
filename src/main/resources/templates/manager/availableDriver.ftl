@@ -178,7 +178,7 @@
                 <table class="am-table am-table-bordered am-table-radius am-table-striped" width="100%">
                     <thead>
                     <tr class="am-success">
-                        <th class="table-check"><input type="checkbox"/></th>
+<#--                        <th class="table-check"><input type="checkbox"/></th>-->
                         <th class="table-title">姓名</th>
                         <th class="table-type">可用座位</th>
                         <th class="table-type">车牌号</th>
@@ -191,7 +191,7 @@
                     <#if drivers??>
                         <#list drivers.content as driver>
                             <tr>
-                                <td><input type="checkbox"/></td>
+<#--                                <td><input type="checkbox"/></td>-->
                                 <td>${driver.name}</td>
                                 <td>${driver.availableSeats}</td>
                                 <td>${driver.carNum}</td>
