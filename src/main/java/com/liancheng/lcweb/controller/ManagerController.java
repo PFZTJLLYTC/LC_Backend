@@ -387,7 +387,7 @@ public class ManagerController {
 
 
     //确认订单
-    @PutMapping("/order/confirm")
+    @GetMapping("/order/confirm")
     @Transactional
     public ModelAndView confirmOrder(@RequestParam("orderId") String orderId,
                                      @RequestParam("dnum") String dnum,

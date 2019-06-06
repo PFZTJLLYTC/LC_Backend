@@ -238,7 +238,7 @@
                                 <td class="am-hide-sm-only">${order.orderStatus}</td>
                                 <td class="am-hide-sm-only">${order.createTime}</td>
                                 <td class="am-hide-sm-only">${order.updateTime}</td>
-                                <td><button class="am-btn am-btn-primary am-round am-btn-xs am-icon-plus" type="button" id="mode_id"> 分配司机</button> </td>
+                                <td><button class="am-btn am-btn-primary am-round am-btn-xs am-icon-plus" type="button" id="mode_id" onclick="chooseDriver(${order.orderId})"> 分配司机</button> </td>
                                 <td><button class="am-btn am-btn-danger am-round am-btn-xs am-icon-plus" type="button"><a href=""> 取消</a></button> </td>
                             </tr>
                         </#list>
@@ -292,26 +292,28 @@
     <table class="my-mode-table" width="100%">
         <thead>
         <tr>
-            <th class="table-check"><input type="checkbox"/></th>
+<#--            <th class="table-check"><input type="checkbox"/></th>-->
             <th class="table-title">姓名</th>
             <th class="table-type">可用座位</th>
             <th class="table-type">车牌号</th>
             <th class="table-type">联系方式</th>
             <th class="table-type">完成单数</th>
             <th class="table-author am-hide-sm-only">状态</th>
+            <th class="table-type">操作</th>
         </tr>
         </thead>
         <tbody>
         <#if drivers??>
             <#list drivers as driver>
                 <tr>
-                    <td><input type="checkbox"/></td>
+<#--                    <td><input type="checkbox"/></td>-->
                     <td>${driver.name}</td>
                     <td>${driver.availableSeats}</td>
                     <td>${driver.carNum}</td>
                     <td>${driver.dnum}</td>
                     <td>${driver.workTimes}</td>
                     <td>${driver.status}</td>
+                    <td><button class="am-btn am-btn-primary am-round am-btn-xs am-icon-plus" type="button" onclick="sendInfo(${driver.dnum})"> 确定选择 </button> </td>
                     <#--    取消则调用删除-->
                 </tr>
             </#list>
@@ -352,17 +354,35 @@
     websocket.onerror = function (event) {
         alert('websocket通信发生错误！');
     }
+
+
     window.onbeforeunload = function (ev) { websocket.close(); }
 
+    var orderId;
+
+    function chooseDriver(orderid) {
+        orderId = orderid;
+    }
+
+    function sendInfo(dnum) {
+         var url = "confirm?orderId="+orderId+"&dnum="+dnum;
+        // alert(orderId);
+        // $.get(url);
+        window.location.href=url;
+    }
+
+
     window.onload = function() {
-        document.getElementById("mode_id").addEventListener("click", function() {
+         document.getElementById("mode_id").addEventListener("click", function() {
 
             message_box.showMode("my_mode", "选择司机", function() {
+
                 console.log('成功弹出');
             });
             /*Message.prototype.showMode = function(modeID, title, confirm, cancel)*/
         })
     }
+
 </script>
 
 <!--[if lt IE 9]>
