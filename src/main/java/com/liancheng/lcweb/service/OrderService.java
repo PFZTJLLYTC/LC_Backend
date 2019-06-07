@@ -19,7 +19,7 @@ public interface OrderService {
 
     Order finishOne(Order order);
 
-    Order cancelOne(Order order);
+    void cancelOne(Order order);
 
     Order findOne(String OrderId);
 

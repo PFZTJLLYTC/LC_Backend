@@ -3,6 +3,7 @@ package com.liancheng.lcweb.service;
 import com.liancheng.lcweb.domain.Manager;
 import com.liancheng.lcweb.domain.Order;
 import com.liancheng.lcweb.dto.DriverDTO;
+import com.liancheng.lcweb.dto.MessageNumDTO;
 import com.liancheng.lcweb.dto.TotalInfoDTO;
 import com.liancheng.lcweb.form.addDriverFormForManager;
 import org.springframework.data.domain.Page;
@@ -12,6 +13,8 @@ import java.util.List;
 
 
 public interface ManagerService {
+
+    MessageNumDTO getMessages(Integer lineId);
 
     List<Manager> findAll();
 
@@ -47,6 +50,8 @@ public interface ManagerService {
     void DeleteOneDriver(String dnum, Integer lineId);
 
     void confirmOneOrder(Order order,String dnum);
+
+    void cancelOneOrder(String orderId, Integer lineId);
 
     void confirmOneDriver(String dnum,Integer lineId);
 

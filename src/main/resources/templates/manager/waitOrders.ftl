@@ -30,16 +30,15 @@
             <li class="am-dropdown tognzhi" data-am-dropdown>
                 <button class="am-btn am-btn-primary am-dropdown-toggle am-btn-xs am-radius am-icon-bell-o"
                         data-am-dropdown-toggle> 消息管理
-<#--                    <span class="am-badge am-badge-danger am-round">6</span>-->
+                    <span class="am-badge am-badge-danger am-round">${allMessages}</span>
                 </button>
                 <ul class="am-dropdown-content">
 
-
                     <li class="am-dropdown-header">所有消息都在这里</li>
-<#--                    <li><a href="/manager/order/findByStatus?status=0">未处理订单 <span class="am-badge am-badge-danger am-round">6</span></a>-->
-<#--                    </li>-->
-                    <li><a href="/manager/order/findByStatus?status=0">未处理订单 </a></li>
-                    <li><a href="/manager/driver/findByStatus?status=-1">待审核司机申请</a></li>
+                    <#--                    <li><a href="/manager/order/findByStatus?status=0">未处理订单 <span class="am-badge am-badge-danger am-round">6</span></a>-->
+                    <#--                    </li>-->
+                    <li><a href="/manager/order/findByStatus?status=0">未处理订单 <span class="am-badge am-badge-danger am-round">${orderMessages}</span></a></li>
+                    <li><a href="/manager/driver/findByStatus?status=-1">待审核司机申请<span class="am-badge am-badge-danger am-round">${driverMessages}</span></a></li>
                 </ul>
             </li>
 
@@ -166,10 +165,11 @@
                     <li>
                         <div class="am-btn-group am-btn-group-xs">
                             <select data-am-selected="{btnWidth: 90, btnSize: 'sm', btnStyle: 'default'}">
-                                <option value="b">待处理</option>
-                                <option value="o">所有订单</option>
-                                <option value="o">进行中</option>
-                                <option value="o">已完成</option>
+                                <option value="b">所有订单</option>
+                                <#--                                <option value="count">乘客数量</option>-->
+                                <option value="dname">司机名</option>
+                                <option value="unum">用户号码</option>
+                                <option value="dnum">司机号码</option>
                             </select>
                         </div>
                     </li>
@@ -183,18 +183,7 @@
                         <input class="am-form-field am-input-sm am-input-zm  am-icon-calendar" data-am-datepicker="{theme: 'success',}"
                                placeholder="修改日期" readonly type="text"/>
                     </li>
-
-                    <li style="margin-left: -10px;">
-                        <div class="am-btn-group am-btn-group-xs">
-                            <select data-am-selected="{btnWidth: 90, btnSize: 'sm', btnStyle: 'default'}">
-                                <option value="b">待处理</option>
-                                <option value="o">所有订单</option>
-                                <option value="o">进行中</option>
-                                <option value="o">已完成</option>
-                            </select>
-                        </div>
-                    </li>
-                    <li><input class="am-form-field am-input-sm am-input-xm" placeholder="关键词搜索" type="text"/></li>
+                    <li><input class="am-form-field am-input-sm am-input-xm" placeholder="左侧选择搜索方式" type="text"/></li>
                     <li>
                         <button class="am-btn am-radius am-btn-xs am-btn-success" style="margin-top: -1px;"
                                 type="button">搜索
@@ -239,7 +228,7 @@
                                 <td class="am-hide-sm-only">${order.createTime}</td>
                                 <td class="am-hide-sm-only">${order.updateTime}</td>
                                 <td><button class="am-btn am-btn-primary am-round am-btn-xs am-icon-plus" type="button" id="mode_id" onclick="chooseDriver(${order.orderId})"> 分配司机</button> </td>
-                                <td><button class="am-btn am-btn-danger am-round am-btn-xs am-icon-plus" type="button"><a href=""> 取消</a></button> </td>
+                                <td><button class="am-btn am-btn-danger am-round am-btn-xs am-icon-plus" type="button"><a href="/manager/order/cancel?orderId=${order.orderId}"> 取消</a></button> </td>
                             </tr>
                         </#list>
                     </#if>

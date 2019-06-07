@@ -6,6 +6,7 @@ import com.liancheng.lcweb.domain.Driver;
 import com.liancheng.lcweb.domain.Manager;
 import com.liancheng.lcweb.domain.Order;
 import com.liancheng.lcweb.dto.DriverDTO;
+import com.liancheng.lcweb.dto.MessageNumDTO;
 import com.liancheng.lcweb.dto.TotalInfoDTO;
 import com.liancheng.lcweb.enums.DriverStatusEnums;
 import com.liancheng.lcweb.enums.OrderStatusEnums;
@@ -104,9 +105,15 @@ public class ManagerController {
 
         //4. 设置token到cookie
         CookieUtil.set(response, CookieConstant.TOKEN,token, expire);
+
+        MessageNumDTO messageNum = managerService.getMessages(lineId);
+
         TotalInfoDTO totalInfoDTOS = managerService.getTotal(lineId);
 
+        map.put("orderMessages",messageNum.getOrderMessages());
+        map.put("driverMessages",messageNum.getDriverMessages());
         map.put("name",lineId);
+        map.put("allMessages",messageNum.getAllMessages());
         map.put("total",totalInfoDTOS);
         return new ModelAndView("manager/index",map);
     }
@@ -119,6 +126,12 @@ public class ManagerController {
         Integer lineId = Integer.parseInt(redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX,cookie.getValue()))+"");
 
         TotalInfoDTO totalInfoDTOS = managerService.getTotal(lineId);
+
+        MessageNumDTO messageNum = managerService.getMessages(lineId);
+
+        map.put("orderMessages",messageNum.getOrderMessages());
+        map.put("driverMessages",messageNum.getDriverMessages());
+        map.put("allMessages",messageNum.getAllMessages());
         map.put("name",lineId);
         map.put("total",totalInfoDTOS);
         return new ModelAndView("manager/index",map);
@@ -158,10 +171,9 @@ public class ManagerController {
 
         Cookie cookie = CookieUtil.get(request,CookieConstant.TOKEN);
 
-        log.info("获取lineId来查司机信息");
         Integer lineId = Integer.parseInt(redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX,cookie.getValue()))+"");
 
-        log.info("lineId={}",lineId);
+        log.info("获取lineId来查司机信息，lineId={}",lineId);
 
         //原来是从第0页开始的，现在想从第一页开始
         PageRequest pageRequest = new PageRequest(page-1,size);
@@ -172,8 +184,12 @@ public class ManagerController {
             throw new ManagerException("请添加司机","manager/index");
 
         }
+        MessageNumDTO messageNum = managerService.getMessages(lineId);
 
         map.put("drivers",driverDTOPage);
+        map.put("orderMessages",messageNum.getOrderMessages());
+        map.put("driverMessages",messageNum.getDriverMessages());
+        map.put("allMessages",messageNum.getAllMessages());
         map.put("name",lineId);
         map.put("currentPage",page);
         map.put("size",size);
@@ -189,17 +205,21 @@ public class ManagerController {
                                            HttpServletRequest request,Map<String,Object> map){
 
         Cookie cookie = CookieUtil.get(request,CookieConstant.TOKEN);
-        log.info("获取lineId来查不同状态司机信息");
+
         Integer lineId = Integer.parseInt(redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX,cookie.getValue()))+"");
-        log.info("lineId={}",lineId);
+        log.info("获取lineId来查不同状态司机信息，lineId={}",lineId);
 
         PageRequest pageRequest = new PageRequest(page-1,size);
 
         Page<DriverDTO> driverDTOPage = managerService.getDriversByStatus(lineId,status,pageRequest);
 
+        MessageNumDTO messageNum = managerService.getMessages(lineId);
 
         map.put("drivers",driverDTOPage);
         map.put("name",lineId);
+        map.put("orderMessages",messageNum.getOrderMessages());
+        map.put("driverMessages",messageNum.getDriverMessages());
+        map.put("allMessages",messageNum.getAllMessages());
         map.put("currentPage",page);
         map.put("size",size);
 
@@ -219,20 +239,24 @@ public class ManagerController {
     }
 
 
-    //司机详情
+    //司机详情.目前好像没有用到
     @GetMapping("/driver/driverDetail")
     @Transactional
     public ModelAndView updateDriverInfo(@RequestParam("dnum")String dnum,
                                          HttpServletRequest request,
                                          Map<String,Object> map){
         Cookie cookie = CookieUtil.get(request,CookieConstant.TOKEN);
-        log.info("获取lineId来查获取司机详情");
+
         Integer lineId = Integer.parseInt(redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX,cookie.getValue()))+"");
-        log.info("lineId={}",lineId);
+        log.info("获取lineId来查获取司机详情,lineId={}",lineId);
+        MessageNumDTO messageNum = managerService.getMessages(lineId);
 
         Driver driver = driverService.findOne(dnum);
         DriverDTO driverDTO = Driver2DriverDTOConverter.convert(driver);
         map.put("name",lineId);
+        map.put("orderMessages",messageNum.getOrderMessages());
+        map.put("driverMessages",messageNum.getDriverMessages());
+        map.put("allMessages",messageNum.getAllMessages());
         map.put("driver",driverDTO);
 
         return new ModelAndView("manager/driverDetail",map);
@@ -243,11 +267,15 @@ public class ManagerController {
     public ModelAndView goToAddDriver(HttpServletRequest request,
                                       Map<String,Object>map){
         Cookie cookie = CookieUtil.get(request,CookieConstant.TOKEN);
-        log.info("获取lineId来添加司机");
+
         Integer lineId = Integer.parseInt(redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX,cookie.getValue()))+"");
-        log.info("lineId={}",lineId);
+        log.info("获取lineId来添加司机,lineId={}",lineId);
+        MessageNumDTO messageNum = managerService.getMessages(lineId);
 
         map.put("name",lineId);
+        map.put("orderMessages",messageNum.getOrderMessages());
+        map.put("driverMessages",messageNum.getDriverMessages());
+        map.put("allMessages",messageNum.getAllMessages());
 
         return new ModelAndView("manager/addDriverForm");
 
@@ -261,9 +289,9 @@ public class ManagerController {
                                      HttpServletRequest request,
                                      Map<String,Object> map){
         Cookie cookie = CookieUtil.get(request,CookieConstant.TOKEN);
-        log.info("获取lineId来添加司机");
+
         Integer lineId = Integer.parseInt(redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX,cookie.getValue()))+"");
-        log.info("lineId={}",lineId);
+        log.info("获取lineId来添加司机,lineId={}",lineId);
 
         if (bindingResult.hasErrors()){
             log.error("增加司机时填表有误");
@@ -271,6 +299,7 @@ public class ManagerController {
 
         }
         managerService.AddOneDriver(driverInfoForm,lineId);
+
         log.info("线路{},添加司机{}成功",lineId,driverInfoForm.getName());
         //司机已经不需要再确认注册这一步操作！
         map.put("msg","添加注册司机信息"+driverInfoForm.getName()+ResultEnums.SUCCESS.getMsg()+", 司机已经是休息中状态！");
@@ -287,9 +316,9 @@ public class ManagerController {
                                         HttpServletRequest request,
                                         Map<String,Object> map){
         Cookie cookie = CookieUtil.get(request,CookieConstant.TOKEN);
-        log.info("获取lineId来删除司机");
+
         Integer lineId = Integer.parseInt(redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX,cookie.getValue()))+"");
-        log.info("lineId={}",lineId);
+        log.info("获取lineId来删除司机,lineId={}",lineId);
 
         managerService.DeleteOneDriver(dnum,lineId);
         log.info("删除司机成功,line={},dnum={}",lineId,dnum);
@@ -307,9 +336,9 @@ public class ManagerController {
                                          HttpServletRequest request,
                                          Map<String,Object> map){
         Cookie cookie = CookieUtil.get(request,CookieConstant.TOKEN);
-        log.info("获取lineId来同意司机注册");
+
         Integer lineId = Integer.parseInt(redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX,cookie.getValue()))+"");
-        log.info("lineId={}",lineId);
+        log.info("获取lineId来同意司机注册,lineId={}",lineId);
 
         managerService.confirmOneDriver(dnum,lineId);
         log.info("确认添加司机成功,line={},dnum={}",lineId,dnum);
@@ -332,19 +361,23 @@ public class ManagerController {
                                   Map<String,Object> map){
         Cookie cookie = CookieUtil.get(request,CookieConstant.TOKEN);
 
-        log.info("获取lineId来查当前线路所有订单信息");
         Integer lineId = Integer.parseInt(redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX,cookie.getValue()))+"");
-        log.info("lineId={}",lineId);
+        log.info("获取lineId来查当前线路所有订单信息,lineId={}",lineId);
 
         PageRequest pageRequest = new PageRequest(page-1,size);
 
         Page<Order> orderPage = managerService.getAllOrders(lineId,pageRequest);
+
+        MessageNumDTO messageNum = managerService.getMessages(lineId);
 
         //List<Order> orders = managerService.getAllOrders(lineId);
         map.put("orders",orderPage);
         map.put("name",lineId);
         map.put("currentPage",page);
         map.put("size",size);
+        map.put("orderMessages",messageNum.getOrderMessages());
+        map.put("driverMessages",messageNum.getDriverMessages());
+        map.put("allMessages",messageNum.getAllMessages());
         return new ModelAndView("manager/allOrders",map);
     }
 
@@ -366,10 +399,17 @@ public class ManagerController {
         //List<Order> orderList = managerService.getOrdersByStatus(lineId,status);
         Page<Order> orderPage = managerService.getOrdersByStatus(lineId,status,pageRequest);
 
+        MessageNumDTO messageNum = managerService.getMessages(lineId);
+
+        map.put("orderMessages",messageNum.getOrderMessages());
+        map.put("driverMessages",messageNum.getDriverMessages());
+        map.put("allMessages",messageNum.getAllMessages());
         map.put("orders",orderPage);
         map.put("name",lineId);
         map.put("currentPage",page);
+
         map.put("size",size);
+
 
         if (status.equals(OrderStatusEnums.WAIT.getCode())){
 
@@ -385,6 +425,24 @@ public class ManagerController {
         }
     }
 
+    //取消订单
+    @GetMapping("/order/cancel")
+    @Transactional
+    public ModelAndView cancelOrder(@RequestParam("orderId") String orderId,
+                                    HttpServletRequest request,
+                                    Map<String,Object> map){
+        Cookie cookie = CookieUtil.get(request,CookieConstant.TOKEN);
+
+        Integer lineId = Integer.parseInt(redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX,cookie.getValue()))+"");
+        log.info("获取lineId来强制取消正在进行中的订单,lineId={}",lineId);
+        //司机状态不应改变
+        managerService.cancelOneOrder(orderId,lineId);
+
+        map.put("name",lineId);
+        map.put("url","/manager/order/allOrders");
+        return new ModelAndView("common/success",map);
+    }
+
 
     //确认订单
     @GetMapping("/order/confirm")
@@ -396,9 +454,8 @@ public class ManagerController {
 
         Cookie cookie = CookieUtil.get(request,CookieConstant.TOKEN);
 
-        log.info("获取lineId来确认订单信息");
         Integer lineId = Integer.parseInt(redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX,cookie.getValue()))+"");
-        log.info("lineId={}",lineId);
+        log.info("获取lineId来确认订单信息,lineId={}",lineId);
 
         Order order = orderService.findOne(orderId);
         if (order == null){
@@ -423,10 +480,14 @@ public class ManagerController {
                                      Map<String,Object>map){
         Cookie cookie = CookieUtil.get(request,CookieConstant.TOKEN);
 
-        log.info("获取lineId来跳转到设置界面");
         Integer lineId = Integer.parseInt(redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX,cookie.getValue()))+"");
-        log.info("lineId={}",lineId);
+        log.info("获取lineId来跳转到设置界面,lineId={}",lineId);
+        MessageNumDTO messageNum = managerService.getMessages(lineId);
 
+
+        map.put("orderMessages",messageNum.getOrderMessages());
+        map.put("driverMessages",messageNum.getDriverMessages());
+        map.put("allMessages",messageNum.getAllMessages());
         map.put("name",lineId);
         return new ModelAndView("manager/goContactAndHelp",map);
     }
@@ -437,15 +498,20 @@ public class ManagerController {
                                      Map<String,Object>map){
         Cookie cookie = CookieUtil.get(request,CookieConstant.TOKEN);
 
-        log.info("获取lineId来跳转到个人信息界面");
         Integer lineId = Integer.parseInt(redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX,cookie.getValue()))+"");
-        log.info("lineId={}",lineId);
+        log.info("获取lineId来跳转到个人信息界面,lineId={}",lineId);
 
         List<Manager> managers = managerService.findAllByLineId(lineId);
+        MessageNumDTO messageNum = managerService.getMessages(lineId);
+
+
         map.put("name",lineId);
         //查看本线路有几个负责人及其信息
         //暂不区分开来，暂不转DTO做信息保护
         map.put("managers",managers);
+        map.put("orderMessages",messageNum.getOrderMessages());
+        map.put("driverMessages",messageNum.getDriverMessages());
+        map.put("allMessages",messageNum.getAllMessages());
         return new ModelAndView("manager/personalInfo",map);
 
     }
@@ -456,11 +522,18 @@ public class ManagerController {
                                       Map<String,Object> map){
         Cookie cookie = CookieUtil.get(request,CookieConstant.TOKEN);
 
-        log.info("获取lineId来跳转到其他设置界面");
         Integer lineId = Integer.parseInt(redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX,cookie.getValue()))+"");
-        log.info("lineId={}",lineId);
+        log.info("获取lineId来跳转到其他设置界面,lineId={}",lineId);
+
+        MessageNumDTO messageNum = managerService.getMessages(lineId);
+
 
         map.put("name",lineId);
+        map.put("orderMessages",messageNum.getOrderMessages());
+        map.put("driverMessages",messageNum.getDriverMessages());
+        map.put("allMessages",messageNum.getAllMessages());
+
+
 
         return new ModelAndView("manager/otherSettings",map);
     }

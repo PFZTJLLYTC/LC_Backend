@@ -5,6 +5,7 @@ import com.liancheng.lcweb.domain.Driver;
 import com.liancheng.lcweb.domain.Manager;
 import com.liancheng.lcweb.domain.Order;
 import com.liancheng.lcweb.dto.DriverDTO;
+import com.liancheng.lcweb.dto.MessageNumDTO;
 import com.liancheng.lcweb.dto.TotalInfoDTO;
 import com.liancheng.lcweb.enums.DriverStatusEnums;
 import com.liancheng.lcweb.enums.OrderStatusEnums;
@@ -57,6 +58,21 @@ public class ManagerServiceImpl implements ManagerService {
 
     @Autowired
     private LineService lineService;
+
+
+    @Override
+    public MessageNumDTO getMessages(Integer lineId) {
+
+
+
+        Integer orderMessages = getOrdersByStatus(lineId,OrderStatusEnums.WAIT.getCode()).size();
+
+        Integer driverMessages = getDriversByStatus(lineId,DriverStatusEnums.TO_BE_VERIFIED.getCode()).size();
+
+        return new MessageNumDTO(driverMessages,orderMessages);
+
+
+    }
 
     @Override
     public List<Manager> findAll() {
@@ -291,8 +307,32 @@ public class ManagerServiceImpl implements ManagerService {
         } catch (IOException e) {
             log.warn("向乘客发送即时消息失败,userId={},message={}",order.getUserId(),e.getMessage());
         }
+    }
 
+    @Override
+    public void cancelOneOrder(String orderId, Integer lineId) {
+        Order order = orderService.findOne(orderId);
 
+        if (!order.getLineId().equals(lineId)){
+            log.error("非本线路的订单，将返回查无此订单的错误,lineId={}！",lineId);
+            throw new ManagerException(ResultEnums.ORDER_NOT_FOUND.getMsg(),"/manager/order/findByStatus?status="+OrderStatusEnums.PROCESSIN.getCode());
+        }
+
+        String userId = order.getUserId();
+        String dnum = order.getDnum();
+
+        orderService.cancelOne(order);
+
+        try {
+            webSocketService.sendInfo("您有一条订单被取消",dnum);
+        }catch (IOException e){
+            log.warn("向司机发送即时消息失败,dnum={},message={}",dnum,e.getMessage());
+        }
+        try {
+            webSocketService.sendInfo("您有一条订单被取消",userId);
+        }catch (IOException e){
+            log.warn("向乘客发送即时消息失败,userId={},message={}",userId,e.getMessage());
+        }
     }
 
     //保留，以后说不定有用

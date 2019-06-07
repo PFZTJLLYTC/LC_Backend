@@ -28,16 +28,16 @@
             <li class="am-dropdown tognzhi" data-am-dropdown>
                 <button class="am-btn am-btn-primary am-dropdown-toggle am-btn-xs am-radius am-icon-bell-o"
                         data-am-dropdown-toggle> 消息管理
-<#--                    <span class="am-badge am-badge-danger am-round">6</span>-->
+                    <span class="am-badge am-badge-danger am-round">${allMessages}</span>
                 </button>
                 <ul class="am-dropdown-content">
 
 
                     <li class="am-dropdown-header">所有消息都在这里</li>
-<#--                    <li><a href="/manager/order/findByStatus?status=0">未处理订单 <span class="am-badge am-badge-danger am-round">6</span></a>-->
-<#--                    </li>-->
-                    <li><a href="/manager/order/findByStatus?status=0">未处理订单 </a></li>
-                    <li><a href="/manager/driver/findByStatus?status=-1">待审核司机申请</a></li>
+                    <#--                    <li><a href="/manager/order/findByStatus?status=0">未处理订单 <span class="am-badge am-badge-danger am-round">6</span></a>-->
+                    <#--                    </li>-->
+                    <li><a href="/manager/order/findByStatus?status=0">未处理订单 <span class="am-badge am-badge-danger am-round">${orderMessages}</span></a></li>
+                    <li><a href="/manager/driver/findByStatus?status=-1">待审核司机申请<span class="am-badge am-badge-danger am-round">${driverMessages}</span></a></li>
                 </ul>
             </li>
 

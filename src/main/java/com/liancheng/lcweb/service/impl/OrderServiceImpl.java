@@ -150,6 +150,7 @@ public class OrderServiceImpl implements OrderService {
         Driver driver = driverService.findOne(order.getDnum());
         User user = userService.findOne(order.getUserId());
         user.setTakeTimes(user.getTakeTimes()+1);
+        //finish 才加一
         driver.setWorkTimes(driver.getWorkTimes()+1);
         //  座位数加回来
         driver.setAvailableSeats(driver.getAvailableSeats()+order.getUserCount());
@@ -161,8 +162,14 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order cancelOne(Order order) {
-        return null;
+    public void cancelOne(Order order) {
+        Driver driver = driverService.findOne(order.getDnum());
+        //状态不改变
+        driver.setAvailableSeats(driver.getAvailableSeats()+order.getUserCount());
+        driverRepository.save(driver);
+
+        //User user = userService.findOne(order.getUserId());
+        orderRepository.delete(order);
     }
 
     @Override

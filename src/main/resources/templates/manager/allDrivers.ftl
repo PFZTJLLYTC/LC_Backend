@@ -28,16 +28,16 @@
             <li class="am-dropdown tognzhi" data-am-dropdown>
                 <button class="am-btn am-btn-primary am-dropdown-toggle am-btn-xs am-radius am-icon-bell-o"
                         data-am-dropdown-toggle> 消息管理
-<#--                    <span class="am-badge am-badge-danger am-round">6</span>-->
+                    <span class="am-badge am-badge-danger am-round">${allMessages}</span>
                 </button>
                 <ul class="am-dropdown-content">
 
 
                     <li class="am-dropdown-header">所有消息都在这里</li>
-<#--                    <li><a href="/manager/order/findByStatus?status=0">未处理订单 <span class="am-badge am-badge-danger am-round">6</span></a>-->
-<#--                    </li>-->
-                    <li><a href="/manager/order/findByStatus?status=0">未处理订单 </a></li>
-                    <li><a href="/manager/driver/findByStatus?status=-1">未处理司机申请</a></li>
+                    <#--                    <li><a href="/manager/order/findByStatus?status=0">未处理订单 <span class="am-badge am-badge-danger am-round">6</span></a>-->
+                    <#--                    </li>-->
+                    <li><a href="/manager/order/findByStatus?status=0">未处理订单 <span class="am-badge am-badge-danger am-round">${orderMessages}</span></a></li>
+                    <li><a href="/manager/driver/findByStatus?status=-1">待审核司机申请<span class="am-badge am-badge-danger am-round">${driverMessages}</span></a></li>
                 </ul>
             </li>
 
@@ -168,14 +168,14 @@
                     <li style="margin-left: -10px;">
                         <div class="am-btn-group am-btn-group-xs">
                             <select data-am-selected="{btnWidth: 90, btnSize: 'sm', btnStyle: 'default'}">
-                                <option value="b">全部</option>
-                                <option value="o">休息中</option>
-                                <option value="o">待出行</option>
-                                <option value="o">在路上</option>
+                                <option value="all">全部</option>
+                                <option value="dnum">手机号</option>
+                                <option value="dname">姓名</option>
+                                <option value="carnum">车牌号</option>
                             </select>
                         </div>
                     </li>
-                    <li><input class="am-form-field am-input-sm am-input-xm" placeholder="关键词搜索" type="text"/></li>
+                    <li><input class="am-form-field am-input-sm am-input-xm" placeholder="左侧选择查询方式" type="text"/></li>
                     <li>
                         <button class="am-btn am-radius am-btn-xs am-btn-success" style="margin-top: -1px;"
                                 type="button">搜索
