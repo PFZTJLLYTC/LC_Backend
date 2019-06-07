@@ -10,7 +10,7 @@ public class TotalInfoDTO {
 
     private String date;
 
-    //今日有工作司机数量
+    //当前可用司机数量
     private Integer liveDrivers;
 
     //总载客人数

@@ -214,7 +214,7 @@
                                 <td>${order.driverName}</td>
                                 <td>${order.dnum}</td>
                                 <td>${order.carNum}</td>
-                                <td class="am-hide-sm-only">${order.orderStatus}</td>
+                                <td class="am-hide-sm-only">已完成</td>
                                 <td class="am-hide-sm-only">${order.createTime}</td>
                                 <td class="am-hide-sm-only">${order.updateTime}</td>
                             </tr>

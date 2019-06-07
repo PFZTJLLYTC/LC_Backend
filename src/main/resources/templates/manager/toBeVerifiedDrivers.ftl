@@ -152,36 +152,26 @@
             <div class="listbiaoti am-cf">
                 <ul class="am-icon-cart-plus on">司机管理</ul>
                 <dl class="am-icon-home" style="float: right;"> 当前位置： <a href="/manager/goIndex">首页</a>>审核中司机</dl>
-                <dl>
-                    <button class="am-btn am-btn-danger am-round am-btn-xs am-icon-plus" type="button"> 通过审核
-                    </button>
-                </dl>
+<#--                <dl>-->
+<#--                    <button class="am-btn am-btn-danger am-round am-btn-xs am-icon-plus" type="button"> 通过审核-->
+<#--                    </button>-->
+<#--                </dl>-->
             </div>
 
             <div class="am-btn-toolbars am-btn-toolbar am-kg am-cf">
                 <ul>
-                    <!--
-                        <li style="margin-right: 0;">
-                            <span class="tubiao am-icon-calendar"></span>
-                            <input class="am-form-field am-input-sm am-input-zm  am-icon-calendar" data-am-datepicker="{theme: 'success',}"
-                                   placeholder="开始日期" readonly type="text"/>
-                        </li>
-                        <li style="margin-left: -4px;">
-                            <span class="tubiao am-icon-calendar"></span>
-                            <input class="am-form-field am-input-sm am-input-zm  am-icon-calendar" data-am-datepicker="{theme: 'success',}"
-                                   placeholder="开始日期" readonly type="text"/>
-                        </li>-->
 
                     <li style="margin-left: -10px;">
                         <div class="am-btn-group am-btn-group-xs">
                             <select data-am-selected="{btnWidth: 90, btnSize: 'sm', btnStyle: 'default'}">
-                                <option value="b">全部</option>
-                                <option value="o">待确认</option>
-                                <option value="o">待审核</option>
+                                <option value="all">全部</option>
+                                <option value="dnum">手机号</option>
+                                <option value="dname">姓名</option>
+                                <option value="carnum">车牌号</option>
                             </select>
                         </div>
                     </li>
-                    <li><input class="am-form-field am-input-sm am-input-xm" placeholder="关键词搜索" type="text"/></li>
+                    <li><input class="am-form-field am-input-sm am-input-xm" placeholder="左侧选择查询方式" type="text"/></li>
                     <li>
                         <button class="am-btn am-radius am-btn-xs am-btn-success" style="margin-top: -1px;"
                                 type="button">搜索
@@ -216,7 +206,7 @@
                                 <td>${driver.carNum}</td>
                                 <td>${driver.dnum}</td>
                                 <td>${driver.workTimes}</td>
-                                <td>${driver.status}</td>
+                                <td>待审核</td>
 <#--                                颜色可以操作一手-->
                                 <td><button class="am-btn am-round am-btn-xs am-icon-plus" type="button"><a href="/manager/driver/confirmDriver?dnum=${driver.dnum}"> 通过注册</button> </td>
                                 <td><button class="am-btn am-btn-danger am-round am-btn-xs am-icon-plus" type="button"><a href=""> 不通过注册</a></button> </td>

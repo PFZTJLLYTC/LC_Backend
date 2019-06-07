@@ -131,19 +131,7 @@
                 <li>
                     <button class="am-btn am-btn-default am-radius am-btn-xs" type="button"> <a href="/manager/goIndex">首页</a>
                 </li>
-<#--                <li>-->
-<#--                    <button class="am-btn am-btn-default am-radius am-btn-xs" type="button">订单管理<a-->
-<#--                            class="am-close am-close-spin" data-am-modal-close="" href="javascript: void(0)">×</a>-->
-<#--                    </button>-->
-<#--                </li>-->
-<#--                <li>-->
-<#--                    <button class="am-btn am-btn-default am-radius am-btn-xs" type="button">司机管理<a-->
-<#--                            class="am-close am-close-spin" data-am-modal-close="" href="javascript: void(0)">×</a>-->
-<#--                    </button>-->
-<#--                </li>-->
             </ul>
-
-
         </div>
 
 

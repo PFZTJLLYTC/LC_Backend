@@ -132,16 +132,6 @@
                 <li>
                     <button class="am-btn am-btn-default am-radius am-btn-xs" type="button"> <a href="/manager/goIndex">首页</a>
                 </li>
-<#--                <li>-->
-<#--                    <button class="am-btn am-btn-default am-radius am-btn-xs" type="button">订单管理<a-->
-<#--                                class="am-close am-close-spin" data-am-modal-close="" href="javascript: void(0)">×</a>-->
-<#--                    </button>-->
-<#--                </li>-->
-<#--                <li>-->
-<#--                    <button class="am-btn am-btn-default am-radius am-btn-xs" type="button">司机管理<a-->
-<#--                                class="am-close am-close-spin" data-am-modal-close="" href="javascript: void(0)">×</a>-->
-<#--                    </button>-->
-<#--                </li>-->
             </ul>
 
 
@@ -224,7 +214,7 @@
                                 <td>${order.driverName?default("")}</td>
                                 <td>${order.dnum?default("")}</td>
                                 <td>${order.carNum?default("")}</td>
-                                <td class="am-hide-sm-only">${order.orderStatus}</td>
+                                <td class="am-hide-sm-only">未处理</td>
                                 <td class="am-hide-sm-only">${order.createTime}</td>
                                 <td class="am-hide-sm-only">${order.updateTime}</td>
                                 <td><button class="am-btn am-btn-primary am-round am-btn-xs am-icon-plus" type="button" id="mode_id" onclick="chooseDriver(${order.orderId})"> 分配司机</button> </td>

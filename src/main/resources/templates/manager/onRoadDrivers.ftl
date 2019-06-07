@@ -156,16 +156,18 @@
 
             <div class="am-btn-toolbars am-btn-toolbar am-kg am-cf">
                 <ul>
+
                     <li style="margin-left: -10px;">
                         <div class="am-btn-group am-btn-group-xs">
                             <select data-am-selected="{btnWidth: 90, btnSize: 'sm', btnStyle: 'default'}">
-                                <option value="b">全部</option>
-                                <option value="o">待确认</option>
-                                <option value="o">待审核</option>
+                                <option value="all">全部</option>
+                                <option value="dnum">手机号</option>
+                                <option value="dname">姓名</option>
+                                <option value="carnum">车牌号</option>
                             </select>
                         </div>
                     </li>
-                    <li><input class="am-form-field am-input-sm am-input-xm" placeholder="关键词搜索" type="text"/></li>
+                    <li><input class="am-form-field am-input-sm am-input-xm" placeholder="左侧选择查询方式" type="text"/></li>
                     <li>
                         <button class="am-btn am-radius am-btn-xs am-btn-success" style="margin-top: -1px;"
                                 type="button">搜索
@@ -198,7 +200,7 @@
                                 <td>${driver.carNum}</td>
                                 <td>${driver.dnum}</td>
                                 <td>${driver.workTimes}</td>
-                                <td>${driver.status}</td>
+                                <td>在路上</td>
                                 <#--    取消则调用删除-->
                             </tr>
                         </#list>

@@ -217,7 +217,7 @@
                                 <td>${order.driverName}</td>
                                 <td>${order.dnum}</td>
                                 <td>${order.carNum}</td>
-                                <td class="am-hide-sm-only">${order.orderStatus}</td>
+                                <td class="am-hide-sm-only">进行中</td>
                                 <td class="am-hide-sm-only">${order.createTime}</td>
                                 <td class="am-hide-sm-only">${order.updateTime}</td>
                                 <td><button class="am-btn am-btn-danger am-round am-btn-xs am-icon-plus" type="button"><a href="/manager/order/cancel?orderId=${order.orderId}"> 取消订单</a></button> </td>
