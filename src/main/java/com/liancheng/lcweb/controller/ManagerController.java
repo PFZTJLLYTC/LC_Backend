@@ -413,7 +413,9 @@ public class ManagerController {
 
         if (status.equals(OrderStatusEnums.WAIT.getCode())){
 
+            //待出行和待返程一起,前端来区分
             List<DriverDTO> drivers = managerService.getDriversByStatus(lineId,DriverStatusEnums.AVAILABLE.getCode());
+            //List<DriverDTO> drivers = managerService.getDriversByStatus(lineId,DriverStatusEnums.AVAILABLE2.getCode());
             map.put("drivers",drivers);
             return new ModelAndView("manager/waitOrders",map);
         }

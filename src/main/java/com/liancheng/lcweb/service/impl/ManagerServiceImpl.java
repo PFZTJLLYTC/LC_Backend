@@ -163,7 +163,7 @@ public class ManagerServiceImpl implements ManagerService {
         if (status.equals(DriverStatusEnums.ATREST.getCode())){
             driverPage = driverService.certainLIneAtrest(lineId,pageable);
         }
-        else if (status.equals(DriverStatusEnums.AVAILABLE.getCode())){
+        else if (status.equals(DriverStatusEnums.AVAILABLE.getCode())||status.equals(DriverStatusEnums.AVAILABLE2.getCode())){
             driverPage = driverService.certainLIneAvailable(lineId,pageable);
         }
         else if (status.equals(DriverStatusEnums.ONROAD.getCode())){
@@ -189,7 +189,7 @@ public class ManagerServiceImpl implements ManagerService {
         if (status.equals(DriverStatusEnums.ATREST.getCode())){
             driverList = driverService.certainLIneAtrest(lineId);
         }
-        else if (status.equals(DriverStatusEnums.AVAILABLE.getCode())){
+        else if (status.equals(DriverStatusEnums.AVAILABLE.getCode())||status.equals(DriverStatusEnums.AVAILABLE2.getCode())){
             driverList = driverService.certainLIneAvailable(lineId);
         }
         else if (status.equals(DriverStatusEnums.ONROAD.getCode())){
@@ -198,7 +198,7 @@ public class ManagerServiceImpl implements ManagerService {
         else {
             driverList = driverService.certainLIneToVerify(lineId);
         }
-        List<DriverDTO> driverDTOList =Driver2DriverDTOConverter.convert(driverList);
+        List<DriverDTO> driverDTOList = Driver2DriverDTOConverter.convert(driverList);
 
         return driverDTOList;
     }

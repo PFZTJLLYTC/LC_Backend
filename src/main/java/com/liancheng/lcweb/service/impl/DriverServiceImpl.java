@@ -115,8 +115,23 @@ public class DriverServiceImpl implements DriverService {
     }
 
     @Override
+    //两种状态
     public List<Driver> certainLIneAvailable(Integer lineId) {
+        List<Driver> drivers = driverRepository.findByStatusAndLineId(DriverStatusEnums.AVAILABLE.getCode(),lineId);
+        drivers.addAll(driverRepository.findByStatusAndLineId(DriverStatusEnums.AVAILABLE2.getCode(),lineId));
+        return drivers;
+    }
+
+    @Override
+    //待出行
+    public List<Driver> certainLineAvailable1(Integer lineId) {
         return driverRepository.findByStatusAndLineId(DriverStatusEnums.AVAILABLE.getCode(),lineId);
+    }
+
+    @Override
+    //待返程
+    public List<Driver> certainLineAvailable2(Integer lineId) {
+        return driverRepository.findByStatusAndLineId(DriverStatusEnums.AVAILABLE2.getCode(),lineId);
     }
 
     @Override
@@ -126,8 +141,7 @@ public class DriverServiceImpl implements DriverService {
 
     @Override
     public Page<Driver> certainLIneAvailable(Integer lineId, Pageable pageable) {
-        return driverRepository.findByStatusAndLineId(DriverStatusEnums.AVAILABLE.getCode(),lineId,pageable);
-
+        return driverRepository.findAllAvailable(lineId,pageable);
     }
 
     @Override

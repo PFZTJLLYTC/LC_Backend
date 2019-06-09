@@ -41,14 +41,22 @@ public interface DriverService {
 
     List<Driver> certainLIneAtrest(Integer lineId);
 
+    //总的
     List<Driver> certainLIneAvailable(Integer lineId);
 
     List<Driver> certainLIneToVerify(Integer lineId);
+
+    //待出行
+    List<Driver> certainLineAvailable1(Integer lineId);
+
+    //带返程
+    List<Driver> certainLineAvailable2(Integer lineId);
 
     Page<Driver> certainLIneOnroad(Integer lineId,Pageable pageable);
 
     Page<Driver> certainLIneAtrest(Integer lineId,Pageable pageable);
 
+    //总的
     Page<Driver> certainLIneAvailable(Integer lineId,Pageable pageable);
 
     Page<Driver> certainLIneToVerify(Integer lineId,Pageable pageable);
