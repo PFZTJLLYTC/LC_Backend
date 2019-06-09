@@ -21,7 +21,7 @@ public enum ResultEnums {
     USER_TOKEN_EXPIRE(13,"用户token过期或不存在"),
     USER_LOGIN_FORM_ERROR(14,"用户登入信息不合法"),
     WAIT_ORDER_MORE_THAN_ONE(15,"待处理订单过多"),//系统异常
-    PROCESSIN_ORDER_MORE_THAN_ONE(16,"进行中订单过多"),//系统异常
+    PROCESSIN_ORDER_TOO_MANY(16,"进行中订单过多"),//系统异常
     WAIT_OR_PROCESSIN_ORDER_MORE_THAN_ONE(17,"待处理或进行中订单过多"),//系统异常
     USER_CHANGE_FORM_ERROR(18,"用户信息修改填表错误"),
     USER_MOBILE_ALREADY_EXISTS(19,"号码已经被注册"),
@@ -30,7 +30,8 @@ public enum ResultEnums {
     DRIVER_REGISTER_FORM_ERROR(22,"司机注册表单信息错误"),
     DRIVER_LOGIN_FORM_ERROR(23,"司机登入表单信息错误"),
     SEATS_NOT_ENOUGH(24,"该司机可用座位数目不足"),
-    ORDER_STATUS_ERROR(25,"订单状态错误");
+    ORDER_STATUS_ERROR(25,"订单状态错误"),
+    SEATS_ERROR(26,"更改座位数目无效"),;
 
 
     private String msg;

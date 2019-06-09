@@ -291,7 +291,11 @@
                     <td>${driver.carNum}</td>
                     <td>${driver.dnum}</td>
                     <td>${driver.workTimes}</td>
-                    <td>${driver.status}</td>
+                    <#if driver.status==2 >
+                    <td>待出行</td>
+                    <#elseif driver.status==3 >
+                        <td>待返程</td>
+                    </#if>
                     <td><button class="am-btn am-btn-primary am-round am-btn-xs am-icon-plus" type="button" onclick="sendInfo(${driver.dnum})"> 确定选择 </button> </td>
                     <#--    取消则调用删除-->
                 </tr>

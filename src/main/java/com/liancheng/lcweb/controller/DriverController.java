@@ -16,6 +16,7 @@ import com.liancheng.lcweb.service.OrderService;
 import com.liancheng.lcweb.service.WebSocketService;
 import com.liancheng.lcweb.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -45,6 +46,9 @@ public class DriverController {
 
     @Autowired
     private WebSocketService webSocketService;
+
+    /** 身份验证 **/
+
     //注册
     @PostMapping(value = "/register")//加表单验证
     public ResultVO driverAdd(@RequestBody@Valid DriverInfoForm driverInfoForm,
@@ -86,12 +90,11 @@ public class DriverController {
     }
 
 
-
+    /**操作 **/
 
     //根据id更新driver信息
     //也可以提出来改成单独修改一项,eg:修改状态
-    //todo 这里应该传一个body
-    @PutMapping(value = "/driver/update/{id}")
+    @PutMapping(value = "/update/{id}")
     public ResultVO driverUpdate(@PathVariable("id") String id,
                                  @RequestParam("name") String name,
                                  @RequestParam("password") String password,
@@ -111,12 +114,51 @@ public class DriverController {
         return ResultVOUtil.success(driverRepository.save(driver));
     }
 
+    //单改一个状态
+    @PutMapping(value = "/switchStatus")
+    @Transactional
+    //因为每一次不知道在哪一边，结束订单后，手动切换状态,且也给缓冲的时间
+    public ResultVO switchStatus(@RequestParam("dnum") String dnum,
+                                 @RequestParam("status") Integer status){
 
 
+        driverService.switchStatus(status,driverService.findOne(dnum));
 
+        return ResultVOUtil.success();
+    }
 
+    @PutMapping("/changeAvailableSeats")
+    @Transactional
+    //满足可以自由接单后改变座位数量
+    public ResultVO changeAvailableSeats(@RequestParam("dnum") String dnum,
+                                         @RequestParam("seats") Integer seats){
 
-    /*订单相关*/
+        driverService.switchAvailableSeats(seats,driverService.findOne(dnum));
+
+        return ResultVOUtil.success();
+    }
+
+    @PutMapping("/order/finishOne")
+    @Transactional
+    //一个一个的点完成！
+    public ResultVO finishOneOrder(@RequestParam("dnum") String dnum,
+                                   @RequestParam("orderId") String orderId){
+        Order order = orderService.findOne(orderId);
+        if (order==null){
+            log.error("订单未找到");
+            return ResultVOUtil.error(ResultEnums.ORDER_NOT_FOUND);
+        }
+        else if (!order.getDnum().equals(dnum)){
+            log.error("司机无此订单");
+            return ResultVOUtil.error(ResultEnums.ORDER_NOT_FOUND);
+        }
+        else {
+            orderService.finishOne(order);
+        }
+        return ResultVOUtil.success();
+    }
+
+                /******** 订单信息展示相关 *********/
 
     //查看订单
     @GetMapping("/orders/processin")
@@ -126,13 +168,14 @@ public class DriverController {
             log.info("driver has no processin order");
             return ResultVOUtil.error(ResultEnums.NO_PROCESSIN_ORDER);
         }
-        else if(orderList.size()==1){
-            log.info("find a processin order, order={}",orderList.get(0));//正常情况只有一个进行中订单
-            return ResultVOUtil.success(orderList.get(0));
+        else if(orderList.size()<=4){
+            log.info("find a processin order, order={}",orderList);
+            //司机接不超过四单
+            return ResultVOUtil.success(orderList);
         }
         else {
-            log.error("driver's processin order more than one");
-            return ResultVOUtil.error(ResultEnums.PROCESSIN_ORDER_MORE_THAN_ONE);
+            log.error("driver's processin order more than 4, impossible!");
+            return ResultVOUtil.error(ResultEnums.PROCESSIN_ORDER_TOO_MANY);
         }
     }
     @GetMapping("/orders/done")
@@ -147,6 +190,7 @@ public class DriverController {
             return ResultVOUtil.success(orderList);
         }
     }
-    //订单通知
+
+    //
 
 }

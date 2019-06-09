@@ -25,6 +25,10 @@ public interface DriverService {
 
     Driver getByMobileAndPassword(String mobile,String password);
 
+    void switchStatus(Integer status, Driver driver);
+
+    void switchAvailableSeats(Integer availableSeats, Driver driver);
+
     Driver findByCarNum(String carNum);
 
     Driver findByDriverName(String name);

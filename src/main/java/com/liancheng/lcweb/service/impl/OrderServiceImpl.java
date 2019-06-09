@@ -157,6 +157,12 @@ public class OrderServiceImpl implements OrderService {
         orderRepository.save(order);
         driverRepository.save(driver);
         userRepository.save(user);
+        //进行对用户的通知
+        try {
+            webSocketService.sendInfo("您的订单状态已更新",order.getUserId());
+        } catch (IOException e) {
+            log.warn("向用户发订单状态更新消息失败,userId = {}",order.getUserId());
+        }
 
         return order;
     }
@@ -175,13 +181,13 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order findOne(String OrderId) {
         Optional<Order> order = orderRepository.findById(OrderId);
-        if (!order.isPresent()){
-            log.info("无此订单");
-            return null;
-            //不能在这里抛异常！！都要用这个函数
-//            throw new ManagerException(ResultEnums.ORDER_NOT_FOUND.getMsg(),"manager/alldeals");
-        }
-        return order.get();
+//        if (!order.isPresent()){
+//            log.info("无此订单");
+//            return null;
+//            //不能在这里抛异常！！都要用这个函数
+////            throw new ManagerException(ResultEnums.ORDER_NOT_FOUND.getMsg(),"manager/alldeals");
+//        }
+        return order.orElse(null);
     }
 
     @Override

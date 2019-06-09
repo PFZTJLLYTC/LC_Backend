@@ -71,12 +71,41 @@ public class DriverServiceImpl implements DriverService {
     public Driver findOne(String dnum) {
 
         Optional<Driver> driver = driverRepository.findById(dnum);
-//todo 应该写在manager的service里，不然新增司机时有逻辑冲突
+//应该写在manager的service里，不然新增司机时有逻辑冲突
 //        if (!driver.isPresent()){
 //            //查一般是交给manager，所以就不跑异常，到时候直接返回错误界面
 //            throw new ManagerException(ResultEnums.NO_SUCH_USER.getMsg(),"/manager/driver/allDrivers");
 //        }
         return driver.orElse(null);
+    }
+
+    @Override
+    public void switchStatus(Integer status, Driver driver) {
+        if (driver==null) {
+            log.error("不能改变不存在的司机的状态");
+            throw new LcException(ResultEnums.NO_SUCH_DRIVER);
+        }
+        driver.setStatus(status);
+        driverRepository.save(driver);
+    }
+
+    @Override
+    public void switchAvailableSeats(Integer availableSeats, Driver driver) {
+        if (driver==null) {
+            log.error("不能改变不存在的司机的可用座位数目");
+            throw new LcException(ResultEnums.NO_SUCH_DRIVER);
+        }
+        Integer old = driver.getAvailableSeats();
+        if (old.equals(availableSeats)) return;
+        else {
+            if (availableSeats>7||availableSeats<0){
+                log.error("座位数不合法");
+                throw new LcException(ResultEnums.SEATS_ERROR);
+            }
+        }
+        driver.setAvailableSeats(availableSeats);
+
+        driverRepository.save(driver);
     }
 
     @Override

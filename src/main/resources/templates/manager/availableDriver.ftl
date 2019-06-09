@@ -199,7 +199,7 @@
                                 <td>${driver.carNum}</td>
                                 <td>${driver.dnum}</td>
                                 <td>${driver.workTimes}</td>
-                                <td>待出行</td>
+                                <td>可分配</td>
                                 <#--    取消则调用删除-->
                             </tr>
                         </#list>
