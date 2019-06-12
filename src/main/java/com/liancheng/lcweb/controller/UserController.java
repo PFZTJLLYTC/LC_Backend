@@ -180,8 +180,8 @@ public class UserController {
             return ResultVOUtil.success(orderList.get(0));
         }
         else {
-            log.error("processin order more than one");
-            return ResultVOUtil.error(ResultEnums.PROCESSIN_ORDER_MORE_THAN_ONE);
+            log.error("processin order too many");
+            return ResultVOUtil.error(ResultEnums.PROCESSIN_ORDER_TOO_MANY);
         }
     }
 

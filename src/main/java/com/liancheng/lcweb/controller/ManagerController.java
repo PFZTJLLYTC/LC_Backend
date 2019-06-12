@@ -80,9 +80,13 @@ public class ManagerController {
         if (cookie != null && !StringUtils.isEmpty(redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX, cookie.getValue())))) {
 
             Integer lineId = managerService.findOne(telNum).getLineId();
+            MessageNumDTO messageNum = managerService.getMessages(lineId);
             TotalInfoDTO totalInfoDTOS = managerService.getTotal(lineId);
             map.put("name",lineId);
             map.put("total",totalInfoDTOS);
+            map.put("orderMessages",messageNum.getOrderMessages());
+            map.put("driverMessages",messageNum.getDriverMessages());
+            map.put("allMessages",messageNum.getAllMessages());
             return new ModelAndView("/manager/index",map);
         }
 

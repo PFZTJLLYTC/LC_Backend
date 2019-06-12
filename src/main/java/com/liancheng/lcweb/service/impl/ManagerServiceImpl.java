@@ -253,7 +253,6 @@ public class ManagerServiceImpl implements ManagerService {
     @Override
     public List<Order> getAllOrders(Integer lineId) {
         List<Order> orders = orderRepository.findByLineId(lineId);
-        if (CollectionUtils.isEmpty(orders))return null;
         return orders;
 
     }
@@ -340,7 +339,7 @@ public class ManagerServiceImpl implements ManagerService {
     public List<Order> getOrdersByStatus(Integer lineId, Integer status) {
 
         List<Order> allOrders = getAllOrders(lineId);
-        if (allOrders==null)return null;
+        if (CollectionUtils.isEmpty(allOrders))return allOrders;
         List<Order> result = new ArrayList<>();
         switch (status){
             //未处理
