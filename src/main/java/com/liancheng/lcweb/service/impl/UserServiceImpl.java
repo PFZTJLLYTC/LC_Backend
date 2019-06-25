@@ -1,17 +1,20 @@
 package com.liancheng.lcweb.service.impl;
 
 import com.liancheng.lcweb.VO.ResultVO;
+import com.liancheng.lcweb.domain.AccessToken;
 import com.liancheng.lcweb.domain.User;
 import com.liancheng.lcweb.enums.ResultEnums;
 import com.liancheng.lcweb.exception.LcException;
 import com.liancheng.lcweb.form.UserInfoForm;
 import com.liancheng.lcweb.form.UserLoginForm;
 import com.liancheng.lcweb.repository.UserRepository;
+import com.liancheng.lcweb.service.AccessTokenService;
 import com.liancheng.lcweb.service.UserService;
 import com.liancheng.lcweb.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,6 +27,12 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private AccessTokenService accessTokenService;
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
 
     @Override
@@ -41,16 +50,38 @@ public class UserServiceImpl implements UserService {
         }
         User user = new User();
         BeanUtils.copyProperties(userRegisterForm,user);
+
+        user.setPassword(passwordEncoder.encode(userRegisterForm.getPassword()));
         user.setId(UUID.randomUUID().toString());
         user.setTakeTimes(0);
 
         userRepository.save(user);
+        log.info("add a new user，user={}",userRegisterForm);
     }
 
 
     @Override
-    public User userLogin(UserLoginForm user){
-        return getUser(user.getMobile(),user.getPassword());
+    public AccessToken userLogin(UserLoginForm userLoginForm){
+
+        User user = findByMobile(userLoginForm.getMobile());
+
+        if(user==null){
+            log.info("无此用户");
+            throw new LcException(ResultEnums.NO_SUCH_USER);
+        }
+
+
+        Boolean matches=passwordEncoder.matches(
+                userLoginForm.getPassword(),
+                user.getPassword());
+
+        if(matches==false){
+            log.warn("密码检验错误");
+            throw new LcException(ResultEnums.PASSWORD_MATCHES_ERROR);
+        }
+
+        return accessTokenService.createAccessToken(user.getId());
+        //TODO 用户登陆记录表?
     }
 
     @Override

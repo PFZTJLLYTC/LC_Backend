@@ -1,6 +1,7 @@
 package com.liancheng.lcweb.service;
 
 import com.liancheng.lcweb.VO.ResultVO;
+import com.liancheng.lcweb.domain.AccessToken;
 import com.liancheng.lcweb.domain.User;
 import com.liancheng.lcweb.form.UserInfoForm;
 import com.liancheng.lcweb.form.UserLoginForm;
@@ -23,7 +24,7 @@ public interface UserService {
 
     List<User> findByUserName(String userName);
 
-    User userLogin(UserLoginForm user);
+    AccessToken userLogin(UserLoginForm user);
 
     void deleteOne(String id);
 

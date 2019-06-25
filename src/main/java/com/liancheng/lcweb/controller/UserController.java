@@ -2,6 +2,7 @@ package com.liancheng.lcweb.controller;
 
 import com.liancheng.lcweb.VO.ResultVO;
 import com.liancheng.lcweb.converter.User2UserDTOConverter;
+import com.liancheng.lcweb.domain.AccessToken;
 import com.liancheng.lcweb.domain.Order;
 import com.liancheng.lcweb.domain.User;
 import com.liancheng.lcweb.dto.UserDTO;
@@ -60,23 +61,22 @@ public class UserController {
 
         userService.addUser(userInfoForm);
 
-        log.info("add a new user，user={}",userInfoForm);
+
         //跳转到登陆界面
         return ResultVOUtil.success();
     }
 
     @PostMapping(value = "/login")
-    public ResultVO userLogin(@RequestBody@Valid UserLoginForm user,BindingResult bindingResult){
+    public ResultVO userLogin(@RequestBody@Valid UserLoginForm userLoginForm,BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             log.error("用户登入信息不合法");
             return ResultVOUtil.error(ResultEnums.USER_LOGIN_FORM_ERROR.getCode(),
                     bindingResult.getFieldError().getDefaultMessage());
         }
-        User result = userService.userLogin(user);
-        if(result!=null)
-            return ResultVOUtil.success(accessTokenService.createAccessToken(result.getId()));
-        else
-            return ResultVOUtil.error(ResultEnums.NO_SUCH_USER);
+        AccessToken token = userService.userLogin(userLoginForm);
+
+        return ResultVOUtil.success(token);
+
     }
 
 

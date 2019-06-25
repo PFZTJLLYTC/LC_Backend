@@ -7,14 +7,18 @@ import com.liancheng.lcweb.enums.ResultEnums;
 import com.liancheng.lcweb.exception.LcException;
 import com.liancheng.lcweb.exception.ManagerException;
 import com.liancheng.lcweb.form.DriverInfoForm;
+import com.liancheng.lcweb.form.DriverLoginForm;
 import com.liancheng.lcweb.repository.DriverRepository;
 import com.liancheng.lcweb.service.DriverService;
+import com.liancheng.lcweb.service.LineService;
 import com.liancheng.lcweb.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -29,6 +33,12 @@ public class DriverServiceImpl implements DriverService {
     @Autowired
     private DriverRepository driverRepository;
 
+    @Autowired
+    private LineService lineService;
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
     @Override
     public void addDriver(DriverInfoForm driverInfoForm) {
         if (findOne(driverInfoForm.getDnum())!=null){
@@ -36,7 +46,13 @@ public class DriverServiceImpl implements DriverService {
             throw new LcException(ResultEnums.USER_MOBILE_ALREADY_EXISTS);
         }
         Driver driver = new Driver();
+
         BeanUtils.copyProperties(driverInfoForm,driver);
+
+        Integer lineId= lineService.findLineIdByLineName(driverInfoForm.getLineName());
+        //密码BCrypt加密存储，框架自动加盐
+        driver.setPassword(passwordEncoder.encode(driverInfoForm.getPassword()));
+        driver.setLineId(lineId);
         //表示没有得到验证
         driver.setStatus(DriverStatusEnums.TO_BE_VERIFIED.getCode());
         driver.setWorkTimes(0);
@@ -46,6 +62,25 @@ public class DriverServiceImpl implements DriverService {
         //等待被确认
         driverRepository.save(driver);
     }
+
+    @Override
+    public void driverLogin(DriverLoginForm driverLoginForm){
+
+        Driver driver = findOne(driverLoginForm.getDnum());
+
+        if(driver==null)
+            throw new LcException(ResultEnums.NO_SUCH_DRIVER);
+
+        Boolean matches = passwordEncoder.matches(driverLoginForm.getPassword(),
+                driver.getPassword());
+
+        if(matches==false){
+            log.warn("密码验证错误");
+            throw new LcException(ResultEnums.PASSWORD_MATCHES_ERROR);
+        }
+        //TODO 司机登陆记录表？多次登陆失败(被爆破)封ip？
+    }
+
 
     @Override
     public Driver getByMobileAndPassword(String mobile, String password) {

@@ -5,9 +5,10 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
-@SpringBootApplication
+//不加exclude会强迫使用自动生成的权限系统
+@SpringBootApplication(exclude = {org.springframework.boot.autoconfigure.security.
+        servlet.SecurityAutoConfiguration.class})
 @EnableJpaAuditing
-@EnableAutoConfiguration
 public class LcwebApplication {
 
     public static void main(String[] args) {

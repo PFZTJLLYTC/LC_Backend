@@ -18,7 +18,6 @@ public class Line {
     private String lineName1;//正向
 
     private String lineName2;//反向
-
     //司机总数和订单总数算出
 
     //有哪些管理员搜索得出

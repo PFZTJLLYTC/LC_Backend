@@ -4,6 +4,7 @@ package com.liancheng.lcweb.service;
 import com.liancheng.lcweb.VO.ResultVO;
 import com.liancheng.lcweb.domain.Driver;
 import com.liancheng.lcweb.form.DriverInfoForm;
+import com.liancheng.lcweb.form.DriverLoginForm;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -13,6 +14,8 @@ public interface DriverService {
 
     //注册
     void addDriver(DriverInfoForm driverInfoForm);
+
+    void driverLogin(DriverLoginForm driverLoginForm);
 
     List<Driver> findAll();
 

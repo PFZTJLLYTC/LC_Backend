@@ -77,16 +77,12 @@ public class DriverController {
             return ResultVOUtil.error(ResultEnums.DRIVER_LOGIN_FORM_ERROR.getCode(),
                     bindingResult.getFieldError().getDefaultMessage());
         }
-        Driver result = driverService.getByMobileAndPassword(driverLoginForm.getDnum(),
-                driverLoginForm.getPassword());
-        if(result!=null){
-            log.info("司机登陆成功，dnum={}",result.getDnum());
-            return ResultVOUtil.success(result);
-        }
-        else{
-            log.error("无此司机信息，dnum={}",driverLoginForm.getDnum());
-            return ResultVOUtil.error();
-        }
+
+        driverService.driverLogin(driverLoginForm);
+
+        log.info("司机登陆成功,dnum={}", driverLoginForm.getDnum());
+        return ResultVOUtil.success(driverLoginForm.getDnum());//登陆成功回传手机号码给前台缓存
+
     }
 
 
