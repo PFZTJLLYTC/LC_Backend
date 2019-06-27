@@ -7,6 +7,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
@@ -18,6 +19,7 @@ import java.util.Date;
 public class Messages {
 
     @Id
+    @GeneratedValue
     private Integer id;
 
     @NotNull

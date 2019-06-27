@@ -43,8 +43,8 @@
 
             <li class="kuanjie">
 
-                <a href="#">个人中心</a>
-                <a href="#">系统设置</a>
+                <a href="/manager/personalInfo">个人中心</a>
+                <a href="/manager/goContactAndHelp">系统设置</a>
             </li>
 
             <li class="soso">
@@ -96,15 +96,10 @@
                 <li><a href="/manager/driver/findByStatus?status=2">待出行司机</a></li>
                 <li><a href="/manager/driver/goToAddDriver">增加司机</a></li>
             </ul>
-            <h3 class="am-icon-volume-up"><em></em> <a href="#">使用与帮助</a></h3>
+            <h3 class="am-icon-gears"><em></em> <a href="#">其他</a></h3>
             <ul>
-                <li><a href="/manager/goContactAndHelp">信息设置与客服</a></li>
-                <li><a href="">提示设置</a></li>
-            </ul>
-            <h3 class="am-icon-gears"><em></em> <a href="#">系统设置</a></h3>
-            <ul>
-                <li><a href="/manager/personalInfo">个人信息</a></li>
-                <li><a href="/manager/otherSettings">其他</a></li>
+                <li><a href="/manager/goContactAndHelp">推送与设置</a></li>
+                <li><a href="/manager/personalInfo">个人中心</a></li>
             </ul>
         </div>
         <!-- sideMenu End -->
@@ -158,26 +153,26 @@
 
         <div class="am-tabs am-margin" data-am-tabs>
             <ul class="am-tabs-nav am-nav am-nav-tabs">
-                <li class="am-active"><a href="#tab1">说明</a></li>
-                <li><a href="#tab2">推送</a></li>
-                <li><a href="#tab3">客服</a></li>
+                <li class="am-active"><a href="#tab1">推送</a></li>
+                <li><a href="#tab2">提示音</a></li>
+                <li><a href="#tab3">客服与帮助</a></li>
             </ul>
 
 
             <div class="am-tabs-bd">
-                <div class="am-tab-panel am-fade am-in am-active" id="tab1">
+                <div class="am-tab-panel am-fade" id="tab2">
 
                 </div>
 
 
-                <div class="am-tab-panel am-fade" id="tab2">
+                <div class="am-tab-panel am-fade am-in am-active" id="tab1">
                     <form class="am-form" name="Message2DriverForm" action="/manager/message/post" method="post">
                         <div class="am-g am-margin-top">
                             <div class="am-u-sm-4 am-u-md-2 am-text-right">
                                 指定司机的电话号码
                             </div>
                             <div class="am-u-sm-8 am-u-md-4">
-                                <input class="am-input-sm" type="text">
+                                <input class="am-input-sm" type="text" name="dnum">
                             </div>
                             <div class="am-hide-sm-only am-u-md-6">*不填写就默认推送给本线路全部司机</div>
                         </div>
@@ -216,7 +211,7 @@
                                 内容描述
                             </div>
                             <div class="am-u-sm-12 am-u-md-10">
-                                <textarea placeholder="填写想发送的消息" rows="4"></textarea>
+                                <textarea placeholder="填写想发送的消息" rows="4" name="message"></textarea>
                             </div>
                         </div>
 
@@ -228,38 +223,9 @@
                     </form>
                 </div>
 
+                <div class="am-tab-panel am-fade am-in am-active" id="tab3">
 
-                <div class="am-tab-panel am-fade" id="tab5">
-<#--                    <form class="am-form">-->
-<#--                        <div class="am-g am-margin-top-sm">-->
-<#--                            <div class="am-u-sm-4 am-u-md-2 am-text-right">-->
-<#--                                SEO 标题-->
-<#--                            </div>-->
-<#--                            <div class="am-u-sm-8 am-u-md-4 am-u-end">-->
-<#--                                <input class="am-input-sm" type="text">-->
-<#--                            </div>-->
-<#--                        </div>-->
-
-<#--                        <div class="am-g am-margin-top-sm">-->
-<#--                            <div class="am-u-sm-4 am-u-md-2 am-text-right">-->
-<#--                                SEO 关键字-->
-<#--                            </div>-->
-<#--                            <div class="am-u-sm-8 am-u-md-4 am-u-end">-->
-<#--                                <input class="am-input-sm" type="text">-->
-<#--                            </div>-->
-<#--                        </div>-->
-
-<#--                        <div class="am-g am-margin-top-sm">-->
-<#--                            <div class="am-u-sm-4 am-u-md-2 am-text-right">-->
-<#--                                SEO 描述-->
-<#--                            </div>-->
-<#--                            <div class="am-u-sm-8 am-u-md-4 am-u-end">-->
-<#--                                <textarea rows="4"></textarea>-->
-<#--                            </div>-->
-<#--                        </div>-->
-<#--                    </form>-->
                 </div>
-
 
             </div>
         </div>

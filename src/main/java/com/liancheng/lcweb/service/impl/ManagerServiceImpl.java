@@ -156,6 +156,7 @@ public class ManagerServiceImpl implements ManagerService {
         driver.setStatus(DriverStatusEnums.ATREST.getCode());
         driver.setWorkTimes(0);
         driverRepository.save(driver);
+        messagesService.createMessage(driver.getDnum(),MessagesConstant.welcomeDriver);
     }
 
 

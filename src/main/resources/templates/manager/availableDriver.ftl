@@ -43,8 +43,8 @@
 
             <li class="kuanjie">
 
-                <a href="#">个人中心</a>
-                <a href="#">系统设置</a>
+                <a href="/manager/personalInfo">个人中心</a>
+                <a href="/manager/goContactAndHelp">系统设置</a>
             </li>
 
             <li class="soso">
@@ -95,15 +95,10 @@
                 <li><a href="/manager/driver/findByStatus?status=2">待出行司机</a></li>
                 <li><a href="/manager/driver/goToAddDriver">增加司机</a></li>
             </ul>
-            <h3 class="am-icon-volume-up"><em></em> <a href="#">使用与帮助</a></h3>
+            <h3 class="am-icon-gears"><em></em> <a href="#">其他</a></h3>
             <ul>
-                <li><a href="/manager/goContactAndHelp">信息设置与客服</a></li>
-                <li><a href="">提示设置</a></li>
-            </ul>
-            <h3 class="am-icon-gears"><em></em> <a href="#">系统设置</a></h3>
-            <ul>
-                <li><a href="/manager/personalInfo">个人信息</a></li>
-                <li><a href="/manager/otherSettings">其他</a></li>
+                <li><a href="/manager/goContactAndHelp">推送与设置</a></li>
+                <li><a href="/manager/personalInfo">个人中心</a></li>
             </ul>
         </div>
         <!-- sideMenu End -->

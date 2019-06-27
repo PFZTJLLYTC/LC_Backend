@@ -542,27 +542,27 @@ public class ManagerController {
 
     }
 
-    //其他设置
-    @GetMapping("/otherSettings")
-    public ModelAndView otherSettings(HttpServletRequest request,
-                                      Map<String,Object> map){
-        Cookie cookie = CookieUtil.get(request,CookieConstant.TOKEN);
-
-        Integer lineId = Integer.parseInt(redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX,cookie.getValue()))+"");
-        log.info("获取lineId来跳转到其他设置界面,lineId={}",lineId);
-
-        MessageNumDTO messageNum = managerService.getMessages(lineId);
-
-
-        map.put("name",lineId);
-        map.put("orderMessages",messageNum.getOrderMessages());
-        map.put("driverMessages",messageNum.getDriverMessages());
-        map.put("allMessages",messageNum.getAllMessages());
-
-
-
-        return new ModelAndView("manager/otherSettings",map);
-    }
+//    //其他设置
+//    @GetMapping("/otherSettings")
+//    public ModelAndView otherSettings(HttpServletRequest request,
+//                                      Map<String,Object> map){
+//        Cookie cookie = CookieUtil.get(request,CookieConstant.TOKEN);
+//
+//        Integer lineId = Integer.parseInt(redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX,cookie.getValue()))+"");
+//        log.info("获取lineId来跳转到其他设置界面,lineId={}",lineId);
+//
+//        MessageNumDTO messageNum = managerService.getMessages(lineId);
+//
+//
+//        map.put("name",lineId);
+//        map.put("orderMessages",messageNum.getOrderMessages());
+//        map.put("driverMessages",messageNum.getDriverMessages());
+//        map.put("allMessages",messageNum.getAllMessages());
+//
+//
+//
+//        return new ModelAndView("manager/otherSettings",map);
+//    }
 
 
 
