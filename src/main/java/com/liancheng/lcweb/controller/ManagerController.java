@@ -12,6 +12,7 @@ import com.liancheng.lcweb.enums.DriverStatusEnums;
 import com.liancheng.lcweb.enums.OrderStatusEnums;
 import com.liancheng.lcweb.enums.ResultEnums;
 import com.liancheng.lcweb.exception.ManagerException;
+import com.liancheng.lcweb.form.Message2DriverForm;
 import com.liancheng.lcweb.form.addDriverFormForManager;
 import com.liancheng.lcweb.repository.ManagerRepository;
 import com.liancheng.lcweb.service.*;
@@ -496,6 +497,25 @@ public class ManagerController {
         map.put("allMessages",messageNum.getAllMessages());
         map.put("name",lineId);
         return new ModelAndView("manager/goContactAndHelp",map);
+    }
+
+
+    @PostMapping("/message/post")
+    public ModelAndView post2Driver(HttpServletRequest request,
+                                    Message2DriverForm message2DriverForm,
+                                    Map<String,Object>map){
+        Cookie cookie = CookieUtil.get(request,CookieConstant.TOKEN);
+
+        Integer lineId = Integer.parseInt(redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX,cookie.getValue()))+"");
+        log.info("获取lineId来发送消息,lineId={}",lineId);
+        MessageNumDTO messageNum = managerService.getMessages(lineId);
+
+        managerService.postMessages(lineId,message2DriverForm);
+
+        map.put("msg",ResultEnums.SUCCESS.getMsg());
+        map.put("url","/manager/goContactAndHelp");
+
+        return new ModelAndView("common/success",map);
     }
 
     //个人信息

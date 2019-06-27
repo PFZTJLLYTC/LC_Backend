@@ -5,6 +5,7 @@ import com.liancheng.lcweb.domain.Order;
 import com.liancheng.lcweb.dto.DriverDTO;
 import com.liancheng.lcweb.dto.MessageNumDTO;
 import com.liancheng.lcweb.dto.TotalInfoDTO;
+import com.liancheng.lcweb.form.Message2DriverForm;
 import com.liancheng.lcweb.form.addDriverFormForManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -54,6 +55,8 @@ public interface ManagerService {
     void cancelOneOrder(String orderId, Integer lineId);
 
     void confirmOneDriver(String dnum,Integer lineId);
+
+    void postMessages(Integer lineId, Message2DriverForm message2DriverForm);
 
 
 }

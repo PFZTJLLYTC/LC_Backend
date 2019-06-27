@@ -13,6 +13,7 @@ import com.liancheng.lcweb.enums.ResultEnums;
 import com.liancheng.lcweb.exception.LcException;
 import com.liancheng.lcweb.exception.ManagerException;
 import com.liancheng.lcweb.form.DriverInfoForm;
+import com.liancheng.lcweb.form.Message2DriverForm;
 import com.liancheng.lcweb.form.addDriverFormForManager;
 import com.liancheng.lcweb.repository.DriverRepository;
 import com.liancheng.lcweb.repository.ManagerRepository;
@@ -400,5 +401,17 @@ public class ManagerServiceImpl implements ManagerService {
 
         //保存更改,正式生效(是否对driver进行通知？)
         driverRepository.save(driver);
+    }
+
+
+    @Override
+    public void postMessages(Integer lineId, Message2DriverForm message2DriverForm) {
+        if (message2DriverForm.getMessage().isEmpty()){
+            log.error("线路{}，想发送无内容消息，建议安排它一手！",lineId);
+            throw new ManagerException(ResultEnums.NO_CERTAIN_CONTENT_MESSAGE.getMsg(),"/manager/goContactAndHelp");
+        }
+        //todo
+
+
     }
 }

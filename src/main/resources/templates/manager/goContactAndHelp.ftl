@@ -159,7 +159,7 @@
         <div class="am-tabs am-margin" data-am-tabs>
             <ul class="am-tabs-nav am-nav am-nav-tabs">
                 <li class="am-active"><a href="#tab1">说明</a></li>
-                <li><a href="#tab2">向司机推送</a></li>
+                <li><a href="#tab2">推送</a></li>
                 <li><a href="#tab3">客服</a></li>
             </ul>
 
@@ -171,53 +171,58 @@
 
 
                 <div class="am-tab-panel am-fade" id="tab2">
-                    <form class="am-form">
+                    <form class="am-form" name="Message2DriverForm" action="/manager/message/post" method="post">
                         <div class="am-g am-margin-top">
                             <div class="am-u-sm-4 am-u-md-2 am-text-right">
-                                文章标题
+                                指定司机的电话号码
                             </div>
                             <div class="am-u-sm-8 am-u-md-4">
                                 <input class="am-input-sm" type="text">
                             </div>
-                            <div class="am-hide-sm-only am-u-md-6">*必填，不可重复</div>
+                            <div class="am-hide-sm-only am-u-md-6">*不填写就默认推送给本线路全部司机</div>
                         </div>
 
-                        <div class="am-g am-margin-top">
-                            <div class="am-u-sm-4 am-u-md-2 am-text-right">
-                                文章作者
-                            </div>
-                            <div class="am-u-sm-8 am-u-md-4 am-u-end col-end">
-                                <input class="am-input-sm" type="text">
-                            </div>
-                        </div>
+<#--                        <div class="am-g am-margin-top">-->
+<#--                            <div class="am-u-sm-4 am-u-md-2 am-text-right">-->
+<#--                                文章作者-->
+<#--                            </div>-->
+<#--                            <div class="am-u-sm-8 am-u-md-4 am-u-end col-end">-->
+<#--                                <input class="am-input-sm" type="text">-->
+<#--                            </div>-->
+<#--                        </div>-->
 
-                        <div class="am-g am-margin-top">
-                            <div class="am-u-sm-4 am-u-md-2 am-text-right">
-                                信息来源
-                            </div>
-                            <div class="am-u-sm-8 am-u-md-4">
-                                <input class="am-input-sm" type="text">
-                            </div>
-                            <div class="am-hide-sm-only am-u-md-6">选填</div>
-                        </div>
+<#--                        <div class="am-g am-margin-top">-->
+<#--                            <div class="am-u-sm-4 am-u-md-2 am-text-right">-->
+<#--                                信息来源-->
+<#--                            </div>-->
+<#--                            <div class="am-u-sm-8 am-u-md-4">-->
+<#--                                <input class="am-input-sm" type="text">-->
+<#--                            </div>-->
+<#--                            <div class="am-hide-sm-only am-u-md-6">选填</div>-->
+<#--                        </div>-->
 
-                        <div class="am-g am-margin-top">
-                            <div class="am-u-sm-4 am-u-md-2 am-text-right">
-                                内容摘要
-                            </div>
-                            <div class="am-u-sm-8 am-u-md-4">
-                                <input class="am-input-sm" type="text">
-                            </div>
-                            <div class="am-u-sm-12 am-u-md-6">不填写则自动截取内容前255字符</div>
-                        </div>
+<#--                        <div class="am-g am-margin-top">-->
+<#--                            <div class="am-u-sm-4 am-u-md-2 am-text-right">-->
+<#--                                内容摘要-->
+<#--                            </div>-->
+<#--                            <div class="am-u-sm-8 am-u-md-4">-->
+<#--                                <input class="am-input-sm" type="text">-->
+<#--                            </div>-->
+<#--                            <div class="am-u-sm-12 am-u-md-6">不填写则自动截取内容前255字符</div>-->
+<#--                        </div>-->
 
                         <div class="am-g am-margin-top-sm">
                             <div class="am-u-sm-12 am-u-md-2 am-text-right admin-form-text">
                                 内容描述
                             </div>
                             <div class="am-u-sm-12 am-u-md-10">
-                                <textarea placeholder="请使用富文本编辑插件" rows="10"></textarea>
+                                <textarea placeholder="填写想发送的消息" rows="4"></textarea>
                             </div>
+                        </div>
+
+                        <div class="am-margin" align="center">
+                            <button class="am-btn am-btn-success am-radius " type="submit" >确定发送</button>
+<#--                            <button class="am-btn am-btn-primary am-radius " type="button">放弃保存</button>-->
                         </div>
 
                     </form>
@@ -225,44 +230,44 @@
 
 
                 <div class="am-tab-panel am-fade" id="tab5">
-                    <form class="am-form">
-                        <div class="am-g am-margin-top-sm">
-                            <div class="am-u-sm-4 am-u-md-2 am-text-right">
-                                SEO 标题
-                            </div>
-                            <div class="am-u-sm-8 am-u-md-4 am-u-end">
-                                <input class="am-input-sm" type="text">
-                            </div>
-                        </div>
+<#--                    <form class="am-form">-->
+<#--                        <div class="am-g am-margin-top-sm">-->
+<#--                            <div class="am-u-sm-4 am-u-md-2 am-text-right">-->
+<#--                                SEO 标题-->
+<#--                            </div>-->
+<#--                            <div class="am-u-sm-8 am-u-md-4 am-u-end">-->
+<#--                                <input class="am-input-sm" type="text">-->
+<#--                            </div>-->
+<#--                        </div>-->
 
-                        <div class="am-g am-margin-top-sm">
-                            <div class="am-u-sm-4 am-u-md-2 am-text-right">
-                                SEO 关键字
-                            </div>
-                            <div class="am-u-sm-8 am-u-md-4 am-u-end">
-                                <input class="am-input-sm" type="text">
-                            </div>
-                        </div>
+<#--                        <div class="am-g am-margin-top-sm">-->
+<#--                            <div class="am-u-sm-4 am-u-md-2 am-text-right">-->
+<#--                                SEO 关键字-->
+<#--                            </div>-->
+<#--                            <div class="am-u-sm-8 am-u-md-4 am-u-end">-->
+<#--                                <input class="am-input-sm" type="text">-->
+<#--                            </div>-->
+<#--                        </div>-->
 
-                        <div class="am-g am-margin-top-sm">
-                            <div class="am-u-sm-4 am-u-md-2 am-text-right">
-                                SEO 描述
-                            </div>
-                            <div class="am-u-sm-8 am-u-md-4 am-u-end">
-                                <textarea rows="4"></textarea>
-                            </div>
-                        </div>
-                    </form>
+<#--                        <div class="am-g am-margin-top-sm">-->
+<#--                            <div class="am-u-sm-4 am-u-md-2 am-text-right">-->
+<#--                                SEO 描述-->
+<#--                            </div>-->
+<#--                            <div class="am-u-sm-8 am-u-md-4 am-u-end">-->
+<#--                                <textarea rows="4"></textarea>-->
+<#--                            </div>-->
+<#--                        </div>-->
+<#--                    </form>-->
                 </div>
 
 
             </div>
         </div>
 
-        <div class="am-margin">
-            <button class="am-btn am-btn-success am-radius " type="button">提交保存</button>
-            <button class="am-btn am-btn-primary am-radius " type="button">放弃保存</button>
-        </div>
+<#--        <div class="am-margin">-->
+<#--            <button class="am-btn am-btn-success am-radius " type="button">提交保存</button>-->
+<#--            <button class="am-btn am-btn-primary am-radius " type="button">放弃保存</button>-->
+<#--        </div>-->
 
 
         <div class="foods">

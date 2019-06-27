@@ -33,7 +33,8 @@ public enum ResultEnums {
     SEATS_NOT_ENOUGH(24,"该司机可用座位数目不足"),
     ORDER_STATUS_ERROR(25,"订单状态错误"),
     SEATS_ERROR(26,"更改座位数目无效"),
-    PASSWORD_MATCHES_ERROR(27,"密码验证错误");
+    PASSWORD_MATCHES_ERROR(27,"密码验证错误"),
+    NO_CERTAIN_CONTENT_MESSAGE(28,"无内容消息"),;
 
 
     private String msg;
