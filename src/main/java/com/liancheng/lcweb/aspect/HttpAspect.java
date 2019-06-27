@@ -21,11 +21,11 @@ public class HttpAspect {
     public void log(){ }
 
     @Before("log()")
-    public void dobefore(JoinPoint joinPoint){
-        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        HttpServletRequest request = attributes.getRequest();
-        //message
-        log.info("--------doBefore--------");
+        public void dobefore(JoinPoint joinPoint){
+            ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+            HttpServletRequest request = attributes.getRequest();
+            //message
+            log.info("--------doBefore--------");
 
         //url
         log.info("url={}",request.getRequestURL());

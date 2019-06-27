@@ -44,8 +44,6 @@ public class UserServiceImpl implements UserService {
     public void addUser(UserInfoForm userRegisterForm) {
 
         if (findByMobile(userRegisterForm.getMobile())!=null){
-
-            log.error("号码已经被注册");
             throw new LcException(ResultEnums.USER_MOBILE_ALREADY_EXISTS);
         }
         User user = new User();
@@ -56,7 +54,7 @@ public class UserServiceImpl implements UserService {
         user.setTakeTimes(0);
 
         userRepository.save(user);
-        log.info("add a new user，user={}",userRegisterForm);
+        log.info("新增用户，user={}",userRegisterForm);
     }
 
 
@@ -66,7 +64,6 @@ public class UserServiceImpl implements UserService {
         User user = findByMobile(userLoginForm.getMobile());
 
         if(user==null){
-            log.info("无此用户");
             throw new LcException(ResultEnums.NO_SUCH_USER);
         }
 
@@ -76,7 +73,6 @@ public class UserServiceImpl implements UserService {
                 user.getPassword());
 
         if(matches==false){
-            log.warn("密码检验错误");
             throw new LcException(ResultEnums.PASSWORD_MATCHES_ERROR);
         }
 
