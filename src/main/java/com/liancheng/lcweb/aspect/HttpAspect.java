@@ -40,6 +40,7 @@ public class HttpAspect {
         log.info("class_method={}",joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
 
         //参数
+        //todo 之后删掉，维持保密状态
         log.info("args={}",joinPoint.getArgs());
 
     }
