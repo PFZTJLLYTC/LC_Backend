@@ -10,4 +10,6 @@ public interface MessagesRepository extends JpaRepository<Messages,Integer> {
     List<Messages> findAll();
 
     List<Messages> findByTargetOrderByCreateTimeDesc(String target);
+
+    void deleteByTarget(String target);
 }

@@ -15,4 +15,9 @@ public interface MessagesService {
     void createMessage(String target,String message);
 
     void deleteMessage(Integer id);
+
+    //删除所有时采用
+    void deleteMessageByTarget(String target);
+
+
 }

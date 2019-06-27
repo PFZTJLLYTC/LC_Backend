@@ -38,4 +38,9 @@ public class MessagesServiceImpl implements MessagesService {
     public void deleteMessage(Integer id){
         messagesRepository.deleteById(id);
     }
+
+    @Override
+    public void deleteMessageByTarget(String target){
+        messagesRepository.deleteByTarget(target);
+    }
 }

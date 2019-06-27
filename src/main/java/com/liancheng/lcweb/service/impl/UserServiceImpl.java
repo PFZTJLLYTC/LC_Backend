@@ -9,6 +9,7 @@ import com.liancheng.lcweb.form.UserInfoForm;
 import com.liancheng.lcweb.form.UserLoginForm;
 import com.liancheng.lcweb.repository.UserRepository;
 import com.liancheng.lcweb.service.AccessTokenService;
+import com.liancheng.lcweb.service.MessagesService;
 import com.liancheng.lcweb.service.UserService;
 import com.liancheng.lcweb.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +34,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+
+    @Autowired
+    private MessagesService messagesService;
 
 
     @Override
@@ -131,5 +135,19 @@ public class UserServiceImpl implements UserService {
         user.setMobile(userChangeInfoForm.getEmail());
 
         userRepository.save(user);
+    }
+
+    @Override
+    public void deleteMessages(String id) {
+        log.info("用户{}删除所有消息",id);
+        messagesService.deleteMessageByTarget(id);
+    }
+
+    @Override
+    public void deleteCertainMessages(List<Integer> idList) {
+        //已读即删
+        for (Integer id : idList){
+            messagesService.deleteMessage(id);
+        }
     }
 }

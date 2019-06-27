@@ -1,8 +1,10 @@
 package com.liancheng.lcweb.service.impl;
+import com.liancheng.lcweb.constant.MessagesConstant;
 import com.liancheng.lcweb.converter.Driver2DriverDTOConverter;
 import com.liancheng.lcweb.converter.String2DateConverter;
 import com.liancheng.lcweb.domain.Driver;
 import com.liancheng.lcweb.domain.Manager;
+import com.liancheng.lcweb.domain.Messages;
 import com.liancheng.lcweb.domain.Order;
 import com.liancheng.lcweb.dto.DriverDTO;
 import com.liancheng.lcweb.dto.MessageNumDTO;
@@ -59,6 +61,11 @@ public class ManagerServiceImpl implements ManagerService {
 
     @Autowired
     private LineService lineService;
+
+    @Autowired
+    private MessagesService messagesService;
+
+
 
 
     @Override
@@ -156,7 +163,7 @@ public class ManagerServiceImpl implements ManagerService {
     @Override
     public Page<DriverDTO> getDriversByStatus(Integer lineId, Integer status,Pageable pageable) {
 
-        if (status<-1||status>2){
+        if (status<-1||status>3){
             log.error("根本没有这个状态");
             throw new ManagerException(ResultEnums.DRIVER_STATUS_ERROR.getMsg(),"/manager/drivers");
         }
@@ -182,7 +189,7 @@ public class ManagerServiceImpl implements ManagerService {
     @Override
     public List<DriverDTO> getDriversByStatus(Integer lineId, Integer status) {
 
-        if (status<-1||status>2){
+        if (status<-1||status>3){
             log.error("根本没有这个状态");
             throw new ManagerException(ResultEnums.DRIVER_STATUS_ERROR.getMsg(),"/manager/drivers");
         }
@@ -297,13 +304,14 @@ public class ManagerServiceImpl implements ManagerService {
         }
 
         try {
-            webSocketService.sendInfo("订单状态改变",dnum);
-
+            messagesService.createMessage(dnum,MessagesConstant.changeStatus);
+            webSocketService.sendInfo(MessagesConstant.changeStatus,dnum);
         } catch (IOException e) {
             log.warn("向司机发送即时消息失败,dnum={},message={}",dnum,e.getMessage());
         }
         try {
-            webSocketService.sendInfo("订单状态改变",order.getUserId());
+                messagesService.createMessage(order.getUserId(),MessagesConstant.changeStatus);
+            webSocketService.sendInfo(MessagesConstant.changeStatus,order.getUserId());
         } catch (IOException e) {
             log.warn("向乘客发送即时消息失败,userId={},message={}",order.getUserId(),e.getMessage());
         }
@@ -324,14 +332,16 @@ public class ManagerServiceImpl implements ManagerService {
         orderService.cancelOne(order);
 
         try {
-            webSocketService.sendInfo("您有一条订单被取消",dnum);
+            messagesService.createMessage(dnum,MessagesConstant.cancelStatus);
+            webSocketService.sendInfo(MessagesConstant.cancelStatus,dnum);
         }catch (IOException e){
-            log.warn("向司机发送即时消息失败,dnum={},message={}",dnum,e.getMessage());
+            log.warn("向司机发送即时消息失败,dnum={},errormessage={}",dnum,e.getMessage());
         }
         try {
-            webSocketService.sendInfo("您有一条订单被取消",userId);
+            messagesService.createMessage(userId,MessagesConstant.cancelStatus);
+            webSocketService.sendInfo(MessagesConstant.cancelStatus,userId);
         }catch (IOException e){
-            log.warn("向乘客发送即时消息失败,userId={},message={}",userId,e.getMessage());
+            log.warn("向乘客发送即时消息失败,userId={},errormessage={}",userId,e.getMessage());
         }
     }
 
@@ -401,6 +411,7 @@ public class ManagerServiceImpl implements ManagerService {
 
         //保存更改,正式生效(是否对driver进行通知？)
         driverRepository.save(driver);
+        messagesService.createMessage(dnum,MessagesConstant.welcomeDriver);
     }
 
 
@@ -410,8 +421,37 @@ public class ManagerServiceImpl implements ManagerService {
             log.error("线路{}，想发送无内容消息，建议安排它一手！",lineId);
             throw new ManagerException(ResultEnums.NO_CERTAIN_CONTENT_MESSAGE.getMsg(),"/manager/goContactAndHelp");
         }
-        //todo
+        //存 message
+        //注意，先存库再发送！
+        if((message2DriverForm.getDnum()!=null)&&!message2DriverForm.getDnum().isEmpty()){
+            Driver driver = driverService.findOne(message2DriverForm.getDnum());
+            if (driver!=null&&driver.getLineId().equals(lineId)){
+                try {
+//                    Messages messages = new Messages();
+//                    messages.setTarget(driver.getDnum());
+//                    messages.setMessage(message2DriverForm.getMessage());
+                    messagesService.createMessage(driver.getDnum(),message2DriverForm.getMessage());
+                    webSocketService.sendInfo(message2DriverForm.getMessage(),driver.getDnum());
+                }catch (IOException e){
+                    log.warn("向指定司机发送及时消息失败, dnum ={}",driver.getDnum());
+                }
+            }
+            else {
+                throw new ManagerException(ResultEnums.NO_SUCH_DRIVER.getMsg(),"/manager/goContactAndHelp");
+            }
+        }else{
+            //todo 存announce
+            List<Driver> driverList = driverRepository.findByLineId(lineId);
+            for (Driver driver : driverList){
+                try {
 
+                    webSocketService.sendInfo(message2DriverForm.getMessage(),driver.getDnum());
+                }catch (IOException e){
+                    log.warn("向司机发送及时消息失败, dnum ={}",driver.getDnum());
+                    //不过问题不大，因为存库了
+                }
+            }
+        }
 
     }
 }

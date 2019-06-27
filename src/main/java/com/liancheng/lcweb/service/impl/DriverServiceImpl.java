@@ -11,6 +11,7 @@ import com.liancheng.lcweb.form.DriverLoginForm;
 import com.liancheng.lcweb.repository.DriverRepository;
 import com.liancheng.lcweb.service.DriverService;
 import com.liancheng.lcweb.service.LineService;
+import com.liancheng.lcweb.service.MessagesService;
 import com.liancheng.lcweb.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -38,6 +39,9 @@ public class DriverServiceImpl implements DriverService {
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+
+    @Autowired
+    private MessagesService messagesService;
 
     @Override
     public void addDriver(DriverInfoForm driverInfoForm) {
@@ -235,6 +239,20 @@ public class DriverServiceImpl implements DriverService {
 //        }
 //    }
         driverRepository.deleteById(dnum);
+    }
+
+    @Override
+    public void deleteMessages(String dnum) {
+        log.info("用户{}删除所有消息",dnum);
+        messagesService.deleteMessageByTarget(dnum);
+    }
+
+    @Override
+    public void deleteCertainMessages(List<Integer> idList) {
+        //已读即删
+        for (Integer id : idList){
+            messagesService.deleteMessage(id);
+        }
     }
 
 }

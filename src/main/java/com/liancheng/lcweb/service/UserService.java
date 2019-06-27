@@ -30,4 +30,10 @@ public interface UserService {
 
     void changeInfo(String userId, UserInfoForm userChangeInfoForm);
 
+    //删除消息（已读消息直接删除!）
+    void deleteMessages(String id);
+
+    //删除选中的消息列表
+    void deleteCertainMessages(List<Integer> idList);
+
 }
