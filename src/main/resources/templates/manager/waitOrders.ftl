@@ -206,9 +206,12 @@
                                 <td>${order.userCount}</td>
                                 <td>${order.userPhone}</td>
                                 <td>${order.detailAddress?default("")}</td>
-                                <td>${order.driverName?default("")}</td>
-                                <td>${order.dnum?default("")}</td>
-                                <td>${order.carNum?default("")}</td>
+<#--                                <td>${order.driverName?default("")}</td>-->
+                                <td>/</td>
+<#--                                <td>${order.dnum?default("")}</td>-->
+                                <td>/</td>
+<#--                                <td>${order.carNum?default("")}</td>-->
+                                <td>/</td>
                                 <td class="am-hide-sm-only">未处理</td>
                                 <td class="am-hide-sm-only">${order.createTime}</td>
                                 <td class="am-hide-sm-only">${order.updateTime}</td>

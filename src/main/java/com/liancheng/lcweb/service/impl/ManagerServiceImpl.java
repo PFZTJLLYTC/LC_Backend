@@ -24,9 +24,7 @@ import com.liancheng.lcweb.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import java.io.IOException;
@@ -269,6 +267,7 @@ public class ManagerServiceImpl implements ManagerService {
     //实现分页的全部线路订单
     @Override
     public Page<Order> getAllOrders(Integer lineId, Pageable pageable) {
+//        return orderRepository.findByLineId(lineId,pageable);
         return orderRepository.findByLineId(lineId,pageable);
     }
 
@@ -391,6 +390,12 @@ public class ManagerServiceImpl implements ManagerService {
 
         if (status<0||status>2){
             throw new ManagerException(ResultEnums.ORDER_STATUS_ERROR.getMsg(),"/manager/order/allOrders");
+        }
+
+        //未处理订单就是应该早的放前面！
+        if (status.equals(OrderStatusEnums.WAIT.getCode())){
+            PageRequest pageRequest = new PageRequest(pageable.getPageNumber(),pageable.getPageSize(),new Sort(Sort.Direction.ASC,"createTime"));
+            return orderRepository.findByLineIdAndOrderStatus(lineId,status,pageRequest);
         }
         return orderRepository.findByLineIdAndOrderStatus(lineId,status,pageable);
 

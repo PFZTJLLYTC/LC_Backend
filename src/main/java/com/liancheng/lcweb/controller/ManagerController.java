@@ -21,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -369,7 +370,8 @@ public class ManagerController {
         Integer lineId = Integer.parseInt(redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX,cookie.getValue()))+"");
         log.info("获取lineId来查当前线路所有订单信息,lineId={}",lineId);
 
-        PageRequest pageRequest = new PageRequest(page-1,size);
+        Sort sort = new Sort(Sort.Direction.DESC,"createTime");
+        PageRequest pageRequest = new PageRequest(page-1,size,sort);
 
         Page<Order> orderPage = managerService.getAllOrders(lineId,pageRequest);
 
@@ -399,9 +401,13 @@ public class ManagerController {
         Integer lineId = Integer.parseInt(redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX,cookie.getValue()))+"");
         log.info("lineId={}",lineId);
 
-        PageRequest pageRequest = new PageRequest(page-1,size);
+        //都按照时间顺序，由新到旧来输出
+        Sort sort = new Sort(Sort.Direction.DESC,"createTime");
+        PageRequest pageRequest = new PageRequest(page-1,size,sort);
 
         //List<Order> orderList = managerService.getOrdersByStatus(lineId,status);
+
+
         Page<Order> orderPage = managerService.getOrdersByStatus(lineId,status,pageRequest);
 
         MessageNumDTO messageNum = managerService.getMessages(lineId);
