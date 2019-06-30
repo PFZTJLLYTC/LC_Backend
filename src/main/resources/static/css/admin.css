@@ -118,6 +118,7 @@ gallery.html css
 
 
 .shuju{float: right;width: 37%;margin: 5px 1% 0 0}
+.shuju1{float: none;width: 37%;margin: 5px 1% 0 0}
 .shujuone{width: 100%;border-radius: 3px;background-color: #42cac0;height: 228px;overflow: hidden;color: #fff}
 .shujuone a{color: #fff}
 .shujuone dl{padding: 25px 0 0 35px;line-height: 33px;color: #fff}

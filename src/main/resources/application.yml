@@ -3,7 +3,7 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/lc?serverTimezone=Asia/Shanghai
     username: root
-    password: 
+    password: pf19990122
 
 #没问题啊，这个可以用的
   redis:

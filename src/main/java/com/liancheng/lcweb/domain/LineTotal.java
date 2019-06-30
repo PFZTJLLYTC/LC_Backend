@@ -1,28 +1,41 @@
 package com.liancheng.lcweb.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vladmihalcea.hibernate.type.json.JsonStringType;
+import lombok.Data;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
-//可以用于统计
+//生成报表统计用
 @Entity
-@TypeDef(name = "json",typeClass = JsonStringType.class)
+//@TypeDef(name = "json",typeClass = JsonStringType.class)
+@EntityListeners(AuditingEntityListener.class)
+@DynamicUpdate
+@Data
 public class LineTotal {
 
     @Id
-    private String LineTotalId;//根据时间生成
+    @GeneratedValue
+    private Integer LineTotalId;//根据时间生成
 
     private Integer lineId;//id
 
-    private String date;//当天时间
+    //生成报表的时间
+    private String date;
 
-    //今日在线工作司机数量
-    private Integer liveDrivers;
+    // 0 表示 每天的；1表示每个月的；2表示每年的
+    private Integer type;
+
+    //当前工作司机数量，这个不放在报表里面
+//    private Integer liveDrivers;
 
     //当天展示
 //    //设置只能看见名字,点进去可以看详情？
@@ -30,16 +43,24 @@ public class LineTotal {
 //    @Column(columnDefinition = "json")
 //    private List<String> liveDriverList;
 
-    //当天总载客人数
+    //今日总载客人数
     private Integer totalUserNum;
 
     //当天总订单数量,据时间来
     private Integer OrderNUm;
 
-    //假设总收入，可能作为前端计算一下
-    private Integer totalGet;
+    //与前一日的比较
+    private String compare;
 
+    @CreatedDate
+    @JsonIgnore
+    //@JsonSerialize(using = Date2LongSerializer.class)
+    private Date createTime;
 
+    @LastModifiedDate
+    @JsonIgnore
+    //@JsonSerialize(using = Date2LongSerializer.class)
+    private Date updateTime;
 
 
 }

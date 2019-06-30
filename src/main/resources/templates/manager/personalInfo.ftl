@@ -154,18 +154,85 @@
                 <ul class="am-tabs-nav am-nav am-nav-tabs">
                     <li class="am-active"><a href="#tab1">线路详情</a></li>
                     <li><a href="#tab2">管理员信息</a></li>
-                    <li><a href="#tab3">About</a></li>
+                    <li><a href="#tab3">支持</a></li>
                 </ul>
 
 
                 <div class="am-tabs-bd">
                     <div class="am-tab-panel am-fade am-in am-active" id="tab1">
 
+                        <div class="slideTxtBox">
+                            <div class="hd">
+                                <ul>
+                                    <li>线路${name}</li>
+<#--                                    <li>工作进度表</li>-->
+                                </ul>
+                            </div>
+                            <div class="bd">
+                                <ul>
+                                    <table class="am-table" width="100%">
+                                        <tbody>
+                                        <tr>
+<#--                                            编号-->
+                                            <td align="center" width="7%">1</td>
+                                            <td width="63%">线路名</td>
+                                            <td align="center" width="30%"><a href="#">pf1-pf2</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center">2</td>
+                                            <td>线路管理员人数</td>
+<#--                                            有几个管理员-->
+                                            <td align="center"><a href="#">2</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center">3</td>
+                                            <td>司机人数</td>
+                                            <td align="center"><a href="#">12232</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center">4</td>
+                                            <td>订单总数</td>
+                                            <td align="center"><a href="#">1222</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center">5</td>
+                                            <td>系统总顾客数</td>
+                                            <td align="center"><a href="#">12234562</a></td>
+                                        </tr>
+
+                                        </tbody>
+                                    </table>
+                                </ul>
+
+                            </div>
+                        </div>
+                        <script type="text/javascript">jQuery(".slideTxtBox").slide();</script>
+
                     </div>
 
 
                     <div class="am-tab-panel am-fade" id="tab2">
 
+                        <div class="shuju1">
+                            <div class="shujuone">
+                                <ul>
+                                    <h2>张三</h2>
+                                </ul>
+                                <dl>
+                                    <dt>联系方式： 564646598</dt>
+                                    <dt>线路号： ${name}</dt>
+                                </dl>
+
+                            </div>
+                            <div class="shujutow">
+                                <ul>
+                                    <h2>李四</h2>
+                                </ul>
+                                <dl>
+                                    <dt>联系方式： 1564646598</dt>
+                                    <dt>线路号： ${name}</dt>
+                                </dl>
+                            </div>
                     </div>
 
                     <div class="am-tab-panel am-fade am-in am-active" id="tab3">
@@ -176,7 +243,7 @@
                 </div>
             </div>
 
-
+        </div>
             <div class="foods">
                 <ul>
                     版权所有@2019.
@@ -185,7 +252,6 @@
                     <a class="am-icon-btn am-icon-arrow-up" href="" title="返回头部"></a>
                 </dl>
             </div>
-        </div>
     </div>
     <#--播放音乐-->
     <audio id="notice" loop="loop">

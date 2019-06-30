@@ -212,6 +212,7 @@ public class ManagerServiceImpl implements ManagerService {
 
 
     @Override
+    //今日的情况,今日当场算
     public TotalInfoDTO getTotal(Integer lineId) {
         TotalInfoDTO totalInfoDTO = new TotalInfoDTO();
 
@@ -223,19 +224,21 @@ public class ManagerServiceImpl implements ManagerService {
 
         //找当前活跃司机总数
         List<DriverDTO> driverList1 = getDriversByStatus(lineId,DriverStatusEnums.ONROAD.getCode());
+        //没问题，查一个状态就能出两个的
         List<DriverDTO> driverList2 = getDriversByStatus(lineId,DriverStatusEnums.AVAILABLE.getCode());
         Integer liveNum = driverList1.size()+driverList2.size();
         totalInfoDTO.setLiveDrivers(liveNum);
 
 
         //目前直接假数据填充
-        //todo 找当前总载客人数,通过订单时期入手
-        totalInfoDTO.setTotalUserNum(802);
 
-        //todo 找当天当前订单总数，考虑是否计算get
+        //todo 找当天当前订单总数，根据日期来找
         totalInfoDTO.setOrderNum(105);
 
-        totalInfoDTO.setTotalGet(2456);
+        //todo 找当前总载客人数,通过订单时期和订单人数来找
+        totalInfoDTO.setTotalUserNum(802);
+
+        totalInfoDTO.setCompareLWithLL("+22.3%");
 
 
         return totalInfoDTO;

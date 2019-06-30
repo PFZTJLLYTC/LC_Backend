@@ -137,26 +137,27 @@
                 <dl data-am-scrollspy="{animation: 'slide-right', delay: 100}">
                     <dt class="qs"><i class="am-icon-users"></i></dt>
                     <dd>${total.liveDrivers}</dd>
-                    <dd class="f12">当前活跃司机数</dd>
+                    <dd class="f12">当前活跃司机</dd>
                 </dl>
                 <dl data-am-scrollspy="{animation: 'slide-right', delay: 300}">
                     <dt class="cs"><i class="am-icon-area-chart"></i></dt>
                     <dd>${total.totalUserNum}</dd>
-                    <dd class="f12">当前载客人次</dd>
+                    <dd class="f12">今日载客人次</dd>
                 </dl>
                 <dl data-am-scrollspy="{animation: 'slide-right', delay: 600}">
                     <dt class="hs"><i class="am-icon-shopping-cart"></i></dt>
                     <dd>${total.orderNum}</dd>
-                    <dd class="f12">当前订单数量</dd>
+                    <dd class="f12">今日订单数量</dd>
                 </dl>
                 <dl data-am-scrollspy="{animation: 'slide-right', delay: 900}">
                     <dt class="ls"><i class="am-icon-cny"></i></dt>
-                    <dd>${total.totalGet}</dd>
-                    <dd class="f12">预计收入</dd>
+                    <dd>${total.compareLWithLL}</dd>
+                    <dd class="f12">昨日增长情况</dd>
                 </dl>
             </div>
             <div class="admin-biaoge">
                 <div class="xinxitj">近日概括</div>
+<#--                给5天的数据-->
                 <table class="am-table">
                     <thead>
                     <tr>
@@ -164,7 +165,7 @@
                         <th>司机数量</th>
                         <th>今日载客人次</th>
                         <th>订单数量</th>
-                        <th>预计收入</th>
+                        <th>同比增长</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -172,9 +173,9 @@
                         <tr>
                             <td>2019/1/19</td>
                             <td>15</td>
-                            <td><a href="#">110</a></td>
+                            <td>110</a></td>
                             <td>100</td>
-                            <td> 550</td>
+                            <td>+55%</td>
                         </tr>
 
                     </tbody>
@@ -184,92 +185,36 @@
             <div class="shuju">
                 <div class="shujuone">
                     <dl>
-                        <dt>全盘收入： 1356666</dt>
-                        <dt>全盘支出： 5646465.98</dt>
-                        <dt>全盘利润： 546464</dt>
+<#--                        月度情况-->
+                        <dt>载客人次： 1356666</dt>
+                        <dt>订单次数： 56468</dt>
                     </dl>
                     <ul>
-                        <h2>26.83%</h2>
-                        <li>全盘拨出</li>
+                        <h2>7</h2>
+                        <li>月</li>
                     </ul>
                 </div>
                 <div class="shujutow">
                     <dl>
-                        <dt>全盘收入： 1356666</dt>
-                        <dt>全盘支出： 5646465.98</dt>
-                        <dt>全盘利润： 546464</dt>
+<#--                        年度情况-->
+                        <dt>载客人次： 1356666</dt>
+                        <dt>订单次数： 5646465.98</dt>
                     </dl>
                     <ul>
-                        <h2>26.83%</h2>
-                        <li>全盘拨出</li>
+                        <h2>2019</h2>
+                        <li>年</li>
                     </ul>
                 </div>
-                <div class="slideTxtBox">
-                    <div class="hd">
-                        <ul>
-                            <li>其他信息</li>
-                            <li>工作进度表</li>
-                        </ul>
-                    </div>
-                    <div class="bd">
-                        <ul>
-                            <table class="am-table" width="100%">
-                                <tbody>
-                                <tr>
-                                    <td align="center" width="7%">1</td>
-                                    <td width="83%">工作进度名称</td>
-                                    <td align="center" width="10%"><a href="#">10%</a></td>
-                                </tr>
-                                <tr>
-                                    <td align="center">1</td>
-                                    <td>工作进度名称</td>
-                                    <td align="center"><a href="#">10%</a></td>
-                                </tr>
-                                <tr>
-                                    <td align="center">1</td>
-                                    <td>工作进度名称</td>
-                                    <td align="center"><a href="#">10%</a></td>
-                                </tr>
-                                <tr>
-                                    <td align="center">1</td>
-                                    <td>工作进度名称</td>
-                                    <td align="center"><a href="#">10%</a></td>
-                                </tr>
-
-                                <tr>
-                                    <td align="center">1</td>
-                                    <td>工作进度名称</td>
-                                    <td align="center"><a href="#">10%</a></td>
-                                </tr>
-
-                                <tr>
-                                    <td align="center">1</td>
-                                    <td>工作进度名称</td>
-                                    <td align="center"><a href="#">10%</a></td>
-                                </tr>
-
-                                <tr>
-                                    <td align="center">1</td>
-                                    <td>工作进度名称</td>
-                                    <td align="center"><a href="#">10%</a></td>
-                                </tr>
-
-
-                                </tbody>
-                            </table>
-                        </ul>
-
-                    </div>
-                </div>
-                <script type="text/javascript">jQuery(".slideTxtBox").slide();</script>
-
 
             </div>
 
             <div class="foods">
-                <ul>版权所有@2019 .</ul>
-
-
+                <ul>
+                    版权所有@2019.
+                </ul>
+                <dl>
+                    <a class="am-icon-btn am-icon-arrow-up" href="" title="返回头部"></a>
+                </dl>
             </div>
 
 
