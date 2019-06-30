@@ -29,6 +29,9 @@ public interface OrderRepository extends JpaRepository<Order,String> {
 //            nativeQuery = true)
     Page<Order> findByLineId(Integer lieId, Pageable pageable);
 
+    //定时任务需要
+    List<Order> findByLineIdAndDate(Integer lineId, String date);
+
     List<Order> findByOrderStatus(Integer orderStatus);
 
     List<Order> findByOrderStatusAndUserId(Integer orderStatus,String userId);

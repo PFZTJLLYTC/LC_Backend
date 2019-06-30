@@ -3,6 +3,7 @@ import com.liancheng.lcweb.constant.CookieConstant;
 import com.liancheng.lcweb.constant.RedisConstant;
 import com.liancheng.lcweb.converter.Driver2DriverDTOConverter;
 import com.liancheng.lcweb.domain.Driver;
+import com.liancheng.lcweb.domain.LineTotal;
 import com.liancheng.lcweb.domain.Manager;
 import com.liancheng.lcweb.domain.Order;
 import com.liancheng.lcweb.dto.DriverDTO;
@@ -14,6 +15,7 @@ import com.liancheng.lcweb.enums.ResultEnums;
 import com.liancheng.lcweb.exception.ManagerException;
 import com.liancheng.lcweb.form.Message2DriverForm;
 import com.liancheng.lcweb.form.addDriverFormForManager;
+import com.liancheng.lcweb.repository.LineTotalRepository;
 import com.liancheng.lcweb.repository.ManagerRepository;
 import com.liancheng.lcweb.service.*;
 import com.liancheng.lcweb.utils.CookieUtil;
@@ -35,6 +37,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -67,6 +71,9 @@ public class ManagerController {
     @Autowired
     private LineService lineService;
 
+    @Autowired
+    private LineTotalRepository lineTotalRepository;
+
 
     //login
     //考虑安全性，跳转一个方法来进index,改成post！
@@ -78,14 +85,18 @@ public class ManagerController {
                               Map<String,Object> map){
         Cookie cookie = CookieUtil.get(request,CookieConstant.TOKEN);
 
+        LocalDate now = LocalDate.now();
+        LocalDate before = now.minusDays(5);
 
         if (cookie != null && !StringUtils.isEmpty(redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX, cookie.getValue())))) {
 
             Integer lineId = managerService.findOne(telNum).getLineId();
+            List<LineTotal> dayTotal = lineTotalRepository.find5Days(lineId,before.toString(),now.toString());
             MessageNumDTO messageNum = managerService.getMessages(lineId);
             TotalInfoDTO totalInfoDTOS = managerService.getTotal(lineId);
             map.put("name",lineId);
             map.put("total",totalInfoDTOS);
+            map.put("dayTotal",dayTotal);
             map.put("orderMessages",messageNum.getOrderMessages());
             map.put("driverMessages",messageNum.getDriverMessages());
             map.put("allMessages",messageNum.getAllMessages());
@@ -116,8 +127,11 @@ public class ManagerController {
 
         TotalInfoDTO totalInfoDTOS = managerService.getTotal(lineId);
 
+        List<LineTotal> dayTotal = lineTotalRepository.find5Days(lineId,before.toString(),now.toString());
+
         map.put("orderMessages",messageNum.getOrderMessages());
         map.put("driverMessages",messageNum.getDriverMessages());
+        map.put("dayTotal",dayTotal);
         map.put("name",lineId);
         map.put("allMessages",messageNum.getAllMessages());
         map.put("total",totalInfoDTOS);
@@ -129,15 +143,21 @@ public class ManagerController {
     public ModelAndView goToIndex(HttpServletRequest request,
                                   Map<String,Object>map){
         Cookie cookie = CookieUtil.get(request,CookieConstant.TOKEN);
+
+        LocalDate now = LocalDate.now();
+        LocalDate before = now.minusDays(5);
+
         Integer lineId = Integer.parseInt(redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX,cookie.getValue()))+"");
 
         TotalInfoDTO totalInfoDTOS = managerService.getTotal(lineId);
 
         MessageNumDTO messageNum = managerService.getMessages(lineId);
 
+        List<LineTotal> dayTotal = lineTotalRepository.find5Days(lineId,before.toString(),now.toString());
         map.put("orderMessages",messageNum.getOrderMessages());
         map.put("driverMessages",messageNum.getDriverMessages());
         map.put("allMessages",messageNum.getAllMessages());
+        map.put("dayTotal",dayTotal);
         map.put("name",lineId);
         map.put("total",totalInfoDTOS);
         return new ModelAndView("manager/index",map);

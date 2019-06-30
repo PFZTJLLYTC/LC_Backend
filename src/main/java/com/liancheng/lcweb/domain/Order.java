@@ -45,7 +45,7 @@ public class Order {
 
     private String detailAddress;
 
-    private String date; //前端传入的下单时间，格式“YY-MM-DD”可以考虑去掉
+    private String date; //前端传入的下单时间，格式“YYYY-MM-DD”
 
     private String driverName;
 

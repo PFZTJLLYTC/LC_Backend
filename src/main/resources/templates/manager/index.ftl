@@ -162,22 +162,23 @@
                     <thead>
                     <tr>
                         <th>日期</th>
-                        <th>司机数量</th>
-                        <th>今日载客人次</th>
                         <th>订单数量</th>
-                        <th>同比增长</th>
+                        <th>载客人次</th>
+                        <th>较前一日增长</th>
                     </tr>
                     </thead>
                     <tbody>
+                    <#if dayTotal ??>
+                        <#list dayTotal as day>
+                            <tr>
+                                <td>${day.date}</td>
+                                <td>${day.orderCount}</td>
+                                <td>${day.userCount}</td>
+                                <td>${day.compare}</td>
+                            </tr>
+                        </#list>
 
-                        <tr>
-                            <td>2019/1/19</td>
-                            <td>15</td>
-                            <td>110</a></td>
-                            <td>100</td>
-                            <td>+55%</td>
-                        </tr>
-
+                    </#if>
                     </tbody>
                 </table>
 
@@ -196,13 +197,13 @@
                 </div>
                 <div class="shujutow">
                     <dl>
-<#--                        年度情况-->
+<#--                        上年度情况?or上月度情况，年度情况另外开在personalInfo里面？ -->
                         <dt>载客人次： 1356666</dt>
                         <dt>订单次数： 5646465.98</dt>
                     </dl>
                     <ul>
-                        <h2>2019</h2>
-                        <li>年</li>
+                        <h2>6</h2>
+                        <li>月（上月)</li>
                     </ul>
                 </div>
 

@@ -24,7 +24,7 @@ public class LineTotal {
 
     @Id
     @GeneratedValue
-    private Integer LineTotalId;//根据时间生成
+    private Integer lineTotalId;//根据时间生成
 
     private Integer lineId;//id
 
@@ -44,10 +44,10 @@ public class LineTotal {
 //    private List<String> liveDriverList;
 
     //今日总载客人数
-    private Integer totalUserNum;
+    private Integer userCount;
 
     //当天总订单数量,据时间来
-    private Integer OrderNUm;
+    private Integer orderCount;
 
     //与前一日的比较
     private String compare;
@@ -56,11 +56,6 @@ public class LineTotal {
     @JsonIgnore
     //@JsonSerialize(using = Date2LongSerializer.class)
     private Date createTime;
-
-    @LastModifiedDate
-    @JsonIgnore
-    //@JsonSerialize(using = Date2LongSerializer.class)
-    private Date updateTime;
 
 
 }
