@@ -25,10 +25,7 @@ public class LineService {
     public Line findOne(Integer lineId){
         Optional<Line> line = lineRepository.findById(lineId);
 
-        if (!line.isPresent()){
-            return null;
-        }
-        return line.get();
+        return line.orElse(null);
     }
 
     public Integer findLineIdByLineName(String lineName) {

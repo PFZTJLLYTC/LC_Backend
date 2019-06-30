@@ -62,7 +62,6 @@ public class DriverServiceImpl implements DriverService {
         driver.setWorkTimes(0);
         //默认四座,应该在form李表现出来
         driver.setAvailableSeats(4);
-        //todo line的名字-考虑新建一个表？
         //等待被确认
         driverRepository.save(driver);
     }

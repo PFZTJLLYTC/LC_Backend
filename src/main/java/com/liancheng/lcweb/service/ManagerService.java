@@ -1,5 +1,6 @@
 package com.liancheng.lcweb.service;
 
+import com.liancheng.lcweb.domain.Driver;
 import com.liancheng.lcweb.domain.Manager;
 import com.liancheng.lcweb.domain.Order;
 import com.liancheng.lcweb.dto.DriverDTO;
@@ -37,6 +38,8 @@ public interface ManagerService {
     TotalInfoDTO getTotal(Integer lineId);
 
     Page<DriverDTO> getAllDrivers(Integer lineId, Pageable pageable);
+
+    List<Driver> getAllDrivers(Integer lineId);
 
     List<Order> getOrdersByStatus(Integer lineId,Integer status);
 

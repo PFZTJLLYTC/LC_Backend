@@ -534,12 +534,21 @@ public class ManagerController {
         log.info("获取lineId来跳转到个人信息界面,lineId={}",lineId);
 
         List<Manager> managers = managerService.findAllByLineId(lineId);
+        //采取正向名字即可
+        String lineName = lineService.findOne(lineId).getLineName1();
         MessageNumDTO messageNum = managerService.getMessages(lineId);
+        Integer driverCount = managerService.getAllDrivers(lineId).size();
+        Integer orderCount = managerService.getAllOrders(lineId).size();
 
+        //平台所有的user用户数
+        Integer totalCustomers = userService.findAll().size();
 
         map.put("name",lineId);
-        //查看本线路有几个负责人及其信息
-        //暂不区分开来，暂不转DTO做信息保护
+        map.put("lineName",lineName);
+        map.put("orderCount",orderCount);
+        map.put("driverCount",driverCount);
+
+        map.put("totalCustomers",totalCustomers);
         map.put("managers",managers);
         map.put("orderMessages",messageNum.getOrderMessages());
         map.put("driverMessages",messageNum.getDriverMessages());

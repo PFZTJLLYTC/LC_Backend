@@ -93,8 +93,8 @@ gallery.html css
 .sideMenu h3.on{color: #ff6c60;background: #35404d}
 .sideMenu h3 a{color: #aeb2b7 }
 .sideMenu ul{line-height: 24px;color: #999;display: none;/* 默认都隐藏 */ ;background: #35404d;border-bottom-right-radius: 3px;border-bottom-left-radius: 3px;padding: 0px 0 10px 0;margin: 0px }
-.sideMenu li{text-indent: 25px;width: 100%}
-.sideMenu li{text-indent: 25px;width: 100%}
+.sideMenu li{text-indent: 25px;width: 100%;display: none}
+/*.sideMenu li{text-indent: 25px;width: 100%}*/
 .sideMenu li a{color: #aeb2b7}
 .sideMenu li a:hover{color: #f8675e}
 .admin-index{width: 100%;height: 100px;margin-top: 8px}
@@ -127,7 +127,7 @@ gallery.html css
 .shujuone h2{font-size: 50px;line-height: 85px;padding: 0px;margin: 0px;float: left}
 .shujuone li{float: left;line-height: 16px;list-style-type: none;margin-left: 5px;font-size: 16px;font-weight: bold;margin-top: 47px}
 .shujutow{width: 100%;border-radius: 3px;background-color: #a6d669;height: 228px;overflow: hidden;color: #fff;margin-top: 15px}
-.shujuone a{color: #fff}
+.shujutow a{color: #fff}
 .shujutow dl{padding: 25px 0 0 35px;line-height: 33px;color: #fff}
 .shujutow dt{font-weight: 400}
 .shujutow ul{background: #99c262;height: 85px}

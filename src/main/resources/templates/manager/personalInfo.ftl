@@ -46,25 +46,6 @@
                 <a href="/manager/goContactAndHelp">系统设置</a>
             </li>
 
-            <li class="soso">
-
-                <p>
-
-                    <select data-am-selected="{btnWidth: 70, btnSize: 'sm', btnStyle: 'default'}">
-                        <option value="b">全部</option>
-                        <option value="o">订单</option>
-                        <option value="o">司机</option>
-
-                    </select>
-
-                </p>
-
-                <p class="ycfg"><input class="am-form-field am-input-sm" placeholder="搜索" type="text"/></p>
-                <p>
-                    <button class="am-btn am-btn-xs am-btn-default am-xiao"><i class="am-icon-search"></i></button>
-                </p>
-            </li>
-
 
             <li class="am-hide-sm-only" style="float: right;"><a href="javascript:" id="admin-fullscreen"><span
                             class="am-icon-arrows-alt"></span> <span class="admin-fullText">开启全屏</span></a></li>
@@ -111,7 +92,7 @@
                 delayTime: 300, //效果时间
                 triggerTime: 150, //鼠标延迟触发时间（默认150）
                 defaultPlay: true,//默认是否执行效果（默认true）
-                returnDefault: true //鼠标从.sideMen移走后返回默认状态（默认false）
+                returnDefault: false //鼠标从.sideMen移走后返回默认状态（默认false）
             });
         </script>
 
@@ -125,16 +106,7 @@
                 <li>
                     <button class="am-btn am-btn-default am-radius am-btn-xs" type="button"> <a href="/manager/goIndex">首页</a>
                 </li>
-                <#--                <li>-->
-                <#--                    <button class="am-btn am-btn-default am-radius am-btn-xs" type="button">订单管理<a-->
-                <#--                            class="am-close am-close-spin" data-am-modal-close="" href="javascript: void(0)">×</a>-->
-                <#--                    </button>-->
-                <#--                </li>-->
-                <#--                <li>-->
-                <#--                    <button class="am-btn am-btn-default am-radius am-btn-xs" type="button">司机管理<a-->
-                <#--                            class="am-close am-close-spin" data-am-modal-close="" href="javascript: void(0)">×</a>-->
-                <#--                    </button>-->
-                <#--                </li>-->
+
             </ul>
 
 
@@ -176,28 +148,28 @@
 <#--                                            编号-->
                                             <td align="center" width="7%">1</td>
                                             <td width="63%">线路名</td>
-                                            <td align="center" width="30%"><a href="#">pf1-pf2</a></td>
+                                            <td align="center" width="30%"><a href="#">${lineName}</a></td>
                                         </tr>
                                         <tr>
                                             <td align="center">2</td>
                                             <td>线路管理员人数</td>
 <#--                                            有几个管理员-->
-                                            <td align="center"><a href="#">2</a></td>
+                                            <td align="center"><a href="#">${managers?size}</a></td>
                                         </tr>
                                         <tr>
                                             <td align="center">3</td>
                                             <td>司机人数</td>
-                                            <td align="center"><a href="#">12232</a></td>
+                                            <td align="center"><a href="#">${driverCount}</a></td>
                                         </tr>
                                         <tr>
                                             <td align="center">4</td>
                                             <td>订单总数</td>
-                                            <td align="center"><a href="#">1222</a></td>
+                                            <td align="center"><a href="#">${orderCount}</a></td>
                                         </tr>
                                         <tr>
                                             <td align="center">5</td>
                                             <td>系统总顾客数</td>
-                                            <td align="center"><a href="#">12234562</a></td>
+                                            <td align="center"><a href="#">${totalCustomers}</a></td>
                                         </tr>
 
                                         </tbody>
@@ -214,33 +186,49 @@
                     <div class="am-tab-panel am-fade" id="tab2">
 
                         <div class="shuju1">
-                            <div class="shujuone">
-                                <ul>
-                                    <h2>张三</h2>
-                                </ul>
-                                <dl>
-                                    <dt>联系方式： 564646598</dt>
-                                    <dt>线路号： ${name}</dt>
-                                </dl>
+                            <#if managers??>
+                                <#list  managers as manager>
+                                    <div class="shujuone">
+                                        <ul>
+                                            <h2>${manager.name}</h2>
+                                        </ul>
+                                        <dl>
+                                            <dt>线路号： ${name}</dt>
+                                            <dt>联系方式： ${manager.telNum}</dt>
+                                        </dl>
 
-                            </div>
-                            <div class="shujutow">
-                                <ul>
-                                    <h2>李四</h2>
-                                </ul>
-                                <dl>
-                                    <dt>联系方式： 1564646598</dt>
-                                    <dt>线路号： ${name}</dt>
-                                </dl>
-                            </div>
+                                    </div>
+                                </#list>
+                            </#if>
+
+<#--                            <div class="shujutow">-->
+<#--                                <ul>-->
+<#--                                    <h2>李四</h2>-->
+<#--                                </ul>-->
+<#--                                <dl>-->
+<#--                                    <dt>联系方式： 1564646598</dt>-->
+<#--                                    <dt>线路号： ${name}</dt>-->
+<#--                                </dl>-->
+<#--                            </div>-->
+                    </div>
                     </div>
 
-                    <div class="am-tab-panel am-fade am-in am-active" id="tab3">
+                    <div class="am-tab-panel am-fade " id="tab3">
+                        <div class="shujutow">
 
+                            <dl>
+
+                                <dt>联系方式： 微信、邮箱(主)</dt>
+
+                                <dt>bug反馈：446110075@qq.com</dt>
+                                <dt>版本：V1.0 Beta</dt>
+                            </dl>
+                            <ul>
+                                <h2>LC</h2>
+                                <li>Team</li>
+                            </ul>
+                        </div>
                     </div>
-
-
-                </div>
             </div>
 
         </div>

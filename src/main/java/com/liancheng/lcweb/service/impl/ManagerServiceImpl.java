@@ -261,6 +261,15 @@ public class ManagerServiceImpl implements ManagerService {
     }
 
     @Override
+    public List<Driver> getAllDrivers(Integer lineId) {
+        if (lineService.findOne(lineId)==null){
+            return null;
+        }
+        return driverService.findbyLineId(lineId);
+
+    }
+
+    @Override
     public List<Order> getAllOrders(Integer lineId) {
         List<Order> orders = orderRepository.findByLineId(lineId);
         return orders;

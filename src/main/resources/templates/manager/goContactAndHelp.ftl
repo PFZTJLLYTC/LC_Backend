@@ -47,25 +47,6 @@
                 <a href="/manager/goContactAndHelp">系统设置</a>
             </li>
 
-            <li class="soso">
-
-                <p>
-
-                    <select data-am-selected="{btnWidth: 70, btnSize: 'sm', btnStyle: 'default'}">
-                        <option value="b">全部</option>
-                        <option value="o">订单</option>
-                        <option value="o">司机</option>
-
-                    </select>
-
-                </p>
-
-                <p class="ycfg"><input class="am-form-field am-input-sm" placeholder="搜索" type="text"/></p>
-                <p>
-                    <button class="am-btn am-btn-xs am-btn-default am-xiao"><i class="am-icon-search"></i></button>
-                </p>
-            </li>
-
 
             <li class="am-hide-sm-only" style="float: right;"><a href="javascript:" id="admin-fullscreen"><span
                             class="am-icon-arrows-alt"></span> <span class="admin-fullText">开启全屏</span></a></li>
@@ -112,7 +93,7 @@
                 delayTime: 300, //效果时间
                 triggerTime: 150, //鼠标延迟触发时间（默认150）
                 defaultPlay: true,//默认是否执行效果（默认true）
-                returnDefault: true //鼠标从.sideMen移走后返回默认状态（默认false）
+                returnDefault: false //鼠标从.sideMen移走后返回默认状态（默认false）
             });
         </script>
 
