@@ -3,6 +3,8 @@ package com.liancheng.lcweb.service;
 
 import com.liancheng.lcweb.VO.ResultVO;
 import com.liancheng.lcweb.domain.Driver;
+import com.liancheng.lcweb.dto.DriverAccountInfoDTO;
+import com.liancheng.lcweb.dto.DriverDTO;
 import com.liancheng.lcweb.form.DriverInfoForm;
 import com.liancheng.lcweb.form.DriverLoginForm;
 import org.springframework.data.domain.Page;
@@ -15,7 +17,7 @@ public interface DriverService {
     //注册
     void addDriver(DriverInfoForm driverInfoForm);
 
-    void driverLogin(DriverLoginForm driverLoginForm);
+    DriverDTO driverLogin(DriverLoginForm driverLoginForm);
 
     List<Driver> findAll();
 
@@ -76,7 +78,7 @@ public interface DriverService {
     //删除选中的消息列表
     void deleteCertainMessages(List<Integer> idList);
 
-
+    DriverAccountInfoDTO findAccountInfo(String dnum);
 
 
 }

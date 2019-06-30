@@ -1,6 +1,7 @@
 package com.liancheng.lcweb.service.impl;
 
 import com.liancheng.lcweb.domain.Messages;
+import com.liancheng.lcweb.exception.LcException;
 import com.liancheng.lcweb.repository.MessagesRepository;
 import com.liancheng.lcweb.service.MessagesService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -31,12 +31,16 @@ public class Order {
     @NotNull
     private String userId;
 
+    @NotNull
     private String userPhone;
 
+    @NotNull
     private String dnum;
 
+    @NotNull
     private String time;
 
+    @NotNull
     private Integer userCount;
 
     private String detailAddress;

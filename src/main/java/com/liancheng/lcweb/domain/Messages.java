@@ -1,5 +1,6 @@
 package com.liancheng.lcweb.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedDate;
@@ -29,6 +30,7 @@ public class Messages {
     private String message;
 
     @CreatedDate
+    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
     private Date createTime;
 
 }

@@ -1,7 +1,10 @@
 package com.liancheng.lcweb.service.impl;
 
 import com.liancheng.lcweb.VO.ResultVO;
+import com.liancheng.lcweb.converter.Driver2DriverDTOConverter;
 import com.liancheng.lcweb.domain.Driver;
+import com.liancheng.lcweb.dto.DriverAccountInfoDTO;
+import com.liancheng.lcweb.dto.DriverDTO;
 import com.liancheng.lcweb.enums.DriverStatusEnums;
 import com.liancheng.lcweb.enums.ResultEnums;
 import com.liancheng.lcweb.exception.LcException;
@@ -12,8 +15,10 @@ import com.liancheng.lcweb.repository.DriverRepository;
 import com.liancheng.lcweb.service.DriverService;
 import com.liancheng.lcweb.service.LineService;
 import com.liancheng.lcweb.service.MessagesService;
+import com.liancheng.lcweb.service.OrderService;
 import com.liancheng.lcweb.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.jni.Local;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,6 +28,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -42,6 +48,9 @@ public class DriverServiceImpl implements DriverService {
 
     @Autowired
     private MessagesService messagesService;
+
+    @Autowired
+    private OrderService orderService;
 
     @Override
     public void addDriver(DriverInfoForm driverInfoForm) {
@@ -67,7 +76,7 @@ public class DriverServiceImpl implements DriverService {
     }
 
     @Override
-    public void driverLogin(DriverLoginForm driverLoginForm){
+    public DriverDTO driverLogin(DriverLoginForm driverLoginForm){
 
         Driver driver = findOne(driverLoginForm.getDnum());
 
@@ -81,6 +90,8 @@ public class DriverServiceImpl implements DriverService {
             log.warn("密码验证错误");
             throw new LcException(ResultEnums.PASSWORD_MATCHES_ERROR);
         }
+
+        return Driver2DriverDTOConverter.convert(driver);
         //TODO 司机登陆记录表？多次登陆失败(被爆破)封ip？
     }
 
@@ -230,13 +241,13 @@ public class DriverServiceImpl implements DriverService {
     @Override
     public void deleteOne(String dnum) {
 //        if (findOne(dnum)!=null){
-//            driverRepository.deleteById(dnum);
-//        }
-//        else {
-//            log.error("删除司机失败,dnum={}",dnum);
-//            throw new ManagerException(ResultEnums.NO_SUCH_DRIVER.getMsg(),"/manager/driver/allDrivers");
-//        }
-//    }
+////            driverRepository.deleteById(dnum);
+////        }
+////        else {
+////            log.error("删除司机失败,dnum={}",dnum);
+////            throw new ManagerException(ResultEnums.NO_SUCH_DRIVER.getMsg(),"/manager/driver/allDrivers");
+////        }
+////    }
         driverRepository.deleteById(dnum);
     }
 
@@ -253,5 +264,24 @@ public class DriverServiceImpl implements DriverService {
             messagesService.deleteMessage(id);
         }
     }
+
+    @Override
+    public DriverAccountInfoDTO findAccountInfo(String dnum){
+        Driver driver=findOne(dnum);
+        if(driver == null){
+            log.info("无此司机");
+            throw new LcException(ResultEnums.NO_SUCH_DRIVER);
+        }
+
+        DriverAccountInfoDTO driverAccountInfoDTO=new DriverAccountInfoDTO();
+
+        BeanUtils.copyProperties(driver,driverAccountInfoDTO);
+
+        driverAccountInfoDTO.setTodayOrders(orderService.findDriverTodayOrders(dnum,LocalDate.now()));
+        driverAccountInfoDTO.setTodayUsers(orderService.findDriverTodayUsers(dnum,LocalDate.now()));
+
+        return driverAccountInfoDTO;
+
+    };
 
 }

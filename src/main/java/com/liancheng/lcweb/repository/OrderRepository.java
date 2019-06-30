@@ -3,11 +3,13 @@ package com.liancheng.lcweb.repository;
 import com.liancheng.lcweb.domain.Order;
 import com.liancheng.lcweb.dto.DriverDoneOrderDTO;
 import com.liancheng.lcweb.dto.UserDoneOrderDTO;
+import lombok.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface OrderRepository extends JpaRepository<Order,String> {
@@ -48,8 +50,15 @@ public interface OrderRepository extends JpaRepository<Order,String> {
 
 
     @Query(value = "SELECT o.car_num ,o.source ,o.destination," +
-            "o.user_count,o.date FROM user_order o " +
+            "o.user_count,o.date FROM user_order  " +
             "WHERE o.dnum = ?1 AND o.order_status = 2 " +
             "ORDER BY o.create_time DESC ",nativeQuery = true)
     List<DriverDoneOrderDTO> findDriverDoneOrderByDnum(String dnum);
+
+
+    @Query(value = "SELECT COUNT(*) FROM  user_order WHERE order_status=2 and dnum=?1 and date=?2",nativeQuery=true)
+    Integer findDriverTodayOrders(String dnum, LocalDate today);
+
+    @Query(value ="SELECT IFNULL(SUM(user_count),0) FROM user_order WHERE order_status=2 and dnum=?1 and date=?2",nativeQuery = true)
+    Integer findDriverTodayUsers(String dnum,LocalDate today);
 }

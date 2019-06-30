@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -213,5 +214,15 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> findAllDone() {
         return orderRepository.findByOrderStatus(OrderStatusEnums.DONE.getCode());
+    }
+
+    @Override
+    public Integer findDriverTodayOrders(String dnum, LocalDate today){
+        return orderRepository.findDriverTodayOrders(dnum,today);
+    }
+
+    @Override
+    public Integer findDriverTodayUsers(String dnum,LocalDate today){
+        return orderRepository.findDriverTodayUsers(dnum,today);
     }
 }

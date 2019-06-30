@@ -12,6 +12,7 @@ import com.liancheng.lcweb.form.DriverInfoForm;
 import com.liancheng.lcweb.form.DriverLoginForm;
 import com.liancheng.lcweb.repository.DriverRepository;
 import com.liancheng.lcweb.service.DriverService;
+import com.liancheng.lcweb.service.MessagesService;
 import com.liancheng.lcweb.service.OrderService;
 import com.liancheng.lcweb.service.WebSocketService;
 import com.liancheng.lcweb.utils.ResultVOUtil;
@@ -47,6 +48,10 @@ public class DriverController {
     @Autowired
     private WebSocketService webSocketService;
 
+    @Autowired
+    private MessagesService messagesService;
+
+
     /** 身份验证 **/
 
     //注册
@@ -78,10 +83,7 @@ public class DriverController {
                     bindingResult.getFieldError().getDefaultMessage());
         }
 
-        driverService.driverLogin(driverLoginForm);
-
-        log.info("司机登陆成功,dnum={}", driverLoginForm.getDnum());
-        return ResultVOUtil.success(driverLoginForm.getDnum());//登陆成功回传手机号码给前台缓存
+        return ResultVOUtil.success(driverService.driverLogin(driverLoginForm));//登陆成功回传手机号码给前台缓存
 
     }
 
@@ -188,5 +190,19 @@ public class DriverController {
     }
 
     //
+    @GetMapping("/messages/findMessages")
+    public ResultVO findMessages(@RequestParam String dnum){
+        return ResultVOUtil.success(messagesService.findByTarget(dnum));
+    }
 
+    @PostMapping("/messages/delete/{id}")
+    public ResultVO deleteOneMessage(@PathVariable Integer id){
+        messagesService.deleteMessage(id);
+        return ResultVOUtil.success();
+    }
+
+    @GetMapping("/accountInfo/{dnum}")
+    public ResultVO findAccountInfo(@PathVariable String dnum){
+        return ResultVOUtil.success(driverService.findAccountInfo(dnum));
+    }
 }

@@ -7,6 +7,7 @@ import com.liancheng.lcweb.dto.OrderDriDTO;
 import com.liancheng.lcweb.dto.UserDoneOrderDTO;
 import com.liancheng.lcweb.form.UserOrderForm;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface OrderService {
@@ -22,6 +23,10 @@ public interface OrderService {
     void cancelOne(Order order);
 
     Order findOne(String OrderId);
+
+    Integer findDriverTodayOrders(String dnum, LocalDate today);
+
+    Integer findDriverTodayUsers(String dnum,LocalDate today);
 
     List<Order> findByUserId(String userId);
 
