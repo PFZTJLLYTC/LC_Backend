@@ -17,7 +17,7 @@ public interface LineTotalRepository extends JpaRepository<LineTotal,Integer> {
 
     //找出一年的所有月份统计数据
     @Query(value = "select * from line_total where line_id = ?1 and type = ?2 and date like concat('%',?3,'%') " , nativeQuery = true)
-    List<LineTotal> findByLineIdAndTypeAndYeardate(Integer lineId, Integer type, String yearDate);
+    List<LineTotal> findByLineIdAndTypeAndYeardate(Integer lineId, Integer type, String yearOrMonthDate);
 
 
 

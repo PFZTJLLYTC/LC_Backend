@@ -20,6 +20,7 @@ import com.liancheng.lcweb.repository.ManagerRepository;
 import com.liancheng.lcweb.service.*;
 import com.liancheng.lcweb.utils.CookieUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -87,16 +88,19 @@ public class ManagerController {
 
         LocalDate now = LocalDate.now();
         LocalDate before = now.minusDays(5);
+        String lastMonth = now.minusMonths(1).toString().substring(0,7).concat("-01");
 
         if (cookie != null && !StringUtils.isEmpty(redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX, cookie.getValue())))) {
 
             Integer lineId = managerService.findOne(telNum).getLineId();
             List<LineTotal> dayTotal = lineTotalRepository.find5Days(lineId,before.toString(),now.toString());
+            LineTotal lastMonthTotal = lineTotalRepository.findByLineIdAndDateAndType(lineId,lastMonth,1);
             MessageNumDTO messageNum = managerService.getMessages(lineId);
             TotalInfoDTO totalInfoDTOS = managerService.getTotal(lineId);
             map.put("name",lineId);
             map.put("total",totalInfoDTOS);
             map.put("dayTotal",dayTotal);
+            map.put("lastMonthTotal",lastMonthTotal);
             map.put("orderMessages",messageNum.getOrderMessages());
             map.put("driverMessages",messageNum.getDriverMessages());
             map.put("allMessages",messageNum.getAllMessages());
@@ -111,13 +115,14 @@ public class ManagerController {
         }
         Integer lineId = manager.getLineId();
 
-        //2.存管理员的tel信息or lineId?
+        //2.存管理员的tel信息
         String managerId = manager.getLineId().toString();
 
         //3.设置token到redis
         String token = UUID.randomUUID().toString();
         Integer expire = RedisConstant.EXPIRE;//其实也相当于cookieconstant.expire
         //加个前缀显得高端
+        //使用manageId可以一线路多管理员支持同时在线
         redisTemplate.opsForValue().set(String.format(RedisConstant.TOKEN_PREFIX,token),managerId,expire, TimeUnit.SECONDS);
 
         //4. 设置token到cookie
@@ -128,9 +133,11 @@ public class ManagerController {
         TotalInfoDTO totalInfoDTOS = managerService.getTotal(lineId);
 
         List<LineTotal> dayTotal = lineTotalRepository.find5Days(lineId,before.toString(),now.toString());
+        LineTotal lastMonthTotal = lineTotalRepository.findByLineIdAndDateAndType(lineId,lastMonth,1);
 
         map.put("orderMessages",messageNum.getOrderMessages());
         map.put("driverMessages",messageNum.getDriverMessages());
+        map.put("lastMonthTotal",lastMonthTotal);
         map.put("dayTotal",dayTotal);
         map.put("name",lineId);
         map.put("allMessages",messageNum.getAllMessages());
@@ -146,18 +153,20 @@ public class ManagerController {
 
         LocalDate now = LocalDate.now();
         LocalDate before = now.minusDays(5);
+        String lastMonth = now.minusMonths(1).toString().substring(0,7).concat("-01");
 
         Integer lineId = Integer.parseInt(redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX,cookie.getValue()))+"");
 
         TotalInfoDTO totalInfoDTOS = managerService.getTotal(lineId);
 
         MessageNumDTO messageNum = managerService.getMessages(lineId);
-
+        LineTotal lastMonthTotal = lineTotalRepository.findByLineIdAndDateAndType(lineId,lastMonth,1);
         List<LineTotal> dayTotal = lineTotalRepository.find5Days(lineId,before.toString(),now.toString());
         map.put("orderMessages",messageNum.getOrderMessages());
         map.put("driverMessages",messageNum.getDriverMessages());
         map.put("allMessages",messageNum.getAllMessages());
         map.put("dayTotal",dayTotal);
+        map.put("lastMonthTotal",lastMonthTotal);
         map.put("name",lineId);
         map.put("total",totalInfoDTOS);
         return new ModelAndView("manager/index",map);

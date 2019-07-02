@@ -2,10 +2,7 @@ package com.liancheng.lcweb.service.impl;
 import com.liancheng.lcweb.constant.MessagesConstant;
 import com.liancheng.lcweb.converter.Driver2DriverDTOConverter;
 import com.liancheng.lcweb.converter.String2DateConverter;
-import com.liancheng.lcweb.domain.Driver;
-import com.liancheng.lcweb.domain.Manager;
-import com.liancheng.lcweb.domain.Messages;
-import com.liancheng.lcweb.domain.Order;
+import com.liancheng.lcweb.domain.*;
 import com.liancheng.lcweb.dto.DriverDTO;
 import com.liancheng.lcweb.dto.MessageNumDTO;
 import com.liancheng.lcweb.dto.TotalInfoDTO;
@@ -18,6 +15,7 @@ import com.liancheng.lcweb.form.DriverInfoForm;
 import com.liancheng.lcweb.form.Message2DriverForm;
 import com.liancheng.lcweb.form.addDriverFormForManager;
 import com.liancheng.lcweb.repository.DriverRepository;
+import com.liancheng.lcweb.repository.LineTotalRepository;
 import com.liancheng.lcweb.repository.ManagerRepository;
 import com.liancheng.lcweb.repository.OrderRepository;
 import com.liancheng.lcweb.service.*;
@@ -30,6 +28,7 @@ import org.springframework.util.CollectionUtils;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -62,6 +61,9 @@ public class ManagerServiceImpl implements ManagerService {
 
     @Autowired
     private MessagesService messagesService;
+
+    @Autowired
+    private LineTotalRepository lineTotalRepository;
 
 
 
@@ -217,10 +219,11 @@ public class ManagerServiceImpl implements ManagerService {
         TotalInfoDTO totalInfoDTO = new TotalInfoDTO();
 
         //得时间
-        Date currentDate =new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String dateString = formatter.format(currentDate);
-        totalInfoDTO.setDate(dateString);
+//        Date currentDate =new Date();
+//        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+//        String dateString = formatter.format(currentDate);
+        LocalDate date = LocalDate.now();
+        totalInfoDTO.setDate(date.toString());
 
         //找当前活跃司机总数
         List<DriverDTO> driverList1 = getDriversByStatus(lineId,DriverStatusEnums.ONROAD.getCode());
@@ -229,17 +232,40 @@ public class ManagerServiceImpl implements ManagerService {
         Integer liveNum = driverList1.size()+driverList2.size();
         totalInfoDTO.setLiveDrivers(liveNum);
 
+        //当天当前订单总数，根据日期来找
+        List<Order> orders = orderRepository.findByLineIdAndDate(lineId,date.toString());
 
-        //目前直接假数据填充
+        totalInfoDTO.setOrderNum(orders.size());
 
-        //todo 找当天当前订单总数，根据日期来找
-        totalInfoDTO.setOrderNum(105);
+        //当前总载客人数,通过订单时期和订单人数来找
+        Integer userCount = 0;
+        for (Order o :orders){
+            userCount+=o.getUserCount();
+        }
+        totalInfoDTO.setTotalUserNum(userCount);
+        totalInfoDTO.setCompareLWithLL("0%");
+        //昨日概况里面找
+        LineTotal lineTotal = lineTotalRepository.findByLineIdAndDateAndType(lineId,date.minusDays(1).toString(),0);
+        if (lineTotal!=null){
+            totalInfoDTO.setCompareLWithLL(lineTotal.getCompare());
+        }
 
-        //todo 找当前总载客人数,通过订单时期和订单人数来找
-        totalInfoDTO.setTotalUserNum(802);
-
-        totalInfoDTO.setCompareLWithLL("+22.3%");
-
+//        log.info(totalInfoDTO.getDate().substring(0,7));
+        List<LineTotal> lineTotals = lineTotalRepository.
+                findByLineIdAndTypeAndYeardate(
+                        lineId,
+                        0,
+                        totalInfoDTO.getDate().substring(0,7)
+                );
+        Integer monthOrderCount =0;
+        Integer monthUserCount = 0;
+        for (LineTotal l : lineTotals){
+            monthOrderCount+=l.getOrderCount();
+            monthUserCount+=l.getUserCount();
+        }
+        //加上今天的情况
+        totalInfoDTO.setMonthOrderCount(monthOrderCount+totalInfoDTO.getOrderNum());
+        totalInfoDTO.setMonthUserCount(monthUserCount+totalInfoDTO.getTotalUserNum());
 
         return totalInfoDTO;
 

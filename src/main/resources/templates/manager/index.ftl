@@ -187,25 +187,27 @@
                 <div class="shujuone">
                     <dl>
 <#--                        月度情况-->
-                        <dt>载客人次： 1356666</dt>
-                        <dt>订单次数： 56468</dt>
+                        <dt>载客人次： ${total.monthUserCount}</dt>
+                        <dt>订单次数： ${total.monthOrderCount}</dt>
                     </dl>
                     <ul>
                         <h2>7</h2>
                         <li>月</li>
                     </ul>
                 </div>
+                <#if lastMonthTotal??>
                 <div class="shujutow">
                     <dl>
 <#--                        上年度情况?or上月度情况，年度情况另外开在personalInfo里面？ -->
-                        <dt>载客人次： 1356666</dt>
-                        <dt>订单次数： 5646465.98</dt>
+                        <dt>载客人次： ${lastMonthTotal.userCount}</dt>
+                        <dt>订单次数： ${lastMonthTotal.orderCount}</dt>
                     </dl>
                     <ul>
                         <h2>6</h2>
                         <li>月（上月)</li>
                     </ul>
                 </div>
+                </#if>
 
             </div>
 

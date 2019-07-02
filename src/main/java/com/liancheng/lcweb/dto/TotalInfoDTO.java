@@ -8,6 +8,7 @@ import java.util.Date;
 //前几天的根据数据库中来取,今日的就用今日的数据来当场算！
 public class TotalInfoDTO {
 
+    //还要根据其来获取月数据
     private String date;
 
     //当前可用司机数量
@@ -21,5 +22,11 @@ public class TotalInfoDTO {
 
     //前一日比再前一日的增长
     private String compareLWithLL;
+
+    private Integer monthOrderCount;
+
+    private Integer monthUserCount;
+
+
 
 }

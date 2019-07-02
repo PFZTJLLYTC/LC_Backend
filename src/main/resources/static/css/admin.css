@@ -92,8 +92,8 @@ gallery.html css
 .sideMenu h3.on em{background-position: 16px -57px}
 .sideMenu h3.on{color: #ff6c60;background: #35404d}
 .sideMenu h3 a{color: #aeb2b7 }
-.sideMenu ul{line-height: 24px;color: #999;display: none;/* 默认都隐藏 */ ;background: #35404d;border-bottom-right-radius: 3px;border-bottom-left-radius: 3px;padding: 0px 0 10px 0;margin: 0px }
-.sideMenu li{text-indent: 25px;width: 100%;display: none}
+.sideMenu ul{line-height: 24px;color: #999;display: none/* 默认都隐藏 */ ;background: #35404d;border-bottom-right-radius: 3px;border-bottom-left-radius: 3px;padding: 0px 0 10px 0;margin: 0px }
+.sideMenu li{text-indent: 25px;width: 100%;}
 /*.sideMenu li{text-indent: 25px;width: 100%}*/
 .sideMenu li a{color: #aeb2b7}
 .sideMenu li a:hover{color: #f8675e}

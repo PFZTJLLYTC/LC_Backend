@@ -96,7 +96,7 @@ public class ScheduleTask {
 
             lineTotal.setType(1);
             //截取年份加月份
-            String month = lmonth.toString().substring(0,6);
+            String month = lmonth.toString().substring(0,7);
             List<Order> orders = orderRepository.findByLineIdAndMonthOrYearDate(line.getLineId(),month);
             lineTotal.setOrderCount(orders.size());
 
@@ -141,7 +141,7 @@ public class ScheduleTask {
             lineTotal.setDate(lyear.toString());
 
             lineTotal.setType(2);
-            //只截取年份,可行
+            //只截取年份,可行2019-01-01
             String year = lyear.toString().substring(0,4);
             //利用LineTotal来找效率更高才对！
             //找这一年的每个月的数据
