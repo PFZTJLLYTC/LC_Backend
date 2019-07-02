@@ -80,5 +80,7 @@ public interface DriverService {
 
     DriverAccountInfoDTO findAccountInfo(String dnum);
 
+    void changeStatus(String dnum,Integer status);
+
 
 }

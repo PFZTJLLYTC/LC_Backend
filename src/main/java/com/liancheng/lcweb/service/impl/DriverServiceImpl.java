@@ -284,4 +284,10 @@ public class DriverServiceImpl implements DriverService {
 
     };
 
+    public void changeStatus(String dnum,Integer status){
+        Driver driver=findOne(dnum);
+        driver.setStatus(status);
+
+        driverRepository.save(driver);
+    }
 }

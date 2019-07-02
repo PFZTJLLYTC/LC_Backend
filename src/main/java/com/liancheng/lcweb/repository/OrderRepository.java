@@ -50,17 +50,17 @@ public interface OrderRepository extends JpaRepository<Order,String> {
 
 
     //todo 需要改了，这两个方法
-    @Query(value = "SELECT o.car_num ,o.source ,o.destination," +
-            "o.user_count,o.date FROM user_order o " +
-            "WHERE o.user_id = ?1 AND o.order_status = 2 " +
-            "ORDER BY o.create_time DESC ",nativeQuery = true)
+    @Query(value = "SELECT car_num ,source ,destination," +
+            "user_count,date FROM user_order " +
+            "WHERE user_id = ?1 AND order_status = 2 " +
+            "ORDER BY create_time DESC ",nativeQuery = true)
     List<UserDoneOrderDTO> findUserDoneOrderByUserId(String userId);
 
 
-    @Query(value = "SELECT o.car_num ,o.source ,o.destination," +
-            "o.user_count,o.date FROM user_order  " +
-            "WHERE o.dnum = ?1 AND o.order_status = 2 " +
-            "ORDER BY o.create_time DESC ",nativeQuery = true)
+    @Query(value = "SELECT car_num ,source ,destination," +
+            "user_count,user_order.date FROM user_order  " +
+            "WHERE dnum = ?1 AND order_status = 2 " +
+            "ORDER BY create_time DESC ",nativeQuery = true)
     List<DriverDoneOrderDTO> findDriverDoneOrderByDnum(String dnum);
 
 

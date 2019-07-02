@@ -205,4 +205,10 @@ public class DriverController {
     public ResultVO findAccountInfo(@PathVariable String dnum){
         return ResultVOUtil.success(driverService.findAccountInfo(dnum));
     }
+
+    @PostMapping("/changeStatus/{dnum}")
+    public ResultVO chageStatus(@PathVariable String dnum,@RequestParam Integer status){
+        driverService.changeStatus(dnum,status);
+        return ResultVOUtil.success();
+    }
 }
