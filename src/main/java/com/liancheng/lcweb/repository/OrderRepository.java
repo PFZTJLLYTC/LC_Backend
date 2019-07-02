@@ -4,6 +4,7 @@ import com.liancheng.lcweb.domain.Order;
 import com.liancheng.lcweb.dto.DriverDoneOrderDTO;
 import com.liancheng.lcweb.dto.UserDoneOrderDTO;
 import lombok.Value;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -28,6 +29,10 @@ public interface OrderRepository extends JpaRepository<Order,String> {
 //            countQuery = "select count(*) from user_order as o where o.line = (select line from manager  where line_id = ?1 )" ,
 //            nativeQuery = true)
     Page<Order> findByLineId(Integer lieId, Pageable pageable);
+
+    //按照月份和线路id进行查询
+    @Query(value = " select * from user_order where line_id = ?1 and date like concat('%',?2,'%')", nativeQuery = true)
+    List<Order> findByLineIdAndMonthOrYearDate(Integer lineId, String monthDate);
 
     //定时任务需要
     List<Order> findByLineIdAndDate(Integer lineId, String date);
