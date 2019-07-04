@@ -21,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -170,7 +171,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void cancelOne(Order order) {
-        if (order.getDnum()!=null){
+        if (order.getDnum()!=null&&!StringUtils.isEmpty(order.getDnum())){
             Driver driver = driverService.findOne(order.getDnum());
             //状态不改变
             driver.setAvailableSeats(driver.getAvailableSeats()+order.getUserCount());

@@ -90,14 +90,18 @@
                 clickParentClassName.parentNode.removeChild(clickParentClassName);
             }, timer);
         },
-        hideEle: function(clickEle, hideEle, cancel) {
+        hideEle: function(clickEle, hideEle, confirm, cancel) {
             var that = this;
             this.bindEventOfID(clickEle, "click", function() {
-                // if (confirm) {
-                //     confirm();
-                // }
+                if (confirm) {
+                    // alert("???");
+                    confirm()
+
+                }
                 if (cancel) {
+                    // alert("!!!");
                     cancel()
+
                 }
 
                 that.idNode(hideEle).setAttribute("style", "display:none");
@@ -107,7 +111,7 @@
     };
 
 
-    Message.prototype.showMode = function(modeID, title, cancel) {
+    Message.prototype.showMode = function(modeID, title, confirm, cancel) {
         var myMode = this.idNode(modeID);
         if (myMode === null) {
             console.log('是不是忘加mode节点或id写错了^_^');
@@ -126,13 +130,13 @@
         modeContent.appendChild(myMode);
         this.createEle("div", "mode-bottom", modeID + "_mode_bottom", modeID + "_mode_content");
         //this.createEle("button", "mode-cancel", modeID + "_mode_cancel", modeID + "_mode_bottom", "取 消");
-        this.createEle("button", "mode-submit", modeID + "_mode_cancel", modeID + "_mode_bottom", "取 消");
-        // this.createEle("button", "mode-submit", modeID + "_mode_submit", modeID + "_mode_bottom", "确 定");
+        this.createEle("button", "mode-submit", modeID + "_mode_submit", modeID + "_mode_bottom", "确 定");
+        this.createEle("div", "mode-bottom", modeID + "_mode_bottom", modeID + "_mode_content");
+        this.createEle("button", "mode-cancel", modeID + "_mode_cancel", modeID + "_mode_bottom", "取 消");
 
-        // this.hideEle(modeID + "_mode_submit", modeID + "_mode_box", confirm);
+        this.hideEle(modeID + "_mode_submit", modeID + "_mode_box", confirm);
         this.hideEle(modeID + "_mode_cancel", modeID + "_mode_box", cancel);
     };
-
 
 
     window.message_box = new Message();

@@ -13,9 +13,11 @@
     <link href="../../img/app-icon72x72@2x.png" rel="apple-touch-icon-precomposed">
     <meta content="Amaze UI" name="apple-mobile-web-app-title"/>
     <link href="../../css/amazeui.min.css" rel="stylesheet"/>
+    <link href="../../css/message_box.css" rel="stylesheet">
     <link href="../../css/admin.css" rel="stylesheet">
     <script src="../../js/jquery.min.js"></script>
     <script src="../../js/app.js"></script>
+    <script src="../../js/message_box.js"></script>
 </head>
 
 <body>
@@ -108,16 +110,6 @@
                 <li>
                     <button class="am-btn am-btn-default am-radius am-btn-xs" type="button"> <a href="/manager/goIndex">首页</a>
                 </li>
-<#--                <li>-->
-<#--                    <button class="am-btn am-btn-default am-radius am-btn-xs" type="button">订单管理<a-->
-<#--                                class="am-close am-close-spin" data-am-modal-close="" href="javascript: void(0)">×</a>-->
-<#--                    </button>-->
-<#--                </li>-->
-<#--                <li>-->
-<#--                    <button class="am-btn am-btn-default am-radius am-btn-xs" type="button">司机管理<a-->
-<#--                                class="am-close am-close-spin" data-am-modal-close="" href="javascript: void(0)">×</a>-->
-<#--                    </button>-->
-<#--                </li>-->
             </ul>
 
 
@@ -197,7 +189,7 @@
                                 <td class="am-hide-sm-only">进行中</td>
                                 <td class="am-hide-sm-only">${order.createTime}</td>
                                 <td class="am-hide-sm-only">${order.updateTime}</td>
-                                <td><button class="am-btn am-btn-danger am-round am-btn-xs am-icon-plus" type="button"><a href="/manager/order/cancel?orderId=${order.orderId}"> 取消订单</a></button> </td>
+                                <td><button class="am-btn am-btn-danger am-round am-btn-xs am-icon-plus" type="button" onclick="confirmCancelOrder(${order.orderId})"><#--<a href="/manager/order/cancel?orderId=${order.orderId}">--> 取消订单</a></button> </td>
                             </tr>
                         </#list>
                     </#if>
@@ -239,6 +231,10 @@
     </div>
 </div>
 
+<div id="comfirmBox" class="my-mode">
+    <div >是否取消这个订单，此操作将通知相关人员</div>
+</div>
+
 
 <#--播放音乐-->
 <audio id="notice" loop="loop">
@@ -274,9 +270,19 @@
     }
     window.onbeforeunload = function (ev) { websocket.close(); }
 
+    function confirmCancelOrder(tocancel) {
+        message_box.showMode("comfirmBox", "警告", function () {
+            var url = "cancel?orderId="+tocancel;
+            window.location.href=url;
+        },function() {
+            console.log('取消操作');
+        });
+
+    }
 </script>
 
 <!--[if lt IE 9]>
+<script src="../../js/message_box.js"></script>
 <script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
 <script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
 <script src="../../js/polyfill/rem.min.js"></script>

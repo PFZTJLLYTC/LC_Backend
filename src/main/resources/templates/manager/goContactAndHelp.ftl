@@ -135,14 +135,15 @@
         <div class="am-tabs am-margin" data-am-tabs>
             <ul class="am-tabs-nav am-nav am-nav-tabs">
                 <li class="am-active"><a href="#tab1">推送</a></li>
-                <li><a href="#tab2">提示音</a></li>
-                <li><a href="#tab3">客服与帮助</a></li>
+                <li><a href="#tab2">客服与帮助</a></li>
+                <li><a href="#tab3">提示音</a></li>
+
             </ul>
 
 
             <div class="am-tabs-bd">
-                <div class="am-tab-panel am-fade" id="tab2">
-
+                <div class="am-tab-panel am-fade" id="tab3">
+                    维护中---
                 </div>
 
 
@@ -158,35 +159,7 @@
                             <div class="am-hide-sm-only am-u-md-6">*不填写就默认推送给本线路全部司机</div>
                         </div>
 
-<#--                        <div class="am-g am-margin-top">-->
-<#--                            <div class="am-u-sm-4 am-u-md-2 am-text-right">-->
-<#--                                文章作者-->
-<#--                            </div>-->
-<#--                            <div class="am-u-sm-8 am-u-md-4 am-u-end col-end">-->
-<#--                                <input class="am-input-sm" type="text">-->
-<#--                            </div>-->
-<#--                        </div>-->
-
-<#--                        <div class="am-g am-margin-top">-->
-<#--                            <div class="am-u-sm-4 am-u-md-2 am-text-right">-->
-<#--                                信息来源-->
-<#--                            </div>-->
-<#--                            <div class="am-u-sm-8 am-u-md-4">-->
-<#--                                <input class="am-input-sm" type="text">-->
-<#--                            </div>-->
-<#--                            <div class="am-hide-sm-only am-u-md-6">选填</div>-->
-<#--                        </div>-->
-
-<#--                        <div class="am-g am-margin-top">-->
-<#--                            <div class="am-u-sm-4 am-u-md-2 am-text-right">-->
-<#--                                内容摘要-->
-<#--                            </div>-->
-<#--                            <div class="am-u-sm-8 am-u-md-4">-->
-<#--                                <input class="am-input-sm" type="text">-->
-<#--                            </div>-->
-<#--                            <div class="am-u-sm-12 am-u-md-6">不填写则自动截取内容前255字符</div>-->
-<#--                        </div>-->
-
+<#--                        向司机发消息-->
                         <div class="am-g am-margin-top-sm">
                             <div class="am-u-sm-12 am-u-md-2 am-text-right admin-form-text">
                                 内容描述
@@ -204,8 +177,14 @@
                     </form>
                 </div>
 
-                <div class="am-tab-panel am-fade am-in am-active" id="tab3">
-
+                <div class="am-tab-panel am-fade am-in am-active" id="tab2">
+                    <h3>部分注意事项</h3>
+                    <ul>
+                        <li>1. 订单的取消需确认。</li>
+                        <li>2. 司机审核一次性。</li>
+                        <li>3. 登陆一段时间后为安全措施需重新登陆.</li>
+                        <li>4. 有其他任何疑问请联系我们.</li>
+                    </ul>
                 </div>
 
             </div>

@@ -196,7 +196,7 @@
                                 <td class="am-hide-sm-only">${order.createTime}</td>
                                 <td class="am-hide-sm-only">${order.updateTime}</td>
                                 <td><button class="am-btn am-btn-primary am-round am-btn-xs am-icon-plus" type="button" id="mode_id" onclick="chooseDriver(${order.orderId})"> 分配司机</button> </td>
-                                <td><button class="am-btn am-btn-danger am-round am-btn-xs am-icon-plus" type="button"><a href="/manager/order/cancel?orderId=${order.orderId}"> 取消</a></button> </td>
+                                <td><button class="am-btn am-btn-danger am-round am-btn-xs am-icon-plus" type="button" onclick="confirmCancelOrder(${order.orderId})"><#--<a href="/manager/order/cancel?orderId=${order.orderId}">--> 取消</a></button> </td>
                             </tr>
                         </#list>
                     </#if>
@@ -283,6 +283,10 @@
     </table>
 </div>
 
+<div id="comfirmBox" class="my-mode">
+    <div >是否取消这个订单，此操作将通知相关人员</div>
+</div>
+
 <#--播放音乐-->
 <audio id="notice" loop="loop">
     <#--    待添加-->
@@ -325,9 +329,24 @@
 
 
         orderId = orderid;
-        message_box.showMode("my_mode", "选择司机", function() {
+        message_box.showMode("my_mode", "选择司机",function() {
 
-            console.log('成功弹出');
+            console.log('取消操作');
+        } , function() {
+
+            console.log('取消操作');
+        });
+
+    }
+
+    function confirmCancelOrder(tocancel) {
+
+        message_box.showMode("comfirmBox", "警告", function () {
+            var url = "cancel?orderId="+tocancel;
+            window.location.href=url;
+        },function() {
+
+            console.log('取消操作');
         });
 
     }

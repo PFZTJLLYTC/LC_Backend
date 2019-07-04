@@ -53,7 +53,7 @@ public class Order {
 
     private Integer orderStatus =0;
 
-    private Integer payStatus = 0;
+//    private Integer payStatus = 0; //没有用啊
 
     @CreatedDate
     @JsonIgnore

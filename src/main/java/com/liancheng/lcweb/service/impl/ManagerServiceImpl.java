@@ -25,6 +25,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
+
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -369,7 +371,7 @@ public class ManagerServiceImpl implements ManagerService {
         orderService.cancelOne(order);
 
         //如果已经分配了司机的情况：
-        if (dnum!=null){
+        if (dnum!=null&& !StringUtils.isEmpty(dnum)){
             try {
                 messagesService.createMessage(dnum,MessagesConstant.cancelStatus);
                 webSocketService.sendInfo(MessagesConstant.cancelStatus,dnum);
