@@ -322,27 +322,35 @@
     var orderId;
 
     function chooseDriver(orderid) {
+
+
         orderId = orderid;
+        message_box.showMode("my_mode", "选择司机", function() {
+
+            console.log('成功弹出');
+        });
+
     }
 
     function sendInfo(dnum) {
+        // alert(dnum);
+        // alert(orderId);
          var url = "confirm?orderId="+orderId+"&dnum="+dnum;
         // alert(orderId);
         // $.get(url);
         window.location.href=url;
     }
 
-
-    window.onload = function() {
-         document.getElementById("mode_id").addEventListener("click", function() {
-
-            message_box.showMode("my_mode", "选择司机", function() {
-
-                console.log('成功弹出');
-            });
-            /*Message.prototype.showMode = function(modeID, title, confirm, cancel)*/
-        })
-    }
+    //
+    // window.onload = function() {
+    //      document.getElementById("mode_id").addEventListener("click", function() {
+    //
+    //         message_box.showMode("my_mode", "选择司机", function() {
+    //
+    //             console.log('成功弹出');
+    //         });
+    //     })
+    // }
 
 </script>
 

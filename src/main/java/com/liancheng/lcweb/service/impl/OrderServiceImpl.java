@@ -170,11 +170,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void cancelOne(Order order) {
-        Driver driver = driverService.findOne(order.getDnum());
-        //状态不改变
-        driver.setAvailableSeats(driver.getAvailableSeats()+order.getUserCount());
-        driverRepository.save(driver);
-
+        if (order.getDnum()!=null){
+            Driver driver = driverService.findOne(order.getDnum());
+            //状态不改变
+            driver.setAvailableSeats(driver.getAvailableSeats()+order.getUserCount());
+            driverRepository.save(driver);
+        }
         //User user = userService.findOne(order.getUserId());
         orderRepository.delete(order);
     }

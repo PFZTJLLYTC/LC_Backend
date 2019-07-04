@@ -508,7 +508,7 @@ public class ManagerController {
         managerService.confirmOneOrder(order,dnum);
 
         map.put("msg",ResultEnums.SUCCESS.getMsg());
-        map.put("url","/manager/order/allOrders");
+        map.put("url","/manager/order/findByStatus?status="+OrderStatusEnums.WAIT.getCode());
         return new ModelAndView("common/success",map);
 
     }

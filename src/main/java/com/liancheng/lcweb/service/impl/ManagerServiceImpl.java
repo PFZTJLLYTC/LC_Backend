@@ -366,14 +366,16 @@ public class ManagerServiceImpl implements ManagerService {
 
         String userId = order.getUserId();
         String dnum = order.getDnum();
-
         orderService.cancelOne(order);
 
-        try {
-            messagesService.createMessage(dnum,MessagesConstant.cancelStatus);
-            webSocketService.sendInfo(MessagesConstant.cancelStatus,dnum);
-        }catch (IOException e){
-            log.warn("向司机发送即时消息失败,dnum={},errormessage={}",dnum,e.getMessage());
+        //如果已经分配了司机的情况：
+        if (dnum!=null){
+            try {
+                messagesService.createMessage(dnum,MessagesConstant.cancelStatus);
+                webSocketService.sendInfo(MessagesConstant.cancelStatus,dnum);
+            }catch (IOException e){
+                log.warn("向司机发送即时消息失败,dnum={},errormessage={}",dnum,e.getMessage());
+            }
         }
         try {
             messagesService.createMessage(userId,MessagesConstant.cancelStatus);
