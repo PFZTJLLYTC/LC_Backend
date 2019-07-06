@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -38,5 +39,13 @@ public class LineService {
         if(line2!=null)return line2.getLineId();
 
         throw new LcException(ResultEnums.NO_SUCH_LINENAME);
+    }
+
+    public List<String> findAllLineName1AndLineName2(){
+        return lineRepository.findAllLineName1AndLineName2();
+    }
+
+    public List<String> findAllLineName1(){
+        return lineRepository.findAllLineName1();
     }
 }

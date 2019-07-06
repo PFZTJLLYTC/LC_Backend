@@ -131,8 +131,7 @@ public class UserServiceImpl implements UserService {
             throw new LcException(ResultEnums.NO_SUCH_USER);
         }
         user.setUsername(userChangeInfoForm.getUsername());
-        user.setEmail(userChangeInfoForm.getEmail());
-        user.setMobile(userChangeInfoForm.getEmail());
+        user.setMobile(userChangeInfoForm.getMobile());
 
         userRepository.save(user);
     }

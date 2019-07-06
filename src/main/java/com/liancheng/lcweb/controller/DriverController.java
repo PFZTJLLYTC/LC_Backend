@@ -11,10 +11,7 @@ import com.liancheng.lcweb.exception.LcException;
 import com.liancheng.lcweb.form.DriverInfoForm;
 import com.liancheng.lcweb.form.DriverLoginForm;
 import com.liancheng.lcweb.repository.DriverRepository;
-import com.liancheng.lcweb.service.DriverService;
-import com.liancheng.lcweb.service.MessagesService;
-import com.liancheng.lcweb.service.OrderService;
-import com.liancheng.lcweb.service.WebSocketService;
+import com.liancheng.lcweb.service.*;
 import com.liancheng.lcweb.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.weaver.ast.Or;
@@ -44,6 +41,9 @@ public class DriverController {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private LineService lineService;
 
     @Autowired
     private WebSocketService webSocketService;
@@ -211,4 +211,10 @@ public class DriverController {
         driverService.changeStatus(dnum,status);
         return ResultVOUtil.success();
     }
+
+    @GetMapping("/line/all")
+    public ResultVO findAllLine(){
+        return ResultVOUtil.success(lineService.findAllLineName1());
+    }
+
 }

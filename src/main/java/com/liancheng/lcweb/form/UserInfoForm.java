@@ -23,10 +23,5 @@ public class UserInfoForm {
     @NotBlank(message = "电话号码必填")
     private String mobile;
 
-//    @NotEmpty(message = "邮箱必填") 如果是手机短信验证，则选择填写
-    private String email;
-
-
-
 
 }

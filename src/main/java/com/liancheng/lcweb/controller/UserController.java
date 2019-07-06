@@ -13,10 +13,7 @@ import com.liancheng.lcweb.form.UserInfoForm;
 import com.liancheng.lcweb.form.UserLoginForm;
 import com.liancheng.lcweb.form.UserOrderForm;
 import com.liancheng.lcweb.repository.UserRepository;
-import com.liancheng.lcweb.service.AccessTokenService;
-import com.liancheng.lcweb.service.OrderService;
-import com.liancheng.lcweb.service.UserService;
-import com.liancheng.lcweb.service.WebSocketService;
+import com.liancheng.lcweb.service.*;
 import com.liancheng.lcweb.utils.KeyUtil;
 import com.liancheng.lcweb.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +36,9 @@ public class UserController {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private LineService lineService;
 
     @Autowired
     private AccessTokenService accessTokenService;
@@ -201,5 +201,10 @@ public class UserController {
             log.info("find done orderList={}",orderList);
             return ResultVOUtil.success(orderList);
         }
+    }
+
+    @GetMapping("/lines/all")
+    public ResultVO findAllLines(){
+        return ResultVOUtil.success(lineService.findAllLineName1AndLineName2());
     }
 }

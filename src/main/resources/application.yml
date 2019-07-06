@@ -1,9 +1,9 @@
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/lc?serverTimezone=Asia/Shanghai&useSSL=false
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/lc?serverTimezone=Asia/Shanghai
     username: root
-    password: 
+    password: 744673725
 
 #没问题啊，这个可以用的
   redis:
@@ -23,4 +23,4 @@ spring:
     cache: false #页面不加载缓存，修改即时生效
 
 server:
-    port: 80
+    port: 8080
