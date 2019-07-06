@@ -14,8 +14,10 @@
     <meta content="Amaze UI" name="apple-mobile-web-app-title"/>
     <link href="../../css/amazeui.min.css" rel="stylesheet"/>
     <link href="../../css/admin.css" rel="stylesheet">
+    <link href="../../css/message_box.css" rel="stylesheet">
     <script src="../../js/jquery.min.js"></script>
     <script src="../../js/app.js"></script>
+    <script src="../../js/message_box.js"></script>
 </head>
 
 <body>
@@ -191,6 +193,7 @@
                         <th class="table-type">联系方式</th>
                         <th class="table-type">完成单数</th>
                         <th class="table-author am-hide-sm-only">状态</th>
+                        <th class="table-author am-hide-sm-only">操作</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -203,7 +206,22 @@
                             <td>${driver.carNum}</td>
                             <td>${driver.dnum}</td>
                             <td>${driver.workTimes}</td>
-                            <td>${driver.status}</td>
+                            <#if driver.status==0>
+                                <td>休息中</td>
+                            </#if>
+                            <#if driver.status==1>
+                                <td>在路上</td>
+                            </#if>
+                            <#if driver.status==2>
+                                <td>待出行</td>
+                            </#if>
+                            <#if driver.status==3>
+                                <td>待返程</td>
+                            </#if>
+                            <#if driver.status==-1>
+                                <td>待审核</td>
+                            </#if>
+                            <td><button class="am-btn am-btn-danger am-round am-btn-xs am-icon-plus" type="button" onclick="deleteDriver(${driver.dnum})">删除司机</button> </td>
                         </tr>
                     </#list>
                     </#if>
@@ -264,6 +282,9 @@
 <script src="../../js/amazeui.min.js"></script>
 <!--<![endif]-->
 
+<div id="comfirmBox" class="my-mode">
+    <div >是否删除该司机，此操作不可恢复！</div>
+</div>
 
 <#--播放音乐-->
 <audio id="notice" loop="loop">
@@ -275,7 +296,7 @@
     var websocket = null;
     if('WebSocket' in window){
         // 第一个试试看
-        websocket = new WebSocket("ws://127.0.0.1:8080/webSocket/"+${name});
+        websocket = new WebSocket("ws://49.234.98.50/webSocket/"+${name});
     }else {
         alert("该浏览器不支持websocket");
     }
@@ -298,6 +319,17 @@
         alert('websocket通信发生错误！');
     }
     window.onbeforeunload = function (ev) { websocket.close(); }
+
+    function deleteDriver(dnum) {
+        message_box.showMode("comfirmBox", "警告", function () {
+            var url = "DriverDelete?dnum="+dnum;
+            window.location.href=url;
+        },function() {
+
+            console.log('取消操作');
+        });
+
+    }
 
 </script>
 

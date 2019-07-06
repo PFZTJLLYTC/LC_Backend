@@ -164,7 +164,9 @@
                     <div class="am-form-group am-cf">
                         <div class="zuo">出生日期：</div>
                         <div class="you">
-                            <input class="am-input-sm" id="doc-ipt-email-1" placeholder="1988-01-01" type="date" name="birthday">
+<#--                            <input class="am-input-sm" id="doc-ipt-email-1" placeholder="1988-01-01" type="date" name="birthday">-->
+                            <input class="am-form-field am-input-sm am-input-zm  am-icon-calendar" data-am-datepicker="{theme: 'success',}"
+                                   placeholder="1970-01-01" readonly type="text" name="birthday"/>
                         </div>
                     </div>
                     <div class="am-form-group am-cf">
@@ -257,7 +259,7 @@
     var websocket = null;
     if('WebSocket' in window){
         // 第一个试试看
-        websocket = new WebSocket("ws://127.0.0.1:8080/webSocket/"+${name});
+        websocket = new WebSocket("ws://49.234.98.50/webSocket/"+${name});
     }else {
         // 让圆点显示未处理数量
         alert("该浏览器不支持websocket");

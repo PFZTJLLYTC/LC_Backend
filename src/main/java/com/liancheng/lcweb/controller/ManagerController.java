@@ -345,7 +345,8 @@ public class ManagerController {
     }
 
     //删除司机信息(根据司机dnum删)
-    @DeleteMapping("/driver/DriverDelete")
+    //都用get和post就可以了!
+    @GetMapping("/driver/DriverDelete")
     @Transactional
     public ModelAndView deleteOneDriver(@RequestParam("dnum") String dnum,
                                         HttpServletRequest request,

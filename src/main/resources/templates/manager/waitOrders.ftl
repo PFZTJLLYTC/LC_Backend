@@ -163,7 +163,7 @@
                     <thead>
                     <tr class="am-success">
 <#--                        <th class="table-check"><input type="checkbox"/></th>-->
-                        <th class="table-title">订单id</th>
+                        <th class="table-title">订单编号</th>
                         <th class="table-type">乘客数量</th>
                         <th class="table-type">用户电话</th>
                         <th class="table-type">用户地址</th>
@@ -274,7 +274,7 @@
                     <#elseif driver.status==3 >
                         <td>待返程</td>
                     </#if>
-                    <td><button class="am-btn am-btn-primary am-round am-btn-xs am-icon-plus" type="button" onclick="sendInfo(${driver.dnum})"> 确定选择 </button> </td>
+                    <td><button class="am-btn am-btn-danger am-round am-btn-xs am-icon-plus" type="button" onclick="sendInfo(${driver.dnum})"> 确定选择 </button> </td>
                     <#--    取消则调用删除-->
                 </tr>
             </#list>
@@ -297,7 +297,7 @@
     var websocket = null;
     if('WebSocket' in window){
         // 第一个试试看
-        websocket = new WebSocket("ws://127.0.0.1:8080/webSocket/"+${name});
+        websocket = new WebSocket("ws://49.234.98.50/webSocket/"+${name});
     }else {
         alert("该浏览器不支持websocket");
     }

@@ -255,7 +255,7 @@
     var websocket = null;
     if('WebSocket' in window){
         // 第一个试试看
-        websocket = new WebSocket("ws://127.0.0.1:8080/webSocket/"+${name});
+        websocket = new WebSocket("ws://49.234.98.50/webSocket/"+${name});
     }else {
         alert("该浏览器不支持websocket");
     }

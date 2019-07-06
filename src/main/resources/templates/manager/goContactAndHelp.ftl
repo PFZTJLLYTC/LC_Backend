@@ -180,10 +180,11 @@
                 <div class="am-tab-panel am-fade am-in am-active" id="tab2">
                     <h3>部分注意事项</h3>
                     <ul>
-                        <li>1. 订单的取消需确认。</li>
-                        <li>2. 司机审核一次性。</li>
-                        <li>3. 登陆一段时间后为安全措施需重新登陆.</li>
-                        <li>4. 有其他任何疑问请联系我们.</li>
+                        <li>1. 订单的取消需确认.</li>
+                        <li>2. 司机审核为一次性操作.</li>
+                        <li>3. 为安全考虑，登陆一段时间后强制重新登陆.</li>
+                        <li>4. 全局搜索功能在当前使用版本处于维护状态.</li>
+                        <li>5. 有其他任何疑问请联系我们.</li>
                     </ul>
                 </div>
 
@@ -216,7 +217,7 @@
         var websocket = null;
         if('WebSocket' in window){
             // 第一个试试看
-            websocket = new WebSocket("ws://127.0.0.1:8080/webSocket/"+${name});
+            websocket = new WebSocket("ws://49.234.98.50/webSocket/"+${name});
         }else {
             alert("该浏览器不支持websocket");
         }

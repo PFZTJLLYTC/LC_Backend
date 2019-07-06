@@ -492,7 +492,6 @@ public class ManagerServiceImpl implements ManagerService {
             List<Driver> driverList = driverRepository.findByLineId(lineId);
             for (Driver driver : driverList){
                 try {
-
                     webSocketService.sendInfo(message2DriverForm.getMessage(),driver.getDnum());
                 }catch (IOException e){
                     log.warn("向司机发送及时消息失败, dnum ={}",driver.getDnum());

@@ -161,7 +161,7 @@
                     <thead>
                     <tr class="am-success">
 <#--                        <th class="table-check"><input type="checkbox"/></th>-->
-                        <th class="table-title">订单id</th>
+                        <th class="table-title">订单编号</th>
                         <th class="table-type">乘客数量</th>
                         <th class="table-type">用户电话</th>
                         <th class="table-type">用户地址</th>
@@ -246,7 +246,7 @@
     var websocket = null;
     if('WebSocket' in window){
         // 第一个试试看
-        websocket = new WebSocket("ws://127.0.0.1:8080/webSocket/"+${name});
+        websocket = new WebSocket("ws://49.234.98.50/webSocket/"+${name});
     }else {
         alert("该浏览器不支持websocket");
     }
