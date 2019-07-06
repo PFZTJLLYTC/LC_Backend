@@ -115,9 +115,8 @@
         <div class="admin-biaogelist">
 
             <div class="listbiaoti am-cf">
-                <ul class="am-icon-flag on"> 设置与信息</ul>
-                <dl class="am-icon-home" style="float: right;">当前位置： <a href="/manager/goIndex">首页</a>> <a href="#">设置和信息</a></dl>
-
+                <ul class="am-icon-flag on"> 其他</ul>
+                <dl class="am-icon-home" style="float: right;">当前位置： <a href="/manager/goIndex">首页</a>>个人中心</dl>
 
             </div>
 

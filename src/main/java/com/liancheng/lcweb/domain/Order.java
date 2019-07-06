@@ -25,8 +25,12 @@ public class Order {
     @Id
     private String OrderId;
 
-    //不加外键和jilian删除
     private Integer lineId;
+
+    private String lineName;
+
+    //备注
+    private String remark;
 
     @NotNull
     private String userId;
@@ -43,6 +47,7 @@ public class Order {
     @NotNull
     private Integer userCount;
 
+    //详细地址
     private String detailAddress;
 
     private String date; //前端传入的下单时间，格式“YYYY-MM-DD”

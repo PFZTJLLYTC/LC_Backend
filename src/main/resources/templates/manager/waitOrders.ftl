@@ -163,16 +163,19 @@
                     <thead>
                     <tr class="am-success">
 <#--                        <th class="table-check"><input type="checkbox"/></th>-->
-                        <th class="table-title">订单编号</th>
-                        <th class="table-type">乘客数量</th>
+<#--                        <th class="table-title">订单编号</th>-->
+                        <th class="table-title">乘客数量</th>
                         <th class="table-type">用户电话</th>
-                        <th class="table-type">用户地址</th>
-                        <th class="table-type">司机名</th>
-                        <th class="table-type">司机电话</th>
-                        <th class="table-type">车牌号</th>
+                        <th class="table-type">乘车方向</th>
+                        <th class="table-type">预约时间</th>
+                        <th class="table-type">详细地址</th>
+<#--                        <th class="table-type">司机名</th>-->
+<#--                        <th class="table-type">司机电话</th>-->
+<#--                        <th class="table-type">车牌号</th>-->
+                        <th class="table-type">备注</th>
                         <th class="table-author am-hide-sm-only">订单状态</th>
-                        <th class="table-date am-hide-sm-only">创建日期</th>
-                        <th class="table-date am-hide-sm-only">修改日期</th>
+                        <th class="table-date am-hide-sm-only">日期</th>
+<#--                        <th class="table-date am-hide-sm-only">修改日期</th>-->
                         <th class="table-type">操作1</th>
                         <th class="table-type">操作2</th>
                     </tr>
@@ -182,19 +185,19 @@
                         <#list orders.content as order>
                             <tr>
 <#--                                <td><input type="checkbox"/></td>-->
-                                <td>${order.orderId}</td>
+<#--                                <td>${order.orderId}</td>-->
                                 <td>${order.userCount}</td>
                                 <td>${order.userPhone}</td>
-                                <td>${order.detailAddress?default("")}</td>
+                                <td>${order.lineName}</td>
+                                <td>${order.time?default("/")}</td>
+                                <td>${order.detailAddress?default("/")}</td>
 <#--                                <td>${order.driverName?default("")}</td>-->
-                                <td>/</td>
 <#--                                <td>${order.dnum?default("")}</td>-->
-                                <td>/</td>
 <#--                                <td>${order.carNum?default("")}</td>-->
-                                <td>/</td>
+                                <td>${order.remark?default("/")}</td>
                                 <td class="am-hide-sm-only">未处理</td>
-                                <td class="am-hide-sm-only">${order.createTime}</td>
-                                <td class="am-hide-sm-only">${order.updateTime}</td>
+                                <td class="am-hide-sm-only">${order.date}</td>
+<#--                                <td class="am-hide-sm-only">${order.updateTime}</td>-->
                                 <td><button class="am-btn am-btn-primary am-round am-btn-xs am-icon-plus" type="button" id="mode_id" onclick="chooseDriver(${order.orderId})"> 分配司机</button> </td>
                                 <td><button class="am-btn am-btn-danger am-round am-btn-xs am-icon-plus" type="button" onclick="confirmCancelOrder(${order.orderId})"><#--<a href="/manager/order/cancel?orderId=${order.orderId}">--> 取消</a></button> </td>
                             </tr>

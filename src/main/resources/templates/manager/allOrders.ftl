@@ -204,17 +204,18 @@
                 <table class="am-table am-table-bordered am-table-radius am-table-striped" width="100%">
                     <thead>
                     <tr class="am-success">
-<#--                        <th class="table-check"><input type="checkbox"/></th>-->
                         <th class="table-title">订单编号</th>
                         <th class="table-type">乘客数量</th>
                         <th class="table-type">用户电话</th>
-                        <th class="table-type">用户地址</th>
+                        <th class="table-type">乘车方向</th>
+<#--                        <th class="table-type">详细地址</th>-->
                         <th class="table-type">司机名</th>
                         <th class="table-type">司机电话</th>
                         <th class="table-type">车牌号</th>
+<#--                        <th class="table-type">备注</th>-->
                         <th class="table-author am-hide-sm-only">订单状态</th>
-                        <th class="table-date am-hide-sm-only">创建日期</th>
-                        <th class="table-date am-hide-sm-only">修改日期</th>
+                        <th class="table-date am-hide-sm-only">日期</th>
+<#--                        <th class="table-date am-hide-sm-only">修改日期</th>-->
                     </tr>
                     </thead>
                     <tbody>
@@ -225,13 +226,24 @@
                             <td>${order.orderId}</td>
                             <td>${order.userCount}</td>
                             <td>${order.userPhone}</td>
-                            <td>${order.detailAddress?default("")}</td>
-                            <td>${order.driverName?default("")}</td>
-                            <td>${order.dnum?default("")}</td>
-                            <td>${order.carNum?default("")}</td>
-                            <td class="am-hide-sm-only">${order.orderStatus}</td>
-                            <td class="am-hide-sm-only">${order.createTime}</td>
-                            <td class="am-hide-sm-only">${order.updateTime}</td>
+                            <td>${order.lineName}</td>
+<#--                            <td>${order.detailAddress?default("")}</td>-->
+                            <td>${order.driverName?default("/")}</td>
+                            <td>${order.dnum?default("/")}</td>
+                            <td>${order.carNum?default("/")}</td>
+<#--                            <td>${order.remark?default("")}</td>-->
+                            <#if order.orderStatus==0>
+                                <td class="am-hide-sm-only">未处理</td>
+                            </#if>
+                            <#if order.orderStatus==1>
+                                <td class="am-hide-sm-only">进行中</td>
+                            </#if>
+                            <#if order.orderStatus==2>
+                                <td class="am-hide-sm-only">已完成</td>
+                            </#if>
+
+                            <td class="am-hide-sm-only">${order.date}</td>
+<#--                            <td class="am-hide-sm-only">${order.updateTime}</td>-->
                         </tr>
                     </#list>
                     </#if>
