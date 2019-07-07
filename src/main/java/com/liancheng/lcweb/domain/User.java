@@ -22,7 +22,6 @@ import java.util.Date;
 public class User {
 
     @Id
-    //相当于两个chaoma啦，不管=过mobile可以换这点倒是没错了
     private String Id;
 
     private String username;
@@ -33,12 +32,12 @@ public class User {
     @NotNull(message = "手机号不能为为空")
     private String mobile;
 
-    //private String address; 当前位置，根据定位得到？
+    //private String address; 当前位置，根据定位得到
 
-    @Email//必须为电子邮件
-    private String email;
-
-    private Boolean emailVerifiled;
+//    @Email//必须为电子邮件
+//    private String email;
+//
+//    private Boolean emailVerifiled;
 
     private Integer takeTimes = 0;
 

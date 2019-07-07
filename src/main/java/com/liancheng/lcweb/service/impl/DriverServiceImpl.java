@@ -68,9 +68,12 @@ public class DriverServiceImpl implements DriverService {
         driver.setLineId(lineId);
         //表示没有得到验证
         driver.setStatus(DriverStatusEnums.TO_BE_VERIFIED.getCode());
+
         driver.setWorkTimes(0);
-        //默认四座,应该在form李表现出来
-        driver.setAvailableSeats(4);
+
+        if (driver.getAvailableSeats()==null){
+            driver.setAvailableSeats(4);
+        }
         //等待被确认
         driverRepository.save(driver);
     }
@@ -83,6 +86,10 @@ public class DriverServiceImpl implements DriverService {
         if(driver==null)
             throw new LcException(ResultEnums.NO_SUCH_DRIVER);
 
+        if(driver.getStatus().equals(DriverStatusEnums.TO_BE_VERIFIED.getCode())){
+            throw new LcException(ResultEnums.WAIT_TO_BE_VERIFY);
+        }
+
         Boolean matches = passwordEncoder.matches(driverLoginForm.getPassword(),
                 driver.getPassword());
 
@@ -92,7 +99,6 @@ public class DriverServiceImpl implements DriverService {
         }
 
         return Driver2DriverDTOConverter.convert(driver);
-        //TODO 司机登陆记录表？多次登陆失败(被爆破)封ip？
     }
 
 

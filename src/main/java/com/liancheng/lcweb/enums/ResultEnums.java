@@ -34,7 +34,8 @@ public enum ResultEnums {
     ORDER_STATUS_ERROR(25,"订单状态错误"),
     SEATS_ERROR(26,"更改座位数目无效"),
     PASSWORD_MATCHES_ERROR(27,"密码验证错误"),
-    NO_CERTAIN_CONTENT_MESSAGE(28,"无内容消息"),;
+    NO_CERTAIN_CONTENT_MESSAGE(28,"无内容消息"),
+    WAIT_TO_BE_VERIFY(29,"当前未通过审核"),;
 
 
     private String msg;
