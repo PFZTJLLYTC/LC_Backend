@@ -2,7 +2,6 @@ package com.liancheng.lcweb.repository;
 
 import com.liancheng.lcweb.domain.Order;
 import com.liancheng.lcweb.dto.DriverDoneOrderDTO;
-import com.liancheng.lcweb.dto.UserDoneOrderDTO;
 import lombok.Value;
 import org.aspectj.weaver.ast.Or;
 import org.springframework.data.domain.Page;
@@ -51,13 +50,6 @@ public interface OrderRepository extends JpaRepository<Order,String> {
 
     //todo 需要改了，这两个方法
     @Query(value = "SELECT car_num ,source ,destination," +
-            "user_count,date FROM user_order " +
-            "WHERE user_id = ?1 AND order_status = 2 " +
-            "ORDER BY create_time DESC ",nativeQuery = true)
-    List<UserDoneOrderDTO> findUserDoneOrderByUserId(String userId);
-
-
-    @Query(value = "SELECT car_num ,source ,destination," +
             "user_count,user_order.date FROM user_order  " +
             "WHERE dnum = ?1 AND order_status = 2 " +
             "ORDER BY create_time DESC ",nativeQuery = true)
@@ -69,4 +61,5 @@ public interface OrderRepository extends JpaRepository<Order,String> {
 
     @Query(value ="SELECT IFNULL(SUM(user_count),0) FROM user_order WHERE order_status=2 and dnum=?1 and date=?2",nativeQuery = true)
     Integer findDriverTodayUsers(String dnum,LocalDate today);
+
 }

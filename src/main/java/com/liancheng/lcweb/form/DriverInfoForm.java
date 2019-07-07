@@ -21,9 +21,7 @@ public class DriverInfoForm {
     @NotBlank(message = "车牌号必填")
     private String carNum;
 
-    @Min(value = 1,message = "人数不得小于1")
-    @Max(value = 8,message = "人数不得多于8")//可以更大吗？
-    private Integer availableSeats;
+    private Integer seatType;
 
     //线路名称
     //做一个选择

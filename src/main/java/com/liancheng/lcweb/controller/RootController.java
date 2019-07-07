@@ -129,13 +129,6 @@ public class RootController {
         return ResultVOUtil.success(userService.findByUserName(username));
     }
 
-    //查询by email
-    @GetMapping(value = "/user/fbe/{email}")
-    @Transactional
-    public ResultVO FindOneByStatus(@PathVariable("email") String email){
-        log.info("find user by email");
-        return ResultVOUtil.success(userService.findbyEmail(email));
-    }
 
 
     //无法修改顾客信息?（后期加入会员或黑名单？）

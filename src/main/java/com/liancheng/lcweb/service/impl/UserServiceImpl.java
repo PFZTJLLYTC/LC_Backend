@@ -89,10 +89,6 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByMobile(mobile);
     }
 
-    @Override
-    public User findbyEmail(String email) {
-        return userRepository.findByEmail(email);
-    }
 
     @Override
     public List<User> findByUserName(String userName) {

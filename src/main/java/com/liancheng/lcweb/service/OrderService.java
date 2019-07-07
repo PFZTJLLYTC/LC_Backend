@@ -3,8 +3,7 @@ package com.liancheng.lcweb.service;
 import com.liancheng.lcweb.domain.Driver;
 import com.liancheng.lcweb.domain.Order;
 import com.liancheng.lcweb.dto.DriverDoneOrderDTO;
-import com.liancheng.lcweb.dto.OrderDriDTO;
-import com.liancheng.lcweb.dto.UserDoneOrderDTO;
+import com.liancheng.lcweb.dto.UserOrderDTO;
 import com.liancheng.lcweb.form.UserOrderForm;
 
 import java.time.LocalDate;
@@ -14,7 +13,7 @@ public interface OrderService {
 
     List<Order> findAll();
 
-    Order createOne(String userId,UserOrderForm order);
+    void createOne(String userId,UserOrderForm order);
 
     Order confirmOne(Order order, Driver driver);
 
@@ -38,15 +37,16 @@ public interface OrderService {
 
     List<Order> findAllDone();
 
-    List<Order> findUserWaitOrProcessinOrder(String userId);
 
-    List<Order> findUserWaitOrder(String userId);
+    List<UserOrderDTO> findUserWaitOrder(String userId);
 
-    List<Order> findUserProcessinOrder(String userId);
+    List<UserOrderDTO> findUserProcessinOrder(String userId);
 
-    List<UserDoneOrderDTO> findUserDoneOrder(String userId);
+    List<UserOrderDTO> findUserDoneOrder(String userId);
 
     List<Order> findDriverProcessinOrder(String dnum);
 
     List<DriverDoneOrderDTO> findDriverDoneOrder(String dnum);
+
+    void deleteByOrderId(String orderId);
 }

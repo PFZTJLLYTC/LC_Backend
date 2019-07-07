@@ -6,7 +6,6 @@ import com.liancheng.lcweb.domain.AccessToken;
 import com.liancheng.lcweb.domain.Order;
 import com.liancheng.lcweb.domain.User;
 import com.liancheng.lcweb.dto.UserDTO;
-import com.liancheng.lcweb.dto.UserDoneOrderDTO;
 import com.liancheng.lcweb.enums.ResultEnums;
 import com.liancheng.lcweb.exception.LcException;
 import com.liancheng.lcweb.form.UserInfoForm;
@@ -116,29 +115,14 @@ public class UserController {
                                 BindingResult bindingResult){
         if (bindingResult.hasErrors()){
             log.error("订单填写信息不合法");
-            return ResultVOUtil.success(ResultEnums.ORDER_INFO_ERROR);
+            return ResultVOUtil.error(ResultEnums.ORDER_INFO_ERROR.getCode(),
+                    bindingResult.getFieldError().getDefaultMessage());
         }
-
-        return ResultVOUtil.success(orderService.createOne(userId,userOrderForm));
+        orderService.createOne(userId,userOrderForm);
+        return ResultVOUtil.success();
     }
 
     //取消订单，只有当订单未被confirm才可以
-
-    @GetMapping("/orders/show")
-    public ResultVO findWaitOrProcessinOrder(@RequestParam String userId){
-        List<Order> orderList = orderService.findUserWaitOrProcessinOrder(userId);
-        if(orderList.size()==0){
-            log.info("No wait or processin order");
-            return ResultVOUtil.error(ResultEnums.NO_WAIT_OR_PROCESSIN_ORDER);
-        }
-        else if(orderList.size()==1){
-            log.info("find wait or processin order");
-            return ResultVOUtil.success(orderList.get(0));
-        }else{
-            log.info("wait or process more than one");
-            return ResultVOUtil.error(ResultEnums.WAIT_OR_PROCESSIN_ORDER_MORE_THAN_ONE);
-        }
-    }
 
     /**
      * 查询待处理订单，正常返回单个order
@@ -147,42 +131,18 @@ public class UserController {
      */
     @GetMapping("/orders/wait")
     public ResultVO findWaitOrder(@RequestParam String userId){
-            List<Order> orderList = orderService.findUserWaitOrder(userId);
-            if(orderList.size()==0){
-                log.info("No wait order");
-                return ResultVOUtil.error(ResultEnums.NO_WAIT_ORDER);
-            }
-            else if(orderList.size()==1){
-                log.info("find a wait order, order={}",orderList.get(0));//正常情况只有一个未处理订单
-                return ResultVOUtil.success(orderList.get(0));
-            }
-            else {
-                log.error("wait order more than one");
-                return ResultVOUtil.error(ResultEnums.WAIT_ORDER_MORE_THAN_ONE);
-            }
+        return ResultVOUtil.success(orderService.findUserWaitOrder(userId));
     }
 
 
     /**
-     * 查询进行中订单，正常返回单个order
+     * 查询进行中订单，返回order列表
      * @param userId
      * @return
      */
     @GetMapping("/orders/processin")
     public ResultVO findProcessinOrder(@RequestParam String userId){
-        List<Order> orderList =orderService.findUserProcessinOrder(userId);
-        if(orderList.size()==0){
-            log.info("No processin order");
-            return ResultVOUtil.error(ResultEnums.NO_PROCESSIN_ORDER);
-        }
-        else if(orderList.size()==1){
-            log.info("find a processin order, order={}",orderList.get(0));//正常情况只有一个进行中订单
-            return ResultVOUtil.success(orderList.get(0));
-        }
-        else {
-            log.error("processin order too many");
-            return ResultVOUtil.error(ResultEnums.PROCESSIN_ORDER_TOO_MANY);
-        }
+        return ResultVOUtil.success(orderService.findUserProcessinOrder(userId));
     }
 
     /**
@@ -192,15 +152,14 @@ public class UserController {
      */
     @GetMapping("/orders/done")
     public ResultVO findDoneOrder(@RequestParam String userId){
-        List<UserDoneOrderDTO> orderList=orderService.findUserDoneOrder(userId);
-        if(orderList.size()==0){
-            log.info("No done order");
-            return ResultVOUtil.error(ResultEnums.NO_DONE_ORDER);
-        }
-        else{
-            log.info("find done orderList={}",orderList);
-            return ResultVOUtil.success(orderList);
-        }
+        return ResultVOUtil.success(orderService.findUserDoneOrder(userId));
+    }
+
+    //前端回传待处理订单的orderId，用户直接按orderId删除待处理订单
+    @PostMapping("/orders/delete")
+    public ResultVO deleteOrder(@RequestParam String orderId){
+        orderService.deleteByOrderId(orderId);
+        return ResultVOUtil.success();
     }
 
     @GetMapping("/lines/all")

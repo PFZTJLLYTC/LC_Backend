@@ -13,6 +13,10 @@ public class DriverAccountInfoDTO {
 
     private Integer status;
 
+    private Integer seatType;
+
+    private Integer availableSeats;
+
     private Integer todayOrders;//今日接单数
 
     private Integer todayUsers;//今日载客量

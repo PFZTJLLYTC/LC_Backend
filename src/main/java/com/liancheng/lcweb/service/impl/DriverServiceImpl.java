@@ -71,9 +71,7 @@ public class DriverServiceImpl implements DriverService {
 
         driver.setWorkTimes(0);
 
-        if (driver.getAvailableSeats()==null){
-            driver.setAvailableSeats(4);
-        }
+        driver.setAvailableSeats((driverInfoForm.getSeatType()==0)?4:7);
         //等待被确认
         driverRepository.save(driver);
     }
@@ -290,9 +288,18 @@ public class DriverServiceImpl implements DriverService {
 
     };
 
+    @Override
     public void changeStatus(String dnum,Integer status){
         Driver driver=findOne(dnum);
         driver.setStatus(status);
+
+        driverRepository.save(driver);
+    }
+
+    @Override
+    public void changeAvailableSeats(String dnum, Integer availableSeats){
+        Driver driver=findOne(dnum);
+        driver.setAvailableSeats(availableSeats);
 
         driverRepository.save(driver);
     }

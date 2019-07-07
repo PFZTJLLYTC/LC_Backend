@@ -82,5 +82,7 @@ public interface DriverService {
 
     void changeStatus(String dnum,Integer status);
 
+    void changeAvailableSeats(String dnum,Integer availableSeats);
+
 
 }

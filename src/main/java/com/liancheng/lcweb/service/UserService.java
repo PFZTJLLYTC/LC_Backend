@@ -20,8 +20,6 @@ public interface UserService {
 
     User findByMobile(String mobile);
 
-    User findbyEmail(String email);
-
     List<User> findByUserName(String userName);
 
     AccessToken userLogin(UserLoginForm user);

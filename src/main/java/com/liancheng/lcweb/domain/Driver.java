@@ -44,6 +44,9 @@ public class Driver {
 
     private Integer availableSeats;
 
+    //座位类型 0表示4座  1表示7座
+    private Integer seatType;
+
     //改进方向：精确时间
     private Integer workTimes = 0;
 

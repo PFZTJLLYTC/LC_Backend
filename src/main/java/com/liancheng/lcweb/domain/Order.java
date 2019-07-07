@@ -25,8 +25,10 @@ public class Order {
     @Id
     private String OrderId;
 
+    @NotNull
     private Integer lineId;
 
+    @NotNull
     private String lineName;
 
     //备注
@@ -38,7 +40,6 @@ public class Order {
     @NotNull
     private String userPhone;
 
-    @NotNull
     private String dnum;
 
     @NotNull
@@ -50,7 +51,7 @@ public class Order {
     //详细地址
     private String detailAddress;
 
-    private String date; //前端传入的下单时间，格式“YYYY-MM-DD”
+    private String date; //前端传入的下单日期，格式“YYYY-MM-DD”
 
     private String driverName;
 

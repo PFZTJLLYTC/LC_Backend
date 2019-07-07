@@ -1,14 +1,16 @@
 package com.liancheng.lcweb.service.impl;
 
+import com.liancheng.lcweb.converter.Order2UserOrderDTOConverter;
 import com.liancheng.lcweb.domain.Driver;
 import com.liancheng.lcweb.domain.Manager;
 import com.liancheng.lcweb.domain.Order;
 import com.liancheng.lcweb.domain.User;
 import com.liancheng.lcweb.dto.DriverDoneOrderDTO;
 import com.liancheng.lcweb.dto.OrderDriDTO;
-import com.liancheng.lcweb.dto.UserDoneOrderDTO;
+import com.liancheng.lcweb.dto.UserOrderDTO;
 import com.liancheng.lcweb.enums.OrderStatusEnums;
 import com.liancheng.lcweb.enums.ResultEnums;
+import com.liancheng.lcweb.exception.LcException;
 import com.liancheng.lcweb.exception.ManagerException;
 import com.liancheng.lcweb.form.UserOrderForm;
 import com.liancheng.lcweb.repository.DriverRepository;
@@ -17,6 +19,7 @@ import com.liancheng.lcweb.repository.OrderRepository;
 import com.liancheng.lcweb.repository.UserRepository;
 import com.liancheng.lcweb.service.*;
 import com.liancheng.lcweb.utils.KeyUtil;
+import com.liancheng.lcweb.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,10 +65,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override//创建的时候自动为新订单
-    public Order createOne(String userId,UserOrderForm userOrderForm) {
+    public void createOne(String userId,UserOrderForm userOrderForm) {
         Order result = new Order();
         BeanUtils.copyProperties(userOrderForm,result);
         result.setUserId(userId);
+        result.setLineId(lineService.findLineIdByLineName(userOrderForm.getLineName()));
         result.setOrderId(KeyUtil.genUniquekey());
         result.setOrderStatus(OrderStatusEnums.WAIT.getCode());
 
@@ -86,36 +90,32 @@ public class OrderServiceImpl implements OrderService {
         }
 
 
-        return result;
     }
 
 
-    /**
-     * 用户查询操作
-     * @param userId
-     * @return Order
-     */
+
     @Override
-    public List<Order> findUserWaitOrProcessinOrder(String userId) {
-        return orderRepository.findByOrderStatusAndUserId(
-                OrderStatusEnums.WAIT.getCode(),
-                OrderStatusEnums.PROCESSIN.getCode(),
-                userId);
+    public List<UserOrderDTO> findUserWaitOrder(String userId){
+
+        return Order2UserOrderDTOConverter
+                .convert(orderRepository.findByOrderStatusAndUserId(
+                        OrderStatusEnums.WAIT.getCode(),
+                        userId));
+
     }
 
     @Override
-    public List<Order> findUserWaitOrder(String userId){
-        return orderRepository.findByOrderStatusAndUserId(OrderStatusEnums.WAIT.getCode(),userId);
+    public List<UserOrderDTO> findUserProcessinOrder(String userId){
+        return Order2UserOrderDTOConverter
+                .convert(orderRepository.findByOrderStatusAndUserId(
+                        OrderStatusEnums.PROCESSIN.getCode(),userId));
     }
 
     @Override
-    public List<Order> findUserProcessinOrder(String userId){
-        return orderRepository.findByOrderStatusAndUserId(OrderStatusEnums.PROCESSIN.getCode(),userId);
-    }
-
-    @Override
-    public List<UserDoneOrderDTO> findUserDoneOrder(String userId){
-        return orderRepository.findUserDoneOrderByUserId(userId);
+    public List<UserOrderDTO> findUserDoneOrder(String userId){
+        return Order2UserOrderDTOConverter
+                .convert(orderRepository.findByOrderStatusAndUserId(
+                        OrderStatusEnums.DONE.getCode(),userId));
     }
 
     /***********************************************/
@@ -226,5 +226,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Integer findDriverTodayUsers(String dnum,LocalDate today){
         return orderRepository.findDriverTodayUsers(dnum,today);
+    }
+
+    @Override
+    public void deleteByOrderId(String orderId){
+        orderRepository.deleteById(orderId);
     }
 }
