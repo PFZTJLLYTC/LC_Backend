@@ -155,7 +155,13 @@ public class OrderServiceImpl implements OrderService {
         //finish 才加一
         driver.setWorkTimes(driver.getWorkTimes()+1);
         //  座位数加回来
-        driver.setAvailableSeats(driver.getAvailableSeats()+order.getUserCount());
+        if(driver.getSeatType()==0&&driver.getAvailableSeats()+order.getUserCount()>=4){
+            driver.setAvailableSeats(4);
+        }else if (driver.getSeatType()==1&&driver.getAvailableSeats()+order.getUserCount()>=7){
+            driver.setAvailableSeats(7);
+        }else {
+            driver.setAvailableSeats(driver.getAvailableSeats()+order.getUserCount());
+        }
         orderRepository.save(order);
         driverRepository.save(driver);
         userRepository.save(user);

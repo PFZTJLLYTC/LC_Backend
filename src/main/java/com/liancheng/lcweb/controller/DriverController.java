@@ -92,7 +92,7 @@ public class DriverController {
 
     //根据id更新driver信息
     //也可以提出来改成单独修改一项,eg:修改状态
-    @PutMapping(value = "/update/{id}")
+    @PostMapping(value = "/update/{id}")
     public ResultVO driverUpdate(@PathVariable("id") String id,
                                  @RequestParam("name") String name,
                                  @RequestParam("password") String password,
@@ -113,7 +113,7 @@ public class DriverController {
     }
 
     //单改一个状态
-    @PutMapping(value = "/switchStatus")
+    @PostMapping(value = "/switchStatus")
     @Transactional
     //因为每一次不知道在哪一边，结束订单后，手动切换状态,且也给缓冲的时间
     public ResultVO switchStatus(@RequestParam("dnum") String dnum,
@@ -125,7 +125,7 @@ public class DriverController {
         return ResultVOUtil.success();
     }
 
-    @PutMapping("/changeAvailableSeats")
+    @PostMapping("/changeAvailableSeats")
     @Transactional
     //满足可以自由接单后改变座位数量
     public ResultVO changeAvailableSeats(@RequestParam("dnum") String dnum,
@@ -136,7 +136,7 @@ public class DriverController {
         return ResultVOUtil.success();
     }
 
-    @PutMapping("/order/finishOne")
+    @PostMapping("/order/finishOne")
     @Transactional
     //一个一个的点完成！
     public ResultVO finishOneOrder(@RequestParam("dnum") String dnum,
@@ -153,7 +153,7 @@ public class DriverController {
         else {
             orderService.finishOne(order);
         }
-        return ResultVOUtil.success();
+        return ResultVOUtil.success(orderId);
     }
 
                 /******** 订单信息展示相关 *********/
