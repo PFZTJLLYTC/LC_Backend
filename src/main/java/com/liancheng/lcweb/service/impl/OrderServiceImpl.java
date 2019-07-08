@@ -77,7 +77,10 @@ public class OrderServiceImpl implements OrderService {
 
         //通过lineId找到管理员们
         //websocket进行manager端提醒实现,传给manager
-        Integer lineId = lineService.findOneByName(userOrderForm.getLineName()).getLineId();
+
+//        这个findOneByName()方法只按一个方向找，但用户下单时两个方向均可
+//        Integer lineId = lineService.findOneByName(userOrderForm.getLineName()).getLineId();
+        Integer lineId=lineService.findLineIdByLineName(userOrderForm.getLineName());
         List<Manager> managers = managerRepository.findByLineId(lineId);
         for (Manager manager:managers){
             try {
@@ -95,27 +98,13 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public List<UserOrderDTO> findUserWaitOrder(String userId){
+    public List<UserOrderDTO> findUserOrderByStatus(Integer status,String userId){
 
         return Order2UserOrderDTOConverter
-                .convert(orderRepository.findByOrderStatusAndUserId(
-                        OrderStatusEnums.WAIT.getCode(),
-                        userId));
+                .convert(orderRepository.
+                        findByOrderStatusAndUserIdOrderByUpdateTimeDesc(
+                        status, userId));
 
-    }
-
-    @Override
-    public List<UserOrderDTO> findUserProcessinOrder(String userId){
-        return Order2UserOrderDTOConverter
-                .convert(orderRepository.findByOrderStatusAndUserId(
-                        OrderStatusEnums.PROCESSIN.getCode(),userId));
-    }
-
-    @Override
-    public List<UserOrderDTO> findUserDoneOrder(String userId){
-        return Order2UserOrderDTOConverter
-                .convert(orderRepository.findByOrderStatusAndUserId(
-                        OrderStatusEnums.DONE.getCode(),userId));
     }
 
     /***********************************************/

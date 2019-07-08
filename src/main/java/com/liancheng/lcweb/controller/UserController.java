@@ -6,6 +6,7 @@ import com.liancheng.lcweb.domain.AccessToken;
 import com.liancheng.lcweb.domain.Order;
 import com.liancheng.lcweb.domain.User;
 import com.liancheng.lcweb.dto.UserDTO;
+import com.liancheng.lcweb.enums.OrderStatusEnums;
 import com.liancheng.lcweb.enums.ResultEnums;
 import com.liancheng.lcweb.exception.LcException;
 import com.liancheng.lcweb.form.UserInfoForm;
@@ -131,7 +132,8 @@ public class UserController {
      */
     @GetMapping("/orders/wait")
     public ResultVO findWaitOrder(@RequestParam String userId){
-        return ResultVOUtil.success(orderService.findUserWaitOrder(userId));
+        return ResultVOUtil.success(orderService.findUserOrderByStatus(
+                OrderStatusEnums.WAIT.getCode(),userId));
     }
 
 
@@ -142,7 +144,8 @@ public class UserController {
      */
     @GetMapping("/orders/processin")
     public ResultVO findProcessinOrder(@RequestParam String userId){
-        return ResultVOUtil.success(orderService.findUserProcessinOrder(userId));
+        return ResultVOUtil.success(orderService.findUserOrderByStatus(
+                OrderStatusEnums.PROCESSIN.getCode(),userId));
     }
 
     /**
@@ -152,7 +155,8 @@ public class UserController {
      */
     @GetMapping("/orders/done")
     public ResultVO findDoneOrder(@RequestParam String userId){
-        return ResultVOUtil.success(orderService.findUserDoneOrder(userId));
+        return ResultVOUtil.success(orderService.findUserOrderByStatus(
+                OrderStatusEnums.DONE.getCode(),userId));
     }
 
     //前端回传待处理订单的orderId，用户直接按orderId删除待处理订单
