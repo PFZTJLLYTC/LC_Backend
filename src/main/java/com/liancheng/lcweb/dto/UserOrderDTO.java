@@ -13,7 +13,7 @@ public class UserOrderDTO {
 
     private String destination;
 
-    private String userCount;
+    private Integer userCount;
 
     private String userPhone;
 

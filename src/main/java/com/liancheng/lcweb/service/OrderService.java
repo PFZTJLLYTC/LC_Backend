@@ -38,11 +38,7 @@ public interface OrderService {
     List<Order> findAllDone();
 
 
-    List<UserOrderDTO> findUserWaitOrder(String userId);
-
-    List<UserOrderDTO> findUserProcessinOrder(String userId);
-
-    List<UserOrderDTO> findUserDoneOrder(String userId);
+    List<UserOrderDTO> findUserOrderByStatus(Integer status,String userId);
 
     List<Order> findDriverProcessinOrder(String dnum);
 
