@@ -1,11 +1,13 @@
 package com.liancheng.lcweb.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+
+import java.util.Date;
 
 @Data
 public class UserOrderDTO {
 
-    //详细地址和备注暂时不在用户端显示
 
     private String orderId;
 
@@ -25,6 +27,11 @@ public class UserOrderDTO {
 
     private String time;
 
-    private String date;
+    private String detailAddress;
+
+    private String remark;
+
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    private Date createTime;
 
 }
