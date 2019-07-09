@@ -72,10 +72,15 @@ public class ScheduleTask {
                     );
             //根据userCount来比较
             if (lineTotal1!=null){
-                lineTotal.setCompare((lineTotal.getUserCount()-lineTotal1.getUserCount())/(float)lineTotal1.getUserCount()*100+"%");
+                if (lineTotal1.getUserCount()==0){
+                    lineTotal.setCompare("0%");//第一天或者是前一天无乘客，算作第一天，不展示增减
+                }else{
+                    lineTotal.setCompare((lineTotal.getUserCount()-lineTotal1.getUserCount())/(float)lineTotal1.getUserCount()*100+"%");
+
+                }
             }
             else{
-                lineTotal.setCompare(0+"%");
+                lineTotal.setCompare("0%");
             }
 
             lineTotalRepository.save(lineTotal);
@@ -114,7 +119,12 @@ public class ScheduleTask {
                     );
             //根据userCount来比较
             if (lineTotal1!=null){
-                lineTotal.setCompare((lineTotal.getUserCount()-lineTotal1.getUserCount())/(float)lineTotal1.getUserCount()*100+"%");
+                if (lineTotal1.getUserCount()==0){
+                    lineTotal.setCompare("0%");
+                }
+                else {
+                    lineTotal.setCompare((lineTotal.getUserCount()-lineTotal1.getUserCount())/(float)lineTotal1.getUserCount()*100+"%");
+                }
             }
             else{
                 lineTotal.setCompare("0%");
@@ -170,7 +180,12 @@ public class ScheduleTask {
                     );
             //根据userCount来比较
             if (lineTotal1!=null){
-                lineTotal.setCompare((lineTotal.getUserCount()-lineTotal1.getUserCount())/(float)lineTotal1.getUserCount()*100+"%");
+                if (lineTotal1.getUserCount()==0){
+                    lineTotal.setCompare("0%");
+                }
+                else {
+                    lineTotal.setCompare((lineTotal.getUserCount()-lineTotal1.getUserCount())/(float)lineTotal1.getUserCount()*100+"%");
+                }
             }
             else{
                 lineTotal.setCompare("0%");
