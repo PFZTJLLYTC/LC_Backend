@@ -40,9 +40,8 @@ public interface OrderService {
 
     List<UserOrderDTO> findUserOrderByStatus(Integer status,String userId);
 
-    List<Order> findDriverProcessinOrder(String dnum);
+    List<UserOrderDTO> findDriverOrderByStatus(Integer status,String dnum);
 
-    List<DriverDoneOrderDTO> findDriverDoneOrder(String dnum);
 
     void deleteByOrderId(String orderId);
 }
