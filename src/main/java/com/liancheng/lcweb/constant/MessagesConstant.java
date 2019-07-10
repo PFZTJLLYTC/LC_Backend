@@ -6,8 +6,8 @@ public interface MessagesConstant {
 
     String welcomeCustom = "欢迎您的到来，连城将为你服务";
 
-    String changeStatus = "您的订单状态有更新，请注意查收";
+    String changeStatus = "您的订单状态有更新，如有疑问请联系该线路管理人: ";
 
-    String cancelStatus = "您的一个订单被取消，如有疑问请咨询客服";
+    String cancelStatus = "您的一个订单被取消，如有疑问请联系该线路负责人: ";
 
 }

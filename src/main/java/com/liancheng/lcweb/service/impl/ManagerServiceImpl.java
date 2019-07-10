@@ -59,6 +59,9 @@ public class ManagerServiceImpl implements ManagerService {
     private WebSocketService webSocketService;
 
     @Autowired
+    private ManagerService managerService;
+
+    @Autowired
     private LineService lineService;
 
     @Autowired
@@ -343,15 +346,20 @@ public class ManagerServiceImpl implements ManagerService {
             throw new ManagerException(ResultEnums.SEATS_NOT_ENOUGH.getMsg(),"/manager/order/findByStatus?status="+ OrderStatusEnums.WAIT.getCode());
         }
 
+        List<Manager> managers = managerService.findAllByLineId(order.getLineId());
+        Manager manager = managers.get(0);
+
+        String msg = MessagesConstant.changeStatus+manager.getTelNum();
+
         try {
-            messagesService.createMessage(dnum,MessagesConstant.changeStatus);
-            webSocketService.sendInfo(MessagesConstant.changeStatus,dnum);
+            messagesService.createMessage(dnum,msg);
+            webSocketService.sendInfo(msg,dnum);
         } catch (IOException e) {
             log.warn("向司机发送即时消息失败,dnum={},message={}",dnum,e.getMessage());
         }
         try {
-                messagesService.createMessage(order.getUserId(),MessagesConstant.changeStatus);
-            webSocketService.sendInfo(MessagesConstant.changeStatus,order.getUserId());
+                messagesService.createMessage(order.getUserId(),msg);
+            webSocketService.sendInfo(msg,order.getUserId());
         } catch (IOException e) {
             log.warn("向乘客发送即时消息失败,userId={},message={}",order.getUserId(),e.getMessage());
         }
@@ -370,18 +378,23 @@ public class ManagerServiceImpl implements ManagerService {
         String dnum = order.getDnum();
         orderService.cancelOne(order);
 
+        List<Manager> managers = managerService.findAllByLineId(order.getLineId());
+        Manager manager = managers.get(0);
+
+        String msg = MessagesConstant.cancelStatus+manager.getTelNum();
+
         //如果已经分配了司机的情况：
         if (dnum!=null&& !StringUtils.isEmpty(dnum)){
             try {
-                messagesService.createMessage(dnum,MessagesConstant.cancelStatus);
-                webSocketService.sendInfo(MessagesConstant.cancelStatus,dnum);
+                messagesService.createMessage(dnum,msg);
+                webSocketService.sendInfo(msg,dnum);
             }catch (IOException e){
                 log.warn("向司机发送即时消息失败,dnum={},errormessage={}",dnum,e.getMessage());
             }
         }
         try {
-            messagesService.createMessage(userId,MessagesConstant.cancelStatus);
-            webSocketService.sendInfo(MessagesConstant.cancelStatus,userId);
+            messagesService.createMessage(userId,msg);
+            webSocketService.sendInfo(msg,userId);
         }catch (IOException e){
             log.warn("向乘客发送即时消息失败,userId={},errormessage={}",userId,e.getMessage());
         }
