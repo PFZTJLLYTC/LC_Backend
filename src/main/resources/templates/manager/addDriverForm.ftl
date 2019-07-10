@@ -172,7 +172,7 @@
                     <div class="am-form-group am-cf">
                         <div class="zuo">可载客人数：</div>
                         <div class="you">
-                            <input class="am-input-sm" id="doc-ipt-email-1" placeholder="请输入可载客人数" type="number" name="availableSeats">
+                            <input class="am-input-sm" id="doc-ipt-email-1" placeholder="请输入最大可载客人数4或者7" type="number" name="availableSeats">
                         </div>
                     </div>
 

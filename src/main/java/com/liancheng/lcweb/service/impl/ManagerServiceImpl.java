@@ -148,6 +148,13 @@ public class ManagerServiceImpl implements ManagerService {
 //        String lineName = lineService.findOne(lineId).getLineName1();
         //因为根本不传line字段，它根本不能添加其他线路的司机
         BeanUtils.copyProperties(driverInfoForm,driver);
+        if (driver.getAvailableSeats()==4){
+            driver.setSeatType(0);
+        }else if (driver.getAvailableSeats()==7){
+            driver.setSeatType(1);
+        }else {
+            throw new ManagerException(ResultEnums.SEATS_TYPE_ERROR.getMsg(),"/manager/driver/goToAddDriver");
+        }
 
         try {
             driver.setBirthday(String2DateConverter.convert(driverInfoForm.getBirthday()));
