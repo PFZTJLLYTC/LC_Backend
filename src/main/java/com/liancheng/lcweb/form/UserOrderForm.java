@@ -2,9 +2,7 @@ package com.liancheng.lcweb.form;
 
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 
 /**
@@ -24,6 +22,8 @@ public class UserOrderForm {
     private String time;
 
     @NotNull(message = "乘客人数不能为空")
+    @Min(value = 1,message = "乘客人数不得少于1人" )
+    @Max(value = 7,message = "乘客人数不得多于7人" )
     private Integer userCount;
 
     private String detailAddress;

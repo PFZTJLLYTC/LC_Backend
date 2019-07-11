@@ -6,6 +6,7 @@ import com.liancheng.lcweb.VO.ResultVO;
 import com.liancheng.lcweb.domain.Order;
 import com.liancheng.lcweb.dto.DriverDoneOrderDTO;
 import com.liancheng.lcweb.dto.OrderDriDTO;
+import com.liancheng.lcweb.enums.OrderStatusEnums;
 import com.liancheng.lcweb.enums.ResultEnums;
 import com.liancheng.lcweb.exception.LcException;
 import com.liancheng.lcweb.form.DriverInfoForm;
@@ -161,32 +162,13 @@ public class DriverController {
     //查看订单
     @GetMapping("/orders/processin")
     public ResultVO findProcessinOrder(@RequestParam String dnum){
-        List<Order> orderList =orderService.findDriverProcessinOrder(dnum);
-        if(orderList.size()==0){
-            log.info("driver has no processin order");
-            return ResultVOUtil.error(ResultEnums.NO_PROCESSIN_ORDER);
-        }
-        else if(orderList.size()<=4){
-            log.info("find a processin order, order={}",orderList);
-            //司机接不超过四单
-            return ResultVOUtil.success(orderList);
-        }
-        else {
-            log.error("driver's processin order more than 4, impossible!");
-            return ResultVOUtil.error(ResultEnums.PROCESSIN_ORDER_TOO_MANY);
-        }
+        return ResultVOUtil.success(orderService.findDriverOrderByStatus(
+                OrderStatusEnums.PROCESSIN.getCode(),dnum));
     }
     @GetMapping("/orders/done")
     public ResultVO findDoneOrder(@RequestParam String dnum){
-        List<DriverDoneOrderDTO> orderList =orderService.findDriverDoneOrder(dnum);
-        if(orderList.size()==0){
-            log.info("driver has no done order");
-            return ResultVOUtil.error(ResultEnums.NO_DONE_ORDER);
-        }
-        else{
-            log.info("find done orderList={}",orderList);
-            return ResultVOUtil.success(orderList);
-        }
+        return ResultVOUtil.success(orderService.findDriverOrderByStatus(
+                OrderStatusEnums.DONE.getCode(),dnum));
     }
 
     //

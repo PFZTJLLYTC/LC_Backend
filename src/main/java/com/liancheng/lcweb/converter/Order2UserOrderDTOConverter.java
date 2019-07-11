@@ -18,6 +18,7 @@ public class Order2UserOrderDTOConverter {
         String[] lineNameArray=order.getLineName().split("-",2);
         userOrderDTO.setSource(lineNameArray[0]);
         userOrderDTO.setDestination(lineNameArray[1]);
+        userOrderDTO.setDriverName(order.getDriverName().substring(0,1)+"师傅");
         return userOrderDTO;
     }
 

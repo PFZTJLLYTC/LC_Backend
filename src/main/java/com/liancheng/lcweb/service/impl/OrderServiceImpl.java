@@ -115,14 +115,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /***********************************************/
-    @Override
-    public List<Order> findDriverProcessinOrder(String dnum){
-        return orderRepository.findByOrderStatusAndDnum(OrderStatusEnums.PROCESSIN.getCode(), dnum);
-    }
 
-    public List<DriverDoneOrderDTO> findDriverDoneOrder(String dnum){
-        return orderRepository.findDriverDoneOrderByDnum(dnum);
-    }
     @Override
     public Order confirmOne(Order order, Driver driver) {
         //订单加上司机信息
@@ -247,5 +240,13 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void deleteByOrderId(String orderId){
         orderRepository.deleteById(orderId);
+    }
+
+    @Override
+    public List<UserOrderDTO> findDriverOrderByStatus(Integer status,String dnum){
+        return Order2UserOrderDTOConverter
+                .convert(orderRepository.
+                        findByOrderStatusAndDnumOrderByUpdateTimeDesc(
+                                status,dnum));
     }
 }
