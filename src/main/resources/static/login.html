@@ -158,22 +158,46 @@ input{
     }
 
 }</style>
+		<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
     <script>
+		function httpPost(URL, PARAMS) {
+			var temp = document.createElement("form");
+			temp.action = URL;
+			temp.method = "post";
+			temp.style.display = "none";
+
+			for (var x in PARAMS) {
+				var opt = document.createElement("textarea");
+				opt.name = x;
+				opt.value = PARAMS[x];
+				temp.appendChild(opt);
+			}
+
+			document.body.appendChild(temp);
+			temp.submit();
+
+			return temp;
+		}
         function send(){
 
 			var line = document.getElementById("line").value;
 			var password = document.getElementById("password").value;
 
 			// if(name == null || name === "") {
-			// 	innerHtml("请输入用户名");
+			// 	innerHtml("请输入id");
 			// 	return;
 			// }
 			// if(password == null || password === "") {
 			// 	innerHtml("请输入密码");
 			// 	return;
 			// }
+			var params = {
+				"telNum": line,
+				"password": password
+			};
 
-			self.location.href="/manager/login?telNum="+line+"&password="+password;
+			httpPost("/manager/login",params);
+			// self.location.href="/manager/login?telNum="+line+"&password="+password;
 
         }
     </script>
