@@ -194,7 +194,7 @@
                                 <td class="am-hide-sm-only">进行中</td>
                                 <td class="am-hide-sm-only">${order.date}</td>
 <#--                                <td class="am-hide-sm-only">${order.updateTime}</td>-->
-                                <td><button class="am-btn am-btn-danger am-round am-btn-xs am-icon-plus" type="button" onclick="confirmCancelOrder(${order.orderId})"><#--<a href="/manager/order/cancel?orderId=${order.orderId}">--> 取消订单</a></button> </td>
+                                <td><button class="am-btn am-btn-danger am-round am-btn-xs am-icon-plus" type="button" onclick="confirmCancelOrder('${order.orderId}')"><#--<a href="/manager/order/cancel?orderId=${order.orderId}">--> 取消订单</a></button> </td>
                             </tr>
                         </#list>
                     </#if>

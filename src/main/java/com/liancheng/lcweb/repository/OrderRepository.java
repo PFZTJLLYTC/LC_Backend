@@ -40,8 +40,6 @@ public interface OrderRepository extends JpaRepository<Order,String> {
 
     List<Order> findByOrderStatusAndUserIdOrderByUpdateTimeDesc(Integer orderStatus,String userId);
 
-    List<Order> findByOrderStatusAndDnumOrderByUpdateTimeDesc(Integer orderStatus,String dnum);
-
     List<Order> findByOrderStatusAndDnum(Integer orderStatus,String dnum);
 
     Page<Order> findByLineIdAndOrderStatus(Integer lineId,Integer orderStatus,Pageable pageable);

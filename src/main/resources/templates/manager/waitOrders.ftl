@@ -198,8 +198,8 @@
                                 <td class="am-hide-sm-only">未处理</td>
                                 <td class="am-hide-sm-only">${order.date}</td>
 <#--                                <td class="am-hide-sm-only">${order.updateTime}</td>-->
-                                <td><button class="am-btn am-btn-primary am-round am-btn-xs am-icon-plus" type="button" id="mode_id" onclick="chooseDriver(${order.orderId})"> 分配司机</button> </td>
-                                <td><button class="am-btn am-btn-danger am-round am-btn-xs am-icon-plus" type="button" onclick="confirmCancelOrder(${order.orderId})"><#--<a href="/manager/order/cancel?orderId=${order.orderId}">--> 取消</a></button> </td>
+                                <td><button class="am-btn am-btn-primary am-round am-btn-xs am-icon-plus" type="button" id="mode_id" onclick="chooseDriver('${order.orderId}')"> 分配司机</button> </td>
+                                <td><button class="am-btn am-btn-danger am-round am-btn-xs am-icon-plus" type="button" onclick="confirmCancelOrder('${order.orderId}')"><#--<a href="/manager/order/cancel?orderId=${order.orderId}">--> 取消</a></button> </td>
                             </tr>
                         </#list>
                     </#if>
