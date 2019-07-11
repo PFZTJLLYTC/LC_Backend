@@ -21,6 +21,7 @@ import com.liancheng.lcweb.service.*;
 import com.liancheng.lcweb.utils.KeyUtil;
 import com.liancheng.lcweb.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.jni.Local;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+
+import static com.liancheng.lcweb.constant.MessagesConstant.changeStatus;
 
 @Service
 @Slf4j
@@ -59,6 +62,9 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private MessagesService messagesService;
+
     @Override
     public List<Order> findAll() {
         return orderRepository.findAll();
@@ -81,10 +87,11 @@ public class OrderServiceImpl implements OrderService {
 //        这个findOneByName()方法只按一个方向找，但用户下单时两个方向均可
 //        Integer lineId = lineService.findOneByName(userOrderForm.getLineName()).getLineId();
         Integer lineId=lineService.findLineIdByLineName(userOrderForm.getLineName());
+
         List<Manager> managers = managerRepository.findByLineId(lineId);
+
         for (Manager manager:managers){
             try {
-
                 webSocketService.sendInfo("新的订单消息",manager.getTelNum());
             } catch (IOException e) {
                 log.error(e.getMessage());
@@ -123,6 +130,7 @@ public class OrderServiceImpl implements OrderService {
         order.setCarNum(driver.getCarNum());
         order.setDnum(driver.getDnum());
         order.setDriverName(driver.getName());
+        order.setDate(LocalDate.now().toString());
 
         //改变司机信息并保存
         Integer original = driver.getAvailableSeats();
@@ -139,6 +147,7 @@ public class OrderServiceImpl implements OrderService {
     public Order finishOne(Order order) {
         // 订单完成后司机的worktime也需要增加
         order.setOrderStatus(OrderStatusEnums.DONE.getCode());
+        order.setDate(LocalDate.now().toString());
         Driver driver = driverService.findOne(order.getDnum());
         User user = userService.findOne(order.getUserId());
         user.setTakeTimes(user.getTakeTimes()+1);
@@ -155,11 +164,23 @@ public class OrderServiceImpl implements OrderService {
         orderRepository.save(order);
         driverRepository.save(driver);
         userRepository.save(user);
+
+        List<Manager> managers = managerRepository.findByLineId(order.getLineId());
+
+        String msg = changeStatus+managers.get(0).getTelNum();
+
         //进行对用户的通知
         try {
-            webSocketService.sendInfo("您的订单状态已更新",order.getUserId());
+            messagesService.createMessage(order.getUserId(),msg);
+            webSocketService.sendInfo(msg,order.getUserId());
         } catch (IOException e) {
             log.warn("向用户发订单状态更新消息失败,userId = {}",order.getUserId());
+        }
+        try {
+            messagesService.createMessage(order.getDnum(),msg);
+            webSocketService.sendInfo(msg,order.getDnum());
+        } catch (IOException e) {
+            log.warn("向司机发订单状态更新消息失败,userId = {}",order.getDnum());
         }
 
         return order;

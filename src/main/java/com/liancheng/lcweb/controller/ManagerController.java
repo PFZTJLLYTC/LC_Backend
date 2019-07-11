@@ -77,8 +77,7 @@ public class ManagerController {
 
 
     //login
-    //考虑安全性，跳转一个方法来进index,改成post！
-    @GetMapping(value = "/login")
+    @PostMapping(value = "/login")
     public ModelAndView login(@RequestParam("telNum") String telNum,
                               @RequestParam("password") String password,
                               HttpServletRequest request,
