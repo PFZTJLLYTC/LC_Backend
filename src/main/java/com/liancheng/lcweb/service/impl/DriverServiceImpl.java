@@ -1,8 +1,10 @@
 package com.liancheng.lcweb.service.impl;
 
 import com.liancheng.lcweb.VO.ResultVO;
+import com.liancheng.lcweb.constant.MessagesConstant;
 import com.liancheng.lcweb.converter.Driver2DriverDTOConverter;
 import com.liancheng.lcweb.domain.Driver;
+import com.liancheng.lcweb.domain.Manager;
 import com.liancheng.lcweb.dto.DriverAccountInfoDTO;
 import com.liancheng.lcweb.dto.DriverDTO;
 import com.liancheng.lcweb.enums.DriverStatusEnums;
@@ -12,10 +14,7 @@ import com.liancheng.lcweb.exception.ManagerException;
 import com.liancheng.lcweb.form.DriverInfoForm;
 import com.liancheng.lcweb.form.DriverLoginForm;
 import com.liancheng.lcweb.repository.DriverRepository;
-import com.liancheng.lcweb.service.DriverService;
-import com.liancheng.lcweb.service.LineService;
-import com.liancheng.lcweb.service.MessagesService;
-import com.liancheng.lcweb.service.OrderService;
+import com.liancheng.lcweb.service.*;
 import com.liancheng.lcweb.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.jni.Local;
@@ -44,10 +43,16 @@ public class DriverServiceImpl implements DriverService {
     private LineService lineService;
 
     @Autowired
+    private ManagerService managerService;
+
+    @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
     private MessagesService messagesService;
+
+    @Autowired
+    private WebSocketService webSocketService;
 
     @Autowired
     private OrderService orderService;
@@ -74,6 +79,11 @@ public class DriverServiceImpl implements DriverService {
         driver.setAvailableSeats((driverInfoForm.getSeatType()==0)?4:7);
         //等待被确认
         driverRepository.save(driver);
+        try {
+            webSocketService.sendInfo(MessagesConstant.newDriver,lineId+"");
+        }catch (Exception e){
+            log.info("提醒管理员有新的司机申请失败,linId={}",lineId);
+        }
     }
 
     @Override

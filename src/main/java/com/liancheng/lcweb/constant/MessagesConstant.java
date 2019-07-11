@@ -10,4 +10,6 @@ public interface MessagesConstant {
 
     String cancelStatus = "您的一个订单被取消，如有疑问请联系该线路负责人: ";
 
+    String newDriver = "新的司机申请！";
+
 }

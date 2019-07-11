@@ -87,19 +87,11 @@ public class OrderServiceImpl implements OrderService {
 //        这个findOneByName()方法只按一个方向找，但用户下单时两个方向均可
 //        Integer lineId = lineService.findOneByName(userOrderForm.getLineName()).getLineId();
         Integer lineId=lineService.findLineIdByLineName(userOrderForm.getLineName());
-
-        List<Manager> managers = managerRepository.findByLineId(lineId);
-
-        for (Manager manager:managers){
-            try {
-                webSocketService.sendInfo("新的订单消息",manager.getTelNum());
-            } catch (IOException e) {
-                log.error(e.getMessage());
-                e.printStackTrace();
-            }
+        try {
+            webSocketService.sendInfo("新的订单消息",lineId+"");
+        } catch (IOException e) {
+            log.error(e.getMessage());
         }
-
-
     }
 
 
