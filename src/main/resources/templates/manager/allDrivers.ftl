@@ -291,7 +291,7 @@
     <#--    待添加-->
     <source src = "/mp3/song.mp3" type="audio/mpeg" />
 </audio>
-
+<script type="text/javascript" src="../../js/layui/layui.js"></script>
 <script>
     var websocket = null;
     if('WebSocket' in window){
@@ -308,10 +308,29 @@
     }
     websocket.onmessage = function (event) {
         console.log('收到消息：'+ event.data);
-        //弹窗提醒，播放音乐
-        //jquery弹窗，懒得写了
-        //play
         document.getElementById('notice').play();
+        layui.use('layer',function () {
+            var layer= layui.layer; //获取layer模块
+            layer.open({
+                type: 1,
+                title: '消息',
+                // shade: false, //遮罩
+                // area: ['300px', '150px'],
+                // offset: 'rb', //右下角弹出
+                time: 60000, //1分钟后自动关闭
+                // anim: 2,
+                anim: 1,
+                content: '<div style="margin: 10px" >' +
+                    '<label style="font-weight: bold;color: red;">event.data</label>' +'<br>'+
+                    // '<p style="display:inline-block ;color: yellow;">'+666+'</p>' +
+                    '</div>',
+                btn: ['确定'],
+                btn1: function (index,layero) {
+                    document.getElementById('notice').pause();
+                    location.reload();
+                }
+            });
+        });
 
         // document.getElementById('notice').pause();点击某属性后暂停
     }
