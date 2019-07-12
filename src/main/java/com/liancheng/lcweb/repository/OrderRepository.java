@@ -60,6 +60,8 @@ public interface OrderRepository extends JpaRepository<Order,String> {
     @Query(value ="SELECT IFNULL(SUM(user_count),0) FROM user_order WHERE order_status=2 and dnum=?1 and date=?2",nativeQuery = true)
     Integer findDriverTodayUsers(String dnum,LocalDate today);
 
+    List<Order> findByOrderStatusAndUserIdOrderByUpdateTimeDesc(Integer orderStatus,String userId);
+
     List<Order> findByOrderStatusAndDnumOrderByUpdateTimeDesc(Integer orderStatus,String dnum);
 
 }
