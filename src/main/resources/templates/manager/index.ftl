@@ -279,7 +279,7 @@
                 // anim: 2,
                 anim: 1,
                 content: '<div style="margin: 10px" >' +
-                    '<label style="font-weight: bold;color: red;">event.data</label>' +'<br>'+
+                    '<label style="font-weight: bold;color: red;">'+event.data+'</label>' +'<br>'+
                     // '<p style="display:inline-block ;color: yellow;">'+666+'</p>' +
                     '</div>',
                 btn: ['确定'],
