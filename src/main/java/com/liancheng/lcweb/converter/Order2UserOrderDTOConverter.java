@@ -3,6 +3,7 @@ package com.liancheng.lcweb.converter;
 import com.liancheng.lcweb.domain.Order;
 import com.liancheng.lcweb.dto.UserOrderDTO;
 import org.springframework.beans.BeanUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,7 +19,9 @@ public class Order2UserOrderDTOConverter {
         String[] lineNameArray=order.getLineName().split("-",2);
         userOrderDTO.setSource(lineNameArray[0]);
         userOrderDTO.setDestination(lineNameArray[1]);
-        userOrderDTO.setDriverName(order.getDriverName().substring(0,1)+"师傅");
+        if (order.getDriverName()!=null&& !StringUtils.isEmpty(order.getDriverName())){
+            userOrderDTO.setDriverName(order.getDriverName().substring(0,1)+"师傅");
+        }
         return userOrderDTO;
     }
 
