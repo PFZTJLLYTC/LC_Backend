@@ -41,6 +41,9 @@ public class UserController {
     private LineService lineService;
 
     @Autowired
+    private MessagesService messagesService;
+
+    @Autowired
     private AccessTokenService accessTokenService;
 
     @Autowired
@@ -169,5 +172,16 @@ public class UserController {
     @GetMapping("/lines/all")
     public ResultVO findAllLines(){
         return ResultVOUtil.success(lineService.findAllLineName1AndLineName2());
+    }
+
+    @GetMapping("/messages/findMessages")
+    public ResultVO findMessages(@RequestParam String userId){
+        return ResultVOUtil.success(messagesService.findByTarget(userId));
+    }
+
+    @PostMapping("/messages/delete/{id}")
+    public ResultVO deleteOneMessage(@PathVariable Integer id){
+        messagesService.deleteMessage(id);
+        return ResultVOUtil.success();
     }
 }
