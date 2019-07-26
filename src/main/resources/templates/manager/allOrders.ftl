@@ -258,19 +258,24 @@
                     <#if currentPage lte 1>
                         <li class="am-disabled"><a href="#">«</a></li>
                         <#else>
-                            <li class="am-active"><a href="/manager/order/allOrders?page=${currentPage-1}&size=${size}">«</a></li>
+                            <li class="am-disabled"><a href="/manager/order/allOrders?page=${currentPage-1}&size=${size}">«</a></li>
                     </#if>
-                    <#list 1..orders.getTotalPages() as index >
-                        <#if currentPage == index >
-                            <li class="am-disabled"><a href="#">${index}</a></li>
+                    <#if orders.getTotalPages()==0>
+                        <li class="am-disabled"><a href="#">1</a></li>
+                    <#else>
+                        <#list 1..orders.getTotalPages() as index >
+                            <#if currentPage == index >
+                                <li class="am-active"><a href="#">${index}</a></li>
                             <#else>
-                                <li class="am-active"><a href="/manager/order/allOrders?page=${index}&size=${size}">${index}</a></li>
-                        </#if>
-                    </#list>
+                                <li class="am-disabled"><a href="/manager/order/allOrders?page=${index}&size=${size}">${index}</a></li>
+                            </#if>
+                        </#list>
+                    </#if>
+
                     <#if currentPage gte orders.getTotalPages()>
                         <li class="am-disabled"><a href="#">»</a></li>
                         <#else>
-                            <li class="am-active"><a href="/manager/order/allOrders?page=${currentPage+1}&size=${size}">»</a></li>
+                            <li class="am-disabled"><a href="/manager/order/allOrders?page=${currentPage+1}&size=${size}">»</a></li>
                     </#if>
 
                 </ul>
@@ -280,7 +285,7 @@
 
             <div class="foods">
                 <ul>
-                    版权所有@2019.
+                    版权所有lc@2019.
                 </ul>
                 <dl>
                     <a class="am-icon-btn am-icon-arrow-up" href="" title="返回头部"></a>
@@ -296,37 +301,37 @@
 </div>
 
 <#--仅包含content部分，弹出框确认和取消botton见message_box.js-->
-<div id="my_mode" class="my-mode">
-    <table class="my-mode-table" width="100%">
-        <thead>
-        <tr>
-            <th class="table-check"><input type="checkbox"/></th>
-            <th class="table-title">姓名</th>
-            <th class="table-type">可用座位</th>
-            <th class="table-type">车牌号</th>
-            <th class="table-type">联系方式</th>
-            <th class="table-type">完成单数</th>
-            <th class="table-author am-hide-sm-only">状态</th>
-        </tr>
-        </thead>
-        <tbody>
-        <#if drivers??>
-            <#list drivers.content as driver>
-                <tr>
-                    <td><input type="checkbox"/></td>
-                    <td>${driver.name}</td>
-                    <td>${driver.availableSeats}</td>
-                    <td>${driver.carNum}</td>
-                    <td>${driver.dnum}</td>
-                    <td>${driver.workTimes}</td>
-                    <td>${driver.status}</td>
-                    <#--    取消则调用删除-->
-                </tr>
-            </#list>
-        </#if>
-        </tbody>
-    </table>
-</div>
+<#--<div id="my_mode" class="my-mode">-->
+<#--    <table class="my-mode-table" width="100%">-->
+<#--        <thead>-->
+<#--        <tr>-->
+<#--            <th class="table-check"><input type="checkbox"/></th>-->
+<#--            <th class="table-title">姓名</th>-->
+<#--            <th class="table-type">可用座位</th>-->
+<#--            <th class="table-type">车牌号</th>-->
+<#--            <th class="table-type">联系方式</th>-->
+<#--            <th class="table-type">完成单数</th>-->
+<#--            <th class="table-author am-hide-sm-only">状态</th>-->
+<#--        </tr>-->
+<#--        </thead>-->
+<#--        <tbody>-->
+<#--        <#if drivers??>-->
+<#--            <#list drivers.content as driver>-->
+<#--                <tr>-->
+<#--                    <td><input type="checkbox"/></td>-->
+<#--                    <td>${driver.name}</td>-->
+<#--                    <td>${driver.availableSeats}</td>-->
+<#--                    <td>${driver.carNum}</td>-->
+<#--                    <td>${driver.dnum}</td>-->
+<#--                    <td>${driver.workTimes}</td>-->
+<#--                    <td>${driver.status}</td>-->
+<#--                    &lt;#&ndash;    取消则调用删除&ndash;&gt;-->
+<#--                </tr>-->
+<#--            </#list>-->
+<#--        </#if>-->
+<#--        </tbody>-->
+<#--    </table>-->
+<#--</div>-->
 <script type="text/javascript" src="../../js/layui/layui.js"></script>
 <#--播放音乐-->
 <audio id="notice" loop="loop">

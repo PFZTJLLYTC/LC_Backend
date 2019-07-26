@@ -213,7 +213,7 @@
 
             <div class="foods">
                 <ul>
-                    版权所有@2019.
+                    版权所有lc@2019.
                 </ul>
                 <dl>
                     <a class="am-icon-btn am-icon-arrow-up" href="" title="返回头部"></a>

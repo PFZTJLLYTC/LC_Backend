@@ -180,7 +180,7 @@
                 <div class="am-tab-panel am-fade am-in am-active" id="tab2">
                     <h3>部分注意事项</h3>
                     <ul>
-                        <li>1. 订单的取消需确认.</li>
+                        <li>1. 取消和删除操作需确认.</li>
                         <li>2. 司机审核为一次性操作.</li>
                         <li>3. 为安全考虑，登陆一段时间后强制重新登陆.</li>
                         <li>4. 全局搜索功能在当前使用版本处于维护状态.</li>
@@ -199,7 +199,7 @@
 
         <div class="foods">
             <ul>
-                版权所有@2019.
+                版权所有lc@2019.
             </ul>
             <dl>
                 <a class="am-icon-btn am-icon-arrow-up" href="" title="返回头部"></a>

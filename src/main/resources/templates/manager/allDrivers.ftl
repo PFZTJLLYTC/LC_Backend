@@ -232,21 +232,23 @@
                     <#if currentPage lte 1>
                     <li class="am-disabled"><a href="#">«</a></li>
                     <#else>
-                    <li class="am-active"><a href="/manager/driver/allDrivers?page=${currentPage-1}&size=${size}">«</a></li>
+                    <li class="am-disabled"><a href="/manager/driver/allDrivers?page=${currentPage-1}&size=${size}">«</a></li>
                     </#if>
-
-                    <#list 1..drivers.getTotalPages() as index>
-                        <#if currentPage == index>
-                            <li class="am-disabled"><a href="#">${index}</a></li>
-                        <#else>
-                            <li class="am-active"><a href="/manager/driver/allDrivers?page=${index}&size=${size}">${index}</a></li>
-                        </#if>
-                    </#list>
-
+                    <#if drivers.getTotalPages()==0 >
+                        <li class="am-disabled"><a href="#">1</a></li>
+                    <#else>
+                        <#list 1..drivers.getTotalPages() as index>
+                            <#if currentPage == index>
+                                <li class="am-active"><a href="#">${index}</a></li>
+                            <#else>
+                                <li class="am-disabled"><a href="/manager/driver/allDrivers?page=${index}&size=${size}">${index}</a></li>
+                            </#if>
+                        </#list>
+                    </#if>
                     <#if currentPage gte drivers.getTotalPages()>
                     <li class="am-disabled"><a href="#">»</a></li>
                     <#else>
-                    <li class="am-active"><a href="/manager/driver/allDrivers?page=${currentPage+1}&size=${size}">»</a></li>
+                    <li class="am-disabled"><a href="/manager/driver/allDrivers?page=${currentPage+1}&size=${size}">»</a></li>
                     </#if>
                 </ul>
 
@@ -255,7 +257,7 @@
 
             <div class="foods">
                 <ul>
-                    版权所有@2019.
+                    版权所有lc@2019.
                 </ul>
                 <dl>
                     <a class="am-icon-btn am-icon-arrow-up" href="" title="返回头部"></a>

@@ -1,5 +1,6 @@
 package com.liancheng.lcweb.aspect;
 
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.slf4j.Logger;
@@ -11,11 +12,12 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 
 @Aspect
+@Slf4j
 @Component
 public class HttpAspect {
 
     //日志记录
-    private final static Logger log = LoggerFactory.getLogger(HttpAspect.class);
+//    private final static Logger log = LoggerFactory.getLogger(HttpAspect.class);
 
     @Pointcut("execution(public * com.liancheng.lcweb.controller.*.*(..))")
     public void log(){ }

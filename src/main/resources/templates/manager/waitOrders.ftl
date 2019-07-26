@@ -211,19 +211,23 @@
                     <#if currentPage lte 1>
                         <li class="am-disabled"><a href="#">«</a></li>
                     <#else>
-                        <li class="am-active"><a href="/manager/order/findByStatus?page=${currentPage-1}&size=${size}&status=0">«</a></li>
+                        <li class="am-disabled"><a href="/manager/order/findByStatus?page=${currentPage-1}&size=${size}&status=0">«</a></li>
                     </#if>
-                    <#list 1..orders.getTotalPages() as index >
-                        <#if currentPage == index >
-                            <li class="am-disabled"><a href="#">${index}</a></li>
-                        <#else>
-                            <li class="am-active"><a href="/manager/order/findByStatus?page=${index}&size=${size}&status=0">${index}</a></li>
-                        </#if>
-                    </#list>
+                    <#if orders.getTotalPages()==0>
+                        <li class="am-disabled"><a href="#">1</a></li>
+                    <#else>
+                        <#list 1..orders.getTotalPages() as index >
+                            <#if currentPage == index >
+                                <li class="am-active"><a href="#">${index}</a></li>
+                            <#else>
+                                <li class="am-disabled"><a href="/manager/order/findByStatus?page=${index}&size=${size}&status=0">${index}</a></li>
+                            </#if>
+                        </#list>
+                    </#if>
                     <#if currentPage gte orders.getTotalPages()>
                         <li class="am-disabled"><a href="#">»</a></li>
                     <#else>
-                        <li class="am-active"><a href="/manager/order/findByStatus?page=${currentPage+1}&size=${size}&status=0">»</a></li>
+                        <li class="am-disabled"><a href="/manager/order/findByStatus?page=${currentPage+1}&size=${size}&status=0">»</a></li>
                     </#if>
 
                 </ul>
@@ -232,7 +236,7 @@
 
             <div class="foods">
                 <ul>
-                    版权所有@2019.
+                    版权所有lc@2019.
                 </ul>
                 <dl>
                     <a class="am-icon-btn am-icon-arrow-up" href="" title="返回头部"></a>
