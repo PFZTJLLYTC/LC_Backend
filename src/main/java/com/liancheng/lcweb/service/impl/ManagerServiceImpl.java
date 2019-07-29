@@ -1,10 +1,12 @@
 package com.liancheng.lcweb.service.impl;
 import com.liancheng.lcweb.constant.MessagesConstant;
+import com.liancheng.lcweb.constant.PushModuleConstant;
 import com.liancheng.lcweb.converter.Driver2DriverDTOConverter;
 import com.liancheng.lcweb.converter.String2DateConverter;
 import com.liancheng.lcweb.domain.*;
 import com.liancheng.lcweb.dto.DriverDTO;
 import com.liancheng.lcweb.dto.MessageNumDTO;
+import com.liancheng.lcweb.dto.PushDTO;
 import com.liancheng.lcweb.dto.TotalInfoDTO;
 import com.liancheng.lcweb.enums.DriverStatusEnums;
 import com.liancheng.lcweb.enums.OrderStatusEnums;
@@ -69,6 +71,9 @@ public class ManagerServiceImpl implements ManagerService {
 
     @Autowired
     private LineTotalRepository lineTotalRepository;
+
+    @Autowired
+    private PushServiceWithImpl pushServiceWithImpl;
 
 
 
@@ -384,12 +389,21 @@ public class ManagerServiceImpl implements ManagerService {
         } catch (IOException e) {
             log.warn("向司机发送即时消息失败,dnum={},message={}",dnum,e.getMessage());
         }
+        //发通知
+        PushDTO pushDTO = new PushDTO(PushModuleConstant.TITLE,msg,2,PushModuleConstant.platform,"",order.getUserId());
         try {
             messagesService.createMessage(order.getUserId(),msg);
-            webSocketService.sendInfo(msg,order.getUserId());
-        } catch (IOException e) {
+            pushServiceWithImpl.pushMessage2User(pushDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
             log.warn("向乘客发送即时消息失败,userId={},message={}",order.getUserId(),e.getMessage());
         }
+//        try {
+//            messagesService.createMessage(order.getUserId(),msg);
+//            webSocketService.sendInfo(msg,order.getUserId());
+//        } catch (IOException e) {
+//            log.warn("向乘客发送即时消息失败,userId={},message={}",order.getUserId(),e.getMessage());
+//        }
     }
 
     @Override
@@ -419,12 +433,21 @@ public class ManagerServiceImpl implements ManagerService {
                 log.warn("向司机发送即时消息失败,dnum={},errormessage={}",dnum,e.getMessage());
             }
         }
+
+        PushDTO pushDTO = new PushDTO(PushModuleConstant.TITLE,msg,2,PushModuleConstant.platform,"",order.getUserId());
         try {
-            messagesService.createMessage(userId,msg);
-            webSocketService.sendInfo(msg,userId);
-        }catch (IOException e){
-            log.warn("向乘客发送即时消息失败,userId={},errormessage={}",userId,e.getMessage());
+            messagesService.createMessage(order.getUserId(),msg);
+            pushServiceWithImpl.pushMessage2User(pushDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.warn("向乘客发送即时消息失败,userId={},message={}",order.getUserId(),e.getMessage());
         }
+//        try {
+//            messagesService.createMessage(userId,msg);
+//            webSocketService.sendInfo(msg,userId);
+//        }catch (IOException e){
+//            log.warn("向乘客发送即时消息失败,userId={},errormessage={}",userId,e.getMessage());
+//        }
     }
 
     //保留，以后说不定有用
@@ -528,7 +551,6 @@ public class ManagerServiceImpl implements ManagerService {
                 throw new ManagerException(ResultEnums.NO_SUCH_DRIVER.getMsg(),"/manager/goContactAndHelp");
             }
         }else{
-            //todo 存announce
             List<Driver> driverList = driverRepository.findByLineId(lineId);
             for (Driver driver : driverList){
                 try {

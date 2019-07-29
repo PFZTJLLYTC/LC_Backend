@@ -1,10 +1,16 @@
 package com.liancheng.lcweb.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class PushDTO {
+public class PushDTO implements Serializable {
+
+    @JsonIgnore
+    private static final long serialVersionUID = 666925214454233959L;
 
     private String title;
 
@@ -27,6 +33,8 @@ public class PushDTO {
         this.platform = platform;
         this.groupName = groupName;
         this.userIds = userIds;
+//        this.groupName = groupName.equals("")?null:groupName;
+//        this.userIds = userIds.equals("")?null:userIds;
     }
 
 

@@ -81,7 +81,6 @@ public class UserServiceImpl implements UserService {
         }
 
         return accessTokenService.createAccessToken(user.getId());
-        //TODO 用户登陆记录表?
     }
 
     @Override

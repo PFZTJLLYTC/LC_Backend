@@ -11,8 +11,10 @@ public interface PushModuleConstant {
 
     String driver_X_APICloud_AppId = "";
 
-    String TITLE = "通知"; //消息标题，是否固定另说
+    String driver_app_key = "";
 
-    Integer platform = 0; //默认就全平台推送
+    String TITLE = "新的消息"; //消息标题，是否固定另说
+
+    Integer platform = 2; //默认就安卓推送,0代表全平台推送
 
 }

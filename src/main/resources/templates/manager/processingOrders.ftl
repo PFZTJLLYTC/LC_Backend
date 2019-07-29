@@ -204,16 +204,16 @@
                     <#if currentPage lte 1>
                         <li class="am-disabled"><a href="#">«</a></li>
                     <#else>
-                        <li class="am-disabled"><a href="/manager/order/findByStatus?page=${currentPage-1}&size=${size}&status=1">«</a></li>
+                        <li class=""><a href="/manager/order/findByStatus?page=${currentPage-1}&size=${size}&status=1">«</a></li>
                     </#if>
                     <#if orders.getTotalPages()==0>
-                        <li class="am-disabled"><a href="#">1</a></li>
+                        <li class=""><a href="#">1</a></li>
                     <#else>
                         <#list 1..orders.getTotalPages() as index >
                             <#if currentPage == index >
                                 <li class="am-active"><a href="#">${index}</a></li>
                             <#else>
-                                <li class="am-disabled"><a href="/manager/order/findByStatus?page=${index}&size=${size}&status=1">${index}</a></li>
+                                <li class=""><a href="/manager/order/findByStatus?page=${index}&size=${size}&status=1">${index}</a></li>
                             </#if>
                         </#list>
                     </#if>
@@ -221,7 +221,7 @@
                     <#if currentPage gte orders.getTotalPages()>
                         <li class="am-disabled"><a href="#">»</a></li>
                     <#else>
-                        <li class="am-disabled"><a href="/manager/order/findByStatus?page=${currentPage+1}&size=${size}&status=1">»</a></li>
+                        <li class=""><a href="/manager/order/findByStatus?page=${currentPage+1}&size=${size}&status=1">»</a></li>
                     </#if>
 
                 </ul>

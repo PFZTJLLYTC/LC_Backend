@@ -207,16 +207,16 @@
                     <#if currentPage lte 1>
                         <li class="am-disabled"><a href="#">«</a></li>
                     <#else>
-                        <li class="am-disabled"><a href="/manager/driver/findByStatus?status=2&page=${currentPage-1}&size=${size}">«</a></li>
+                        <li class=""><a href="/manager/driver/findByStatus?status=2&page=${currentPage-1}&size=${size}">«</a></li>
                     </#if>
                     <#if drivers.getTotalPages()==0>
-                        <li class="am-disabled"><a href="#">1</a></li>
+                        <li class=""><a href="#">1</a></li>
                     <#else>
                         <#list 1..drivers.getTotalPages() as index>
                             <#if currentPage == index>
                                 <li class="am-active"><a href="#">${index}</a></li>
                             <#else>
-                                <li class="am-disabled"><a href="/manager/driver/findByStatus?status=2&page=${index}&size=${size}">${index}</a></li>
+                                <li class=""><a href="/manager/driver/findByStatus?status=2&page=${index}&size=${size}">${index}</a></li>
                             </#if>
                         </#list>
                     </#if>
@@ -224,7 +224,7 @@
                     <#if currentPage gte drivers.getTotalPages()>
                         <li class="am-disabled"><a href="#">»</a></li>
                     <#else>
-                        <li class="am-disabled"><a href="/manager/driver/findByStatus?status=2&page=${currentPage+1}&size=${size}">»</a></li>
+                        <li class=""><a href="/manager/driver/findByStatus?status=2&page=${currentPage+1}&size=${size}">»</a></li>
                     </#if>
                 </ul>
 
