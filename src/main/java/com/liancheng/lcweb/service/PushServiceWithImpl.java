@@ -24,49 +24,71 @@ public class PushServiceWithImpl {
     @Autowired
     private RestTemplate restTemplate;
 
-    public  boolean pushMessage2User(PushDTO body) throws Exception{
+    public  boolean pushMessage2User(PushDTO userPushBody) throws Exception{
 
-        HttpHeaders headers = new HttpHeaders();
+//        HttpHeaders headers = new HttpHeaders();
 //        MediaType type = MediaType.parseMediaType("application/json; charset=UTF-8");
         String appId = PushModuleConstant.user_X_APICloud_AppId;
         String appkey = PushModuleConstant.user_app_key;
 
-        //返回自1970年1月1日 00:00:00 UTC到当前时间的毫秒数
-        long now = Instant.now().toEpochMilli();
+//        String trueAppkey = getKey(appId,appkey);
 
-        String s = appId + "UZ" + appkey + "UZ" + now ;
-        String trueAppkey = PushUtil.getTrueAppkey(s)+ "."+ now ;
-
-//        打印appkey看看
-//        log.info(trueAppkey);
-
-        headers.add("X-APICloud-AppId", appId);
-        headers.add("X-APICloud-AppKey", trueAppkey);
+//        headers.add("X-APICloud-AppId", appId);
+//        headers.add("X-APICloud-AppKey", trueAppkey);
 //        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        MultiValueMap<String, String> map = PushDTO2Map.pushDTO2Map(body);
+//        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+//        MultiValueMap<String, String> map = PushDTO2Map.pushDTO2Map(userPushBody);
 
 //        String params = new Gson().toJson(map);
 
         //打印看看params
 //        log.info(map.toString());
 
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
+//        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
 
-        ResponseEntity<String> response = restTemplate.postForEntity( PushModuleConstant.url_pre, request, String.class);
+//        ResponseEntity<String> response = restTemplate.postForEntity( PushModuleConstant.url_pre, request, String.class);
 
-        //看结果返回情况
-        log.info(response.toString());
+//        restTemplate.postForEntity( PushModuleConstant.url_pre, request, String.class);
 
-        //不管发送成功没有？暂时不解析response，反正有入库？
-        return true;
+
+        return post(appId,appkey,userPushBody);
     }
 
 
-    public  boolean pushMessage2Driver(Integer groupId, PushDTO body){
+    public  boolean pushMessage2Driver(PushDTO driverPushBody){
 
-        return true;
 
+        String appId = PushModuleConstant.driver_X_APICloud_AppId;
+        String appKey = PushModuleConstant.driver_app_key;
+
+        return post(appId,appKey,driverPushBody);
+
+    }
+
+    private String getKey(String appId, String appKey){
+
+        //返回自1970年1月1日 00:00:00 UTC到当前时间的毫秒数
+        long now = Instant.now().toEpochMilli();
+
+        String s = appId + "UZ" + appKey + "UZ" + now ;
+
+        return PushUtil.getTrueAppkey(s)+ "."+ now ;
+
+    }
+
+    private boolean post(String appId, String appKey, PushDTO body){
+
+        HttpHeaders headers = new HttpHeaders();
+
+        String trueAppkey = getKey(appId,appKey);
+        headers.add("X-APICloud-AppId", appId);
+        headers.add("X-APICloud-AppKey", trueAppkey);
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        MultiValueMap<String, String> map = PushDTO2Map.pushDTO2Map(body);
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
+        //不管发送成功没有？暂时不解析response，反正有入库？
+        restTemplate.postForEntity( PushModuleConstant.url_pre, request, String.class);
+        return  true;
     }
 
 }

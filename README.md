@@ -1,13 +1,14 @@
-# lcBackstage
-the backstage of lc.
+# LC_Backend
+the backend of lc.
 
-## java 11.0.1 + spring boot 2.1.3 + redis 4.0.2 + tomcat 9 + mysql 8.0.15
+## java 11.0.1 + spring boot 2.1.3 + redis + tomcat 9 + mysql 8.0.15
 ```
 controller两种接口选择 ： 模板渲染 json（偏向）
 
 app使用后，web使用前
 
 man界面前全原生+模板渲染
+
 root界面框架选择。
 ```
 
@@ -15,7 +16,7 @@ root界面框架选择。
 
 + 尽量避免级联更新与删除，保证记录持久性
 
-+ ws即时通讯，目前id三合一{id},将与push模块结合
++ ws(man),与push模块结合(app)保证通讯
 
 + order人性化排序
 
@@ -78,7 +79,7 @@ u&d是否通过ws定向传送消息待商榷
 
 + 全局搜索
 
-+ redis有时出现无法写到磁盘的情况
++ ~~redis有时出现无法写到磁盘的情况~~(定维)
 
 + ~~分配时的状态区分（incorrect status）- 4~~
 
@@ -86,6 +87,6 @@ u&d是否通过ws定向传送消息待商榷
 
 + ~~启动页更多适配~~
 
-注：目前较臃肿，后续将进行服务拆分. 
+注：后续将进行服务拆分. 
 
 

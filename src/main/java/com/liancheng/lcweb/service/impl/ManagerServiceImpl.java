@@ -385,15 +385,18 @@ public class ManagerServiceImpl implements ManagerService {
 
         try {
             messagesService.createMessage(dnum,msg);
-            webSocketService.sendInfo(msg,dnum);
-        } catch (IOException e) {
+            PushDTO driverPushDTO = new PushDTO(PushModuleConstant.TITLE,msg,2,PushModuleConstant.platform,"", dnum);
+            pushServiceWithImpl.pushMessage2Driver(driverPushDTO);
+//            webSocketService.sendInfo(msg,dnum);
+        } catch (Exception e) {
+            e.printStackTrace();
             log.warn("向司机发送即时消息失败,dnum={},message={}",dnum,e.getMessage());
         }
         //发通知
-        PushDTO pushDTO = new PushDTO(PushModuleConstant.TITLE,msg,2,PushModuleConstant.platform,"",order.getUserId());
         try {
             messagesService.createMessage(order.getUserId(),msg);
-            pushServiceWithImpl.pushMessage2User(pushDTO);
+            PushDTO userPushDTO = new PushDTO(PushModuleConstant.TITLE,msg,2,PushModuleConstant.platform,"",order.getUserId());
+            pushServiceWithImpl.pushMessage2User(userPushDTO);
         } catch (Exception e) {
             e.printStackTrace();
             log.warn("向乘客发送即时消息失败,userId={},message={}",order.getUserId(),e.getMessage());
@@ -427,17 +430,21 @@ public class ManagerServiceImpl implements ManagerService {
         //如果已经分配了司机的情况：
         if (dnum!=null&& !StringUtils.isEmpty(dnum)){
             try {
+                //没有写groupname，直接推到单独的司机头上
+                PushDTO driverPushDTO = new PushDTO(PushModuleConstant.TITLE,msg,2,PushModuleConstant.platform,"", dnum);
                 messagesService.createMessage(dnum,msg);
-                webSocketService.sendInfo(msg,dnum);
-            }catch (IOException e){
+//                webSocketService.sendInfo(msg,dnum);
+                pushServiceWithImpl.pushMessage2Driver(driverPushDTO);
+            }catch (Exception e){
+                e.printStackTrace();
                 log.warn("向司机发送即时消息失败,dnum={},errormessage={}",dnum,e.getMessage());
             }
         }
 
-        PushDTO pushDTO = new PushDTO(PushModuleConstant.TITLE,msg,2,PushModuleConstant.platform,"",order.getUserId());
         try {
+            PushDTO userPushDTO = new PushDTO(PushModuleConstant.TITLE,msg,2,PushModuleConstant.platform,"",order.getUserId());
             messagesService.createMessage(order.getUserId(),msg);
-            pushServiceWithImpl.pushMessage2User(pushDTO);
+            pushServiceWithImpl.pushMessage2User(userPushDTO);
         } catch (Exception e) {
             e.printStackTrace();
             log.warn("向乘客发送即时消息失败,userId={},message={}",order.getUserId(),e.getMessage());
@@ -542,8 +549,10 @@ public class ManagerServiceImpl implements ManagerService {
 //                    messages.setTarget(driver.getDnum());
 //                    messages.setMessage(message2DriverForm.getMessage());
                     messagesService.createMessage(driver.getDnum(),message2DriverForm.getMessage());
-                    webSocketService.sendInfo(message2DriverForm.getMessage(),driver.getDnum());
-                }catch (IOException e){
+                    PushDTO driverPushDTO = new PushDTO(PushModuleConstant.TITLE,message2DriverForm.getMessage(),2,PushModuleConstant.platform,"", message2DriverForm.getDnum());
+                    pushServiceWithImpl.pushMessage2Driver(driverPushDTO);
+//                    webSocketService.sendInfo(message2DriverForm.getMessage(),driver.getDnum());
+                }catch (Exception e){
                     log.warn("向指定司机发送及时消息失败, dnum ={}",driver.getDnum());
                 }
             }
@@ -553,13 +562,19 @@ public class ManagerServiceImpl implements ManagerService {
         }else{
             List<Driver> driverList = driverRepository.findByLineId(lineId);
             for (Driver driver : driverList){
-                try {
-                    webSocketService.sendInfo(message2DriverForm.getMessage(),driver.getDnum());
-                }catch (IOException e){
-                    log.warn("向司机发送及时消息失败, dnum ={}",driver.getDnum());
-                    //不过问题不大，因为存库了
-                }
+                messagesService.createMessage(driver.getDnum(),message2DriverForm.getMessage());
             }
+            PushDTO driverPushDTO = new PushDTO(PushModuleConstant.TITLE,message2DriverForm.getMessage(),2,PushModuleConstant.platform,lineId.toString(), "");
+            pushServiceWithImpl.pushMessage2Driver(driverPushDTO);
+//            List<Driver> driverList = driverRepository.findByLineId(lineId);
+//            for (Driver driver : driverList){
+//                try {
+//                    webSocketService.sendInfo(message2DriverForm.getMessage(),driver.getDnum());
+//                }catch (IOException e){
+//                    log.warn("向司机发送及时消息失败, dnum ={}",driver.getDnum());
+//                    //不过问题不大，因为存库了
+//                }
+//            }
         }
 
     }
