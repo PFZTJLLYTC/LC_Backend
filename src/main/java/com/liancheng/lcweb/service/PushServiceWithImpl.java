@@ -16,6 +16,8 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -79,6 +81,11 @@ public class PushServiceWithImpl {
     private boolean post(String appId, String appKey, PushDTO body){
 
         HttpHeaders headers = new HttpHeaders();
+        //设置接收返回值的格式为json,
+        //解决Error while extracting response for type [class xxx] and content type application/xml;charset=UTF-8 错误
+        List<MediaType> mediaTypeList = new ArrayList<>();
+        mediaTypeList.add(MediaType.APPLICATION_JSON_UTF8);
+        headers.setAccept(mediaTypeList);
 
         String trueAppkey = getKey(appId,appKey);
         headers.add("X-APICloud-AppId", appId);

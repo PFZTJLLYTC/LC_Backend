@@ -564,8 +564,14 @@ public class ManagerServiceImpl implements ManagerService {
             for (Driver driver : driverList){
                 messagesService.createMessage(driver.getDnum(),message2DriverForm.getMessage());
             }
-            PushDTO driverPushDTO = new PushDTO(PushModuleConstant.TITLE,message2DriverForm.getMessage(),2,PushModuleConstant.platform,lineId.toString(), "");
-            pushServiceWithImpl.pushMessage2Driver(driverPushDTO);
+            PushDTO driverPushDTO = new PushDTO(PushModuleConstant.TITLE, message2DriverForm.getMessage(), 2, PushModuleConstant.platform, lineId.toString(), "");
+            try {
+                pushServiceWithImpl.pushMessage2Driver(driverPushDTO);
+            }catch (Exception e){
+                //反正发出去了，异常捕获不抛出
+                log.info("向线路{}所有司机推送消息，把异常截取以免爆了",lineId);
+            }
+
 //            List<Driver> driverList = driverRepository.findByLineId(lineId);
 //            for (Driver driver : driverList){
 //                try {
