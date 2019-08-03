@@ -13,6 +13,8 @@ public class DriverDTO implements Serializable {
 
     private String dnum;
 
+    private Integer lineId;
+
     private String name;
 
     private String carNum;
