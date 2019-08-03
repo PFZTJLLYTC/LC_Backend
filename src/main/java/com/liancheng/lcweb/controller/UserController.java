@@ -126,6 +126,13 @@ public class UserController {
         return ResultVOUtil.success();
     }
 
+
+    //行程页面获取待处理和进行中订单
+    @GetMapping("/orders/travel")
+    public ResultVO findTravelOrder(@RequestParam String userId){
+        return ResultVOUtil.success(orderService.findUserTravelOrder(userId));
+    }
+
     //取消订单，只有当订单未被confirm才可以
 
     /**

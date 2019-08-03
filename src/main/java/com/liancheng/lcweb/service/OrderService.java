@@ -37,6 +37,7 @@ public interface OrderService {
 
     List<Order> findAllDone();
 
+    List<UserOrderDTO> findUserTravelOrder(String userId);
 
     List<UserOrderDTO> findUserOrderByStatus(Integer status,String userId);
 

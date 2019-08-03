@@ -94,8 +94,11 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
-
-
+    @Override
+    public  List<UserOrderDTO> findUserTravelOrder(String userId){
+        return Order2UserOrderDTOConverter
+                .convert(orderRepository.findUserTravelOrders(userId));
+    }
     @Override
     public List<UserOrderDTO> findUserOrderByStatus(Integer status,String userId){
 

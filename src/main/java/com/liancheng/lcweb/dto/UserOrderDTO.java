@@ -31,7 +31,7 @@ public class UserOrderDTO {
 
     private String remark;
 
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss",timezone = "Asia/Shanghai")
     private Date createTime;
 
 }

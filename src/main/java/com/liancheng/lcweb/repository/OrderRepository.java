@@ -41,21 +41,12 @@ public interface OrderRepository extends JpaRepository<Order,String> {
     List<Order> findByOrderStatusAndUserIdOrderByUpdateTimeDesc(Integer orderStatus,String userId);
 
 
-    List<Order> findByOrderStatusAndDnum(Integer orderStatus,String dnum);
-
     Page<Order> findByLineIdAndOrderStatus(Integer lineId,Integer orderStatus,Pageable pageable);
 
-    @Query(value = "SELECT * FROM user_order WHERE user_id = ?3 AND (order_status = ?1 OR order_status = ?2) ",nativeQuery = true)
-    List<Order> findByOrderStatusAndUserId(Integer orderStatusOne,Integer orderStatusTwo,String userId);
-
-
-    //todo 需要改了，这两个方法
-    @Query(value = "SELECT car_num ,source ,destination," +
-            "user_count,user_order.date FROM user_order  " +
-            "WHERE dnum = ?1 AND order_status = 2 " +
-            "ORDER BY create_time DESC ",nativeQuery = true)
-    List<DriverDoneOrderDTO> findDriverDoneOrderByDnum(String dnum);
-
+    //行程页面查询
+    @Query(value = "SELECT * FROM user_order WHERE (order_status = 0 OR  order_status = 1) AND user_id = ?1 " +
+            "ORDER BY order_status ASC , update_time DESC ",nativeQuery = true)
+    List<Order> findUserTravelOrders(String userId);
 
     @Query(value = "SELECT COUNT(*) FROM  user_order WHERE order_status=2 and dnum=?1 and date=?2",nativeQuery=true)
     Integer findDriverTodayOrders(String dnum, LocalDate today);

@@ -1,6 +1,7 @@
 package com.liancheng.lcweb.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedDate;
@@ -51,8 +52,10 @@ public class Driver {
     private Integer workTimes = 0;
 
     @CreatedDate
+    @JsonIgnore
     private Date createTime;
 
     @LastModifiedDate
+    @JsonIgnore
     private Date updateTime;
 }
