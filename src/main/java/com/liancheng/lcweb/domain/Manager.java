@@ -23,7 +23,7 @@ public class Manager {
     @GeneratedValue
     private String telNum;
 
-    private Integer lineId;//加外键jilian
+    private Integer lineId;
 
     private String name;
 
