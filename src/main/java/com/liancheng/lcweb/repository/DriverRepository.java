@@ -25,8 +25,8 @@ public interface DriverRepository extends JpaRepository<Driver,String> {
 
     Page<Driver> findByStatusAndLineId(Integer status,Integer lineId,Pageable pageable);
 
-    @Query(value = "select * from driver as d where d.status = 2 or d.status = 3 \n#pageable\n  ",
-            countQuery = "select count(*) from driver as d where d.status = 2 or d.status = 3 ",
+    @Query(value = "select * from driver as d where d.line_id = ?1 and ( d.status = 2 or d.status = 3 ) \n#pageable\n  ",
+            countQuery = "select count(*) from driver as d where d.line_id = ?1 and ( d.status = 2 or d.status = 3 ) ",
             nativeQuery = true)
     Page<Driver> findAllAvailable(Integer lineId, Pageable pageable);
 
