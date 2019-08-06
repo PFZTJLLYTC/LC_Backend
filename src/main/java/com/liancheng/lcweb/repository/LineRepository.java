@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface LineRepository extends JpaRepository<Line,Integer> {
 
+
     Line findByLineName1(String lineName);
 
     Line findByLineName2(String lineName);

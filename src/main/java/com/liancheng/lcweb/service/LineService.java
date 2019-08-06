@@ -1,6 +1,8 @@
 package com.liancheng.lcweb.service;
 
+import com.liancheng.lcweb.converter.Line2LineSelectDTO;
 import com.liancheng.lcweb.domain.Line;
+import com.liancheng.lcweb.dto.LineSelectDTO;
 import com.liancheng.lcweb.enums.ResultEnums;
 import com.liancheng.lcweb.exception.LcException;
 import com.liancheng.lcweb.repository.LineRepository;
@@ -47,5 +49,9 @@ public class LineService {
 
     public List<String> findAllLineName1(){
         return lineRepository.findAllLineName1();
+    }
+
+    public List<LineSelectDTO> findAllSelectLine(){
+        return Line2LineSelectDTO.convert(lineRepository.findAll());
     }
 }

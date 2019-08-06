@@ -178,7 +178,7 @@ public class UserController {
 
     @GetMapping("/lines/all")
     public ResultVO findAllLines(){
-        return ResultVOUtil.success(lineService.findAllLineName1AndLineName2());
+        return ResultVOUtil.success(lineService.findAllSelectLine());
     }
 
     @GetMapping("/messages/findMessages")
