@@ -20,6 +20,9 @@ public class ApplicationForm {
     @NotBlank(message = "申请人姓名不能为空")
     private String man_name;
 
+    @NotBlank(message = "密码必填")
+    private String pwd;
+
     //其他信息选填，eg：dr人数
     private String other;
 }

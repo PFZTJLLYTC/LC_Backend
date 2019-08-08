@@ -30,24 +30,29 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public void passApply(Integer id) {
-        Optional<Application> find = applicationRepository.findById(id);
-        if (find.isPresent()){
-            Application application = find.get();
+        Application find = findOne(id);
+        if (find!=null){
             log.info("设置线路{}已经通过",id);
             //联系与设置pwd另写
-            application.setIsDeal(1);
-            applicationRepository.save(application);
+            find.setIsDeal(1);
+            applicationRepository.save(find);
         }
     }
 
     @Override
     public void rejectApply(Integer id) {
-        Optional<Application> find = applicationRepository.findById(id);
-        if (find.isPresent()){
-            Application application = find.get();
+        Application find = findOne(id);
+        if (find!=null){
             log.info("设置线路{}未通过",id);
-            application.setIsDeal(2);
-            applicationRepository.save(application);
+            find.setIsDeal(2);
+            applicationRepository.save(find);
         }
+    }
+
+    @Override
+    public Application findOne(Integer apply_id) {
+        Optional<Application> find = applicationRepository.findById(apply_id);
+
+        return  find.orElse(null);
     }
 }

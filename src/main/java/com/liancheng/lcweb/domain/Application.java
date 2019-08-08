@@ -28,6 +28,9 @@ public class Application {
     //补充信息
     private String other;
 
+    //必填之密码
+    private String pwd;
+
     //是否已经处理，0为未处理，1为已经接受，2为拒绝
     private Integer isDeal;
 

@@ -11,5 +11,6 @@ public interface ApplicationService {
 
     void rejectApply(Integer id);
 
+    Application findOne(Integer apply_id);
 
 }
