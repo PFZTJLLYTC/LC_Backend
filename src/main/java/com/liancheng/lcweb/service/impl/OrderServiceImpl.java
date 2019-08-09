@@ -1,17 +1,14 @@
 package com.liancheng.lcweb.service.impl;
 
+import com.liancheng.lcweb.constant.PushModuleConstant;
 import com.liancheng.lcweb.converter.Order2UserOrderDTOConverter;
 import com.liancheng.lcweb.domain.Driver;
 import com.liancheng.lcweb.domain.Manager;
 import com.liancheng.lcweb.domain.Order;
 import com.liancheng.lcweb.domain.User;
-import com.liancheng.lcweb.dto.DriverDoneOrderDTO;
-import com.liancheng.lcweb.dto.OrderDriDTO;
+import com.liancheng.lcweb.dto.PushDTO;
 import com.liancheng.lcweb.dto.UserOrderDTO;
 import com.liancheng.lcweb.enums.OrderStatusEnums;
-import com.liancheng.lcweb.enums.ResultEnums;
-import com.liancheng.lcweb.exception.LcException;
-import com.liancheng.lcweb.exception.ManagerException;
 import com.liancheng.lcweb.form.UserOrderForm;
 import com.liancheng.lcweb.repository.DriverRepository;
 import com.liancheng.lcweb.repository.ManagerRepository;
@@ -19,10 +16,7 @@ import com.liancheng.lcweb.repository.OrderRepository;
 import com.liancheng.lcweb.repository.UserRepository;
 import com.liancheng.lcweb.service.*;
 import com.liancheng.lcweb.utils.KeyUtil;
-import com.liancheng.lcweb.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.jni.Local;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,6 +41,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private WebSocketService webSocketService;
+
+    @Autowired
+    private PushServiceWithImpl pushServiceWithImpl;
 
     @Autowired
     private ManagerRepository managerRepository;
@@ -160,14 +157,18 @@ public class OrderServiceImpl implements OrderService {
         //进行对用户的通知
         try {
             messagesService.createMessage(order.getUserId(),msg);
-            webSocketService.sendInfo(msg,order.getUserId());
-        } catch (IOException e) {
+            PushDTO userPushDTO = new PushDTO(PushModuleConstant.TITLE,msg,2,PushModuleConstant.platform,"",order.getUserId());
+            pushServiceWithImpl.pushMessage2User(userPushDTO);
+//            webSocketService.sendInfo(msg,order.getUserId());
+        } catch (Exception e) {
             log.warn("向用户发订单状态更新消息失败,userId = {}",order.getUserId());
         }
         try {
             messagesService.createMessage(order.getDnum(),msg);
-            webSocketService.sendInfo(msg,order.getDnum());
-        } catch (IOException e) {
+            PushDTO driverPushDTO = new PushDTO(PushModuleConstant.TITLE,msg,2,PushModuleConstant.platform,"", order.getDnum());
+            pushServiceWithImpl.pushMessage2Driver(driverPushDTO);
+//            webSocketService.sendInfo(msg,order.getDnum());
+        } catch (Exception e) {
             log.warn("向司机发订单状态更新消息失败,userId = {}",order.getDnum());
         }
 
