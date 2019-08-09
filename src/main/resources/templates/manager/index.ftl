@@ -213,7 +213,7 @@
 
             <div class="foods">
                 <ul>
-                    版权所有lc@2019.
+                    Copyright © 2018-2019 LC All Rights Reserved
                 </ul>
                 <dl>
                     <a class="am-icon-btn am-icon-arrow-up" href="" title="返回头部"></a>

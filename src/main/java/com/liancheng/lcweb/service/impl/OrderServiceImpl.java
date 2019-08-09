@@ -22,6 +22,7 @@ import com.liancheng.lcweb.utils.KeyUtil;
 import com.liancheng.lcweb.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.jni.Local;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -234,6 +235,10 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void deleteByOrderId(String orderId){
+//        Order order = findOne(orderId);
+//        if (order!=null) {
+//            cancelOne(order);
+//        }
         orderRepository.deleteById(orderId);
     }
 

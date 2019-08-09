@@ -1,16 +1,17 @@
 package com.liancheng.lcweb.service.impl;
 
 import com.liancheng.lcweb.VO.ResultVO;
+import com.liancheng.lcweb.constant.PushModuleConstant;
 import com.liancheng.lcweb.domain.AccessToken;
+import com.liancheng.lcweb.domain.Order;
 import com.liancheng.lcweb.domain.User;
+import com.liancheng.lcweb.dto.PushDTO;
 import com.liancheng.lcweb.enums.ResultEnums;
 import com.liancheng.lcweb.exception.LcException;
 import com.liancheng.lcweb.form.UserInfoForm;
 import com.liancheng.lcweb.form.UserLoginForm;
 import com.liancheng.lcweb.repository.UserRepository;
-import com.liancheng.lcweb.service.AccessTokenService;
-import com.liancheng.lcweb.service.MessagesService;
-import com.liancheng.lcweb.service.UserService;
+import com.liancheng.lcweb.service.*;
 import com.liancheng.lcweb.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -37,6 +38,12 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private MessagesService messagesService;
+
+    @Autowired
+    private PushServiceWithImpl pushService;
+
+    @Autowired
+    private OrderService orderService;
 
 
     @Override
@@ -143,5 +150,28 @@ public class UserServiceImpl implements UserService {
         for (Integer id : idList){
             messagesService.deleteMessage(id);
         }
+    }
+
+    @Override
+    public void cancelOneOrder(String orderId) {
+        //用户取消的目前是未处理的，为方便扩展,另代码已注释.
+        Order order = orderService.findOne(orderId);
+        if (order!=null){
+            try {
+                String msg = "您已经成功取消行程为"+order.getLineName()+"的订单!";
+                PushDTO userPushDTO = new PushDTO(PushModuleConstant.TITLE,msg,2,PushModuleConstant.platform,"",order.getUserId());
+                messagesService.createMessage(order.getUserId(),msg);
+                pushService.pushMessage2User(userPushDTO);
+            } catch (Exception e) {
+                e.printStackTrace();
+                log.warn("向乘客发送即时消息失败,userId={},message={}",order.getUserId(),e.getMessage());
+            }
+            orderService.deleteByOrderId(orderId);
+        }
+        else {
+            throw new LcException(ResultEnums.ORDER_NOT_FOUND);
+        }
+
+
     }
 }

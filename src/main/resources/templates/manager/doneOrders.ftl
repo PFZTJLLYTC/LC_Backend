@@ -203,7 +203,11 @@
                         <#list orders.content as order>
                             <tr>
 <#--                                <td>${order.orderId}</td>-->
-                                <td>${order.userCount}</td>
+                                <#if order.userCount==0>
+                                    <td>寄件</td>
+                                <#else >
+                                    <td>${order.userCount}</td>
+                                </#if>
                                 <td>${order.userPhone}</td>
                                 <td>${order.lineName}</td>
 <#--                                <td>${order.detailAddress?default("")}</td>-->
@@ -250,7 +254,7 @@
 
             <div class="foods">
                 <ul>
-                    版权所有lc@2019.
+                    Copyright © 2018-2019 LC All Rights Reserved
                 </ul>
                 <dl>
                     <a class="am-icon-btn am-icon-arrow-up" href="" title="返回头部"></a>

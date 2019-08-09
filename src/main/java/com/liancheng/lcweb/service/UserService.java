@@ -1,6 +1,5 @@
 package com.liancheng.lcweb.service;
 
-import com.liancheng.lcweb.VO.ResultVO;
 import com.liancheng.lcweb.domain.AccessToken;
 import com.liancheng.lcweb.domain.User;
 import com.liancheng.lcweb.form.UserInfoForm;
@@ -27,6 +26,8 @@ public interface UserService {
     void deleteOne(String id);
 
     void changeInfo(String userId, UserInfoForm userChangeInfoForm);
+
+    void cancelOneOrder(String orderId);
 
     //删除消息（已读消息直接删除!）
     void deleteMessages(String id);

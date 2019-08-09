@@ -16,11 +16,9 @@ import com.liancheng.lcweb.exception.ManagerException;
 import com.liancheng.lcweb.form.Message2DriverForm;
 import com.liancheng.lcweb.form.addDriverFormForManager;
 import com.liancheng.lcweb.repository.LineTotalRepository;
-import com.liancheng.lcweb.repository.ManagerRepository;
 import com.liancheng.lcweb.service.*;
 import com.liancheng.lcweb.utils.CookieUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -51,8 +49,6 @@ import java.util.concurrent.TimeUnit;
 public class ManagerController {
 
     //只实现了登陆，注册需要更高级后台进行
-    @Autowired
-    private ManagerRepository managerRepository;
 
     @Autowired
     private ManagerService managerService;

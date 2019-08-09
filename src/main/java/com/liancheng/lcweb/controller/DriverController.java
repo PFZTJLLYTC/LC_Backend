@@ -47,9 +47,6 @@ public class DriverController {
     private LineService lineService;
 
     @Autowired
-    private WebSocketService webSocketService;
-
-    @Autowired
     private MessagesService messagesService;
 
 

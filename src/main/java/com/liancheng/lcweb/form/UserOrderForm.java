@@ -22,7 +22,7 @@ public class UserOrderForm {
     private String time;
 
     @NotNull(message = "乘客人数不能为空")
-    @Min(value = 1,message = "乘客人数不得少于1人" )
+    @Min(value = 0,message = "乘客人数不得少于0人" )//0人为寄件
     @Max(value = 7,message = "乘客人数不得多于7人" )
     private Integer userCount;
 

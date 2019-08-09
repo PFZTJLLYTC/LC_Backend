@@ -418,7 +418,7 @@ public class ManagerServiceImpl implements ManagerService {
             throw new ManagerException(ResultEnums.ORDER_NOT_FOUND.getMsg(),"/manager/order/findByStatus?status="+OrderStatusEnums.PROCESSIN.getCode());
         }
 
-        String userId = order.getUserId();
+//        String userId = order.getUserId();
         String dnum = order.getDnum();
         orderService.cancelOne(order);
 

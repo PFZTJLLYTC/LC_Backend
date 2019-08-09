@@ -46,9 +46,6 @@ public class UserController {
     @Autowired
     private AccessTokenService accessTokenService;
 
-    @Autowired
-    private WebSocketService webSocketService;
-
 
     //增加信息、注册
     @PostMapping(value = "/register")
@@ -172,7 +169,8 @@ public class UserController {
     //前端回传待处理订单的orderId，用户直接按orderId删除待处理订单
     @PostMapping("/orders/delete")
     public ResultVO deleteOrder(@RequestParam String orderId){
-        orderService.deleteByOrderId(orderId);
+//        orderService.deleteByOrderId(orderId);
+        userService.cancelOneOrder(orderId);
         return ResultVOUtil.success();
     }
 

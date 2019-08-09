@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <title>连城管理系统</title>
-    <meta content="这是一个 index 页面" name="description">
+    <meta content="这是所有订单的界面" name="description">
     <meta content="index" name="keywords">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <meta content="webkit" name="renderer">
@@ -224,7 +224,11 @@
                         <tr>
 <#--                            <td><input type="checkbox"/></td>-->
                             <td>${order.orderId}</td>
-                            <td>${order.userCount}</td>
+                            <#if order.userCount==0>
+                                <td>寄件</td>
+                            <#else >
+                                <td>${order.userCount}</td>
+                            </#if>
                             <td>${order.userPhone}</td>
                             <td>${order.lineName}</td>
 <#--                            <td>${order.detailAddress?default("")}</td>-->
@@ -285,7 +289,7 @@
 
             <div class="foods">
                 <ul>
-                    版权所有lc@2019.
+                    Copyright © 2018-2019 LC All Rights Reserved
                 </ul>
                 <dl>
                     <a class="am-icon-btn am-icon-arrow-up" href="" title="返回头部"></a>
