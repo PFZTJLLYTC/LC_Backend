@@ -104,7 +104,7 @@
         <div class="daohang">
             <ul>
                 <li>
-                    <button class="am-btn am-btn-default am-radius am-btn-xs" type="button"> <a href="/manager/goIndex">首页</a>
+                    <button class="am-btn am-btn-default am-radius am-btn-xs" type="button"> <a href="/manager/goIndex">首页</a></button>
                 </li>
 
             </ul>
@@ -173,6 +173,7 @@
 
                                         </tbody>
                                     </table>
+                                    <button class="am-btn am-btn-danger am-radius am-btn-block" type="button"> <a href="/manager/logout">退出登陆</a></button>
                                 </ul>
 
                             </div>
