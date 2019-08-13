@@ -1,6 +1,5 @@
 package com.liancheng.lcweb.service.impl;
 
-import com.liancheng.lcweb.VO.ResultVO;
 import com.liancheng.lcweb.constant.PushModuleConstant;
 import com.liancheng.lcweb.domain.AccessToken;
 import com.liancheng.lcweb.domain.Order;
@@ -13,7 +12,6 @@ import com.liancheng.lcweb.form.UserInfoForm;
 import com.liancheng.lcweb.form.UserLoginForm;
 import com.liancheng.lcweb.repository.UserRepository;
 import com.liancheng.lcweb.service.*;
-import com.liancheng.lcweb.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,8 +69,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void changePassword(ChangePasswordForm form) {
-        String userId = form.getId();
-        User user = findOne(userId);
+        String userTel = form.getId();
+        User user = userRepository.findByMobile(userTel);
         log.info("user{}修改密码",user.getId());
         user.setPassword(passwordEncoder.encode(form.getNewPassword()));
         userRepository.save(user);
@@ -87,12 +85,11 @@ public class UserServiceImpl implements UserService {
             throw new LcException(ResultEnums.NO_SUCH_USER);
         }
 
-
-        Boolean matches=passwordEncoder.matches(
+        boolean matches=passwordEncoder.matches(
                 userLoginForm.getPassword(),
                 user.getPassword());
 
-        if(matches==false){
+        if(!matches){
             throw new LcException(ResultEnums.PASSWORD_MATCHES_ERROR);
         }
 
