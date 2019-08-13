@@ -9,10 +9,10 @@ import javax.validation.constraints.NotBlank;
 public class UserInfoForm {
 
 //    @RequestParam("username") String username,
-////    @RequestParam("password") String password,
-////    @RequestParam("mobile") String mobile,
-////    @RequestParam("email") String email,
-////    @RequestParam("emailVerified") Boolean emailVerified,
+//    @RequestParam("password") String password,
+//    @RequestParam("mobile") String mobile,
+//    @RequestParam("email") String email,
+//    @RequestParam("emailVerified") Boolean emailVerified,
 
     @NotBlank(message = "用户名名必填")
     private String username;

@@ -9,6 +9,7 @@ import com.liancheng.lcweb.dto.UserDTO;
 import com.liancheng.lcweb.enums.OrderStatusEnums;
 import com.liancheng.lcweb.enums.ResultEnums;
 import com.liancheng.lcweb.exception.LcException;
+import com.liancheng.lcweb.form.ChangePasswordForm;
 import com.liancheng.lcweb.form.UserInfoForm;
 import com.liancheng.lcweb.form.UserLoginForm;
 import com.liancheng.lcweb.form.UserOrderForm;
@@ -76,8 +77,20 @@ public class UserController {
         AccessToken token = userService.userLogin(userLoginForm);
 
         return ResultVOUtil.success(token);
-
     }
+
+    @PostMapping(value = "/changePassword")
+    @Transactional
+    public ResultVO changePassword(@RequestBody @Valid ChangePasswordForm form , BindingResult result){
+        if (result.hasErrors()){
+            String msg = result.getFieldError().getDefaultMessage();
+            log.error("修改密码错误,{}",msg);
+            throw new LcException(ResultEnums.USER_CHANGE_FORM_ERROR);
+        }
+        userService.changePassword(form);
+        return ResultVOUtil.success();
+    }
+
 
 
     //根据Id更新user信息

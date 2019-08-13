@@ -11,6 +11,7 @@ import com.liancheng.lcweb.enums.DriverStatusEnums;
 import com.liancheng.lcweb.enums.ResultEnums;
 import com.liancheng.lcweb.exception.LcException;
 import com.liancheng.lcweb.exception.ManagerException;
+import com.liancheng.lcweb.form.ChangePasswordForm;
 import com.liancheng.lcweb.form.DriverInfoForm;
 import com.liancheng.lcweb.form.DriverLoginForm;
 import com.liancheng.lcweb.repository.DriverRepository;
@@ -72,7 +73,9 @@ public class DriverServiceImpl implements DriverService {
         driver.setPassword(passwordEncoder.encode(driverInfoForm.getPassword()));
         driver.setLineId(lineId);
         //表示没有得到验证
-        driver.setStatus(DriverStatusEnums.TO_BE_VERIFIED.getCode());
+        //todo 当前需要过审核，直接过,之后再改回来
+        driver.setStatus(DriverStatusEnums.ATREST.getCode());
+        //driver.setStatus(DriverStatusEnums.TO_BE_VERIFIED.getCode());
 
         driver.setWorkTimes(0);
 
@@ -109,6 +112,20 @@ public class DriverServiceImpl implements DriverService {
         return Driver2DriverDTOConverter.convert(driver);
     }
 
+    @Override
+    public void changePassword(ChangePasswordForm form) {
+        String dnum = form.getId();
+        Driver driver = findOne(dnum);
+        if (driver==null || (driver!=null && driver.getStatus().equals(DriverStatusEnums.TO_BE_VERIFIED.getCode()))){
+            log.error("无法修改没有入库的司机的密码");
+            throw new LcException(ResultEnums.NO_SUCH_DRIVER);
+        }else {
+            //修改,是否要验证密码的复杂程度?
+            log.info("司机{}修改密码成功",dnum);
+            driver.setPassword(passwordEncoder.encode(form.getNewPassword()));
+            driverRepository.save(driver);
+        }
+    }
 
     @Override
     public Driver getByMobileAndPassword(String mobile, String password) {

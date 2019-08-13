@@ -2,6 +2,7 @@ package com.liancheng.lcweb.service;
 
 import com.liancheng.lcweb.domain.AccessToken;
 import com.liancheng.lcweb.domain.User;
+import com.liancheng.lcweb.form.ChangePasswordForm;
 import com.liancheng.lcweb.form.UserInfoForm;
 import com.liancheng.lcweb.form.UserLoginForm;
 
@@ -16,6 +17,8 @@ public interface UserService {
     User getUser(String mobile, String password);
 
     void addUser(UserInfoForm userRegisterForm);
+
+    void changePassword(ChangePasswordForm form);
 
     User findByMobile(String mobile);
 

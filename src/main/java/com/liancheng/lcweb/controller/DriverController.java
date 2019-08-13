@@ -9,6 +9,7 @@ import com.liancheng.lcweb.dto.OrderDriDTO;
 import com.liancheng.lcweb.enums.OrderStatusEnums;
 import com.liancheng.lcweb.enums.ResultEnums;
 import com.liancheng.lcweb.exception.LcException;
+import com.liancheng.lcweb.form.ChangePasswordForm;
 import com.liancheng.lcweb.form.DriverInfoForm;
 import com.liancheng.lcweb.form.DriverLoginForm;
 import com.liancheng.lcweb.repository.DriverRepository;
@@ -83,6 +84,18 @@ public class DriverController {
 
         return ResultVOUtil.success(driverService.driverLogin(driverLoginForm));//登陆成功回传手机号码给前台缓存
 
+    }
+
+    @PostMapping(value = "/changePassword")
+    @Transactional
+    public ResultVO changePassword(@Valid @RequestBody ChangePasswordForm form,BindingResult result ){
+        if (result.hasErrors()){
+            String msg = result.getFieldError().getDefaultMessage();
+            log.error("修改密码错误"+msg);
+            throw new LcException(ResultEnums.USER_CHANGE_FORM_ERROR);
+        }
+        driverService.changePassword(form);
+        return ResultVOUtil.success();
     }
 
 

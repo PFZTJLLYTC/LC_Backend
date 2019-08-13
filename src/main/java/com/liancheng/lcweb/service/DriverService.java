@@ -5,6 +5,7 @@ import com.liancheng.lcweb.VO.ResultVO;
 import com.liancheng.lcweb.domain.Driver;
 import com.liancheng.lcweb.dto.DriverAccountInfoDTO;
 import com.liancheng.lcweb.dto.DriverDTO;
+import com.liancheng.lcweb.form.ChangePasswordForm;
 import com.liancheng.lcweb.form.DriverInfoForm;
 import com.liancheng.lcweb.form.DriverLoginForm;
 import org.springframework.data.domain.Page;
@@ -18,6 +19,8 @@ public interface DriverService {
     void addDriver(DriverInfoForm driverInfoForm);
 
     DriverDTO driverLogin(DriverLoginForm driverLoginForm);
+
+    void changePassword(ChangePasswordForm form);
 
     List<Driver> findAll();
 

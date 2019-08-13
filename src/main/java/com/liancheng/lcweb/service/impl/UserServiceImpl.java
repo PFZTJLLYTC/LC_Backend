@@ -8,6 +8,7 @@ import com.liancheng.lcweb.domain.User;
 import com.liancheng.lcweb.dto.PushDTO;
 import com.liancheng.lcweb.enums.ResultEnums;
 import com.liancheng.lcweb.exception.LcException;
+import com.liancheng.lcweb.form.ChangePasswordForm;
 import com.liancheng.lcweb.form.UserInfoForm;
 import com.liancheng.lcweb.form.UserLoginForm;
 import com.liancheng.lcweb.repository.UserRepository;
@@ -68,6 +69,14 @@ public class UserServiceImpl implements UserService {
         log.info("新增用户，user={}",userRegisterForm);
     }
 
+    @Override
+    public void changePassword(ChangePasswordForm form) {
+        String userId = form.getId();
+        User user = findOne(userId);
+        log.info("user{}修改密码",user.getId());
+        user.setPassword(passwordEncoder.encode(form.getNewPassword()));
+        userRepository.save(user);
+    }
 
     @Override
     public AccessToken userLogin(UserLoginForm userLoginForm){
