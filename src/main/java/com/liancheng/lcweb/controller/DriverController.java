@@ -201,8 +201,7 @@ public class DriverController {
 
     @GetMapping("/lines/all")
     public ResultVO findAllLine(){
-        return ResultVOUtil.success(lineService.findAllLineName1());
+        return ResultVOUtil.success(lineService.findAllSelectLine());
     }
-
 
 }

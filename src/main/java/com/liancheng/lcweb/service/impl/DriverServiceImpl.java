@@ -1,32 +1,25 @@
 package com.liancheng.lcweb.service.impl;
 
-import com.liancheng.lcweb.VO.ResultVO;
 import com.liancheng.lcweb.constant.MessagesConstant;
 import com.liancheng.lcweb.converter.Driver2DriverDTOConverter;
 import com.liancheng.lcweb.domain.Driver;
-import com.liancheng.lcweb.domain.Manager;
 import com.liancheng.lcweb.dto.DriverAccountInfoDTO;
 import com.liancheng.lcweb.dto.DriverDTO;
 import com.liancheng.lcweb.enums.DriverStatusEnums;
 import com.liancheng.lcweb.enums.ResultEnums;
 import com.liancheng.lcweb.exception.LcException;
-import com.liancheng.lcweb.exception.ManagerException;
 import com.liancheng.lcweb.form.ChangePasswordForm;
 import com.liancheng.lcweb.form.DriverInfoForm;
 import com.liancheng.lcweb.form.DriverLoginForm;
 import com.liancheng.lcweb.repository.DriverRepository;
 import com.liancheng.lcweb.service.*;
-import com.liancheng.lcweb.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.jni.Local;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -73,9 +66,7 @@ public class DriverServiceImpl implements DriverService {
         driver.setPassword(passwordEncoder.encode(driverInfoForm.getPassword()));
         driver.setLineId(lineId);
         //表示没有得到验证
-        //todo 当前需要过审核，直接过,之后再改回来
-        driver.setStatus(DriverStatusEnums.ATREST.getCode());
-        //driver.setStatus(DriverStatusEnums.TO_BE_VERIFIED.getCode());
+        driver.setStatus(DriverStatusEnums.TO_BE_VERIFIED.getCode());
 
         driver.setWorkTimes(0);
 
@@ -101,10 +92,10 @@ public class DriverServiceImpl implements DriverService {
             throw new LcException(ResultEnums.WAIT_TO_BE_VERIFY);
         }
 
-        Boolean matches = passwordEncoder.matches(driverLoginForm.getPassword(),
+        boolean matches = passwordEncoder.matches(driverLoginForm.getPassword(),
                 driver.getPassword());
 
-        if(matches==false){
+        if(!matches){
             log.warn("密码验证错误");
             throw new LcException(ResultEnums.PASSWORD_MATCHES_ERROR);
         }
@@ -116,11 +107,10 @@ public class DriverServiceImpl implements DriverService {
     public void changePassword(ChangePasswordForm form) {
         String dnum = form.getId();
         Driver driver = findOne(dnum);
-        if (driver==null || (driver!=null && driver.getStatus().equals(DriverStatusEnums.TO_BE_VERIFIED.getCode()))){
-            log.error("无法修改没有入库的司机的密码");
+        if (driver==null ||  driver.getStatus().equals(DriverStatusEnums.TO_BE_VERIFIED.getCode())){
+            log.error("无法修改没有入库或未通过审核的司机的密码");
             throw new LcException(ResultEnums.NO_SUCH_DRIVER);
         }else {
-            //修改,是否要验证密码的复杂程度?
             log.info("司机{}修改密码成功",dnum);
             driver.setPassword(passwordEncoder.encode(form.getNewPassword()));
             driverRepository.save(driver);
