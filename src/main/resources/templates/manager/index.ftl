@@ -191,7 +191,7 @@
                         <dt>订单次数： ${total.monthOrderCount}</dt>
                     </dl>
                     <ul>
-                        <h2>7</h2>
+                        <h2>本</h2>
                         <li>月</li>
                     </ul>
                 </div>
@@ -203,8 +203,8 @@
                         <dt>订单次数： ${lastMonthTotal.orderCount}</dt>
                     </dl>
                     <ul>
-                        <h2>6</h2>
-                        <li>月（上月)</li>
+                        <h2>上</h2>
+                        <li>月</li>
                     </ul>
                 </div>
                 </#if>
