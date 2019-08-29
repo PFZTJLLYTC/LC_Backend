@@ -87,5 +87,7 @@ public interface DriverService {
 
     void changeAvailableSeats(String dnum,Integer availableSeats);
 
+    DriverDTO checkLogin(String dnum);
+
 
 }

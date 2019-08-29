@@ -7,13 +7,19 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/lc?serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
     username: root
-    password: 
+    password:
 
 #没问题啊，这个可以用的
   redis:
     host: 127.0.0.1
     port: 6379
     password:
+
+  data:
+    redis:
+      repositories:
+        enabled: false
+
   jpa:
     hibernate:
       ddl-auto: update

@@ -71,6 +71,12 @@ public class DriverController {
 
     }
 
+
+    @GetMapping(value = "/checkLogin")
+    public ResultVO driverCheckLogin(@RequestParam String dnum){
+        return ResultVOUtil.success(driverService.checkLogin(dnum));
+    }
+
     //登陆
     @PostMapping(value = "/login")
     @Transactional

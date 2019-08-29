@@ -320,4 +320,14 @@ public class DriverServiceImpl implements DriverService {
 
         driverRepository.save(driver);
     }
+
+    @Override
+    public DriverDTO checkLogin(String dnum){
+        Driver driver=findOne(dnum);
+        if(driver==null) {
+            throw new LcException(ResultEnums.NO_SUCH_DRIVER);
+        }
+
+        return Driver2DriverDTOConverter.convert(driver);
+    }
 }
