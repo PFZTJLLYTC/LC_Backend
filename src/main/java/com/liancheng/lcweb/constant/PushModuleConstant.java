@@ -13,8 +13,8 @@ public interface PushModuleConstant {
 
     String driver_app_key = "81CB3135-457E-5DFB-54CB-1B015F9322FB";
 
-    String TITLE = "新的消息"; //消息标题，是否固定另说
+    String TITLE = "新的消息"; //消息标题
 
-    Integer platform = 2; //默认就安卓推送,0代表全平台推送
+    Integer platform = 0; //0代表全平台推送,1表示ios,2表示安卓
 
 }
