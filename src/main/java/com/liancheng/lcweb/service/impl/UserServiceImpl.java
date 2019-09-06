@@ -1,5 +1,6 @@
 package com.liancheng.lcweb.service.impl;
 
+import com.liancheng.lcweb.constant.MessagesConstant;
 import com.liancheng.lcweb.constant.PushModuleConstant;
 import com.liancheng.lcweb.domain.AccessToken;
 import com.liancheng.lcweb.domain.Order;
@@ -65,6 +66,10 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(user);
         log.info("新增用户，user={}",userRegisterForm);
+
+        //防止nullpointerexception,需要先找到
+        messagesService.createMessage(findByMobile(user.getMobile()).getId(), MessagesConstant.welcomeCustom, MessagesConstant.type2);
+
     }
 
     @Override
@@ -166,7 +171,7 @@ public class UserServiceImpl implements UserService {
             try {
                 String msg = "您已经成功取消行程为"+order.getLineName()+"的订单!";
                 PushDTO userPushDTO = new PushDTO(PushModuleConstant.TITLE,msg,2,PushModuleConstant.platform,"",order.getUserId());
-                messagesService.createMessage(order.getUserId(),msg);
+                messagesService.createMessage(order.getUserId(),msg, MessagesConstant.type1);
                 pushService.pushMessage2User(userPushDTO);
             } catch (Exception e) {
                 e.printStackTrace();

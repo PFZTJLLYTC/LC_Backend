@@ -26,9 +26,9 @@ public class MessagesServiceImpl implements MessagesService {
     }
 
     @Override
-    public void createMessage(String target,String message){
+    public void createMessage(String target,String message,Integer type){
         Messages messages=new Messages();
-
+        messages.setType(type);
         messages.setTarget(target);
         messages.setMessage(message);
 

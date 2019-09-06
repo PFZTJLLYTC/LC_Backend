@@ -1,5 +1,6 @@
 package com.liancheng.lcweb.service.impl;
 
+import com.liancheng.lcweb.constant.MessagesConstant;
 import com.liancheng.lcweb.constant.PushModuleConstant;
 import com.liancheng.lcweb.converter.Order2UserOrderDTOConverter;
 import com.liancheng.lcweb.domain.Driver;
@@ -156,7 +157,7 @@ public class OrderServiceImpl implements OrderService {
 
         //进行对用户的通知
         try {
-            messagesService.createMessage(order.getUserId(),msg);
+            messagesService.createMessage(order.getUserId(),msg, MessagesConstant.type1);
             PushDTO userPushDTO = new PushDTO(PushModuleConstant.TITLE,msg,2,PushModuleConstant.platform,"",order.getUserId());
             pushServiceWithImpl.pushMessage2User(userPushDTO);
 //            webSocketService.sendInfo(msg,order.getUserId());
@@ -164,7 +165,7 @@ public class OrderServiceImpl implements OrderService {
             log.warn("向用户发订单状态更新消息失败,userId = {}",order.getUserId());
         }
         try {
-            messagesService.createMessage(order.getDnum(),msg);
+            messagesService.createMessage(order.getDnum(),msg,MessagesConstant.type1);
             PushDTO driverPushDTO = new PushDTO(PushModuleConstant.TITLE,msg,2,PushModuleConstant.platform,"", order.getDnum());
             pushServiceWithImpl.pushMessage2Driver(driverPushDTO);
 //            webSocketService.sendInfo(msg,order.getDnum());

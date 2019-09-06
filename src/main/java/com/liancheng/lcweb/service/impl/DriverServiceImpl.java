@@ -37,9 +37,6 @@ public class DriverServiceImpl implements DriverService {
     private LineService lineService;
 
     @Autowired
-    private ManagerService managerService;
-
-    @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired

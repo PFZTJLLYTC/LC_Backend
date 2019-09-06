@@ -29,6 +29,10 @@ public class Messages {
     @NotNull
     private String message;
 
+    @NotNull
+    // type 0 表示为普通通知， 1为订单相关， 2为其他通知（包括注册成功通知）
+    private Integer type;
+
     @CreatedDate
     @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss",timezone = "Asia/Shanghai")
     private Date createTime;

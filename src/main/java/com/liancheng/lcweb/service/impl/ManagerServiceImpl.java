@@ -13,7 +13,6 @@ import com.liancheng.lcweb.enums.OrderStatusEnums;
 import com.liancheng.lcweb.enums.ResultEnums;
 import com.liancheng.lcweb.exception.LcException;
 import com.liancheng.lcweb.exception.ManagerException;
-import com.liancheng.lcweb.form.DriverInfoForm;
 import com.liancheng.lcweb.form.Message2DriverForm;
 import com.liancheng.lcweb.form.addDriverFormForManager;
 import com.liancheng.lcweb.repository.DriverRepository;
@@ -56,9 +55,6 @@ public class ManagerServiceImpl implements ManagerService {
 
     @Autowired
     private OrderRepository orderRepository;
-
-    @Autowired
-    private WebSocketService webSocketService;
 
     @Autowired
     private ManagerService managerService;
@@ -173,7 +169,7 @@ public class ManagerServiceImpl implements ManagerService {
         driver.setStatus(DriverStatusEnums.ATREST.getCode());
         driver.setWorkTimes(0);
         driverRepository.save(driver);
-        messagesService.createMessage(driver.getDnum(),MessagesConstant.welcomeDriver);
+        messagesService.createMessage(driver.getDnum(),MessagesConstant.welcomeDriver,MessagesConstant.type2);
     }
 
 
@@ -384,7 +380,7 @@ public class ManagerServiceImpl implements ManagerService {
         String msg = MessagesConstant.changeStatus+manager.getTelNum();
 
         try {
-            messagesService.createMessage(dnum,msg);
+            messagesService.createMessage(dnum,msg,MessagesConstant.type1);
             PushDTO driverPushDTO = new PushDTO(PushModuleConstant.TITLE,msg,2,PushModuleConstant.platform,"", dnum);
             pushServiceWithImpl.pushMessage2Driver(driverPushDTO);
 //            webSocketService.sendInfo(msg,dnum);
@@ -394,7 +390,7 @@ public class ManagerServiceImpl implements ManagerService {
         }
         //发通知
         try {
-            messagesService.createMessage(order.getUserId(),msg);
+            messagesService.createMessage(order.getUserId(),msg,MessagesConstant.type1);
             PushDTO userPushDTO = new PushDTO(PushModuleConstant.TITLE,msg,2,PushModuleConstant.platform,"",order.getUserId());
             pushServiceWithImpl.pushMessage2User(userPushDTO);
         } catch (Exception e) {
@@ -432,7 +428,7 @@ public class ManagerServiceImpl implements ManagerService {
             try {
                 //没有写groupname，直接推到单独的司机头上
                 PushDTO driverPushDTO = new PushDTO(PushModuleConstant.TITLE,msg,2,PushModuleConstant.platform,"", dnum);
-                messagesService.createMessage(dnum,msg);
+                messagesService.createMessage(dnum,msg,MessagesConstant.type1);
 //                webSocketService.sendInfo(msg,dnum);
                 pushServiceWithImpl.pushMessage2Driver(driverPushDTO);
             }catch (Exception e){
@@ -443,7 +439,7 @@ public class ManagerServiceImpl implements ManagerService {
 
         try {
             PushDTO userPushDTO = new PushDTO(PushModuleConstant.TITLE,msg,2,PushModuleConstant.platform,"",order.getUserId());
-            messagesService.createMessage(order.getUserId(),msg);
+            messagesService.createMessage(order.getUserId(),msg,MessagesConstant.type1);
             pushServiceWithImpl.pushMessage2User(userPushDTO);
         } catch (Exception e) {
             e.printStackTrace();
@@ -529,7 +525,7 @@ public class ManagerServiceImpl implements ManagerService {
 
         //保存更改,正式生效(是否对driver进行通知？)
         driverRepository.save(driver);
-        messagesService.createMessage(dnum,MessagesConstant.welcomeDriver);
+        messagesService.createMessage(dnum,MessagesConstant.welcomeDriver,MessagesConstant.type2);
     }
 
 
@@ -548,7 +544,7 @@ public class ManagerServiceImpl implements ManagerService {
 //                    Messages messages = new Messages();
 //                    messages.setTarget(driver.getDnum());
 //                    messages.setMessage(message2DriverForm.getMessage());
-                    messagesService.createMessage(driver.getDnum(),message2DriverForm.getMessage());
+                    messagesService.createMessage(driver.getDnum(),message2DriverForm.getMessage(),MessagesConstant.type0);
                     PushDTO driverPushDTO = new PushDTO(PushModuleConstant.TITLE,message2DriverForm.getMessage(),2,PushModuleConstant.platform,"", message2DriverForm.getDnum());
                     pushServiceWithImpl.pushMessage2Driver(driverPushDTO);
 //                    webSocketService.sendInfo(message2DriverForm.getMessage(),driver.getDnum());
@@ -562,7 +558,7 @@ public class ManagerServiceImpl implements ManagerService {
         }else{
             List<Driver> driverList = driverRepository.findByLineId(lineId);
             for (Driver driver : driverList){
-                messagesService.createMessage(driver.getDnum(),message2DriverForm.getMessage());
+                messagesService.createMessage(driver.getDnum(),message2DriverForm.getMessage(),MessagesConstant.type0);
             }
             PushDTO driverPushDTO = new PushDTO(PushModuleConstant.TITLE, message2DriverForm.getMessage(), 2, PushModuleConstant.platform, lineId.toString(), "");
             try {

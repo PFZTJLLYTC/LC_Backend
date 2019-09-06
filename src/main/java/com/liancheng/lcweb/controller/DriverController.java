@@ -4,8 +4,6 @@ package com.liancheng.lcweb.controller;
 import com.liancheng.lcweb.domain.Driver;
 import com.liancheng.lcweb.VO.ResultVO;
 import com.liancheng.lcweb.domain.Order;
-import com.liancheng.lcweb.dto.DriverDoneOrderDTO;
-import com.liancheng.lcweb.dto.OrderDriDTO;
 import com.liancheng.lcweb.enums.OrderStatusEnums;
 import com.liancheng.lcweb.enums.ResultEnums;
 import com.liancheng.lcweb.exception.LcException;
@@ -16,16 +14,12 @@ import com.liancheng.lcweb.repository.DriverRepository;
 import com.liancheng.lcweb.service.*;
 import com.liancheng.lcweb.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
 import javax.transaction.Transactional;
 import javax.validation.Valid;
-import java.net.http.WebSocket;
 import java.util.Date;
-import java.util.List;
 
 //实现返回格式的拼接！
 @RestController

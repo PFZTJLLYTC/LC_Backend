@@ -12,7 +12,7 @@ public interface MessagesService {
 
     List<Messages> findByTarget(String target);
 
-    void createMessage(String target,String message);
+    void createMessage(String target,String message,Integer type);
 
     void deleteMessage(Integer id);
 

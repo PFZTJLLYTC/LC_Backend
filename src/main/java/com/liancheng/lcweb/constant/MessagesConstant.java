@@ -12,4 +12,10 @@ public interface MessagesConstant {
 
     String newDriver = "新的司机申请！";
 
+    Integer type0 = 0; // 普通（only dr）
+
+    Integer type1 = 1; // 订单
+
+    Integer type2 = 2; // 其他(包括注册)
+
 }
