@@ -520,6 +520,10 @@ public class ManagerServiceImpl implements ManagerService {
             throw new ManagerException(ResultEnums.NO_SUCH_DRIVER.getMsg(),"/manager/driver/findBysStatus?status="+DriverStatusEnums.TO_BE_VERIFIED.getCode());
 
         }
+        if (!driver.getStatus().equals(DriverStatusEnums.TO_BE_VERIFIED.getCode())){
+            //已经被其他人审核
+            throw new ManagerException(ResultEnums.DRIVER_STATUS_ERROR.getMsg()+"，可能已被其他管理员处理","/manager/driver/findBysStatus?status="+DriverStatusEnums.TO_BE_VERIFIED.getCode());
+        }
         //将状态设置为休息中，代表成功确定
         driver.setStatus(DriverStatusEnums.ATREST.getCode());
 
