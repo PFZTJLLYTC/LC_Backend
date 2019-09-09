@@ -484,7 +484,6 @@ public class ManagerController {
 
     //确认订单
     @GetMapping("/order/confirm")
-    @Transactional
     public ModelAndView confirmOrder(@RequestParam("orderId") String orderId,
                                      @RequestParam("dnum") String dnum,
                                      HttpServletRequest request,
@@ -497,11 +496,18 @@ public class ManagerController {
 
         Order order = orderService.findOne(orderId);
         if (order == null){
-            throw new ManagerException(ResultEnums.ORDER_NOT_FOUND.getMsg(),"/manager/order/allOrders");
-
+            throw new ManagerException(ResultEnums.ORDER_NOT_FOUND.getMsg(),"/manager/order/findByStatus?status="+ OrderStatusEnums.WAIT.getCode());
         }
-        //加一个选择司机的按钮,然后传dnum，弹出确定窗口，确定后调用confirmOrder这个方法.
-        managerService.confirmOneOrder(order,dnum);
+        //可能已经被分配了，但是还是有一点几率撞车啊。。。
+        else if (!order.getOrderStatus().equals(OrderStatusEnums.WAIT.getCode())){
+            throw new ManagerException(ResultEnums.ORDER_STATUS_ERROR.getMsg()+"，可能已经被其他管理员处理。","/manager/order/findByStatus?status="+ OrderStatusEnums.WAIT.getCode());
+        }else{
+            //todo 是否得加个锁？比如加个字段----但是会多几次数据库操作，取舍一下，或者用redis将manager当下单者？但是又会不会大材小用了？
+
+            //加一个选择司机的按钮,然后传dnum，弹出确定窗口，确定后调用confirmOrder这个方法.
+            managerService.confirmOneOrder(order,dnum);
+        }
+
 
         map.put("msg",ResultEnums.SUCCESS.getMsg());
         map.put("url","/manager/order/findByStatus?status="+OrderStatusEnums.WAIT.getCode());
