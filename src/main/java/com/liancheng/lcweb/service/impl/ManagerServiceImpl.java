@@ -73,19 +73,21 @@ public class ManagerServiceImpl implements ManagerService {
     private PushServiceWithImpl pushServiceWithImpl;
 
 
-
+    @Override
+    public Line setLinePrice(Integer lineId, String price) {
+        Line line = lineService.findOne(lineId);
+        line.setPrice(price);
+        return lineService.saveOne(line);
+    }
 
     @Override
     public MessageNumDTO getMessages(Integer lineId) {
-
-
 
         Integer orderMessages = getOrdersByStatus(lineId,OrderStatusEnums.WAIT.getCode()).size();
 
         Integer driverMessages = getDriversByStatus(lineId,DriverStatusEnums.TO_BE_VERIFIED.getCode()).size();
 
         return new MessageNumDTO(driverMessages,orderMessages);
-
 
     }
 

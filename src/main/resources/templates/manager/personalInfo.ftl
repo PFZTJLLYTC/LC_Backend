@@ -136,7 +136,6 @@
                             <div class="hd">
                                 <ul>
                                     <li>线路${name}</li>
-<#--                                    <li>工作进度表</li>-->
                                 </ul>
                             </div>
                             <div class="bd">
@@ -151,25 +150,30 @@
                                         </tr>
                                         <tr>
                                             <td align="center">2</td>
+                                            <td>线路定价</td>
+                                            <td align="center"><a href="#">${linePrice?default("未定价")}</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center">3</td>
                                             <td>线路管理员人数</td>
 <#--                                            有几个管理员-->
                                             <td align="center"><a href="#">${managers?size}</a></td>
                                         </tr>
                                         <tr>
-                                            <td align="center">3</td>
+                                            <td align="center">4</td>
                                             <td>司机人数</td>
                                             <td align="center"><a href="#">${driverCount}</a></td>
                                         </tr>
                                         <tr>
-                                            <td align="center">4</td>
+                                            <td align="center">5</td>
                                             <td>订单总数</td>
                                             <td align="center"><a href="#">${orderCount}</a></td>
                                         </tr>
-                                        <tr>
-                                            <td align="center">5</td>
-                                            <td>系统总顾客数</td>
-                                            <td align="center"><a href="#">${totalCustomers}</a></td>
-                                        </tr>
+<#--                                        <tr>-->
+<#--                                            <td align="center">5</td>-->
+<#--                                            <td>系统总顾客数</td>-->
+<#--                                            <td align="center"><a href="#">${totalCustomers}</a></td>-->
+<#--                                        </tr>-->
 
                                         </tbody>
                                     </table>

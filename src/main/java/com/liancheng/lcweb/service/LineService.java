@@ -20,6 +20,10 @@ public class LineService {
     @Autowired
     private LineRepository lineRepository;
 
+    public Line saveOne(Line line){
+        return lineRepository.save(line);
+    }
+
     public Line findOneByName(String name){
 
         return lineRepository.findByLineName1(name);

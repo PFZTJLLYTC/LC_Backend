@@ -17,4 +17,6 @@ public interface PushModuleConstant {
 
     Integer platform = 0; //0代表全平台推送,1表示ios,2表示安卓
 
+    // todo 加上manager 简易移动端
+
 }

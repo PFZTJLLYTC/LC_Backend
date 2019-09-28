@@ -2,10 +2,7 @@ package com.liancheng.lcweb.controller;
 import com.liancheng.lcweb.constant.CookieConstant;
 import com.liancheng.lcweb.constant.RedisConstant;
 import com.liancheng.lcweb.converter.Driver2DriverDTOConverter;
-import com.liancheng.lcweb.domain.Driver;
-import com.liancheng.lcweb.domain.LineTotal;
-import com.liancheng.lcweb.domain.Manager;
-import com.liancheng.lcweb.domain.Order;
+import com.liancheng.lcweb.domain.*;
 import com.liancheng.lcweb.dto.DriverDTO;
 import com.liancheng.lcweb.dto.MessageNumDTO;
 import com.liancheng.lcweb.dto.TotalInfoDTO;
@@ -13,6 +10,7 @@ import com.liancheng.lcweb.enums.DriverStatusEnums;
 import com.liancheng.lcweb.enums.OrderStatusEnums;
 import com.liancheng.lcweb.enums.ResultEnums;
 import com.liancheng.lcweb.exception.ManagerException;
+import com.liancheng.lcweb.form.ChangeLineInfoForm;
 import com.liancheng.lcweb.form.Message2DriverForm;
 import com.liancheng.lcweb.form.addDriverFormForManager;
 import com.liancheng.lcweb.repository.LineTotalRepository;
@@ -555,6 +553,26 @@ public class ManagerController {
         return new ModelAndView("common/success",map);
     }
 
+    // 更改线路信息,目前只改linePrice
+    @PostMapping("/changeLineInfo")
+    public ModelAndView changeLineInfo(HttpServletRequest request,
+                                       ChangeLineInfoForm changeLineInfoForm,
+                                       Map<String,Object>map){
+        Cookie cookie = CookieUtil.get(request,CookieConstant.TOKEN);
+
+        Integer lineId = Integer.parseInt(redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX,cookie.getValue()))+"");
+        log.info("获取lineId来更改线路信息,lineId={}",lineId);
+        managerService.setLinePrice(lineId,changeLineInfoForm.getPrice());
+
+        map.put("msg",ResultEnums.SUCCESS.getMsg());
+        map.put("url","/manager/goContactAndHelp");
+
+        return new ModelAndView("common/success",map);
+
+    }
+
+
+
     //个人信息
     @GetMapping("/personalInfo")
     public ModelAndView personalInfo(HttpServletRequest request,
@@ -566,20 +584,23 @@ public class ManagerController {
 
         List<Manager> managers = managerService.findAllByLineId(lineId);
         //采取正向名字即可
-        String lineName = lineService.findOne(lineId).getLineName1();
+        Line line = lineService.findOne(lineId);
+        String lineName = line.getLineName1();
+        String linePrice = line.getPrice();
         MessageNumDTO messageNum = managerService.getMessages(lineId);
         Integer driverCount = managerService.getAllDrivers(lineId).size();
         Integer orderCount = managerService.getAllOrders(lineId).size();
 
         //平台所有的user用户数
-        Integer totalCustomers = userService.findAll().size();
+//        Integer totalCustomers = userService.findAll().size();
 
         map.put("name",lineId);
         map.put("lineName",lineName);
+        map.put("linePrice",linePrice);
         map.put("orderCount",orderCount);
         map.put("driverCount",driverCount);
 
-        map.put("totalCustomers",totalCustomers);
+//        map.put("totalCustomers",totalCustomers);
         map.put("managers",managers);
         map.put("orderMessages",messageNum.getOrderMessages());
         map.put("driverMessages",messageNum.getDriverMessages());

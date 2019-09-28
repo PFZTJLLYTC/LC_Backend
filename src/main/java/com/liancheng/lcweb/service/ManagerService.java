@@ -1,6 +1,7 @@
 package com.liancheng.lcweb.service;
 
 import com.liancheng.lcweb.domain.Driver;
+import com.liancheng.lcweb.domain.Line;
 import com.liancheng.lcweb.domain.Manager;
 import com.liancheng.lcweb.domain.Order;
 import com.liancheng.lcweb.dto.DriverDTO;
@@ -23,6 +24,8 @@ public interface ManagerService {
     List<Manager> findAllByLineId(Integer lineId);
 
     Manager findOne(String telNum);
+
+    Line setLinePrice(Integer lineId, String price);
 
     Manager getManager(String telNum, String password);
 

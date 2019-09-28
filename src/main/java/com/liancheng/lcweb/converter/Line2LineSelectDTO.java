@@ -13,7 +13,7 @@ public class Line2LineSelectDTO {
 
         lineSelectDTO.setLineId(line.getLineId());
         lineSelectDTO.setName(line.getLineName1());
-        lineSelectDTO.setCustomerTypes(line.getLineName1());//目前与name相同
+        lineSelectDTO.setCustomerTypes(line.getPrice());
 
         return lineSelectDTO;
     }

@@ -135,14 +135,15 @@
         <div class="am-tabs am-margin" data-am-tabs>
             <ul class="am-tabs-nav am-nav am-nav-tabs">
                 <li class="am-active"><a href="#tab1">推送</a></li>
-                <li><a href="#tab2">客服与帮助</a></li>
-                <li><a href="#tab3">提示音</a></li>
+                <li><a href="#tab2">价格设置</a>
+                <li><a href="#tab3">客服与帮助</a></li>
+                <li><a href="#tab4">提示音</a></li>
 
             </ul>
 
 
             <div class="am-tabs-bd">
-                <div class="am-tab-panel am-fade" id="tab3">
+                <div class="am-tab-panel am-fade" id="tab4">
                     维护中---
                 </div>
 
@@ -178,6 +179,23 @@
                 </div>
 
                 <div class="am-tab-panel am-fade am-in am-active" id="tab2">
+                    <form class="am-form" name="ChangeLineInfoForm" action="/manager/changeLineInfo" method="post">
+                        <div class="am-g am-margin-top">
+                            <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                                填入要更改的价格
+                            </div>
+                            <div class="am-u-sm-8 am-u-md-4">
+                                <input class="am-input-sm" type="text" placeholder="80" name="price">
+                            </div>
+                            <div class="am-hide-sm-only am-u-md-6">*建议线路价格浮动适当</div>
+                        </div>
+                        <div class="am-margin" align="center">
+                            <button class="am-btn am-btn-success am-radius " type="submit" >确定更改</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="am-tab-panel am-fade am-in am-active" id="tab3">
                     <h3>部分注意事项</h3>
                     <ul>
                         <li>1. 取消和删除操作需确认.</li>
