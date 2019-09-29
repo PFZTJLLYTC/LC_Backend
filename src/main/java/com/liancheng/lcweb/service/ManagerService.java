@@ -31,8 +31,6 @@ public interface ManagerService {
 
     Manager addManager(Manager manager);
 
-    void deleteOne(String telNum);
-
     List<DriverDTO> getDriversByStatus(Integer lineId,Integer status);
 
     //先只是多种实现，之后考虑删一个
@@ -42,7 +40,7 @@ public interface ManagerService {
 
     Page<DriverDTO> getAllDrivers(Integer lineId, Pageable pageable);
 
-    List<Driver> getAllDrivers(Integer lineId);
+    List<DriverDTO> getAllDrivers(Integer lineId);
 
     List<Order> getOrdersByStatus(Integer lineId,Integer status);
 

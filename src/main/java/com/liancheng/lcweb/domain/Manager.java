@@ -18,9 +18,7 @@ import java.util.Date;
 @EntityListeners(AuditingEntityListener.class)
 public class Manager {
 
-    //初步的管理员demo,考虑线路id即为管理人id
     @Id
-    @GeneratedValue
     private String telNum;
 
     private Integer lineId;

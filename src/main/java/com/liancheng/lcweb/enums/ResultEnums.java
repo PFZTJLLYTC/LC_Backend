@@ -16,7 +16,7 @@ public enum ResultEnums {
     NO_PROCESSIN_ORDER(-8,"无进行中订单"),
     NO_DONE_ORDER(-9,"无已完成订单"),
     NO_WAIT_OR_PROCESSIN_ORDER(-10,"无待处理和进行中订单"),
-    NO_SUCH_LINENAME(-11,"无此线路名"),
+    NO_SUCH_LINENAME(-11,"无此线路"),
     ORDER_NOT_FOUND(11,"查无此订单"),
     ORDER_INFO_ERROR(12,"订单信息错误"),
     USER_TOKEN_EXPIRE(13,"用户token过期或不存在"),

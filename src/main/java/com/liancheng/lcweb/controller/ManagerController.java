@@ -15,6 +15,7 @@ import com.liancheng.lcweb.form.Message2DriverForm;
 import com.liancheng.lcweb.form.addDriverFormForManager;
 import com.liancheng.lcweb.repository.LineTotalRepository;
 import com.liancheng.lcweb.service.*;
+import com.liancheng.lcweb.service.impl.ManagerServiceImpl;
 import com.liancheng.lcweb.utils.CookieUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +50,7 @@ public class ManagerController {
     //只实现了登陆，注册需要更高级后台进行
 
     @Autowired
-    private ManagerService managerService;
+    private ManagerServiceImpl managerService;
 
     @Autowired
     private DriverService driverService;

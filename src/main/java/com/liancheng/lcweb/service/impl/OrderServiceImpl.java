@@ -180,8 +180,16 @@ public class OrderServiceImpl implements OrderService {
     public void cancelOne(Order order) {
         if (order.getDnum()!=null&&!StringUtils.isEmpty(order.getDnum())){
             Driver driver = driverService.findOne(order.getDnum());
-            //状态不改变
-            driver.setAvailableSeats(driver.getAvailableSeats()+order.getUserCount());
+
+            // 状态不改变, 座位数改变
+            if(driver.getSeatType()==0&&driver.getAvailableSeats()+order.getUserCount()>=4){
+                driver.setAvailableSeats(4);
+            }else if (driver.getSeatType()==1&&driver.getAvailableSeats()+order.getUserCount()>=7){
+                driver.setAvailableSeats(7);
+            }else {
+                driver.setAvailableSeats(driver.getAvailableSeats()+order.getUserCount());
+            }
+//            driver.setAvailableSeats(driver.getAvailableSeats()+order.getUserCount());
             driverRepository.save(driver);
         }
         //User user = userService.findOne(order.getUserId());

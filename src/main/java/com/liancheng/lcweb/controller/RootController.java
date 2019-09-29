@@ -4,6 +4,7 @@ import com.liancheng.lcweb.VO.ResultVO;
 import com.liancheng.lcweb.form.ApplicationForm;
 import com.liancheng.lcweb.service.ApplicationService;
 import com.liancheng.lcweb.service.ManagerService;
+import com.liancheng.lcweb.service.impl.ManagerServiceImpl;
 import com.liancheng.lcweb.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ import javax.validation.Valid;
 @RestController
 public class RootController {
     @Autowired
-    private ManagerService managerService;
+    private ManagerServiceImpl managerService;
 
     @Autowired
     private ApplicationService applicationService;
