@@ -9,9 +9,8 @@ public class MobileManRequestForm {
 
     // 这玩意儿是保存
     @NotBlank(message = "lineId字段必填")
-    private String lineId;
+    private Integer lineId;
 
-    @NotBlank(message = "token字段必填")
     private String token;
 
     private String dnum;
@@ -20,7 +19,7 @@ public class MobileManRequestForm {
 
     private Integer status; // 司机和订单status复用
 
-    private Integer price; // 定价
+    private String price; // 定价
 
 
 }

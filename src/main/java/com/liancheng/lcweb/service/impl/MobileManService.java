@@ -9,10 +9,8 @@ import com.liancheng.lcweb.domain.Manager;
 import com.liancheng.lcweb.domain.Order;
 import com.liancheng.lcweb.dto.*;
 import com.liancheng.lcweb.enums.DriverStatusEnums;
-import com.liancheng.lcweb.enums.OrderStatusEnums;
 import com.liancheng.lcweb.enums.ResultEnums;
 import com.liancheng.lcweb.exception.LcException;
-import com.liancheng.lcweb.exception.ManagerException;
 import com.liancheng.lcweb.form.Message2DriverForm;
 import com.liancheng.lcweb.form.UserLoginForm;
 import com.liancheng.lcweb.form.addDriverFormForManager;
@@ -26,10 +24,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -60,7 +58,7 @@ public class MobileManService implements ManagerService {
     private MessagesService messagesService;
 
     @Autowired
-    private LineTotalRepository lineTotalRepository;
+    private LineTotalRepository lineTotalRepository;  // 简单计算与否?
 
     @Autowired
     private PushServiceWithImpl pushServiceWithImpl;
@@ -217,6 +215,7 @@ public class MobileManService implements ManagerService {
     }
 
     @Override
+    @Transactional
     public void cancelOneOrder(String orderId, Integer lineId) {
 
         Order order = orderService.findOne(orderId);
@@ -256,6 +255,29 @@ public class MobileManService implements ManagerService {
             log.warn("向乘客发送即时消息失败,userId={},message={}",order.getUserId(),e.getMessage());
         }
     }
+
+    public LineInfoDTO getLineInfo(Line line){
+
+        Integer lineId = line.getLineId();
+        Integer managerNum = managerRepository.findByLineId(lineId).size();
+        Integer driverNum = driverService.findbyLineId(lineId).size();
+        LocalDate date = LocalDate.now();
+        // 三种状态的订单都有计算在内
+        Integer todayOrderNum = orderRepository.findByLineIdAndDate(lineId,date.toString()).size();
+
+
+        LineInfoDTO lineInfoDTO = new LineInfoDTO(
+                lineId,
+                line.getLineName1(),
+                line.getPrice(),
+                managerNum,
+                driverNum,
+                todayOrderNum);
+
+        return lineInfoDTO;
+    }
+
+
     @Override
     public TotalInfoDTO getTotal(Integer lineId) {
         // 完整的建议电脑端查看，移动端只填充部分字段

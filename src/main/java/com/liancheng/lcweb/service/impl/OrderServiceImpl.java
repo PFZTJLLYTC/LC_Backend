@@ -80,16 +80,34 @@ public class OrderServiceImpl implements OrderService {
 
         orderRepository.save(result);
 
-        //通过lineId找到管理员们
-        //websocket进行manager端提醒实现,传给manager
 
-//        这个findOneByName()方法只按一个方向找，但用户下单时两个方向均可
-//        Integer lineId = lineService.findOneByName(userOrderForm.getLineName()).getLineId();
         Integer lineId=lineService.findLineIdByLineName(userOrderForm.getLineName());
+        // 电脑端消息推送
         try {
             webSocketService.sendInfo("新的订单消息",lineId+"");
         } catch (IOException e) {
             log.error(e.getMessage());
+        }
+
+        // 移动端消息推送
+        // todo 两种方法--- 1. 一个线路一个群组 2. 找到这条线路所有管理员，分别推送
+        // 目前考虑一条线路管理员不多，采取方法2
+        List<Manager> managers = managerRepository.findByLineId(lineId);
+        try {
+            for (Manager manager : managers){
+                PushDTO managerPushDTO = new PushDTO(
+                        PushModuleConstant.MANAGER_TITLE1,
+                        "请即时处理新的订单请求",
+                        2,
+                        PushModuleConstant.manager_platform,
+                        "",
+                        manager.getTelNum());
+                pushServiceWithImpl.pushMessage2Manager(managerPushDTO);
+            }
+
+        }catch (Exception e){
+            // 其实大概率没有失败，只是有个异常而已
+            log.warn("向线路管理员发送即时消息失败,lineId={},message={}",lineId,e.getMessage());
         }
     }
 

@@ -17,6 +17,15 @@ public interface PushModuleConstant {
 
     Integer platform = 0; //0代表全平台推送,1表示ios,2表示安卓
 
-    // todo 加上manager 简易移动端
+    Integer manager_platform = 2; // 负责人移动端只有安卓
+
+    String MANAGER_TITLE1 = "新的订单"; // 负责人的消息提示，移动端只有新订单？
+
+    String MANAGER_TITLE2 = "新的司机申请";
+
+    String manager_X_APICloud_AppId = "A6014137855572";
+
+    String manager_app_key = "72FDFD90-613A-1BFF-14C5-71CC5908DE07";
+
 
 }

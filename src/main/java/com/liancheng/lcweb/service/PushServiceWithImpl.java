@@ -67,6 +67,17 @@ public class PushServiceWithImpl {
 
     }
 
+    // 给管理员移动端的推送
+    public  boolean pushMessage2Manager(PushDTO managerPushBody){
+
+
+        String appId = PushModuleConstant.manager_X_APICloud_AppId;
+        String appKey = PushModuleConstant.manager_app_key;
+
+        return post(appId,appKey,managerPushBody);
+
+    }
+
     private String getKey(String appId, String appKey){
 
         //返回自1970年1月1日 00:00:00 UTC到当前时间的毫秒数

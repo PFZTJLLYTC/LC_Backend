@@ -36,7 +36,8 @@ public enum ResultEnums {
     PASSWORD_MATCHES_ERROR(27,"密码错误"),
     NO_CERTAIN_CONTENT_MESSAGE(28,"无内容消息"),
     WAIT_TO_BE_VERIFY(29,"当前未通过审核"),
-    SEATS_TYPE_ERROR(30,"请按照要求输入司机最大可用座位数"),;
+    SEATS_TYPE_ERROR(30,"请按照要求输入司机最大可用座位数"),
+    MOBILE_FORM_ERROR(31,"管理员移动端填写错误"),;
 
 
     private String msg;

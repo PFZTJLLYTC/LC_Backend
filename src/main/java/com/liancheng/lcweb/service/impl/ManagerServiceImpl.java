@@ -334,71 +334,71 @@ public class ManagerServiceImpl implements ManagerService {
     public void confirmOneOrder(Order order,String dnum) {
 
         //找司机
-//        Driver driver = driverService.findOne(dnum);
-//
-//        Line line = lineService.findOne(order.getLineId());
-//
-//        if (line.getLineName1().equals(order.getLineName())){
-//            //待出行司机
-//            //验证司机是否符合条件
-//            if (driver.getStatus().equals(DriverStatusEnums.AVAILABLE.getCode())&&
-//                    driver.getAvailableSeats()>=order.getUserCount()){
-//                Order result =  orderService.confirmOne(order,driver);
-//            }
-//            else if(!driver.getStatus().equals(DriverStatusEnums.AVAILABLE.getCode())){
-//                log.error("分配订单时司机状态错误");
-//                throw new ManagerException(ResultEnums.DRIVER_STATUS_ERROR.getMsg()+"，需要待出行状态司机!","/manager/order/findByStatus?status="+ OrderStatusEnums.WAIT.getCode());
-//            }
-//            else {
-//                log.error("分配时司机可用座位数目不足");
-//                throw new ManagerException(ResultEnums.SEATS_NOT_ENOUGH.getMsg(),"/manager/order/findByStatus?status="+ OrderStatusEnums.WAIT.getCode());
-//            }
-//        }else {
-//            //待返程司机
-//            //验证司机是否符合条件
-//            if (driver.getStatus().equals(DriverStatusEnums.AVAILABLE2.getCode())&&
-//                    driver.getAvailableSeats()>=order.getUserCount()){
-//                Order result =  orderService.confirmOne(order,driver);
-//            }
-//            else if(!driver.getStatus().equals(DriverStatusEnums.AVAILABLE2.getCode())){
-//                log.error("分配订单时司机状态错误");
-//                throw new ManagerException(ResultEnums.DRIVER_STATUS_ERROR.getMsg()+"，需要待返程状态司机!","/manager/order/findByStatus?status="+ OrderStatusEnums.WAIT.getCode());
-//            }
-//            else {
-//                log.error("分配时司机可用座位数目不足");
-//                throw new ManagerException(ResultEnums.SEATS_NOT_ENOUGH.getMsg(),"/manager/order/findByStatus?status="+ OrderStatusEnums.WAIT.getCode());
-//            }
-//        }
-//
-//        List<Manager> managers = findAllByLineId(order.getLineId());
-//        Manager manager = managers.get(0);
-//
-//        String msg = MessagesConstant.changeStatus+manager.getTelNum();
-//
+        Driver driver = driverService.findOne(dnum);
+
+        Line line = lineService.findOne(order.getLineId());
+
+        if (line.getLineName1().equals(order.getLineName())){
+            //待出行司机
+            //验证司机是否符合条件
+            if (driver.getStatus().equals(DriverStatusEnums.AVAILABLE.getCode())&&
+                    driver.getAvailableSeats()>=order.getUserCount()){
+                Order result =  orderService.confirmOne(order,driver);
+            }
+            else if(!driver.getStatus().equals(DriverStatusEnums.AVAILABLE.getCode())){
+                log.error("分配订单时司机状态错误");
+                throw new ManagerException(ResultEnums.DRIVER_STATUS_ERROR.getMsg()+"，需要待出行状态司机!","/manager/order/findByStatus?status="+ OrderStatusEnums.WAIT.getCode());
+            }
+            else {
+                log.error("分配时司机可用座位数目不足");
+                throw new ManagerException(ResultEnums.SEATS_NOT_ENOUGH.getMsg(),"/manager/order/findByStatus?status="+ OrderStatusEnums.WAIT.getCode());
+            }
+        }else {
+            //待返程司机
+            //验证司机是否符合条件
+            if (driver.getStatus().equals(DriverStatusEnums.AVAILABLE2.getCode())&&
+                    driver.getAvailableSeats()>=order.getUserCount()){
+                Order result =  orderService.confirmOne(order,driver);
+            }
+            else if(!driver.getStatus().equals(DriverStatusEnums.AVAILABLE2.getCode())){
+                log.error("分配订单时司机状态错误");
+                throw new ManagerException(ResultEnums.DRIVER_STATUS_ERROR.getMsg()+"，需要待返程状态司机!","/manager/order/findByStatus?status="+ OrderStatusEnums.WAIT.getCode());
+            }
+            else {
+                log.error("分配时司机可用座位数目不足");
+                throw new ManagerException(ResultEnums.SEATS_NOT_ENOUGH.getMsg(),"/manager/order/findByStatus?status="+ OrderStatusEnums.WAIT.getCode());
+            }
+        }
+
+        List<Manager> managers = findAllByLineId(order.getLineId());
+        Manager manager = managers.get(0);
+
+        String msg = MessagesConstant.changeStatus+manager.getTelNum();
+
+        try {
+            messagesService.createMessage(dnum,msg,MessagesConstant.type1);
+            PushDTO driverPushDTO = new PushDTO(PushModuleConstant.TITLE,msg,2,PushModuleConstant.platform,"", dnum);
+            pushServiceWithImpl.pushMessage2Driver(driverPushDTO);
+//            webSocketService.sendInfo(msg,dnum);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.warn("向司机发送即时消息失败,dnum={},message={}",dnum,e.getMessage());
+        }
+        //发通知
+        try {
+            messagesService.createMessage(order.getUserId(),msg,MessagesConstant.type1);
+            PushDTO userPushDTO = new PushDTO(PushModuleConstant.TITLE,msg,2,PushModuleConstant.platform,"",order.getUserId());
+            pushServiceWithImpl.pushMessage2User(userPushDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.warn("向乘客发送即时消息失败,userId={},message={}",order.getUserId(),e.getMessage());
+        }
 //        try {
-//            messagesService.createMessage(dnum,msg,MessagesConstant.type1);
-//            PushDTO driverPushDTO = new PushDTO(PushModuleConstant.TITLE,msg,2,PushModuleConstant.platform,"", dnum);
-//            pushServiceWithImpl.pushMessage2Driver(driverPushDTO);
-////            webSocketService.sendInfo(msg,dnum);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            log.warn("向司机发送即时消息失败,dnum={},message={}",dnum,e.getMessage());
-//        }
-//        //发通知
-//        try {
-//            messagesService.createMessage(order.getUserId(),msg,MessagesConstant.type1);
-//            PushDTO userPushDTO = new PushDTO(PushModuleConstant.TITLE,msg,2,PushModuleConstant.platform,"",order.getUserId());
-//            pushServiceWithImpl.pushMessage2User(userPushDTO);
-//        } catch (Exception e) {
-//            e.printStackTrace();
+//            messagesService.createMessage(order.getUserId(),msg);
+//            webSocketService.sendInfo(msg,order.getUserId());
+//        } catch (IOException e) {
 //            log.warn("向乘客发送即时消息失败,userId={},message={}",order.getUserId(),e.getMessage());
 //        }
-////        try {
-////            messagesService.createMessage(order.getUserId(),msg);
-////            webSocketService.sendInfo(msg,order.getUserId());
-////        } catch (IOException e) {
-////            log.warn("向乘客发送即时消息失败,userId={},message={}",order.getUserId(),e.getMessage());
-////        }
     }
 
     @Override

@@ -1,10 +1,13 @@
 package com.liancheng.lcweb.service.impl;
 
 import com.liancheng.lcweb.constant.MessagesConstant;
+import com.liancheng.lcweb.constant.PushModuleConstant;
 import com.liancheng.lcweb.converter.Driver2DriverDTOConverter;
 import com.liancheng.lcweb.domain.Driver;
+import com.liancheng.lcweb.domain.Manager;
 import com.liancheng.lcweb.dto.DriverAccountInfoDTO;
 import com.liancheng.lcweb.dto.DriverDTO;
+import com.liancheng.lcweb.dto.PushDTO;
 import com.liancheng.lcweb.enums.DriverStatusEnums;
 import com.liancheng.lcweb.enums.ResultEnums;
 import com.liancheng.lcweb.exception.LcException;
@@ -12,6 +15,7 @@ import com.liancheng.lcweb.form.ChangePasswordForm;
 import com.liancheng.lcweb.form.DriverInfoForm;
 import com.liancheng.lcweb.form.DriverLoginForm;
 import com.liancheng.lcweb.repository.DriverRepository;
+import com.liancheng.lcweb.repository.ManagerRepository;
 import com.liancheng.lcweb.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -48,6 +52,12 @@ public class DriverServiceImpl implements DriverService {
     @Autowired
     private OrderService orderService;
 
+    @Autowired
+    private ManagerRepository managerRepository;
+
+    @Autowired
+    private PushServiceWithImpl pushService;
+
     @Override
     public void addDriver(DriverInfoForm driverInfoForm) {
         if (findOne(driverInfoForm.getDnum())!=null){
@@ -70,10 +80,30 @@ public class DriverServiceImpl implements DriverService {
         driver.setAvailableSeats((driverInfoForm.getSeatType()==0)?4:7);
         //等待被确认
         driverRepository.save(driver);
+
+        // 电脑端消息提醒
         try {
             webSocketService.sendInfo(MessagesConstant.newDriver,lineId+"");
         }catch (Exception e){
-            log.info("提醒管理员有新的司机申请失败,linId={}",lineId);
+            log.warn("提醒管理员有新的司机申请失败,linId={}",lineId);
+        }
+
+        List<Manager> managers = managerRepository.findByLineId(lineId);
+        // 移动端消息提醒
+        try {
+            for (Manager manager : managers){
+                PushDTO managerPushDTO = new PushDTO(
+                        PushModuleConstant.MANAGER_TITLE2,
+                        "请适时登陆电脑端处理新的司机请求",
+                        2,
+                        PushModuleConstant.manager_platform,
+                        "",
+                        manager.getTelNum());
+                pushService.pushMessage2Manager(managerPushDTO);
+            }
+        }catch (Exception e){
+            // 其实大概率没有失败，只是有个异常而已
+            log.warn("向线路管理员发送即时消息失败,lineId={},message={}",lineId,e.getMessage());
         }
     }
 

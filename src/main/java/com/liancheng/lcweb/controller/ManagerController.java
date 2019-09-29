@@ -494,7 +494,7 @@ public class ManagerController {
         log.info("获取lineId来确认订单信息,lineId={}",lineId);
 
         Order order = orderService.findOne(orderId);
-        if (order == null){
+        if (order == null || !order.getLineId().equals(lineId)){
             throw new ManagerException(ResultEnums.ORDER_NOT_FOUND.getMsg(),"/manager/order/findByStatus?status="+ OrderStatusEnums.WAIT.getCode());
         }
         //可能已经被分配了，但是还是有一点几率撞车啊。。。
