@@ -34,7 +34,7 @@ import java.util.Optional;
 
 @Service
 @Slf4j
-public class MobileManService implements ManagerService {
+public class MobileManServiceImpl implements MobileManService {
 
     @Autowired
     private ManagerRepository managerRepository;
@@ -80,6 +80,7 @@ public class MobileManService implements ManagerService {
         return manager.orElse(null);
     }
 
+    @Override
     public ManagerDTO login(UserLoginForm form){
         Manager manager = findOne(form.getMobile());
         if (manager==null){
@@ -256,6 +257,7 @@ public class MobileManService implements ManagerService {
         }
     }
 
+    @Override
     public LineInfoDTO getLineInfo(Line line){
 
         Integer lineId = line.getLineId();
@@ -305,10 +307,6 @@ public class MobileManService implements ManagerService {
     public void DeleteOneDriver(String dnum, Integer lineId) {}
     @Override
     public void confirmOneDriver(String dnum, Integer lineId) {}
-    @Override
-    public Manager getManager(String telNum, String password) {return null;}
-    @Override
-    public Manager addManager(Manager manager) {return null;}
     @Override
     public Page<DriverDTO> getDriversByStatus(Integer lineId, Integer status, Pageable pageable) {return null;}
     @Override

@@ -12,12 +12,9 @@ import com.liancheng.lcweb.enums.ResultEnums;
 import com.liancheng.lcweb.exception.LcException;
 import com.liancheng.lcweb.form.MobileManRequestForm;
 import com.liancheng.lcweb.form.UserLoginForm;
-import com.liancheng.lcweb.repository.ManagerRepository;
-import com.liancheng.lcweb.repository.OrderRepository;
-import com.liancheng.lcweb.service.DriverService;
 import com.liancheng.lcweb.service.LineService;
+import com.liancheng.lcweb.service.MobileManService;
 import com.liancheng.lcweb.service.OrderService;
-import com.liancheng.lcweb.service.impl.MobileManService;
 import com.liancheng.lcweb.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +57,7 @@ public class MobileManController {
             throw new LcException(ResultEnums.USER_TOKEN_EXPIRE);
         }
         Manager manager = managerService.findOne(tokenValue);
-        if (!manager.getLineId().equals(lineId)){
+        if (manager == null || !manager.getLineId().equals(lineId)){
             // 不匹配直接说无此线路就行
             throw new LcException(ResultEnums.NO_SUCH_LINENAME);
         }

@@ -1,19 +1,19 @@
 package com.liancheng.lcweb.service;
+
 import com.liancheng.lcweb.domain.Line;
 import com.liancheng.lcweb.domain.Manager;
 import com.liancheng.lcweb.domain.Order;
-import com.liancheng.lcweb.dto.DriverDTO;
-import com.liancheng.lcweb.dto.MessageNumDTO;
-import com.liancheng.lcweb.dto.TotalInfoDTO;
+import com.liancheng.lcweb.dto.*;
 import com.liancheng.lcweb.form.Message2DriverForm;
+import com.liancheng.lcweb.form.UserLoginForm;
 import com.liancheng.lcweb.form.addDriverFormForManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
+public interface MobileManService {
 
-public interface ManagerService {
 
     MessageNumDTO getMessages(Integer lineId);
 
@@ -25,14 +25,10 @@ public interface ManagerService {
 
     Line setLinePrice(Integer lineId, String price);
 
-    Manager getManager(String telNum, String password);
-
-    Manager addManager(Manager manager);
-
-    List<DriverDTO> getDriversByStatus(Integer lineId,Integer status);
+    List<DriverDTO> getDriversByStatus(Integer lineId, Integer status);
 
     //先只是多种实现，之后考虑删一个
-    Page<DriverDTO> getDriversByStatus(Integer lineId,Integer status,Pageable pageable);
+    Page<DriverDTO> getDriversByStatus(Integer lineId, Integer status, Pageable pageable);
 
     TotalInfoDTO getTotal(Integer lineId);
 
@@ -40,7 +36,7 @@ public interface ManagerService {
 
     List<DriverDTO> getAllDrivers(Integer lineId);
 
-    List<Order> getOrdersByStatus(Integer lineId,Integer status);
+    List<Order> getOrdersByStatus(Integer lineId, Integer status);
 
     Page<Order> getOrdersByStatus(Integer lineId,Integer status,Pageable pageable);
 
@@ -60,5 +56,7 @@ public interface ManagerService {
 
     void postMessages(Integer lineId, Message2DriverForm message2DriverForm);
 
+    ManagerDTO login(UserLoginForm form);
 
+    LineInfoDTO getLineInfo(Line line);
 }
