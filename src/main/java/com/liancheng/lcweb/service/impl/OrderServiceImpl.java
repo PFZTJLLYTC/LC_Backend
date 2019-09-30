@@ -238,17 +238,17 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> findAllWait() {
-        return orderRepository.findByOrderStatus(OrderStatusEnums.WAIT.getCode());
+        return orderRepository.findByOrderStatusOrderByUpdateTimeDesc(OrderStatusEnums.WAIT.getCode());
     }
 
     @Override
     public List<Order> findAllProcessing() {
-        return orderRepository.findByOrderStatus(OrderStatusEnums.PROCESSIN.getCode());
+        return orderRepository.findByOrderStatusOrderByUpdateTimeDesc(OrderStatusEnums.PROCESSIN.getCode());
     }
 
     @Override
     public List<Order> findAllDone() {
-        return orderRepository.findByOrderStatus(OrderStatusEnums.DONE.getCode());
+        return orderRepository.findByOrderStatusOrderByUpdateTimeDesc(OrderStatusEnums.DONE.getCode());
     }
 
     @Override

@@ -38,6 +38,8 @@ public interface OrderRepository extends JpaRepository<Order,String> {
 
     List<Order> findByOrderStatus(Integer orderStatus);
 
+    List<Order> findByOrderStatusOrderByUpdateTimeDesc(Integer orderStatus);
+
     List<Order> findByOrderStatusAndUserIdOrderByUpdateTimeDesc(Integer orderStatus,String userId);
 
     List<Order> findByOrderStatusAndLineIdOrderByUpdateTimeDesc(Integer orderStatus,Integer lineId);
