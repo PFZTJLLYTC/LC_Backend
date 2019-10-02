@@ -96,7 +96,6 @@ public class MobileManServiceImpl implements MobileManService {
             m.setTelNum(manager.getTelNum());
             return m;
         }
-
     }
 
     @Override
@@ -144,10 +143,8 @@ public class MobileManServiceImpl implements MobileManService {
 
     @Override
     public List<Order> getAllOrders(Integer lineId) {
-        return orderRepository.findByLineId(lineId);
+        return orderRepository.findLCManOrders(lineId);
     }
-
-
 
     @Override
     @Transactional

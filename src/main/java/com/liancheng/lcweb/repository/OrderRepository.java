@@ -36,7 +36,9 @@ public interface OrderRepository extends JpaRepository<Order,String> {
     //定时任务需要
     List<Order> findByLineIdAndDate(Integer lineId, String date);
 
-    List<Order> findByOrderStatus(Integer orderStatus);
+    @Query(value = "SELECT * from user_order where line_id = ?1 and (order_status = 0 or order_status = 1) "+
+            " order by order_status asc , update_time desc ",nativeQuery = true)
+    List<Order> findLCManOrders(Integer lineId);
 
     List<Order> findByOrderStatusOrderByUpdateTimeDesc(Integer orderStatus);
 
@@ -47,7 +49,7 @@ public interface OrderRepository extends JpaRepository<Order,String> {
     Page<Order> findByLineIdAndOrderStatus(Integer lineId,Integer orderStatus,Pageable pageable);
 
     //行程页面查询
-    @Query(value = "SELECT * FROM user_order WHERE (order_status = 0 OR  order_status = 1) AND user_id = ?1 " +
+    @Query(value = "SELECT * FROM user_order WHERE user_id = ?1 and (order_status = 0 OR  order_status = 1) " +
             "ORDER BY order_status ASC , update_time DESC ",nativeQuery = true)
     List<Order> findUserTravelOrders(String userId);
 

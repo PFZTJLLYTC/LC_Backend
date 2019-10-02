@@ -124,6 +124,7 @@ public class MobileManController {
 
     }
 
+    // LCMan 的allOrders返回的是根据status和time排序的list，只包含待处理和进行中
     @PostMapping("/orders/allOrders")
     public ResultVO allOrders(@Valid @RequestBody MobileManRequestForm form, BindingResult bindingResult){
         if (bindingResult.hasErrors()){
