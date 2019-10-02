@@ -14,4 +14,6 @@ public class ManagerDTO {
     private String lineName;
 
     private String token;
+
+    private String linePrice;
 }

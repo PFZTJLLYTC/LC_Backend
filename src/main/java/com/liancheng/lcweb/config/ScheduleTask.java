@@ -8,6 +8,7 @@ import com.liancheng.lcweb.repository.LineTotalRepository;
 import com.liancheng.lcweb.repository.OrderRepository;
 import com.liancheng.lcweb.service.LineService;
 import com.liancheng.lcweb.service.ManagerService;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -20,6 +21,7 @@ import java.util.Date;
 import java.util.List;
 
 @Component
+@Slf4j
 public class ScheduleTask {
 
     @Autowired
@@ -84,7 +86,7 @@ public class ScheduleTask {
             }
 
             lineTotalRepository.save(lineTotal);
-
+            log.info("线路"+line.getLineName1()+"日详情打印完毕。");
         }
     }
 
@@ -131,6 +133,7 @@ public class ScheduleTask {
             }
 
             lineTotalRepository.save(lineTotal);
+            log.info("线路"+line.getLineName1()+"月详情打印完毕。");
 
         }
 
@@ -192,7 +195,7 @@ public class ScheduleTask {
             }
 
             lineTotalRepository.save(lineTotal);
-
+            log.info("线路"+line.getLineName1()+"年详情打印完毕。");
         }
 
     }

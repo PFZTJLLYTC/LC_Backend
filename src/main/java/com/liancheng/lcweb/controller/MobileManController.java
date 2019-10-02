@@ -44,7 +44,6 @@ public class MobileManController {
     @Autowired
     private LineService lineService;
 
-
     // 做统一验证
     private void validForm(String token, Integer lineId){
         if (token==null || StringUtils.isEmpty(token)){
@@ -209,10 +208,10 @@ public class MobileManController {
         }
         Integer lineId = form.getLineId();
         validForm(form.getToken(),lineId);
-        Line line =  managerService.setLinePrice(lineId,form.getPrice());
-        LineInfoDTO lineInfoDTO = managerService.getLineInfo(line);
+        managerService.setLinePrice(lineId,form.getPrice());
+//        LineInfoDTO lineInfoDTO = managerService.getLineInfo(line);
 
-        return ResultVOUtil.success(lineInfoDTO);
+        return ResultVOUtil.success(form.getPrice());
     }
 
 }

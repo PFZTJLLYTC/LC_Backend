@@ -92,6 +92,7 @@ public class MobileManServiceImpl implements MobileManService {
             ManagerDTO m = new ManagerDTO();
             m.setLineId(line.getLineId());
             m.setLineName(line.getLineName1());
+            m.setLinePrice(line.getPrice());
             m.setName(manager.getName());
             m.setTelNum(manager.getTelNum());
             return m;
