@@ -357,4 +357,9 @@ public class DriverServiceImpl implements DriverService {
 
         return Driver2DriverDTOConverter.convert(driver);
     }
+
+    @Override
+    public void saveOne(Driver driver) {
+        driverRepository.save(driver);
+    }
 }

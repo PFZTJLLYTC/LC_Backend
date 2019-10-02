@@ -75,6 +75,8 @@ public interface DriverService {
 
     void deleteOne(String dnum);
 
+    void saveOne(Driver driver);
+
     //删除消息（已读消息直接删除!）
     void deleteMessages(String dnum);
 
