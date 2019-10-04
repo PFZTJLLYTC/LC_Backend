@@ -1,23 +1,19 @@
 package com.liancheng.lcweb.config;
 
+import com.liancheng.lcweb.domain.Driver;
 import com.liancheng.lcweb.domain.Line;
 import com.liancheng.lcweb.domain.LineTotal;
 import com.liancheng.lcweb.domain.Order;
 import com.liancheng.lcweb.repository.LineRepository;
 import com.liancheng.lcweb.repository.LineTotalRepository;
 import com.liancheng.lcweb.repository.OrderRepository;
-import com.liancheng.lcweb.service.LineService;
-import com.liancheng.lcweb.service.ManagerService;
+import com.liancheng.lcweb.service.DriverService;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
-
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 @Component
@@ -25,7 +21,7 @@ import java.util.List;
 public class ScheduleTask {
 
     @Autowired
-    private ManagerService managerService;
+    private DriverService driverService;
 
     @Autowired
     private OrderRepository orderRepository;
@@ -134,8 +130,14 @@ public class ScheduleTask {
 
             lineTotalRepository.save(lineTotal);
             log.info("线路"+line.getLineName1()+"月详情打印完毕。");
-
         }
+        for (Driver driver : driverService.findAll()){
+            // 变成司机的月完成单数
+            // 考核？1.抓紧时间 2.另外方法
+            driver.setWorkTimes(0);
+            driverService.saveOne(driver);
+        }
+        log.info("司机上月订单数重置。");
 
     }
 
