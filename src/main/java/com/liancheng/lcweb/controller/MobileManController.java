@@ -49,7 +49,7 @@ public class MobileManController {
         if (token==null || StringUtils.isEmpty(token)){
             throw new LcException(ResultEnums.USER_TOKEN_EXPIRE);
         }
-        String tokenValue = redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX,token))+"";
+        String tokenValue = redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX,token));
 
         if (StringUtils.isEmpty(tokenValue)){
             log.warn("redis中无此管理员信息，无法配合其操作");
