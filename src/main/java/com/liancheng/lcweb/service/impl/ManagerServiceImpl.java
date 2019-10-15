@@ -118,12 +118,14 @@ public class ManagerServiceImpl implements ManagerService {
     public Manager getManager(String telNum, String password) {
         Manager manager = managerRepository.findByTelNum(telNum);
 
-        boolean match=passwordEncoder.matches(password,manager.getPassword());
+
 
         if (manager==null){
             log.error("没有此线路负责人");
             return null;
         }
+
+        boolean match=passwordEncoder.matches(password,manager.getPassword());
 
         if(match==false){
             log.error("密码错误");
