@@ -18,6 +18,8 @@ public class DriverInfoForm {
     @NotBlank(message = "密码必填")
     private String password;
 
+    @Pattern(regexp = "([京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z][A-Z](([0-9]{5}[DF])|([DF]([A-HJ-NP-Z0-9])[0-9]{4})))|([京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z][A-Z][A-HJ-NP-Z0-9]{4}[A-HJ-NP-Z0-9挂学警港澳])",
+            message="车牌号格式不正确，注意区分大小写")
     @NotBlank(message = "车牌号必填")
     private String carNum;
 
