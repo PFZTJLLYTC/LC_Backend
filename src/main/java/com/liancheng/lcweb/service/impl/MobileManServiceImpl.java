@@ -14,8 +14,6 @@ import com.liancheng.lcweb.exception.LcException;
 import com.liancheng.lcweb.form.Message2DriverForm;
 import com.liancheng.lcweb.form.UserLoginForm;
 import com.liancheng.lcweb.form.addDriverFormForManager;
-import com.liancheng.lcweb.repository.DriverRepository;
-import com.liancheng.lcweb.repository.LineTotalRepository;
 import com.liancheng.lcweb.repository.ManagerRepository;
 import com.liancheng.lcweb.repository.OrderRepository;
 import com.liancheng.lcweb.service.*;
@@ -23,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -46,9 +45,6 @@ public class MobileManServiceImpl implements MobileManService {
     private OrderService orderService;
 
     @Autowired
-    private DriverRepository driverRepository;
-
-    @Autowired
     private OrderRepository orderRepository;
 
     @Autowired
@@ -58,7 +54,7 @@ public class MobileManServiceImpl implements MobileManService {
     private MessagesService messagesService;
 
     @Autowired
-    private LineTotalRepository lineTotalRepository;  // 简单计算与否?
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private PushServiceWithImpl pushServiceWithImpl;
@@ -85,7 +81,8 @@ public class MobileManServiceImpl implements MobileManService {
         Manager manager = findOne(form.getMobile());
         if (manager==null){
             throw new LcException(ResultEnums.NO_SUCH_MANAGER);
-        }else if (!manager.getPassword().equals(form.getPassword())){
+        }else if (!passwordEncoder.matches(form.getPassword(),manager.getPassword())){
+            log.error("密码错误");
             throw new LcException(ResultEnums.PASSWORD_MATCHES_ERROR);
         }else {
             Line line = lineService.findOne(manager.getLineId());

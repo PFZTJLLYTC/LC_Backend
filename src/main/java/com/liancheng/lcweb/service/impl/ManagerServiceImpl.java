@@ -127,7 +127,7 @@ public class ManagerServiceImpl implements ManagerService {
 
         boolean match=passwordEncoder.matches(password,manager.getPassword());
 
-        if(match==false){
+        if(!match){
             log.error("密码错误");
             throw new ManagerException(ResultEnums.PASSWORD_MATCHES_ERROR.getMsg(), CookieConstant.EXPIRE_URL);
         }
