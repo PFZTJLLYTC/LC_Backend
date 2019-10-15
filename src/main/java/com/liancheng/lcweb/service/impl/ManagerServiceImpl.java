@@ -1,4 +1,5 @@
 package com.liancheng.lcweb.service.impl;
+import com.liancheng.lcweb.constant.CookieConstant;
 import com.liancheng.lcweb.constant.MessagesConstant;
 import com.liancheng.lcweb.constant.PushModuleConstant;
 import com.liancheng.lcweb.converter.Driver2DriverDTOConverter;
@@ -69,6 +70,9 @@ public class ManagerServiceImpl implements ManagerService {
     @Autowired
     private PushServiceWithImpl pushServiceWithImpl;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
 
     @Override
     public Line setLinePrice(Integer lineId, String price) {
@@ -112,11 +116,20 @@ public class ManagerServiceImpl implements ManagerService {
     /*登陆用*/
     @Override
     public Manager getManager(String telNum, String password) {
-        Manager manager = managerRepository.findByTelNumAndPassword(telNum,password);
+        Manager manager = managerRepository.findByTelNum(telNum);
+
+        boolean match=passwordEncoder.matches(password,manager.getPassword());
+
         if (manager==null){
             log.error("没有此线路负责人");
             return null;
         }
+
+        if(match==false){
+            log.error("密码错误");
+            throw new ManagerException(ResultEnums.PASSWORD_MATCHES_ERROR.getMsg(), CookieConstant.EXPIRE_URL);
+        }
+
         return manager;
     }
 

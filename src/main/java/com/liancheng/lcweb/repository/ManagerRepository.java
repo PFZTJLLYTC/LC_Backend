@@ -13,5 +13,5 @@ public interface ManagerRepository extends JpaRepository<Manager,String> {
 
     Page<Manager> findByLineId(Integer linId, Pageable pageable);
 
-    Manager findByTelNumAndPassword(String telNum, String password);
+    Manager findByTelNum(String telNum);
 }

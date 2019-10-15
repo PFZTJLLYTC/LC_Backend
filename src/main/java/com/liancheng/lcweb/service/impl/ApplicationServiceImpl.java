@@ -9,6 +9,7 @@ import com.liancheng.lcweb.service.RootService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -20,11 +21,15 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Autowired
     private ApplicationRepository applicationRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Override
     public Application applyFor(ApplicationForm application) {
         Application new_one = new Application();
         BeanUtils.copyProperties(application,new_one);
         new_one.setIsDeal(0);
+        new_one.setPwd(passwordEncoder.encode(application.getPwd()));
         return applicationRepository.save(new_one);
     }
 
