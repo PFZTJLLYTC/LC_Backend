@@ -126,7 +126,7 @@ public class OrderServiceImpl implements OrderService {
 
     }
 
-    /***********************************************/
+    /*********************订单相关**************************/
 
     @Override
     public Order confirmOne(Order order, Driver driver) {
@@ -134,7 +134,7 @@ public class OrderServiceImpl implements OrderService {
         order.setCarNum(driver.getCarNum());
         order.setDnum(driver.getDnum());
         order.setDriverName(driver.getName());
-        order.setDate(LocalDate.now().toString());
+//        order.setDate(LocalDate.now().toString());
 
         //改变司机信息并保存
         Integer original = driver.getAvailableSeats();
@@ -151,7 +151,7 @@ public class OrderServiceImpl implements OrderService {
     public Order finishOne(Order order) {
         // 订单完成后司机的worktime也需要增加
         order.setOrderStatus(OrderStatusEnums.DONE.getCode());
-        order.setDate(LocalDate.now().toString());
+//        order.setDate(LocalDate.now().toString());
         Driver driver = driverService.findOne(order.getDnum());
         User user = userService.findOne(order.getUserId());
         user.setTakeTimes(user.getTakeTimes()+1);

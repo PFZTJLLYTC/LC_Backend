@@ -48,10 +48,19 @@ public class Order {
     @NotNull
     private Integer userCount;
 
-    //详细地址
+    //详细出发地址
     private String detailAddress;
+    //出发经度和纬度
+    private String startLon;
+    private String startLat;
 
-    private String date; //前端传入的下单日期，格式“YYYY-MM-DD”
+    //详细下车地址
+    private String detailDestination;
+    //目的地经度和纬度
+    private String endLon;
+    private String endLat;
+
+    private String date; //前端传入的下单日期，格式“YYYY-MM-DD”,将一直不变
 
     private String driverName;
 

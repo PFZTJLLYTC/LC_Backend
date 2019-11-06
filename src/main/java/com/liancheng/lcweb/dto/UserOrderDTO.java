@@ -29,6 +29,8 @@ public class UserOrderDTO {
 
     private String detailAddress;
 
+    private String detailDestination;
+
     private String remark;
 
     @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss",timezone = "Asia/Shanghai")
