@@ -6,7 +6,7 @@ import javax.validation.constraints.*;
 import java.math.BigDecimal;
 
 /**
- * 用户填写的订单form
+ * 用户填写的订单form， 修改订单也传这张表
  */
 @Data
 public class UserOrderForm {
@@ -26,10 +26,20 @@ public class UserOrderForm {
     @Max(value = 7,message = "乘客人数不得多于7人" )
     private Integer userCount;
 
+    private String date;
+
+    /*** 选填部分 ***/
     private String detailAddress;
+    //出发经度和纬度
+    private String startLon;
+    private String startLat;
+
+    //详细下车地址
+    private String endDetailDestination;
+    //目的地经度和纬度
+    private String endLon;
+    private String endLat;
 
     //备注
     private String remark;
-
-    private String date;
 }

@@ -2,14 +2,18 @@ package com.liancheng.lcweb.service.impl;
 
 import com.liancheng.lcweb.constant.MessagesConstant;
 import com.liancheng.lcweb.constant.PushModuleConstant;
+import com.liancheng.lcweb.converter.Order2OrderDriDTOConverter;
 import com.liancheng.lcweb.converter.Order2UserOrderDTOConverter;
 import com.liancheng.lcweb.domain.Driver;
 import com.liancheng.lcweb.domain.Manager;
 import com.liancheng.lcweb.domain.Order;
 import com.liancheng.lcweb.domain.User;
+import com.liancheng.lcweb.dto.OrderDriDTO;
 import com.liancheng.lcweb.dto.PushDTO;
 import com.liancheng.lcweb.dto.UserOrderDTO;
 import com.liancheng.lcweb.enums.OrderStatusEnums;
+import com.liancheng.lcweb.enums.ResultEnums;
+import com.liancheng.lcweb.exception.LcException;
 import com.liancheng.lcweb.form.UserOrderForm;
 import com.liancheng.lcweb.repository.DriverRepository;
 import com.liancheng.lcweb.repository.ManagerRepository;
@@ -112,6 +116,29 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public void changeOneInfo(String userId, String orderId, UserOrderForm changeForm) {
+        Order order = findOne(orderId);
+        if(order==null || !order.getUserId().equals(userId)){
+            throw new LcException(ResultEnums.ORDER_NOT_FOUND);
+        }
+        if (!order.getOrderStatus().equals(OrderStatusEnums.WAIT.getCode())){
+            throw new LcException(ResultEnums.ORDER_STATUS_ERROR);
+        }
+        order.setUserPhone(changeForm.getUserPhone());
+        order.setTime(changeForm.getTime());
+        order.setUserCount(changeForm.getUserCount());
+        order.setDetailAddress(changeForm.getDetailAddress());
+        order.setDetailDestination(changeForm.getEndDetailDestination());
+        order.setStartLon(changeForm.getStartLon());
+        order.setStartLat(changeForm.getStartLat());
+        order.setEndLon(changeForm.getEndLon());
+        order.setEndLat(changeForm.getEndLat());
+        order.setRemark(changeForm.getRemark());
+
+        orderRepository.save(order);
+    }
+
+    @Override
     public  List<UserOrderDTO> findUserTravelOrder(String userId){
         return Order2UserOrderDTOConverter
                 .convert(orderRepository.findUserTravelOrders(userId));
@@ -126,7 +153,7 @@ public class OrderServiceImpl implements OrderService {
 
     }
 
-    /*********************订单相关**************************/
+    /*********************操作相关**************************/
 
     @Override
     public Order confirmOne(Order order, Driver driver) {
@@ -271,8 +298,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<UserOrderDTO> findDriverOrderByStatus(Integer status,String dnum){
-        return Order2UserOrderDTOConverter
+    public List<OrderDriDTO> findDriverOrderByStatus(Integer status, String dnum){
+        return Order2OrderDriDTOConverter
                 .convert(orderRepository.
                         findByOrderStatusAndDnumOrderByUpdateTimeDesc(
                                 status,dnum));

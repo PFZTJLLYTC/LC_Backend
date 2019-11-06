@@ -2,7 +2,7 @@ package com.liancheng.lcweb.service;
 
 import com.liancheng.lcweb.domain.Driver;
 import com.liancheng.lcweb.domain.Order;
-import com.liancheng.lcweb.dto.DriverDoneOrderDTO;
+import com.liancheng.lcweb.dto.OrderDriDTO;
 import com.liancheng.lcweb.dto.UserOrderDTO;
 import com.liancheng.lcweb.form.UserOrderForm;
 
@@ -14,6 +14,8 @@ public interface OrderService {
     List<Order> findAll();
 
     void createOne(String userId,UserOrderForm order);
+
+    void changeOneInfo(String userId, String orderId, UserOrderForm changeForm);
 
     Order confirmOne(Order order, Driver driver);
 
@@ -44,6 +46,6 @@ public interface OrderService {
 
     void deleteByOrderId(String orderId);
 
-    List<UserOrderDTO> findDriverOrderByStatus(Integer status,String dnum);
+    List<OrderDriDTO> findDriverOrderByStatus(Integer status, String dnum);
 
 }

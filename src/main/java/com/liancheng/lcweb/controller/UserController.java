@@ -136,6 +136,20 @@ public class UserController {
         return ResultVOUtil.success();
     }
 
+    @PostMapping("/orders/change")
+    public ResultVO changeOrderInfo(@RequestParam("userId") String userId,
+                                    @RequestParam("orderId") String orderId,
+                                    @RequestBody @Valid UserOrderForm changeOrderForm,
+                                    BindingResult bindingResult ){
+        if (bindingResult.hasErrors()){
+            log.error("订单填写信息不合法");
+            return ResultVOUtil.error(ResultEnums.ORDER_INFO_ERROR.getCode(),
+                    bindingResult.getFieldError().getDefaultMessage());
+        }
+        orderService.changeOneInfo(userId,orderId,changeOrderForm);
+        return ResultVOUtil.success();
+    }
+
 
     //行程页面获取待处理和进行中订单
     @GetMapping("/orders/travel")
