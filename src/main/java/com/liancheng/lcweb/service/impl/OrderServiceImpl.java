@@ -21,6 +21,7 @@ import com.liancheng.lcweb.repository.OrderRepository;
 import com.liancheng.lcweb.repository.UserRepository;
 import com.liancheng.lcweb.service.*;
 import com.liancheng.lcweb.utils.KeyUtil;
+import io.lettuce.core.models.role.RedisSlaveInstance;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -128,7 +129,7 @@ public class OrderServiceImpl implements OrderService {
         order.setTime(changeForm.getTime());
         order.setUserCount(changeForm.getUserCount());
         order.setDetailAddress(changeForm.getDetailAddress());
-        order.setDetailDestination(changeForm.getEndDetailDestination());
+        order.setDetailDestination(changeForm.getDetailDestination());
         order.setStartLon(changeForm.getStartLon());
         order.setStartLat(changeForm.getStartLat());
         order.setEndLon(changeForm.getEndLon());

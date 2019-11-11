@@ -79,6 +79,7 @@ public class UserController {
         return ResultVOUtil.success(token);
     }
 
+
     @PostMapping(value = "/changePassword")
     @Transactional
     public ResultVO changePassword(@RequestBody @Valid ChangePasswordForm form , BindingResult result){
