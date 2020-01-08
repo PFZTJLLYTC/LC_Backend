@@ -35,7 +35,7 @@ public class UserOrderForm {
     private String startLat;
 
     //详细下车地址
-    private String endDetailDestination;
+    private String detailDestination;
     //目的地经度和纬度
     private String endLon;
     private String endLat;
